@@ -43,6 +43,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_launchpad:
+			{
+				if(entity instanceof TileEntityLaunchPad)
+				{
+					return new ContainerLaunchPad(player.inventory, (TileEntityLaunchPad) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -77,6 +86,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityForceField)
 					{
 						return new GUIForceField(player.inventory, (TileEntityForceField) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_launchpad:
+				{
+					if(entity instanceof TileEntityLaunchPad)
+					{
+						return new GUILaunchPad(player.inventory, (TileEntityLaunchPad) entity);
 					}
 					return null;
 				}

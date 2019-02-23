@@ -32,6 +32,8 @@ public class ModBlocks {
 	public static final int guiID_siren = 1;
 	public static Block machine_forcefield;
 	public static final int guiID_forcefield = 2;
+	public static Block launch_pad;
+	public static final int guiID_launchpad = 3;
 	
 
 	private static void initializeBlock() {
@@ -48,6 +50,7 @@ public class ModBlocks {
 		
 		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_siren");
+		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_forcefield = new MachineForceField(Material.iron).setBlockName("machine_forcefield").setLightLevel(1.0F).setHardness(5.0F).setResistance(100.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_forcefield");
 		
 	}
@@ -67,5 +70,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_radar, ItemRadarBlock.class, machine_radar.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_forcefield, ItemRadarBlock.class, machine_forcefield.getUnlocalizedName());
+
+		GameRegistry.registerBlock(launch_pad, ItemRadarBlock.class, launch_pad.getUnlocalizedName());
 	}
 }

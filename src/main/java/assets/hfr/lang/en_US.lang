@@ -16,6 +16,9 @@ tile.seal_hatch.name=Silo Hatch
 tile.vault_door.name=Vault-Tec Blast Door
 tile.vault_door_dummy.name=Blast Door Dummy Block
 
+tile.launch_pad.name=Missile Launch Pad
+container.launchPad=Launch Pad
+
 item.cassette.name=Siren Track
 item.coil.name=Golden Coil
 item.circuit.name=RedLap Circuit
@@ -23,3 +26,15 @@ item.magnetron.name=Magnetron
 item.upgrade_radius.name=Forcefield Radius Upgrade
 item.upgrade_health.name=Forcefield Shield Upgrade
 item.upgrade_bedrock.name=Forcefield Invincibility Upgrade
+
+item.designator.name=GPS Rangefinder
+item.designator_range.name=Laser Rangefinder
+
+item.missile_he_1.name=Tier 1 HE Missile
+item.missile_he_2.name=Tier 2 HE Missile
+item.missile_he_3.name=Tier 3 HE Missile
+item.missile_incendiary_1.name=Tier 1 Incendiary Missile
+item.missile_incendiary_2.name=Tier 2 Incendiary Missile
+item.missile_incendiary_3.name=Tier 3 Incendiary Missile
+item.missile_ab.name=Anti-Ballistic Missile
+item.missile_emp.name=EMP Missile

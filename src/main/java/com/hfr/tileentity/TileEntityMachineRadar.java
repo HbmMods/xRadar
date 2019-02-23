@@ -3,6 +3,8 @@ package com.hfr.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.entity.EntityMissileAntiBallistic;
+import com.hfr.entity.EntityMissileBaseAdvanced;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.PacketDispatcher;
@@ -10,6 +12,7 @@ import com.hfr.packet.TERadarDestructorPacket;
 import com.hfr.packet.TERadarPacket;
 
 import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadar extends TileEntity implements IEnergyReceiver {
+public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler {
 
 	public List<RadarEntry> nearbyMissiles = new ArrayList();
 	int pingTimer = 0;
@@ -89,8 +92,14 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyReceive
 
 		for(Entity e : list) {
 			
-			if(e instanceof EntityPlayer && e.posY >= this.yCoord + MainRegistry.radarBuffer) {
-				nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, ((EntityPlayer)e).getDisplayName()));
+			if(e.posY >= this.yCoord + MainRegistry.radarBuffer) {
+
+				if(e instanceof EntityPlayer)
+					nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, ((EntityPlayer)e).getDisplayName()));
+				if(e instanceof EntityMissileBaseAdvanced)
+					nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseAdvanced)e).getMissileType() + 1) + " Missile"));
+				if(e instanceof EntityMissileAntiBallistic)
+					nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Anti-Ballistic Missile"));
 			}
 		}
 	}
@@ -177,5 +186,17 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyReceive
 			posZ = z;
 			name = s;
 		}
+	}
+
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+
+		double toSend = Math.min(storage.getEnergyStored(), storage.getMaxExtract());
+
+		if (!simulate) {
+			storage.setEnergyStored(storage.getEnergyStored() - (int) Math.round(toSend));
+		}
+
+		return (int) Math.round(toSend);
 	}
 }

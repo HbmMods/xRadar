@@ -11,6 +11,7 @@ import com.hfr.packet.TEFFPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
+import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
@@ -28,30 +29,30 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityForceField extends TileEntity implements ISidedInventory, IEnergyReceiver {
+public class TileEntityForceField extends TileEntity implements ISidedInventory, IEnergyHandler {
 
 	private ItemStack slots[];
-	
+
 	public int health = 100;
 	public int maxHealth = 100;
 	public EnergyStorage storage = new EnergyStorage(
 			(MainRegistry.fieldBase + MainRegistry.fieldRange * 16 + MainRegistry.fieldHealth) * 50,
 			(MainRegistry.fieldBase + MainRegistry.fieldRange * 16 + MainRegistry.fieldHealth) * 5,
 			(MainRegistry.fieldBase + MainRegistry.fieldRange * 16 + MainRegistry.fieldHealth) * 5);
-	
+
 	public int powerCons;
 	public int cooldown = 0;
 	public int blink = 0;
 	public float radius = 16;
 	public boolean isOn = false;
 	public int color = 0x0000FF;
-	
-	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] {0};
-	private static final int[] slots_side = new int[] {0};
-	
+
+	private static final int[] slots_top = new int[] { 0 };
+	private static final int[] slots_bottom = new int[] { 0 };
+	private static final int[] slots_side = new int[] { 0 };
+
 	private String customName;
-	
+
 	public TileEntityForceField() {
 		slots = new ItemStack[3];
 	}
@@ -68,21 +69,19 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
+		if (slots[i] != null) {
 			ItemStack itemStack = slots[i];
 			slots[i] = null;
 			return itemStack;
 		} else {
-		return null;
+			return null;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
+		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
 			itemStack.stackSize = getInventoryStackLimit();
 		}
 	}
@@ -96,7 +95,7 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
@@ -108,53 +107,52 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
 			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
 		}
 	}
-	
-	//You scrubs aren't needed for anything (right now)
+
+	// You scrubs aren't needed for anything (right now)
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
+
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
+		if (slots[i] != null) {
+			if (slots[i].stackSize <= j) {
 				ItemStack itemStack = slots[i];
 				slots[i] = null;
 				return itemStack;
 			}
 			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
+			if (slots[i].stackSize == 0) {
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		storage.readFromNBT(nbt);
 		this.health = nbt.getInteger("health");
 		this.maxHealth = nbt.getInteger("maxHealth");
@@ -162,24 +160,22 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		this.blink = nbt.getInteger("blink");
 		this.radius = nbt.getFloat("radius");
 		this.isOn = nbt.getBoolean("isOn");
-		
+
 		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
+
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
+			if (b0 >= 0 && b0 < slots.length) {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		storage.writeToNBT(nbt);
 		nbt.setInteger("health", health);
 		nbt.setInteger("maxHealth", maxHealth);
@@ -187,27 +183,24 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		nbt.setInteger("blink", blink);
 		nbt.setFloat("radius", radius);
 		nbt.setBoolean("isOn", isOn);
-		
+
 		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
+
+		for (int i = 0; i < slots.length; i++) {
+			if (slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
+				nbt1.setByte("slot", (byte) i);
 				slots[i].writeToNBT(nbt1);
 				list.appendTag(nbt1);
 			}
 		}
 		nbt.setTag("items", list);
 	}
-	
+
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -218,67 +211,69 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
 	}
-	
+
 	public int getHealthScaled(int i) {
 		return (health * i) / maxHealth;
 	}
-	
+
 	public int getPowerScaled(int i) {
 		return (storage.getEnergyStored() * i) / storage.getMaxEnergyStored();
 	}
-	
+
 	@Override
 	public void updateEntity() {
 
-		if(!worldObj.isRemote) {
-			
+		if (!worldObj.isRemote) {
+
 			int rStack = 0;
 			int hStack = 0;
 			radius = 16;
 			maxHealth = 100;
-			
-			if(slots[1] != null && slots[1].getItem() == ModItems.upgrade_radius) {
+
+			if (slots[1] != null && slots[1].getItem() == ModItems.upgrade_radius) {
 				rStack = slots[1].stackSize;
 				radius += rStack * MainRegistry.upRange;
 			}
-			
-			if(slots[2] != null && slots[2].getItem() == ModItems.upgrade_health) {
+
+			if (slots[2] != null && slots[2].getItem() == ModItems.upgrade_health) {
 				hStack = slots[2].stackSize;
 				maxHealth += hStack * MainRegistry.upHealth;
 			}
-			
-			this.powerCons = MainRegistry.fieldBase + rStack * MainRegistry.fieldRange + hStack * MainRegistry.fieldHealth;
-			
-			if(slots[0] != null && slots[0].getItem() instanceof IEnergyContainerItem) {
-				IEnergyContainerItem item = (IEnergyContainerItem)slots[0].getItem();
-				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), item.getEnergyStored(slots[0]));
-				
+
+			this.powerCons = MainRegistry.fieldBase + rStack * MainRegistry.fieldRange
+					+ hStack * MainRegistry.fieldHealth;
+
+			if (slots[0] != null && slots[0].getItem() instanceof IEnergyContainerItem) {
+				IEnergyContainerItem item = (IEnergyContainerItem) slots[0].getItem();
+				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(),
+						item.getEnergyStored(slots[0]));
+
 				item.extractEnergy(slots[0], extract, false);
 				storage.setEnergyStored(storage.getEnergyStored() + extract);
 			}
-			
-			if(blink > 0) {
+
+			if (blink > 0) {
 				blink--;
 				color = 0xFF0000;
 			} else {
 				color = 0x00FF00;
 			}
 		}
-		
-		if(cooldown > 0) {
+
+		if (cooldown > 0) {
 			cooldown--;
 		} else {
-			if(health < maxHealth)
+			if (health < maxHealth)
 				health += maxHealth / 100;
-			
-			if(health > maxHealth)
+
+			if (health > maxHealth)
 				health = maxHealth;
 		}
-		
-		if(isOn && cooldown == 0 && health > 0 && storage.getEnergyStored() >= powerCons) {
+
+		if (isOn && cooldown == 0 && health > 0 && storage.getEnergyStored() >= powerCons) {
 			doField(radius);
-			
-			if(!worldObj.isRemote) {
+
+			if (!worldObj.isRemote) {
 				storage.setEnergyStored(storage.getEnergyStored() - powerCons);
 			}
 		} else {
@@ -286,60 +281,64 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 			this.inside.clear();
 		}
 
-		if(!worldObj.isRemote) {
-			if(storage.getEnergyStored() < powerCons)
+		if (!worldObj.isRemote) {
+			if (storage.getEnergyStored() < powerCons)
 				storage.setEnergyStored(0);
 		}
-		
-		if(!worldObj.isRemote) {
-			
-			if(MainRegistry.freeRadar)
+
+		if (!worldObj.isRemote) {
+
+			if (MainRegistry.freeRadar)
 				storage.setEnergyStored(1000000);
-			
-			PacketDispatcher.wrapper.sendToAll(new TEFFPacket(xCoord, yCoord, zCoord, radius, health, maxHealth, storage.getEnergyStored(), isOn, color, cooldown));
+
+			PacketDispatcher.wrapper.sendToAll(new TEFFPacket(xCoord, yCoord, zCoord, radius, health, maxHealth,
+					storage.getEnergyStored(), isOn, color, cooldown));
 		}
 	}
-	
+
 	private int impact(Entity e) {
 
-		/*MainRegistry.logger.info("==============");
-		MainRegistry.logger.info(e.toString());
-		MainRegistry.logger.info(e.getClass().toString());*/
-		
+		/*
+		 * MainRegistry.logger.info("==============");
+		 * MainRegistry.logger.info(e.toString());
+		 * MainRegistry.logger.info(e.getClass().toString());
+		 */
+
 		double flanDMG = 0;
-		
+
 		try {
-			
+
 			Field bullettype = ReflectionHelper.findField(e.getClass(), "type");
-			
+
 			Object bulletO = bullettype.get(e);
-			
-			if(bulletO != null) {
-				
+
+			if (bulletO != null) {
+
 				Class cl = bullettype.getType();
-				
+
 				Field fdmg = ReflectionHelper.findField(cl.cast(bulletO).getClass().getSuperclass(), "damageVsLiving");
-						
-				if(fdmg != null) {
-							
+
+				if (fdmg != null) {
+
 					flanDMG = fdmg.getFloat(bulletO);
 				}
 			}
-		
-		} catch (Exception e1) { }
-		
-		if(flanDMG > 0) {
-			return (int)(flanDMG * MainRegistry.flanmult);
+
+		} catch (Exception e1) {
 		}
-		
-		if(isUnbreakable())
+
+		if (flanDMG > 0) {
+			return (int) (flanDMG * MainRegistry.flanmult);
+		}
+
+		if (isUnbreakable())
 			return 0;
-		
+
 		double mass = Math.pow(e.height * e.width * e.width, MainRegistry.exWeight);
 		double speed = Math.pow(getMotionWithFallback(e), MainRegistry.exSpeed);
-		return (int)(mass * speed * MainRegistry.mult);
+		return (int) (mass * speed * MainRegistry.mult);
 	}
-	
+
 	private double getMotionWithFallback(Entity e) {
 
 		Vec3 v1 = Vec3.createVectorHelper(e.motionX, e.motionY, e.motionZ);
@@ -347,23 +346,23 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 		double s1 = v1.lengthVector();
 		double s2 = v2.lengthVector();
-		
-		if(s1 == 0)
+
+		if (s1 == 0)
 			return s2;
-		
-		if(s2 == 0)
+
+		if (s2 == 0)
 			return s1;
-		
+
 		return Math.min(s1, s2);
 	}
-	
+
 	private void damage(int ouch) {
 		health -= ouch;
-		
-		if(ouch >= (this.maxHealth / 250D))
-		blink = 5;
-		
-		if(health <= 0) {
+
+		if (ouch >= (this.maxHealth / 250D))
+			blink = 5;
+
+		if (health <= 0) {
 			health = 0;
 			cooldown = (int) (MainRegistry.baseCooldown + radius * MainRegistry.rangeCooldown);
 		}
@@ -371,7 +370,7 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 	List<Entity> outside = new ArrayList();
 	List<Entity> inside = new ArrayList();
-	
+
 	private void doField(float rad) {
 
 		List<Entity> oLegacy = new ArrayList(outside);
@@ -379,41 +378,47 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 		outside.clear();
 		inside.clear();
-		
-		List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - (rad + 25), yCoord + 0.5 - (rad + 25), zCoord + 0.5 - (rad + 25), xCoord + 0.5 + (rad + 25), yCoord + 0.5 + (rad + 25), zCoord + 0.5 + (rad + 25)));
-		
-		for(Object o : list) {
-			
-			if(o instanceof Entity && !(o instanceof EntityPlayer)) {
-				Entity entity = (Entity)o;
-				
-				double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2) + Math.pow(yCoord + 0.5 - entity.posY, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2));
-				
+
+		List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - (rad + 25), yCoord + 0.5 - (rad + 25),
+						zCoord + 0.5 - (rad + 25), xCoord + 0.5 + (rad + 25), yCoord + 0.5 + (rad + 25),
+						zCoord + 0.5 + (rad + 25)));
+
+		for (Object o : list) {
+
+			if (o instanceof Entity && !(o instanceof EntityPlayer)) {
+				Entity entity = (Entity) o;
+
+				double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2)
+						+ Math.pow(yCoord + 0.5 - entity.posY, 2) + Math.pow(zCoord + 0.5 - entity.posZ, 2));
+
 				boolean out = dist > rad;
-				
-				//if the entity has not been registered yet
-				if(!oLegacy.contains(entity) && !iLegacy.contains(entity)) {
-					if(out) {
+
+				// if the entity has not been registered yet
+				if (!oLegacy.contains(entity) && !iLegacy.contains(entity)) {
+					if (out) {
 						outside.add(entity);
 					} else {
 						inside.add(entity);
 					}
-					
-				//if the entity has been detected before
+
+					// if the entity has been detected before
 				} else {
-					
-					//if the entity has crossed inwards
-					if(oLegacy.contains(entity) && !out) {
-						Vec3 vec = Vec3.createVectorHelper(xCoord + 0.5 - entity.posX, yCoord + 0.5 - entity.posY, zCoord + 0.5 - entity.posZ);
+
+					// if the entity has crossed inwards
+					if (oLegacy.contains(entity) && !out) {
+						Vec3 vec = Vec3.createVectorHelper(xCoord + 0.5 - entity.posX, yCoord + 0.5 - entity.posY,
+								zCoord + 0.5 - entity.posZ);
 						vec = vec.normalize();
-						
+
 						double mx = -vec.xCoord * (rad + 1);
 						double my = -vec.yCoord * (rad + 1);
 						double mz = -vec.zCoord * (rad + 1);
-						
+
 						entity.setLocationAndAngles(xCoord + 0.5 + mx, yCoord + 0.5 + my, zCoord + 0.5 + mz, 0, 0);
-						
-						double mo = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionY, 2) + Math.pow(entity.motionZ, 2));
+
+						double mo = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionY, 2)
+								+ Math.pow(entity.motionZ, 2));
 
 						entity.motionX = vec.xCoord * -mo;
 						entity.motionY = vec.yCoord * -mo;
@@ -423,27 +428,30 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 						entity.posY -= entity.motionY;
 						entity.posZ -= entity.motionZ;
 
-			    		//worldObj.playSoundAtEntity(entity, "hbm:weapon.sparkShoot", 2.5F, 1.0F);
+						// worldObj.playSoundAtEntity(entity,
+						// "hbm:weapon.sparkShoot", 2.5F, 1.0F);
 						outside.add(entity);
-						
-						if(!worldObj.isRemote) {
+
+						if (!worldObj.isRemote) {
 							this.damage(this.impact(entity));
 						}
-						
+
 					} else
-					
-					//if the entity has crossed outwards
-					if(iLegacy.contains(entity) && out) {
-						Vec3 vec = Vec3.createVectorHelper(xCoord + 0.5 - entity.posX, yCoord + 0.5 - entity.posY, zCoord + 0.5 - entity.posZ);
+
+					// if the entity has crossed outwards
+					if (iLegacy.contains(entity) && out) {
+						Vec3 vec = Vec3.createVectorHelper(xCoord + 0.5 - entity.posX, yCoord + 0.5 - entity.posY,
+								zCoord + 0.5 - entity.posZ);
 						vec = vec.normalize();
-						
+
 						double mx = -vec.xCoord * (rad - 1);
 						double my = -vec.yCoord * (rad - 1);
 						double mz = -vec.zCoord * (rad - 1);
 
 						entity.setLocationAndAngles(xCoord + 0.5 + mx, yCoord + 0.5 + my, zCoord + 0.5 + mz, 0, 0);
-						
-						double mo = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionY, 2) + Math.pow(entity.motionZ, 2));
+
+						double mo = Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionY, 2)
+								+ Math.pow(entity.motionZ, 2));
 
 						entity.motionX = vec.xCoord * mo;
 						entity.motionY = vec.yCoord * mo;
@@ -453,16 +461,17 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 						entity.posY -= entity.motionY;
 						entity.posZ -= entity.motionZ;
 
-			    		//worldObj.playSoundAtEntity(entity, "hbm:weapon.sparkShoot", 2.5F, 1.0F);
+						// worldObj.playSoundAtEntity(entity,
+						// "hbm:weapon.sparkShoot", 2.5F, 1.0F);
 						inside.add(entity);
-						
-						if(!worldObj.isRemote) {
+
+						if (!worldObj.isRemote) {
 							this.damage(this.impact(entity));
 						}
-						
+
 					} else {
-						
-						if(out) {
+
+						if (out) {
 							outside.add(entity);
 						} else {
 							inside.add(entity);
@@ -477,11 +486,10 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 
@@ -504,8 +512,20 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return storage.getMaxEnergyStored();
 	}
-	
+
 	private boolean isUnbreakable() {
 		return (slots[2] != null && slots[2].getItem() == ModItems.upgrade_bedrock);
+	}
+
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+
+		double toSend = Math.min(storage.getEnergyStored(), storage.getMaxExtract());
+
+		if (!simulate) {
+			storage.setEnergyStored(storage.getEnergyStored() - (int) Math.round(toSend));
+		}
+
+		return (int) Math.round(toSend);
 	}
 }

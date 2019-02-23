@@ -30,6 +30,18 @@ public class ModItems {
 	public static Item upgrade_health;
 	public static Item upgrade_bedrock;
 
+	public static Item designator;
+	public static Item designator_range;
+
+	public static Item missile_he_1;
+	public static Item missile_he_2;
+	public static Item missile_he_3;
+	public static Item missile_incendiary_1;
+	public static Item missile_incendiary_2;
+	public static Item missile_incendiary_3;
+	public static Item missile_emp;
+	public static Item missile_ab;
+
 	public static void initializeItem()
 	{			
 		cassette = new ItemCassette().setUnlocalizedName("cassette").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":cassette");
@@ -39,6 +51,18 @@ public class ModItems {
 		upgrade_radius = new ItemLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_radius");
 		upgrade_health = new ItemLore().setUnlocalizedName("upgrade_health").setMaxStackSize(16).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_health");
 		upgrade_bedrock = new ItemLore().setUnlocalizedName("upgrade_bedrock").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_bedrock");
+
+		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":designator");
+		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":designator_range");
+
+		missile_he_1 = new Item().setUnlocalizedName("missile_he_1").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_he_1");
+		missile_he_2 = new Item().setUnlocalizedName("missile_he_2").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_he_2");
+		missile_he_3 = new Item().setUnlocalizedName("missile_he_3").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_he_3");
+		missile_incendiary_1 = new Item().setUnlocalizedName("missile_incendiary_1").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_incendiary_1");
+		missile_incendiary_2 = new Item().setUnlocalizedName("missile_incendiary_2").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_incendiary_2");
+		missile_incendiary_3 = new Item().setUnlocalizedName("missile_incendiary_3").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_incendiary_3");
+		missile_emp = new Item().setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_emp");
+		missile_ab = new Item().setUnlocalizedName("missile_ab").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_ab");
 	}
 	
 	private static void registerItem() {
@@ -49,5 +73,17 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_health, upgrade_health.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_bedrock, upgrade_bedrock.getUnlocalizedName());
+
+		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
+		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
+
+		GameRegistry.registerItem(missile_he_1, missile_he_1.getUnlocalizedName());
+		GameRegistry.registerItem(missile_he_2, missile_he_2.getUnlocalizedName());
+		GameRegistry.registerItem(missile_he_3, missile_he_3.getUnlocalizedName());
+		GameRegistry.registerItem(missile_incendiary_1, missile_incendiary_1.getUnlocalizedName());
+		GameRegistry.registerItem(missile_incendiary_2, missile_incendiary_2.getUnlocalizedName());
+		GameRegistry.registerItem(missile_incendiary_3, missile_incendiary_3.getUnlocalizedName());
+		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
+		GameRegistry.registerItem(missile_ab, missile_ab.getUnlocalizedName());
 	}
 }

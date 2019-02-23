@@ -22,5 +22,8 @@
     "alarm.foKlaxonB": {"category": "record", "sounds": [{"name": "alarm/foKlaxonB", "stream": false}]},
     "alarm.nostromoSiren": {"category": "record", "sounds": [{"name": "alarm/nostromoSiren", "stream": false}]},
     "alarm.easAlarm": {"category": "record", "sounds": [{"name": "alarm/easAlarm", "stream": false}]},
-    "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]}
+    "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]},
+    
+    "weapon.missileTakeOff": {"category": "block", "sounds": [{"name": "missile/missileTakeOff", "stream": false}]},
+    "item.techBleep": {"category": "record", "sounds": [{"name": "tool/beep", "stream": true}]}
 }

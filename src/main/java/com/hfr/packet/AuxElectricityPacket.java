@@ -1,5 +1,6 @@
 package com.hfr.packet;
 
+import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineRadar;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -55,13 +56,18 @@ public class AuxElectricityPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(AuxElectricityPacket m, MessageContext ctx) {
 			try {
-			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-			if (te != null && te instanceof TileEntityMachineRadar) {
-					
-				TileEntityMachineRadar gen = (TileEntityMachineRadar) te;
-				gen.storage.setEnergyStored(m.charge);
-			}
+				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
+	
+				if (te != null && te instanceof TileEntityMachineRadar) {
+						
+					TileEntityMachineRadar gen = (TileEntityMachineRadar) te;
+					gen.storage.setEnergyStored(m.charge);
+				}
+				if (te != null && te instanceof TileEntityLaunchPad) {
+						
+					TileEntityLaunchPad gen = (TileEntityLaunchPad) te;
+					gen.storage.setEnergyStored(m.charge);
+				}
 			} catch (Exception x) { }
 			return null;
 		}

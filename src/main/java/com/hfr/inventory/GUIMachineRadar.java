@@ -44,8 +44,23 @@ public class GUIMachineRadar extends GuiContainer {
 
 					
 					String[] text = new String[] { "Error." };
+					
+					if(m.name.equals("Tier 1 Missile")) {
 
-					text = new String[] { "Player " + m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Tier 2 Missile")) {
+
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Tier 3 Missile")) {
+						
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Anti-Ballistic Missile")) {
+
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else {
+
+						text = new String[] { "Player " + m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					}
 					
 					this.func_146283_a(Arrays.asList(text), x, z);
 					
@@ -93,6 +108,23 @@ public class GUIMachineRadar extends GuiContainer {
 				int x = (int)((m.posX - diFurnace.xCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;
 				int z = (int)((m.posZ - diFurnace.zCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;
 				int t = 1;
+				
+				if(m.name.equals("Tier 1 Missile")) {
+
+					t = 0;
+				} else if(m.name.equals("Tier 2 Missile")) {
+
+					t = 1;
+				} else if(m.name.equals("Tier 3 Missile")) {
+
+					t = 2;
+				} else if(m.name.equals("Anti-Ballistic Missile")) {
+
+					t = 4;
+				} else {
+
+					t = 6;
+				}
 
 				drawTexturedModalRect(guiLeft + 108 + x, guiTop + 117 + z, 216, 8 * t, 8, 8);
 			}
