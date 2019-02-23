@@ -1,0 +1,179 @@
+[20:08:20] [main/DEBUG] [FML/]: Injecting tracing printstreams for STDOUT/STDERR.
+[20:08:20] [main/INFO] [FML/]: Forge Mod Loader version 7.99.36.1558 for Minecraft 1.7.10 loading
+[20:08:20] [main/INFO] [FML/]: Java is OpenJDK 64-Bit Server VM, version 1.8.0_191, running on Linux:amd64:4.10.0-38-generic, installed at /usr/lib/jvm/java-8-openjdk-amd64/jre
+[20:08:20] [main/DEBUG] [FML/]: Java classpath at launch is /home/hbm/Schreibtisch/Java/xRadar/bin:/home/hbm/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.4.1558-1.7.10/forgeSrc-1.7.10-10.13.4.1558-1.7.10.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.minecraft/launchwrapper/1.12/111e7bea9c968cdb3d06ef4632bf7ff0824d0f36/launchwrapper-1.12.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-debug-all/5.0.3/f9e364ae2a66ce2a543012a4668856e84e5dab74/asm-debug-all-5.0.3.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.typesafe.akka/akka-actor_2.11/2.3.3/ed62e9fc709ca0f2ff1a3220daa8b70a2870078e/akka-actor_2.11-2.3.3.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.2.1/f771f71fdae3df231bcd54d5ca2d57f0bf93f467/config-1.2.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-actors-migration_2.11/1.1.0/dfa8bc42b181d5b9f1a5dd147f8ae308b893eb6f/scala-actors-migration_2.11-1.1.0.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.11.1/56ea2e6c025e0821f28d73ca271218b8dd04926a/scala-compiler-2.11.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.plugins/scala-continuations-library_2.11/1.0.2/e517c53a7e9acd6b1668c5a35eccbaa3bab9aac/scala-continuations-library_2.11-1.0.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.plugins/scala-continuations-plugin_2.11.1/1.0.2/f361a3283452c57fa30c1ee69448995de23c60f7/scala-continuations-plugin_2.11.1-1.0.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.11.1/e11da23da3eabab9f4777b9220e60d44c1aab6a/scala-library-2.11.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-parser-combinators_2.11/1.0.1/f05d7345bf5a58924f2837c6c1f4d73a938e1ff0/scala-parser-combinators_2.11-1.0.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.11.1/6580347e61cc7f8e802941e7fde40fa83b8badeb/scala-reflect-2.11.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-swing_2.11/1.0.1/b1cdd92bd47b1e1837139c1c53020e86bb9112ae/scala-swing_2.11-1.0.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-xml_2.11/1.0.2/7a80ec00aec122fba7cd4e0d4cdd87ff7e4cb6d0/scala-xml_2.11-1.0.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/4.5/6065cc95c661255349c1d0756657be17c29a4fd3/jopt-simple-4.5.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/lzma/lzma/0.0.1/521616dc7487b42bef0e803bd2fa3faf668101d7/lzma-0.0.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.mojang/realms/1.3.5/807ae355ee63583becd7ea60e76aab1532bb42e/realms-1.3.5.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/a698750c16740fd5b3871425f4cb3bbaa87f529d/commons-compress-1.8.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.3.3/18f4247ff4572a074444572cee34647c43e7c9c7/httpclient-4.3.3.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.3/f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f/commons-logging-1.1.3.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.3.2/31fbbff1ddbf98f3aa7377c94d33b0447c646b6e/httpcore-4.3.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/java3d/vecmath/1.3.1/a0ae4f51da409fa0c20fa0ca59e6bbc9413ae71d/vecmath-1.3.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.sf.trove4j/trove4j/3.0.3/42ccaf4761f0dfdfa805c9e340d99a755907e2dd/trove4j-3.0.3.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j-core-mojang/51.2/63d216a9311cca6be337c1e458e587f99d382b84/icu4j-core-mojang-51.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/codecjorbis/20101023/c73b5636faf089d9f00e8732a829577de25237ee/codecjorbis-20101023.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/codecwav/20101023/12f031cfe88fef5c1dd36c563c0a3a69bd7261da/codecwav-20101023.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/libraryjavasound/20101123/5c5e304366f75f9eaa2e8cca546a1fb6109348b3/libraryjavasound-20101123.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/librarylwjglopenal/20100824/73e80d0794c39665aec3f62eee88ca91676674ef/librarylwjglopenal-20100824.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/soundsystem/20120107/419c05fe9be71f792b2d76cfc9b67f1ed0fec7f6/soundsystem-20120107.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/io.netty/netty-all/4.0.10.Final/9e50bd52ffe257a0e2cd8d971688d6ce7d174325/netty-all-4.0.10.Final.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/9ce04e34240f674bc72680f8b843b1457383161a/commons-codec-1.9.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput/2.0.5/39c7796b469a600f72380316f6b1f11db6c2c7c4/jinput-2.0.5.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jutils/jutils/1.0.0/e12fe1fda814bd348c1579329c86943d2cd3c6a6/jutils-1.0.0.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/com.mojang/authlib/1.5.16/ef1582b11fd0943d069cdcb72e99008ac209a283/authlib-1.5.16.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.0-beta9/1dd66e68cccd907880229f9e2de1314bd13ff785/log4j-api-2.0-beta9.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.0-beta9/678861ba1b2e1fccb594bb0ca03114bb05da9695/log4j-core-2.0-beta9.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl/2.9.1/f58c5aabcef0e41718a564be9f8e412fff8db847/lwjgl-2.9.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl_util/2.9.1/290d7ba8a1bd9566f5ddf16ad06f09af5ec9b20e/lwjgl_util-2.9.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch/5.16/1f55f009c61637c10c0acfb8b5ffc600f30044b4/twitch-5.16.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-actors/2.11.0/8ccfb6541de179bb1c4d45cf414acee069b7f78b/scala-actors-2.11.0.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-xml_2.11/1.0.2/820fbca7e524b530fdadc594c39d49a21ea0337e/scala-xml_2.11-1.0.2.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-parser-combinators_2.11/1.0.1/f05d7345bf5a58924f2837c6c1f4d73a938e1ff0/scala-parser-combinators_2.11-1.0.1.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/7ff832a6eb9ab6a767f1ade2b548092d0fa64795/jinput-platform-2.0.5-natives-linux.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/385ee093e01f587f30ee1c8a2ee7d408fd732e16/jinput-platform-2.0.5-natives-windows.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/53f9c919f34d2ca9de8c51fc4e1e8282029a9232/jinput-platform-2.0.5-natives-osx.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/7c6affe439099806a4f552da14c42f9d643d8b23/twitch-platform-5.16-natives-windows-32.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/39d0c3d363735b4785598e0e7fbf8297c706a9f9/twitch-platform-5.16-natives-windows-64.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/62503ee712766cf77f97252e5902786fd834b8c5/twitch-platform-5.16-natives-osx.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-external-platform/4.5/18215140f010c05b9f86ef6f0f8871954d2ccebf/twitch-external-platform-4.5-natives-windows-32.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-external-platform/4.5/c3cde57891b935d41b6680a9c5e1502eeab76d86/twitch-external-platform-4.5-natives-windows-64.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.1/4c517eca808522457dd95ee8fc1fbcdbb602efbe/lwjgl-platform-2.9.1-natives-windows.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.1/aa9aae879af8eb378e22cfc64db56ec2ca9a44d1/lwjgl-platform-2.9.1-natives-linux.jar:/home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.1/2d12c83fdfbc04ecabf02c7bc8cc54d034f0daac/lwjgl-platform-2.9.1-natives-osx.jar:/home/hbm/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.4.1558-1.7.10/start
+[20:08:20] [main/DEBUG] [FML/]: Java library path at launch is /usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib:/home/hbm/.gradle/caches/minecraft/net/minecraft/minecraft_natives/1.7.10
+[20:08:20] [main/INFO] [FML/]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[20:08:20] [main/DEBUG] [FML/]: Instantiating coremod class FMLCorePlugin
+[20:08:20] [main/DEBUG] [FML/]: Added access transformer class cpw.mods.fml.common.asm.transformers.AccessTransformer to enqueued access transformers
+[20:08:20] [main/DEBUG] [FML/]: Enqueued coremod FMLCorePlugin
+[20:08:20] [main/DEBUG] [FML/]: Instantiating coremod class FMLForgePlugin
+[20:08:20] [main/DEBUG] [FML/]: Added access transformer class net.minecraftforge.transformers.ForgeAccessTransformer to enqueued access transformers
+[20:08:20] [main/DEBUG] [FML/]: Enqueued coremod FMLForgePlugin
+[20:08:20] [main/DEBUG] [FML/]: All fundamental core mods are successfully located
+[20:08:20] [main/DEBUG] [FML/]: Attempting to load commandline specified mods, relative to /home/hbm/Schreibtisch/Java/xRadar/eclipse/.
+[20:08:20] [main/DEBUG] [FML/]: Discovering coremods
+[20:08:20] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.gradle.tweakers.CoremodTweaker
+[20:08:20] [main/INFO] [GradleStart/]: Injecting location in coremod cpw.mods.fml.relauncher.FMLCorePlugin
+[20:08:20] [main/INFO] [GradleStart/]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
+[20:08:20] [main/INFO] [LaunchWrapper/]: Loading tweak class name cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[20:08:20] [main/INFO] [LaunchWrapper/]: Loading tweak class name cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[20:08:20] [main/INFO] [LaunchWrapper/]: Loading tweak class name net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[20:08:20] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[20:08:20] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[20:08:20] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[20:08:20] [main/DEBUG] [FML/]: Injecting coremod FMLCorePlugin {cpw.mods.fml.relauncher.FMLCorePlugin} class transformers
+[20:08:20] [main/TRACE] [FML/]: Registering transformer cpw.mods.fml.common.asm.transformers.MarkerTransformer
+[20:08:20] [main/TRACE] [FML/]: Registering transformer cpw.mods.fml.common.asm.transformers.SideTransformer
+[20:08:20] [main/TRACE] [FML/]: Registering transformer cpw.mods.fml.common.asm.transformers.EventSubscriptionTransformer
+[20:08:20] [main/DEBUG] [FML/]: Injection complete
+[20:08:20] [main/DEBUG] [FML/]: Running coremod plugin for FMLCorePlugin {cpw.mods.fml.relauncher.FMLCorePlugin}
+[20:08:20] [main/DEBUG] [FML/]: Running coremod plugin FMLCorePlugin
+[20:08:21] [main/ERROR] [FML/]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[20:08:21] [main/ERROR] [FML/]: FML appears to be missing any signature data. This is not a good thing
+[20:08:21] [main/DEBUG] [FML/]: Coremod plugin class FMLCorePlugin run successfully
+[20:08:21] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[20:08:21] [main/DEBUG] [FML/]: Injecting coremod FMLForgePlugin {net.minecraftforge.classloading.FMLForgePlugin} class transformers
+[20:08:21] [main/TRACE] [FML/]: Registering transformer net.minecraftforge.classloading.FluidIdTransformer
+[20:08:21] [main/DEBUG] [FML/]: Injection complete
+[20:08:21] [main/DEBUG] [FML/]: Running coremod plugin for FMLForgePlugin {net.minecraftforge.classloading.FMLForgePlugin}
+[20:08:21] [main/DEBUG] [FML/]: Running coremod plugin FMLForgePlugin
+[20:08:21] [main/DEBUG] [FML/]: Coremod plugin class FMLForgePlugin run successfully
+[20:08:21] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[20:08:21] [main/DEBUG] [FML/]: Loaded 57 rules from AccessTransformer config file fml_at.cfg
+[20:08:21] [main/DEBUG] [FML/]: Loaded 89 rules from AccessTransformer config file forge_at.cfg
+[20:08:21] [main/DEBUG] [FML/]: Validating minecraft
+[20:08:21] [main/DEBUG] [FML/]: Minecraft validated, launching...
+[20:08:21] [main/INFO] [LaunchWrapper/]: Calling tweak class net.minecraftforge.gradle.tweakers.AccessTransformerTweaker
+[20:08:21] [main/INFO] [LaunchWrapper/]: Loading tweak class name cpw.mods.fml.common.launcher.TerminalTweaker
+[20:08:21] [main/INFO] [LaunchWrapper/]: Calling tweak class cpw.mods.fml.common.launcher.TerminalTweaker
+[20:08:21] [main/INFO] [LaunchWrapper/]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[20:08:23] [Client thread/INFO] [STDOUT/]: [tv.twitch.StandardCoreAPI:<init>:16]: If on Windows, make sure to provide all of the necessary dll's as specified in the twitchsdk README. Also, make sure to set the PATH environment variable to point to the directory containing the dll's.
+[20:08:24] [Client thread/DEBUG] [FML/]: Bar Finished: Loading Resource - LanguageManager took 0,023s
+[20:08:24] [Client thread/INFO] [STDOUT/]: [cpw.mods.fml.client.SplashProgress:start:188]: ---- Minecraft Crash Report ----
+// My bad.
+
+Time: 07.01.19 20:08
+Description: Loading screen debug info
+
+This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.7.10
+	Operating System: Linux (amd64) version 4.10.0-38-generic
+	Java Version: 1.8.0_191, Oracle Corporation
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 816915136 bytes (779 MB) / 1037959168 bytes (989 MB) up to 1037959168 bytes (989 MB)
+	JVM Flags: 3 total; -Xincgc -Xmx1024M -Xms1024M
+	AABB Pool Size: 0 (0 bytes; 0 MB) allocated, 0 (0 bytes; 0 MB) used
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: 
+	GL info: ' Vendor: 'NVIDIA Corporation' Version: '4.5.0 NVIDIA 384.130' Renderer: 'GeForce GTX 1050/PCIe/SSE2'
+[20:08:24] [Client thread/INFO] [MinecraftForge/]: Attempting early MinecraftForge initialization
+[20:08:24] [Client thread/INFO] [FML/]: MinecraftForge v10.13.4.1558 Initialized
+[20:08:24] [Client thread/INFO] [FML/]: Replaced 183 ore recipies
+[20:08:24] [Client thread/INFO] [MinecraftForge/]: Completed early MinecraftForge initialization
+[20:08:24] [Client thread/DEBUG] [FML/]: File /home/hbm/Schreibtisch/Java/xRadar/eclipse/config/injectedDependencies.json not found. No dependencies injected
+[20:08:24] [Client thread/DEBUG] [FML/]: Building injected Mod Containers [cpw.mods.fml.common.FMLContainer, net.minecraftforge.common.ForgeModContainer]
+[20:08:24] [Client thread/DEBUG] [FML/]: Attempting to load mods contained in the minecraft jar file and associated classes
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related directory at /home/hbm/Schreibtisch/Java/xRadar/bin, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.4.1558-1.7.10/forgeSrc-1.7.10-10.13.4.1558-1.7.10.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.minecraft/launchwrapper/1.12/111e7bea9c968cdb3d06ef4632bf7ff0824d0f36/launchwrapper-1.12.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm-debug-all/5.0.3/f9e364ae2a66ce2a543012a4668856e84e5dab74/asm-debug-all-5.0.3.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.typesafe.akka/akka-actor_2.11/2.3.3/ed62e9fc709ca0f2ff1a3220daa8b70a2870078e/akka-actor_2.11-2.3.3.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.2.1/f771f71fdae3df231bcd54d5ca2d57f0bf93f467/config-1.2.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-actors-migration_2.11/1.1.0/dfa8bc42b181d5b9f1a5dd147f8ae308b893eb6f/scala-actors-migration_2.11-1.1.0.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-compiler/2.11.1/56ea2e6c025e0821f28d73ca271218b8dd04926a/scala-compiler-2.11.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.plugins/scala-continuations-library_2.11/1.0.2/e517c53a7e9acd6b1668c5a35eccbaa3bab9aac/scala-continuations-library_2.11-1.0.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.plugins/scala-continuations-plugin_2.11.1/1.0.2/f361a3283452c57fa30c1ee69448995de23c60f7/scala-continuations-plugin_2.11.1-1.0.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.11.1/e11da23da3eabab9f4777b9220e60d44c1aab6a/scala-library-2.11.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-parser-combinators_2.11/1.0.1/f05d7345bf5a58924f2837c6c1f4d73a938e1ff0/scala-parser-combinators_2.11-1.0.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-reflect/2.11.1/6580347e61cc7f8e802941e7fde40fa83b8badeb/scala-reflect-2.11.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-swing_2.11/1.0.1/b1cdd92bd47b1e1837139c1c53020e86bb9112ae/scala-swing_2.11-1.0.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-xml_2.11/1.0.2/7a80ec00aec122fba7cd4e0d4cdd87ff7e4cb6d0/scala-xml_2.11-1.0.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.sf.jopt-simple/jopt-simple/4.5/6065cc95c661255349c1d0756657be17c29a4fd3/jopt-simple-4.5.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/lzma/lzma/0.0.1/521616dc7487b42bef0e803bd2fa3faf668101d7/lzma-0.0.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.mojang/realms/1.3.5/807ae355ee63583becd7ea60e76aab1532bb42e/realms-1.3.5.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.8.1/a698750c16740fd5b3871425f4cb3bbaa87f529d/commons-compress-1.8.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.3.3/18f4247ff4572a074444572cee34647c43e7c9c7/httpclient-4.3.3.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.3/f6f66e966c70a83ffbdb6f17a0919eaf7c8aca7f/commons-logging-1.1.3.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.3.2/31fbbff1ddbf98f3aa7377c94d33b0447c646b6e/httpcore-4.3.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/java3d/vecmath/1.3.1/a0ae4f51da409fa0c20fa0ca59e6bbc9413ae71d/vecmath-1.3.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.sf.trove4j/trove4j/3.0.3/42ccaf4761f0dfdfa805c9e340d99a755907e2dd/trove4j-3.0.3.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j-core-mojang/51.2/63d216a9311cca6be337c1e458e587f99d382b84/icu4j-core-mojang-51.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/codecjorbis/20101023/c73b5636faf089d9f00e8732a829577de25237ee/codecjorbis-20101023.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/codecwav/20101023/12f031cfe88fef5c1dd36c563c0a3a69bd7261da/codecwav-20101023.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/libraryjavasound/20101123/5c5e304366f75f9eaa2e8cca546a1fb6109348b3/libraryjavasound-20101123.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/librarylwjglopenal/20100824/73e80d0794c39665aec3f62eee88ca91676674ef/librarylwjglopenal-20100824.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.paulscode/soundsystem/20120107/419c05fe9be71f792b2d76cfc9b67f1ed0fec7f6/soundsystem-20120107.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/io.netty/netty-all/4.0.10.Final/9e50bd52ffe257a0e2cd8d971688d6ce7d174325/netty-all-4.0.10.Final.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.4/b1b6ea3b7e4aa4f492509a4952029cd8e48019ad/commons-io-2.4.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/9ce04e34240f674bc72680f8b843b1457383161a/commons-codec-1.9.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput/2.0.5/39c7796b469a600f72380316f6b1f11db6c2c7c4/jinput-2.0.5.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jutils/jutils/1.0.0/e12fe1fda814bd348c1579329c86943d2cd3c6a6/jutils-1.0.0.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/com.mojang/authlib/1.5.16/ef1582b11fd0943d069cdcb72e99008ac209a283/authlib-1.5.16.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.0-beta9/1dd66e68cccd907880229f9e2de1314bd13ff785/log4j-api-2.0-beta9.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.0-beta9/678861ba1b2e1fccb594bb0ca03114bb05da9695/log4j-core-2.0-beta9.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl/2.9.1/f58c5aabcef0e41718a564be9f8e412fff8db847/lwjgl-2.9.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl_util/2.9.1/290d7ba8a1bd9566f5ddf16ad06f09af5ec9b20e/lwjgl_util-2.9.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch/5.16/1f55f009c61637c10c0acfb8b5ffc600f30044b4/twitch-5.16.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-actors/2.11.0/8ccfb6541de179bb1c4d45cf414acee069b7f78b/scala-actors-2.11.0.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-xml_2.11/1.0.2/820fbca7e524b530fdadc594c39d49a21ea0337e/scala-xml_2.11-1.0.2.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.scala-lang.modules/scala-parser-combinators_2.11/1.0.1/f05d7345bf5a58924f2837c6c1f4d73a938e1ff0/scala-parser-combinators_2.11-1.0.1.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/7ff832a6eb9ab6a767f1ade2b548092d0fa64795/jinput-platform-2.0.5-natives-linux.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/385ee093e01f587f30ee1c8a2ee7d408fd732e16/jinput-platform-2.0.5-natives-windows.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/53f9c919f34d2ca9de8c51fc4e1e8282029a9232/jinput-platform-2.0.5-natives-osx.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/7c6affe439099806a4f552da14c42f9d643d8b23/twitch-platform-5.16-natives-windows-32.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/39d0c3d363735b4785598e0e7fbf8297c706a9f9/twitch-platform-5.16-natives-windows-64.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/62503ee712766cf77f97252e5902786fd834b8c5/twitch-platform-5.16-natives-osx.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-external-platform/4.5/18215140f010c05b9f86ef6f0f8871954d2ccebf/twitch-external-platform-4.5-natives-windows-32.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-external-platform/4.5/c3cde57891b935d41b6680a9c5e1502eeab76d86/twitch-external-platform-4.5-natives-windows-64.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.1/4c517eca808522457dd95ee8fc1fbcdbb602efbe/lwjgl-platform-2.9.1-natives-windows.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.1/aa9aae879af8eb378e22cfc64db56ec2ca9a44d1/lwjgl-platform-2.9.1-natives-linux.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related file at /home/hbm/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.1/2d12c83fdfbc04ecabf02c7bc8cc54d034f0daac/lwjgl-platform-2.9.1-natives-osx.jar, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Found a minecraft related directory at /home/hbm/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.4.1558-1.7.10/start, examining for mod candidates
+[20:08:24] [Client thread/DEBUG] [FML/]: Minecraft jar mods loaded successfully
+[20:08:24] [Client thread/INFO] [FML/]: Found 0 mods from the command line. Injecting into mod discoverer
+[20:08:24] [Client thread/INFO] [FML/]: Searching /home/hbm/Schreibtisch/Java/xRadar/eclipse/mods for mods
+[20:08:24] [Client thread/DEBUG] [FML/]: Examining directory bin for potential mods
+[20:08:24] [Client thread/DEBUG] [FML/]: Found an mcmod.info file in directory bin
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.lang
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.models
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.sounds
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.sounds.alarm
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.sounds.block
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.textures
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.textures.blocks
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.textures.gui
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.textures.items
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package assets.hfr.textures.models
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package cofh
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package cofh.api
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package cofh.api.energy
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.blocks
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.handler
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.inventory
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.items
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.lib
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.main
+[20:08:24] [Client thread/DEBUG] [FML/]: Identified a mod of type Lcpw/mods/fml/common/Mod; (com.hfr.main.MainRegistry) - loading
+[20:08:24] [Client thread/TRACE] [hfr/]: Parsed dependency info : [] [] []
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.packet
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.render
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.sound
+[20:08:24] [Client thread/TRACE] [FML/]: Recursing into package com.hfr.tileentity
+[20:08:24] [Client thread/DEBUG] [FML/]: Examining file forgeSrc-1.7.10-10.13.4.1558-1.7.10.jar for potential mods
+[20:08:24] [Client thread/DEBUG] [FML/]: The mod container forgeSrc-1.7.10-10.13.4.1558-1.7.10.jar appears to be missing an mcmod.info file

@@ -1,0 +1,25 @@
+tile.machine_siren.name=Siren
+container.siren=Siren
+tile.machine_radar.name=Radar
+container.radar=Radar
+tile.machine_forcefield.name=Forcefield Generator
+container.forceField=Forcefield Generator
+
+tile.concrete.name=Concrete
+tile.concrete_bricks.name=Concrete Bricks
+
+tile.seal_controller.name=Silo Hatch Controller
+tile.seal_frame.name=Silo Hatch Frame
+tile.seal_hatch.name=Silo Hatch
+tile.seal_hatch.name=Silo Hatch
+
+tile.vault_door.name=Vault-Tec Blast Door
+tile.vault_door_dummy.name=Blast Door Dummy Block
+
+item.cassette.name=Siren Track
+item.coil.name=Golden Coil
+item.circuit.name=RedLap Circuit
+item.magnetron.name=Magnetron
+item.upgrade_radius.name=Forcefield Radius Upgrade
+item.upgrade_health.name=Forcefield Shield Upgrade
+item.upgrade_bedrock.name=Forcefield Invincibility Upgrade

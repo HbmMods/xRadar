@@ -1,0 +1,26 @@
+{
+    "block.sonarPing": {"category": "block", "sounds": [{"name": "block/sonarPing", "stream": false}]},
+    "block.vaultScrapeNew": {"category": "block", "sounds": [{"name": "block/vaultScrapeNew", "stream": false}]},
+    "block.vaultThudNew": {"category": "block", "sounds": [{"name": "block/vaultThudNew", "stream": false}]},
+
+	"alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
+    "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},
+    "alarm.apcPass": {"category": "record", "sounds": [{"name": "alarm/apcPass", "stream": false}]},
+    "alarm.bankAlarm": {"category": "record", "sounds": [{"name": "alarm/bankAlarm", "stream": false}]},
+    "alarm.beepSiren": {"category": "record", "sounds": [{"name": "alarm/beepSiren", "stream": false}]},
+    "alarm.autopilot": {"category": "record", "sounds": [{"name": "alarm/boeing707AutopilotDisconnected", "stream": false}]},
+    "alarm.containerAlarm": {"category": "record", "sounds": [{"name": "alarm/containerAlarm", "stream": false}]},
+    "alarm.hatch": {"category": "record", "sounds": [{"name": "alarm/lpfhaiwg", "stream": false}]},
+    "alarm.razortrainHorn": {"category": "record", "sounds": [{"name": "alarm/razortrainHorn", "stream": false}]},
+    "alarm.sweepSiren": {"category": "record", "sounds": [{"name": "alarm/sweepSiren", "stream": false}]},
+    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]},
+    "alarm.blastDoorAlarm": {"category": "record", "sounds": [{"name": "alarm/blastDoorAlarm", "stream": false}]},
+    "alarm.klaxon": {"category": "record", "sounds": [{"name": "alarm/klaxon", "stream": false}]},
+    "alarm.striderSiren": {"category": "record", "sounds": [{"name": "alarm/striderSiren", "stream": false}]},
+    "alarm.regularSiren": {"category": "record", "sounds": [{"name": "alarm/regularSiren", "stream": false}]},
+    "alarm.foKlaxonA": {"category": "record", "sounds": [{"name": "alarm/foKlaxonA", "stream": false}]},
+    "alarm.foKlaxonB": {"category": "record", "sounds": [{"name": "alarm/foKlaxonB", "stream": false}]},
+    "alarm.nostromoSiren": {"category": "record", "sounds": [{"name": "alarm/nostromoSiren", "stream": false}]},
+    "alarm.easAlarm": {"category": "record", "sounds": [{"name": "alarm/easAlarm", "stream": false}]},
+    "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]}
+}
