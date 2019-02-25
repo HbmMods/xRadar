@@ -25,5 +25,6 @@
     "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]},
     
     "weapon.missileTakeOff": {"category": "block", "sounds": [{"name": "missile/missileTakeOff", "stream": false}]},
-    "item.techBleep": {"category": "record", "sounds": [{"name": "tool/beep", "stream": true}]}
+    "item.techBleep": {"category": "record", "sounds": [{"name": "tool/beep", "stream": true}]},
+    "item.techBoop": {"category": "record", "sounds": [{"name": "tool/boop", "stream": true}]}
 }

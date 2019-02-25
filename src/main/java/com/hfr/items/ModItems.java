@@ -32,6 +32,7 @@ public class ModItems {
 
 	public static Item designator;
 	public static Item designator_range;
+	public static Item detonator;
 
 	public static Item missile_he_1;
 	public static Item missile_he_2;
@@ -54,7 +55,8 @@ public class ModItems {
 
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":designator_range");
-
+		detonator = new ItemDetonator().setUnlocalizedName("detonator").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":detonator");
+		
 		missile_he_1 = new Item().setUnlocalizedName("missile_he_1").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_he_1");
 		missile_he_2 = new Item().setUnlocalizedName("missile_he_2").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_he_2");
 		missile_he_3 = new Item().setUnlocalizedName("missile_he_3").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_he_3");
@@ -76,6 +78,7 @@ public class ModItems {
 
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
+		GameRegistry.registerItem(detonator, detonator.getUnlocalizedName());
 
 		GameRegistry.registerItem(missile_he_1, missile_he_1.getUnlocalizedName());
 		GameRegistry.registerItem(missile_he_2, missile_he_2.getUnlocalizedName());

@@ -3,6 +3,8 @@ package com.hfr.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.main.MainRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -23,6 +25,7 @@ public class EntityMissileIncendiary extends EntityMissileBaseAdvanced {
 	public void onImpact() {
 		//ExplosionLarge.explodeFire(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 10.0F, true, true, true);
     	worldObj.newExplosion(this, posX, posY, posZ, 10F, true, true);
+    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t1blast));
 	}
 
 	@Override

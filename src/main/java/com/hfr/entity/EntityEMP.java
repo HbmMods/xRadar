@@ -1,15 +1,20 @@
 package com.hfr.entity;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.main.MainRegistry;
+import com.hfr.main.ReflectionEngine;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.ParticleBurstPacket;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import cofh.api.energy.IEnergyStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -82,7 +87,16 @@ public class EntityEMP extends Entity {
 	private void add(int x, int y, int z) {
 		TileEntity te = worldObj.getTileEntity(x, y, z);
 		
-		if (te != null && te instanceof IEnergyProvider) {
+		if (!MainRegistry.empSpecial && te != null && te instanceof IEnergyProvider) {
+			machines.add(new int[] { x, y, z });
+		}
+		
+		if(MainRegistry.empSpecial &&
+				te instanceof IEnergyProvider ||
+				te instanceof IEnergyReceiver ||
+				te instanceof IEnergyHandler ||
+				te instanceof IEnergyStorage ||
+				te instanceof IEnergyConnection) {
 			machines.add(new int[] { x, y, z });
 		}
 	}
@@ -94,7 +108,7 @@ public class EntityEMP extends Entity {
 		
 		boolean flag = false;
 		
-		if (te != null && te instanceof IEnergyProvider) {
+		if (!MainRegistry.empSpecial && te != null && te instanceof IEnergyHandler) {
 
 			((IEnergyHandler)te).extractEnergy(ForgeDirection.UP, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.UP), false);
 			((IEnergyHandler)te).extractEnergy(ForgeDirection.DOWN, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.DOWN), false);
@@ -103,6 +117,39 @@ public class EntityEMP extends Entity {
 			((IEnergyHandler)te).extractEnergy(ForgeDirection.EAST, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.EAST), false);
 			((IEnergyHandler)te).extractEnergy(ForgeDirection.WEST, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.WEST), false);
 			flag = true;
+		}
+		
+		if(MainRegistry.empSpecial && te != null) {
+			
+			//System.out.println("Preccesing start!");
+			
+			if(te instanceof IEnergyProvider ||
+					te instanceof IEnergyReceiver ||
+					te instanceof IEnergyHandler ||
+					te instanceof IEnergyStorage ||
+					te instanceof IEnergyConnection) {
+
+				//System.out.println("Type valid!");
+				
+				List<Field> fields = ReflectionEngine.crackOpenAColdOne(EnergyStorage.class, te);
+
+				//System.out.println("Fields found: " + fields.size());
+				
+				List batteries = ReflectionEngine.pryObjectsFromFieldList(fields, te);
+
+				//System.out.println("Fields converted: " + batteries.size());
+				
+				for(Object o : batteries) {
+					
+					//System.out.println("Field casted!");
+					
+					if(o instanceof EnergyStorage) {
+						EnergyStorage bat = (EnergyStorage)o;
+						bat.setEnergyStored(0);
+						flag = true;
+					}
+				}
+			}
 		}
 		
 		if(flag && rand.nextInt(MainRegistry.empParticle) == 0) {
@@ -117,9 +164,13 @@ public class EntityEMP extends Entity {
 	protected void entityInit() { }
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt) { }
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		this.ticksExisted = nbt.getInteger("age");
+	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt) { }
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setInteger("age", this.ticksExisted);
+	}
 
 }

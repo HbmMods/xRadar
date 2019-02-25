@@ -1,8 +1,10 @@
  package com.hfr.main;
 
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.AdvancedModelLoader;
 
 import com.hfr.entity.*;
+import com.hfr.loader.HmfModelLoader;
 import com.hfr.render.*;
 import com.hfr.tileentity.*;
 
@@ -14,6 +16,8 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerRenderInfo()
 	{
+		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVaultDoor.class, new RenderVaultDoor());
@@ -32,6 +36,8 @@ public class ClientProxy extends ServerProxy
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new MultiCloudRenderer());
 		RenderingRegistry.registerEntityRenderingHandler(EntityEMP.class, new RenderEmpty());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new RenderEmpty());
+		RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeMK3());
 	}
 	
 	@Override

@@ -1,5 +1,6 @@
 package com.hfr.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,9 +11,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-public class EntityMissileAntiBallistic extends Entity {
+public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 	
 	int activationTimer;
 
@@ -22,6 +26,10 @@ public class EntityMissileAntiBallistic extends Entity {
 	
 	@Override
     public void onUpdate() {
+
+    	if(!worldObj.isRemote) {
+    		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
+    	}
 		
 		if(activationTimer < 40) {
 			activationTimer++;
@@ -61,6 +69,9 @@ public class EntityMissileAntiBallistic extends Entity {
 						return;
 					}
 				}
+				
+				if(list.isEmpty() && posY > 300)
+					this.setDead();
 			}
 		}
 
@@ -128,9 +139,9 @@ public class EntityMissileAntiBallistic extends Entity {
 
 			vec.normalize();
 			
-			this.motionX = vec.xCoord * 0.065D;
-			this.motionY = vec.yCoord * 0.065D;
-			this.motionZ = vec.zCoord * 0.065D;
+			this.motionX = vec.xCoord * 0.125D;
+			this.motionY = vec.yCoord * 0.125D;
+			this.motionZ = vec.zCoord * 0.125D;
 		}
 	}
 
@@ -154,6 +165,54 @@ public class EntityMissileAntiBallistic extends Entity {
     public boolean isInRangeToRenderDist(double distance)
     {
         return distance < 500000;
+    }
+
+    private Ticket loaderTicket;
+    
+	public void init(Ticket ticket) {
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
+	}
+
+	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
+
+    public void loadNeighboringChunks(int newChunkX, int newChunkZ)
+    {
+        if(!worldObj.isRemote && loaderTicket != null)
+        {
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+            }
+
+            loadedChunks.clear();
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.forceChunk(loaderTicket, chunk);
+            }
+        }
     }
 
 }

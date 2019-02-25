@@ -1,3 +1,5 @@
+death.attack.blast=%1$s was obliterated.
+
 tile.machine_siren.name=Siren
 container.siren=Siren
 tile.machine_radar.name=Radar
@@ -29,6 +31,7 @@ item.upgrade_bedrock.name=Forcefield Invincibility Upgrade
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder
+item.detonator.name=Detonator
 
 item.missile_he_1.name=Tier 1 HE Missile
 item.missile_he_2.name=Tier 2 HE Missile

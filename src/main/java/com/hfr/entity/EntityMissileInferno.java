@@ -3,6 +3,8 @@ package com.hfr.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.main.MainRegistry;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -23,6 +25,9 @@ public class EntityMissileInferno extends EntityMissileBaseAdvanced {
 		//ExplosionChaos.burn(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
 		//ExplosionChaos.flameDeath(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25);
     	worldObj.newExplosion(this, posX, posY, posZ, 35F, true, true);
+    	
+		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ));
+    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t3blast));
 	}
 
 	@Override

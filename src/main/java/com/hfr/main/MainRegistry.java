@@ -17,6 +17,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.stats.Achievement;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -98,8 +99,16 @@ public class MainRegistry
 	public static int empRadius = 500;
 	public static int empDuration = 5 * 60 * 20;
 	public static int empParticle = 20;
+	public static boolean empSpecial = true;
 	public static int padBuffer = 100000000;
 	public static int padUse = 50000000;
+
+	public static int mushLife = 15 * 20;
+	public static int mushScale = 80;
+	public static int fireDuration = 4 * 20;
+	public static int t1blast = 50;
+	public static int t2blast = 100;
+	public static int t3blast = 150;
 	
 	public static int crafting = 0;
 	
@@ -108,6 +117,8 @@ public class MainRegistry
 	public static boolean comparator = false;
 	
 	Random rand = new Random();
+	
+	public static DamageSource blast = (new DamageSource("blast")).setExplosion();
 	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
@@ -141,9 +152,11 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileInferno.class, "entity_missile_koreaF", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileAntiBallistic.class, "entity_missile_anti", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileEMPStrong.class, "entity_missile_emp", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityNukeCloudSmall.class, "entity_mushroom_cloud", id++, this, 1000, 1, true);
 
 	    EntityRegistry.registerModEntity(EntitySmokeFX.class, "entity_missile_smoke", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityEMP.class, "entity_lingering_emp", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBlast.class, "entity_deathblast", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -283,6 +296,10 @@ public class MainRegistry
         propEMPPart.comment = "The average delay between spark particles of disabled machines. Should be above 10. 0 will crash the game, so don't do that.";
         empParticle = propEMPPart.getInt();
         
+        Property empSpecialP = config.get("MISSILE", "empHFSpecialFunction", true);
+        empSpecialP.comment = "Whether or not the EMP should use a special function to properly set all machine's RF to 0";
+        empSpecial = empSpecialP.getBoolean();
+        
         Property padBuf = config.get("MISSILE", "launchPadStorage", 100*1000*1000);
         padBuf.comment = "The amount of RF the launch pad can hold.";
         padBuffer = padBuf.getInt();
@@ -290,6 +307,30 @@ public class MainRegistry
         Property padUseP = config.get("MISSILE", "launchPadRequirement", 50*1000*1000);
         padUseP.comment = "How much RF is required for a rocket launch. Has to be smaller or equal to the buffer size.";
         padUse = padUseP.getInt();
+        
+        Property mushLifeP = config.get("MISSILE", "fireballLife", 15 * 20);
+        mushLifeP.comment = "How many ticks the mushroom cloud will persist";
+        mushLife = mushLifeP.getInt();
+        
+        Property mushScaleP = config.get("MISSILE", "fireballScale", 80);
+        mushScaleP.comment = "Scale of the mushroom cloud";
+        mushScale = mushScaleP.getInt();
+        
+        Property fireDurationP = config.get("MISSILE", "fireDuration", 4 * 20);
+        fireDurationP.comment = "How long the fire blast will last";
+        fireDuration = fireDurationP.getInt();
+        
+        Property t1blastP = config.get("MISSILE", "tier1Blast", 50);
+        t1blastP.comment = "Blast radius(c) of tier 1 missiles";
+        t1blast = t1blastP.getInt();
+        
+        Property t2blastP = config.get("MISSILE", "tier2Blast", 100);
+        t2blastP.comment = "Blast radius(c) of tier 2 missiles";
+        t2blast = t2blastP.getInt();
+        
+        Property t3blastP = config.get("MISSILE", "tier3Blast", 150);
+        t3blastP.comment = "Blast radius(c) of tier 3 missiles";
+        t3blast = t3blastP.getInt();
         
         config.save();
 	}
