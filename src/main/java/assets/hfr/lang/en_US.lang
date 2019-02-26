@@ -31,6 +31,7 @@ item.upgrade_bedrock.name=Forcefield Invincibility Upgrade
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder
+item.designator_manual.name=Manual Rangefinder
 item.detonator.name=Detonator
 
 item.missile_he_1.name=Tier 1 HE Missile

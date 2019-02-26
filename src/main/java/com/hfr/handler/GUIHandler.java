@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.inventory.*;
+import com.hfr.items.ModItems;
 import com.hfr.tileentity.*;
 
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -100,6 +101,14 @@ public class GUIHandler implements IGuiHandler {
 				}
 			}
 		} else {
+			
+			switch(ID)
+			{
+				case ModItems.guiID_desingator:
+				{
+					return new GUIScreenDesignator(player);
+				}
+			}
 		}
 		return null;
 	}
