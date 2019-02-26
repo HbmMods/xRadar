@@ -3,6 +3,8 @@ package com.hfr.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.main.MainRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -31,7 +33,7 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
     		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
     	}
 		
-		if(activationTimer < 40) {
+		if(activationTimer < MainRegistry.abDelay) {
 			activationTimer++;
 			
 			motionY = 1.5D;
@@ -44,9 +46,9 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 			
 		} else {
 			
-			if(activationTimer == 40) {
+			if(activationTimer == MainRegistry.abDelay) {
 				//ExplosionLarge.spawnParticlesRadial(worldObj, posX, posY, posZ, 15);
-				activationTimer = 100;
+				activationTimer = MainRegistry.abDelay + 10;
 			}
 
 			for(int i = 0; i < 5; i++) {
@@ -117,7 +119,7 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 	
 	private void targetMissile() {
 		
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 500, 0, posZ - 500, posX + 500, 5000, posZ + 500));
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - MainRegistry.abRange, 0, posZ - MainRegistry.abRange, posX + MainRegistry.abRange, 10000, posZ + MainRegistry.abRange));
 		
 		Entity target = null;
 		double closest = 1000D;

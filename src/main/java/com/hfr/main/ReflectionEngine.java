@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
+
 public class ReflectionEngine {
 
 	/**
@@ -13,17 +15,46 @@ public class ReflectionEngine {
 	 * @return
 	 */
 	
-	public static List<Field> crackOpenAColdOne(Class<?> type, Object instance) {
+	public static List<Field> crackOpenAColdOne(Class<?> type, Class<?> clazz) {
 
 		List<Field> fields = new ArrayList();
 		
-		for (Field field : instance.getClass().getFields()) {
+		//System.out.println(clazz.toString());
+		
+		for (Field field : clazz.getFields()) {
 			if (field.getType().isAssignableFrom(type)) {
 				fields.add(field);
 			}
 		}
 		
+		if(clazz.getSuperclass() != null) {
+			fields.addAll(crackOpenAColdOne(type, clazz.getSuperclass()));
+		}
+		
 		return fields;
+	}
+	
+	public static void setDoubleToZero(Object o, String name) {
+		
+		Class<?> clazz = o.getClass();
+
+		while(clazz.getSuperclass() != null) {
+			
+			try {
+				
+				Field type = ReflectionHelper.findField(o.getClass(), name);
+		
+				Object val = type.get(o);
+				
+				if(val != null && val instanceof Double) {
+	
+					type.setDouble(o, 0);
+				}
+			
+			} catch(Exception x) { }
+			
+			clazz = clazz.getSuperclass();
+		}
 	}
 	
 	public static List<Object> pryObjectsFromFieldList(List<Field> fields, Object o) {

@@ -108,18 +108,27 @@ public class EntityEMP extends Entity {
 		
 		boolean flag = false;
 		
-		if (!MainRegistry.empSpecial && te != null && te instanceof IEnergyHandler) {
+		if (te != null && te instanceof IEnergyHandler) {
 
-			((IEnergyHandler)te).extractEnergy(ForgeDirection.UP, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.UP), false);
-			((IEnergyHandler)te).extractEnergy(ForgeDirection.DOWN, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.DOWN), false);
-			((IEnergyHandler)te).extractEnergy(ForgeDirection.NORTH, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.NORTH), false);
-			((IEnergyHandler)te).extractEnergy(ForgeDirection.SOUTH, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.SOUTH), false);
-			((IEnergyHandler)te).extractEnergy(ForgeDirection.EAST, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.EAST), false);
-			((IEnergyHandler)te).extractEnergy(ForgeDirection.WEST, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.WEST), false);
+			for(int i = 0; i < 10; i++) {
+				((IEnergyHandler)te).extractEnergy(ForgeDirection.UP, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.UP), false);
+				((IEnergyHandler)te).extractEnergy(ForgeDirection.DOWN, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.DOWN), false);
+				((IEnergyHandler)te).extractEnergy(ForgeDirection.NORTH, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.NORTH), false);
+				((IEnergyHandler)te).extractEnergy(ForgeDirection.SOUTH, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.SOUTH), false);
+				((IEnergyHandler)te).extractEnergy(ForgeDirection.EAST, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.EAST), false);
+				((IEnergyHandler)te).extractEnergy(ForgeDirection.WEST, ((IEnergyHandler)te).getEnergyStored(ForgeDirection.WEST), false);
+			}
 			flag = true;
 		}
 		
 		if(MainRegistry.empSpecial && te != null) {
+			
+			//electricityStored
+			ReflectionEngine.setDoubleToZero(te, "electricityStored");
+			flag = true;
+		}
+		
+		/*if(MainRegistry.empSpecial && te != null) {
 			
 			//System.out.println("Preccesing start!");
 			
@@ -130,8 +139,8 @@ public class EntityEMP extends Entity {
 					te instanceof IEnergyConnection) {
 
 				//System.out.println("Type valid!");
-				
-				List<Field> fields = ReflectionEngine.crackOpenAColdOne(EnergyStorage.class, te);
+
+				List<Field> fields = ReflectionEngine.crackOpenAColdOne(EnergyStorage.class, te.getClass());
 
 				//System.out.println("Fields found: " + fields.size());
 				
@@ -150,7 +159,7 @@ public class EntityEMP extends Entity {
 					}
 				}
 			}
-		}
+		}*/
 		
 		if(flag && rand.nextInt(MainRegistry.empParticle) == 0) {
 			

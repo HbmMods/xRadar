@@ -25,7 +25,6 @@ public class EntityMissileBurst extends EntityMissileBaseAdvanced {
 			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 50.0F, true);
 		
 		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ));
-		System.out.println(MainRegistry.t3blast);
     	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t3blast));
 	}
 
