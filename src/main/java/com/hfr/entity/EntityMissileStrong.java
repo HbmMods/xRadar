@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hfr.main.MainRegistry;
 
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -22,7 +23,8 @@ public class EntityMissileStrong extends EntityMissileBaseAdvanced {
 	@Override
 	public void onImpact() {
 		//ExplosionLarge.explode(worldObj, posX, posY, posZ, 25.0F, true, true, true);
-    	worldObj.newExplosion(this, posX, posY, posZ, 25F, false, true);
+		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
+    	worldObj.newExplosion(scapegoat, posX, posY, posZ, 25F, false, true);
     	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t2blast));
 	}
 

@@ -16,15 +16,17 @@ public class TERadarDestructorPacket implements IMessage {
 	int x;
 	int y;
 	int z;
+	int mode;
 	
 	public TERadarDestructorPacket() {
 
 	}
 
-	public TERadarDestructorPacket(int x, int y, int z) {
+	public TERadarDestructorPacket(int x, int y, int z, int mode) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.mode = mode;
 	}
 
 	@Override
@@ -32,6 +34,7 @@ public class TERadarDestructorPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
+		mode = buf.readInt();
 	}
 
 	@Override
@@ -39,6 +42,7 @@ public class TERadarDestructorPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
+		buf.writeInt(mode);
 	}
 
 	public static class Handler implements IMessageHandler<TERadarDestructorPacket, IMessage> {
@@ -53,6 +57,7 @@ public class TERadarDestructorPacket implements IMessage {
 
 					TileEntityMachineRadar radar = (TileEntityMachineRadar) te;
 					radar.nearbyMissiles.clear();
+					radar.mode = m.mode;
 				}
 			} catch (Exception x) {
 			}

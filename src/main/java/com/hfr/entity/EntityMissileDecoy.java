@@ -10,13 +10,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileGeneric extends EntityMissileBaseAdvanced {
+public class EntityMissileDecoy extends EntityMissileBaseAdvanced {
 
-	public EntityMissileGeneric(World p_i1582_1_) {
+	public EntityMissileDecoy(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
 
-	public EntityMissileGeneric(World world, float x, float y, float z, int a, int b) {
+	public EntityMissileDecoy(World world, float x, float y, float z, int a, int b) {
 		super(world, x, y, z, a, b);
 	}
 
@@ -24,13 +24,12 @@ public class EntityMissileGeneric extends EntityMissileBaseAdvanced {
 	public void onImpact() {
 		//ExplosionLarge.explode(worldObj, posX, posY, posZ, 10.0F, true, true, true);
 		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
-    	worldObj.newExplosion(scapegoat, posX, posY, posZ, 10F, false, true);
-    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t1blast));
+    	worldObj.newExplosion(scapegoat, posX, posY, posZ, 10F, false, false);
 	}
 
 	@Override
 	public int getMissileType() {
-		return 0;
+		return 2;
 	}
 
 	/*public EntityMissileGeneric(World p_i1582_1_) {

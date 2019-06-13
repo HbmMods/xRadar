@@ -3,6 +3,7 @@ package com.hfr.render;
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.entity.EntityMissileAntiBallistic;
+import com.hfr.entity.EntityMissileDecoy;
 import com.hfr.entity.EntityMissileGeneric;
 import com.hfr.entity.EntityMissileIncendiary;
 import com.hfr.main.ResourceManager;
@@ -31,6 +32,8 @@ public class RenderMissileGeneric extends Render {
         	bindTexture(ResourceManager.missileV2_IN_tex);
         if(p_76986_1_ instanceof EntityMissileAntiBallistic)
         	bindTexture(ResourceManager.missileAA_tex);
+        if(p_76986_1_ instanceof EntityMissileDecoy)
+        	bindTexture(ResourceManager.missile_decoy_tex);
         ResourceManager.missileV2.renderAll();
 		GL11.glPopMatrix();
 	}

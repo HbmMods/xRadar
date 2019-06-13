@@ -102,6 +102,7 @@ public class MainRegistry
 	public static boolean empSpecial = true;
 	public static int padBuffer = 100000000;
 	public static int padUse = 50000000;
+	public static int mHealth = 15;
 
 	public static int mushLife = 15 * 20;
 	public static int mushScale = 80;
@@ -153,8 +154,8 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileAntiBallistic.class, "entity_missile_anti", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileEMPStrong.class, "entity_missile_emp", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeCloudSmall.class, "entity_mushroom_cloud", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileDecoy.class, "entity_missile_decoy", id++, this, 1000, 1, true);
 
-	    EntityRegistry.registerModEntity(EntitySmokeFX.class, "entity_missile_smoke", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityEMP.class, "entity_lingering_emp", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBlast.class, "entity_deathblast", id++, this, 1000, 1, true);
 	
@@ -170,6 +171,8 @@ public class MainRegistry
 	            }
 	        }
 	    });
+		
+		FMLCommonHandler.instance().bus().register(new CommonEventHandler());
 	}
 
 	@EventHandler
@@ -331,6 +334,10 @@ public class MainRegistry
         Property t3blastP = config.get("MISSILE", "tier3Blast", 150);
         t3blastP.comment = "Blast radius(c) of tier 3 missiles";
         t3blast = t3blastP.getInt();
+        
+        Property mHealthP = config.get("MISSILE", "missileHealth", 15);
+        mHealthP.comment = "How much beating a missile can take before it goes to commit unlive.";
+        mHealth = mHealthP.getInt();
         
         config.save();
 	}

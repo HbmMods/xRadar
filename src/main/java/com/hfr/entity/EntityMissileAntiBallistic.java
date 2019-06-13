@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.main.MainRegistry;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.ParticleControlPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -41,8 +44,9 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 			this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
 	        this.rotation();
 	
-			if(!this.worldObj.isRemote)
-				this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+			if(!this.worldObj.isRemote) {
+				PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 500));
+			}
 			
 		} else {
 			
@@ -59,7 +63,7 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 		        this.rotation();
 		    	
 				if(!this.worldObj.isRemote)
-					this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+					PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 500));
 
 				List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 5, posY - 5, posZ - 5, posX + 5, posY + 5, posZ + 5));
 
@@ -89,6 +93,13 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 			this.setDead();
 			return;
     	}
+		
+		if(!worldObj.isRemote) {
+			Vec3 movement = Vec3.createVectorHelper(motionX, motionY, motionZ);
+			
+			if(movement.lengthVector() < 0.1)
+				this.setDead();
+		}
 
     }
 	

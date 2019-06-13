@@ -44,6 +44,9 @@ public class ModItems {
 	public static Item missile_incendiary_3;
 	public static Item missile_emp;
 	public static Item missile_ab;
+	public static Item missile_decoy;
+
+	public static Item hammer;
 
 	public static void initializeItem()
 	{			
@@ -68,9 +71,14 @@ public class ModItems {
 		missile_incendiary_3 = new Item().setUnlocalizedName("missile_incendiary_3").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_incendiary_3");
 		missile_emp = new Item().setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_emp");
 		missile_ab = new Item().setUnlocalizedName("missile_ab").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_ab");
+		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
+		
+		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":hammer");
 	}
 	
 	private static void registerItem() {
+		GameRegistry.registerItem(hammer, hammer.getUnlocalizedName());
+		
 		GameRegistry.registerItem(cassette, cassette.getUnlocalizedName());
 		GameRegistry.registerItem(coil, coil.getUnlocalizedName());
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());
@@ -92,5 +100,6 @@ public class ModItems {
 		GameRegistry.registerItem(missile_incendiary_3, missile_incendiary_3.getUnlocalizedName());
 		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
 		GameRegistry.registerItem(missile_ab, missile_ab.getUnlocalizedName());
+		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
 	}
 }

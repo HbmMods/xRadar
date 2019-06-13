@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.main.MainRegistry;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.ParticleControlPacket;
 import com.hfr.tileentity.TileEntityMachineRadar;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -33,7 +36,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	double accelXZ;
 	boolean isCluster = false;
     private Ticket loaderTicket;
-    public int health = 50;
+    public float health = MainRegistry.mHealth;
 
 	public EntityMissileBaseAdvanced(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -102,7 +105,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	@Override
 	protected void entityInit() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
-        this.dataWatcher.addObject(8, Integer.valueOf(this.health));
+        this.dataWatcher.addObject(8, Float.valueOf(this.health));
 	}
 
 	@Override
@@ -188,7 +191,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		else if(this.ticksExisted > 20)
 			velocity = 2;
 		
-        this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
+        this.dataWatcher.updateObject(8, Float.valueOf(this.health));
         
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -219,8 +222,16 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	        	motionZ -= vector.zCoord;
 	        }
 	
-			if(!this.worldObj.isRemote)
-				this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+			if(this.worldObj.isRemote) {
+				//PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 500));
+				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+	            //this.worldObj.spawnParticle("largeexplode", this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D);
+				
+				//EntityLargeExplodeFX effect = new EntityLargeExplodeFX(Minecraft.getMinecraft().getTextureManager(), worldObj, posX, posY, posZ, 0.0, 0.0, 0.0);
+				//Minecraft.getMinecraft().effectRenderer.addEffect(effect);
+				
+				MainRegistry.proxy.howDoIUseTheZOMG(worldObj, posX, posY, posZ, 0);
+			}
 	        
 	        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && 
         			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
@@ -243,6 +254,13 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
         	if(!worldObj.isRemote) {
         		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
         	}
+		}
+		
+		if(!worldObj.isRemote) {
+			Vec3 movement = Vec3.createVectorHelper(motionX, motionY, motionZ);
+			
+			if(movement.lengthVector() < 0.1)
+				this.setDead();
 		}
     }
 	

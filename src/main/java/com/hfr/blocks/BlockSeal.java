@@ -274,6 +274,9 @@ public class BlockSeal extends Block {
     @Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
+    	if(world.isRemote)
+    		return;
+    	
         if (world.isBlockIndirectlyGettingPowered(x, y, z))
         {
         	int meta = world.getBlockMetadata(x, y, z);

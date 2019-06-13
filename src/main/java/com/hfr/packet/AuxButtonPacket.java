@@ -1,6 +1,7 @@
 package com.hfr.packet;
 
 import com.hfr.tileentity.TileEntityForceField;
+import com.hfr.tileentity.TileEntityMachineRadar;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -62,10 +63,17 @@ public class AuxButtonPacket implements IMessage {
 
 			//try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
-				
+
 				if (te instanceof TileEntityForceField) {
 					TileEntityForceField field = (TileEntityForceField)te;
 					field.isOn = !field.isOn;
+				}
+				if (te instanceof TileEntityMachineRadar) {
+					TileEntityMachineRadar field = (TileEntityMachineRadar)te;
+					field.mode++;
+					
+					if(field.mode > 2)
+						field.mode -= 3;
 				}
 				
 			//} catch (Exception x) { }

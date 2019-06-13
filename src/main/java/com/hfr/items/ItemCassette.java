@@ -39,6 +39,7 @@ public class ItemCassette extends Item {
 		AIR_RAID(			"Air Raid Siren", 			new ResourceLocation("hfr:alarm.airRaid"),			SoundType.LOOP,		0xDF3795,	500),
 		NOSTROMO_SIREN(		"Nostromo Self Destruct",	new ResourceLocation("hfr:alarm.nostromoSiren"),	SoundType.LOOP,		0x5dd800,	100),
 		EAS_ALARM(			"EAS Alarm Screech",		new ResourceLocation("hfr:alarm.easAlarm"),			SoundType.LOOP,		0xb3a8c1,	50),
+		INCOMING(			"Incoming! Incoming!",		new ResourceLocation("hfr:alarm.incoming"),			SoundType.LOOP,		0xDAA520,	500),
 		APC_PASS(			"APC Pass", 				new ResourceLocation("hfr:alarm.apcPass"),			SoundType.PASS,		3422163,	50),
 		RAZORTRAIN(			"Razortrain Horn", 			new ResourceLocation("hfr:alarm.razortrainHorn"),	SoundType.SOUND,	7819501,	250);
 		

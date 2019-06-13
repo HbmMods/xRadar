@@ -5,7 +5,6 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hfr.entity.EntityModFX;
 import com.hfr.lib.RefStrings;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -33,7 +32,7 @@ public class MultiCloudRenderer extends Render {
 	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
 			float p_76986_9_) {
-		if (p_76986_1_ instanceof EntityModFX) {
+		/*if (p_76986_1_ instanceof EntityModFX) {
 			EntityModFX fx = (EntityModFX) p_76986_1_;
 
 			ResourceLocation tex = new ResourceLocation(RefStrings.MODID + ":" + "textures/fx/smoke1.png");
@@ -106,7 +105,7 @@ public class MultiCloudRenderer extends Render {
 				GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 				GL11.glPopMatrix();
 			}
-		}
+		}*/
 	}
 
 	/**

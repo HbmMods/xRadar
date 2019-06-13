@@ -7,10 +7,13 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
+import com.hfr.packet.AuxButtonPacket;
+import com.hfr.packet.PacketDispatcher;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRadar.RadarEntry;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -92,17 +95,33 @@ public class GUIMachineRadar extends GuiContainer {
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 	}
 
+    protected void mouseClicked(int x, int y, int i) {
+    	super.mouseClicked(x, y, i);
+		
+    	if(guiLeft + 218 <= x && guiLeft + 218 + 18 > x && guiTop + 108 < y && guiTop + 108 + 18 >= y) {
+
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 0));
+    	}
+    }
+
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
+		//Power gauge
 		if(diFurnace.storage.getEnergyStored() > 0) {
 			int i = (int)diFurnace.getPowerScaled(200);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 221, 0, 234, i, 16);
 		}
 		
+		//Toggle
+		drawTexturedModalRect(guiLeft + 216, guiTop + 105, 216, 156, 23, 24);
+		drawTexturedModalRect(guiLeft + 218, guiTop + 108, 216, 180 + diFurnace.mode * 18, 18, 18);
+		
+		//Radar dots
 		if(!diFurnace.nearbyMissiles.isEmpty()) {
 			for(RadarEntry m : diFurnace.nearbyMissiles) {
 				int x = (int)((m.posX - diFurnace.xCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;

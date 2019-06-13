@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hfr.entity.EntityMissileAntiBallistic;
 import com.hfr.entity.EntityMissileBurst;
+import com.hfr.entity.EntityMissileDecoy;
 import com.hfr.entity.EntityMissileEMPStrong;
 import com.hfr.entity.EntityMissileGeneric;
 import com.hfr.entity.EntityMissileIncendiary;
@@ -250,10 +251,20 @@ public class LaunchPad extends BlockContainer {
         		}
         		
         		/////////////////////////////////////////////////////////////////////////////////////////////////////
-        		
+
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_emp && entity.storage.getEnergyStored() >= re)
         		{
             		EntityMissileEMPStrong missile = new EntityMissileEMPStrong(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_decoy && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileDecoy missile = new EntityMissileDecoy(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);

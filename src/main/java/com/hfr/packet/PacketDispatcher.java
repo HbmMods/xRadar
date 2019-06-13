@@ -23,7 +23,10 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEVaultPacket.Handler.class, TEVaultPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(TEMissilePacket.Handler.class, TEMissilePacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(ParticleBurstPacket.Handler.class, ParticleBurstPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(ParticleControlPacket.Handler.class, ParticleControlPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(ItemDesignatorPacket.Handler.class, ItemDesignatorPacket.class, i++, Side.SERVER);
+		wrapper.registerMessage(VRadarPacket.Handler.class, VRadarPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(VRadarDestructorPacket.Handler.class, VRadarDestructorPacket.class, i++, Side.CLIENT);
 	}
 	
 }

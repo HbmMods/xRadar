@@ -21,6 +21,8 @@ tile.vault_door_dummy.name=Blast Door Dummy Block
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad
 
+item.hammer.name=Hammer of Unscrewing
+
 item.cassette.name=Siren Track
 item.coil.name=Golden Coil
 item.circuit.name=RedLap Circuit
@@ -42,3 +44,4 @@ item.missile_incendiary_2.name=Tier 2 Incendiary Missile
 item.missile_incendiary_3.name=Tier 3 Incendiary Missile
 item.missile_ab.name=Anti-Ballistic Missile
 item.missile_emp.name=EMP Missile
+item.missile_decoy.name=Decoy Missile
