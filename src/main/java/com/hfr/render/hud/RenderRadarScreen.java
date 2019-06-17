@@ -20,11 +20,15 @@ public class RenderRadarScreen {
 	private static final ResourceLocation base = new ResourceLocation(RefStrings.MODID + ":textures/hud/radarscreen.png");
 	private static final ResourceLocation error = new ResourceLocation(RefStrings.MODID + ":textures/hud/radarscreen_altitude.png");
 	private static final ResourceLocation blip = new ResourceLocation(RefStrings.MODID + ":textures/hud/blip.png");
+	private static final ResourceLocation north = new ResourceLocation(RefStrings.MODID + ":textures/hud/north.png");
+	private static final ResourceLocation south = new ResourceLocation(RefStrings.MODID + ":textures/hud/south.png");
+	private static final ResourceLocation east = new ResourceLocation(RefStrings.MODID + ":textures/hud/east.png");
+	private static final ResourceLocation west = new ResourceLocation(RefStrings.MODID + ":textures/hud/west.png");
 	
 	public static List<Blip> blips = new ArrayList();
 	public static boolean sufficient;
 	
-	public static void renderRadar() {
+	public static void renderRadar(int offset, boolean zoom) {
 		
 		Minecraft minecraft = Minecraft.getMinecraft();
 		
@@ -32,14 +36,16 @@ public class RenderRadarScreen {
 		int height = minecraft.displayHeight;
 		int size = (int) (height * 0.075);
 		int marginX = 10;
-		int marginY = 50;
+		int marginY = 10 + offset;
 		double zLevel = 0;
 		int blipSize = 1;
+		int compassSize = 3;
 		float clamp = size * 0.7F;
 		float clampScaled = clamp * 0.005F;
 
 		minecraft.getTextureManager().bindTexture(base);
 		renderBase(marginX, marginY, size, zLevel);
+		renderComapss(marginX, marginY, size, zLevel, compassSize, clampScaled);
 		
 		if(sufficient) {
 			minecraft.getTextureManager().bindTexture(blip);
@@ -48,8 +54,12 @@ public class RenderRadarScreen {
 			minecraft.getTextureManager().bindTexture(error);
 			renderBase(marginX, marginY, size, zLevel);
 		}
-		
+        
         minecraft.fontRenderer.drawString("" + blips.size(), marginX, marginY, 0xBBFFBB);
+
+        if(zoom)
+        	minecraft.fontRenderer.drawString("Combat Mode", marginX + 7, marginY + 77, 0xFFFF00);
+        
         GL11.glColor4f(1F, 1F, 1F, 1F);
 	}
 	
@@ -89,6 +99,42 @@ public class RenderRadarScreen {
 	        minecraft.fontRenderer.drawString("" + Math.round(blip.y), cX * 4 + (int)(blip.x * clamp * 4) - 6, cY * 4 + (int)(blip.z * clamp * 4) + 4, 0xBBFFBB);
 		}
 		GL11.glScalef(4, 4, 4);
+		
+        GL11.glColor4f(1F, 1F, 1F, 1F);
+	}
+	
+	public static void renderComapss(int marginX, int marginY, int size, double zLevel, int blipSize, float clamp) {
+
+		int cX = marginX + size / 2;
+		int cY = marginY + size / 2;
+
+		Tessellator tessellator = Tessellator.instance;
+		Minecraft minecraft = Minecraft.getMinecraft();
+        
+		float rotation = (float) ((minecraft.thePlayer.rotationYaw - 90) * Math.PI / 180F);
+		Vec3 vec = Vec3.createVectorHelper(clamp * 125, 0, 0);
+		vec.rotateAroundZ(rotation);
+		
+		for(int i = 0; i < 4; i++) {
+
+			if(i == 0)
+				minecraft.getTextureManager().bindTexture(north);
+			if(i == 1)
+				minecraft.getTextureManager().bindTexture(west);
+			if(i == 2)
+				minecraft.getTextureManager().bindTexture(south);
+			if(i == 3)
+				minecraft.getTextureManager().bindTexture(east);
+			
+	        tessellator.startDrawingQuads();
+	        tessellator.addVertexWithUV(cX + vec.xCoord - blipSize, cY + vec.yCoord + blipSize, zLevel, 0, 1);
+	        tessellator.addVertexWithUV(cX + vec.xCoord + blipSize, cY + vec.yCoord + blipSize, zLevel, 1, 1);
+	        tessellator.addVertexWithUV(cX + vec.xCoord + blipSize, cY + vec.yCoord - blipSize, zLevel, 1, 0);
+	        tessellator.addVertexWithUV(cX + vec.xCoord - blipSize, cY + vec.yCoord - blipSize, zLevel, 0, 0);
+	        tessellator.draw();
+	
+			vec.rotateAroundZ((float) (90 * Math.PI / 180F));
+			}
 		
         GL11.glColor4f(1F, 1F, 1F, 1F);
 	}

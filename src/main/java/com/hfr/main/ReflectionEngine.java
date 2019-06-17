@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.entity.Entity;
 
 public class ReflectionEngine {
 
@@ -64,14 +65,37 @@ public class ReflectionEngine {
 		for (Field field : fields) {
 			
 			try {
-				
 				objects.add(field.get(o));
-				
-			} catch(Exception ex) {
-				
-			}
+			} catch(Exception ex) { }
 		}
 		
 		return objects;
+	}
+	
+	public static <T> T hasValue(Object e, Class<T> ret, String name, T def) {
+		
+		if(e == null) return def;
+
+		Class<?> clazz = e.getClass();
+
+		while(clazz.getSuperclass() != null) {
+			
+			try {
+				
+				Field type = ReflectionHelper.findField(clazz, name);
+		
+				Object val = type.get(clazz);
+				
+				if(val != null && val.getClass().isAssignableFrom(ret)) {
+	
+					return (T)val;
+				}
+				
+			} catch(Exception x) { }
+			
+			clazz = clazz.getSuperclass();
+		}
+		
+		return def;
 	}
 }

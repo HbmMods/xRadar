@@ -1,6 +1,7 @@
  package com.hfr.main;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -16,15 +17,20 @@ import com.hfr.tileentity.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends ServerProxy
 {
+	public static KeyBinding toggleZoom = new KeyBinding("Toggle Radar Zoom", 33, "xRadar");
+	
 	@Override
 	public void registerRenderInfo()
 	{
-		MinecraftForge.EVENT_BUS.register(new EventHandlerClient());
+		new EventHandlerClient().register();
 		
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
+		
+		ClientRegistry.registerKeyBinding(toggleZoom);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());
