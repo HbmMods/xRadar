@@ -35,7 +35,7 @@ public class VRadarDestructorPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(VRadarDestructorPacket m, MessageContext ctx) {
 			
-			MainRegistry.proxy.clearBlips(m.sufficient);
+			MainRegistry.proxy.clearBlips(m.sufficient, true, 0, 250);
 			
 			return null;
 		}

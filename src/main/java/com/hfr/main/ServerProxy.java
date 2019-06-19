@@ -10,7 +10,7 @@ public class ServerProxy
 	
 	public void howDoIUseTheZOMG(World world, double posX, double posY, double posZ, int type) { }
 
-	public void addBlip(float x, float y, float z) { }
+	public void addBlip(float x, float y, float z, int type) { }
 
-	public void clearBlips(boolean sufficient) { }
+	public void clearBlips(boolean sufficient, boolean enabled, int offset, int range) { }
 }

@@ -49,7 +49,7 @@ public class VRadarPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(VRadarPacket m, MessageContext ctx) {
 			
-			MainRegistry.proxy.addBlip(m.x, m.y, m.z);
+			MainRegistry.proxy.addBlip(m.x, m.y, m.z, 0);
 			
 			return null;
 		}

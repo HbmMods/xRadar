@@ -22,6 +22,9 @@ import cpw.mods.fml.common.FMLCommonHandler;
 public class ClientProxy extends ServerProxy
 {
 	public static KeyBinding toggleZoom = new KeyBinding("Toggle Radar Zoom", 33, "xRadar");
+	public static KeyBinding incScale = new KeyBinding("Increase Radar Scale", 78, "xRadar");
+	public static KeyBinding decScale = new KeyBinding("Decrease Radar Scale", 74, "xRadar");
+	//public static KeyBinding toggleDebug = new KeyBinding("Decrease Radar Scale", 83, "xRadar");
 	
 	@Override
 	public void registerRenderInfo()
@@ -29,8 +32,11 @@ public class ClientProxy extends ServerProxy
 		new EventHandlerClient().register();
 		
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
-		
+
 		ClientRegistry.registerKeyBinding(toggleZoom);
+		ClientRegistry.registerKeyBinding(incScale);
+		ClientRegistry.registerKeyBinding(decScale);
+		//ClientRegistry.registerKeyBinding(toggleDebug);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());
@@ -76,16 +82,19 @@ public class ClientProxy extends ServerProxy
 	}
 	
 	@Override
-	public void addBlip(float x, float y, float z) {
+	public void addBlip(float x, float y, float z, int type) {
 		
-		RenderRadarScreen.blips.add(new Blip(x, y, z));
+		RenderRadarScreen.blips.add(new Blip(x, y, z, type));
 	}
 	
 	@Override
-	public void clearBlips(boolean sufficient) {
+	public void clearBlips(boolean sufficient, boolean enabled, int offset, int range) {
 		
 		RenderRadarScreen.blips.clear();
 		RenderRadarScreen.sufficient = sufficient;
+		EventHandlerClient.lastEnabled = enabled;
+		EventHandlerClient.lastOffset = offset;
+		EventHandlerClient.lastRange = range;
 	}
 }
 

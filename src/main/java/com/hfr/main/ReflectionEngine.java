@@ -72,6 +72,10 @@ public class ReflectionEngine {
 		return objects;
 	}
 	
+	//advanced reflection tool for all you reflection needs!
+	//reflects fields not only out of your class but also out of every superclass!
+	//type-safe, comes with handy default return value in case operation was unsuccessful!
+	//minimize crashes with our null-checks and try/catch-blocks!
 	public static <T> T hasValue(Object e, Class<T> ret, String name, T def) {
 		
 		if(e == null) return def;
@@ -80,14 +84,27 @@ public class ReflectionEngine {
 
 		while(clazz.getSuperclass() != null) {
 			
+			/*System.out.println("============" + clazz.getName() + "============");
+			
+			for(int i = 0; i < clazz.getFields().length; i++)
+				System.out.println(clazz.getFields()[i].getName());*/
+			
 			try {
 				
 				Field type = ReflectionHelper.findField(clazz, name);
 		
-				Object val = type.get(clazz);
+				//System.out.println("Found field of name" + name + " with type " + type.getName() + " when looking for " + ret.getClass().getName());
 				
-				if(val != null && val.getClass().isAssignableFrom(ret)) {
+				Object val = type.get(e);
+				
+				/*if(val != null) {
+					System.out.println(val.getClass().getName());
+					System.out.println(ret.getName());
+				}*/
+				
+				if(val != null/* && ret.isAssignableFrom(val.getClass())*/) {
 	
+					val = (T)val;
 					return (T)val;
 				}
 				
@@ -97,5 +114,21 @@ public class ReflectionEngine {
 		}
 		
 		return def;
+	}
+	
+	public static Object getVehicleFromSeat(Object e) {
+		
+		if(e == null)
+			return null;
+		
+		Object driveable = hasValue(e, Object.class, "driveable", null);
+		
+		if(driveable == null) {
+			//System.out.println("player is riding, but not an EntityDrivable :(");
+			return null;
+		}
+		
+		return driveable;
+		
 	}
 }
