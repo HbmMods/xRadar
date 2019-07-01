@@ -77,10 +77,13 @@ public class EntityBlast extends Entity {
 	
 	private static boolean canBlock(Block b) {
 		
-		if(b == ModBlocks.concrete || b == ModBlocks.concrete_bricks || b == ModBlocks.vault_door || b == ModBlocks.vault_door_dummy || b == Blocks.obsidian)
+		/*if(b == ModBlocks.concrete || b == ModBlocks.concrete_bricks || b == ModBlocks.vault_door || b == ModBlocks.vault_door_dummy || b == Blocks.obsidian)
 			return true;
 		
 		if(Block.getIdFromBlock(b) == 699 || Block.getIdFromBlock(b) == 700 || Block.getIdFromBlock(b) == 701 || Block.getIdFromBlock(b) == 702)
+			return true;*/
+		
+		if(MainRegistry.blastShields.contains(b))
 			return true;
 		
 		return false;

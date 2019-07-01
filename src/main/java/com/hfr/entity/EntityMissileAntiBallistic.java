@@ -43,10 +43,6 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 
 			this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
 	        this.rotation();
-	
-			if(!this.worldObj.isRemote) {
-				PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 500));
-			}
 			
 		} else {
 			
@@ -61,9 +57,6 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 
 				this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
 		        this.rotation();
-		    	
-				if(!this.worldObj.isRemote)
-					PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 500));
 
 				List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 5, posY - 5, posZ - 5, posX + 5, posY + 5, posZ + 5));
 
@@ -75,9 +68,6 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 						return;
 					}
 				}
-				
-				if(list.isEmpty() && posY > 300)
-					this.setDead();
 			}
 		}
 
@@ -99,6 +89,10 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 			
 			if(movement.lengthVector() < 0.1)
 				this.setDead();
+		}
+		
+		if(this.worldObj.isRemote) {
+			MainRegistry.proxy.howDoIUseTheZOMG(worldObj, posX, posY, posZ, 0);
 		}
 
     }
@@ -155,6 +149,10 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 			this.motionX = vec.xCoord * 0.125D;
 			this.motionY = vec.yCoord * 0.125D;
 			this.motionZ = vec.zCoord * 0.125D;
+		} else {
+			
+			if(posY > 300 && !worldObj.isRemote)
+				this.setDead();
 		}
 	}
 

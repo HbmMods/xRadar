@@ -73,7 +73,7 @@ public class ModItems {
 		missile_ab = new Item().setUnlocalizedName("missile_ab").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_ab");
 		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
 		
-		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":hammer");
+		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":hammer");
 	}
 	
 	private static void registerItem() {

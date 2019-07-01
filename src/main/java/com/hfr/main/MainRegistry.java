@@ -1,5 +1,6 @@
 package com.hfr.main;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -38,6 +39,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -127,10 +129,9 @@ public class MainRegistry
 		if(logger == null)
 			logger = PreEvent.getModLog();
 		
-		loadConfig(PreEvent);
-		
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
+		loadConfig(PreEvent);
 		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
 		
@@ -185,6 +186,8 @@ public class MainRegistry
 	public static void PostLoad(FMLPostInitializationEvent PostEvent)
 	{
 	}
+	
+	public static List<Block> blastShields = new ArrayList();
 	
 	public void loadConfig(FMLPreInitializationEvent event)
 	{
@@ -338,6 +341,19 @@ public class MainRegistry
         Property mHealthP = config.get("MISSILE", "missileHealth", 15);
         mHealthP.comment = "How much beating a missile can take before it goes to commit unlive.";
         mHealth = mHealthP.getInt();
+        
+        Property drywall = config.get("MISSILE", "blastShields", new String[] {
+        		"" + Block.getIdFromBlock(Blocks.obsidian),
+        		"" + Block.getIdFromBlock(ModBlocks.concrete),
+        		"" + Block.getIdFromBlock(ModBlocks.concrete_bricks),
+        		"" + Block.getIdFromBlock(ModBlocks.vault_door),
+        		"" + Block.getIdFromBlock(ModBlocks.vault_door_dummy)});
+        drywall.comment = "What blocks can block fire blasts (default: obsidian, concrete, concrete bricks, vault door, vault door dummy)";
+        String[] vals = drywall.getStringList();
+        
+        for(String val : vals) {
+        	blastShields.add(Block.getBlockById(Integer.parseInt(val)));
+        }
         
         config.save();
 	}

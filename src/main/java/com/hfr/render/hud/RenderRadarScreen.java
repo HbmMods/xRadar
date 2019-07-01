@@ -25,6 +25,7 @@ public class RenderRadarScreen {
 	private static final ResourceLocation blipX = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipX.png");
 	private static final ResourceLocation blipRed = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipRed.png");
 	private static final ResourceLocation blipDanger = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipDanger.png");
+	private static final ResourceLocation blipUnknown = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipUnknown.png");
 	private static final ResourceLocation north = new ResourceLocation(RefStrings.MODID + ":textures/hud/north.png");
 	private static final ResourceLocation south = new ResourceLocation(RefStrings.MODID + ":textures/hud/south.png");
 	private static final ResourceLocation east = new ResourceLocation(RefStrings.MODID + ":textures/hud/east.png");
@@ -45,7 +46,7 @@ public class RenderRadarScreen {
 		int marginY = 10 + offset;
 		double zLevel = 0;
 		float blipSize = size * 0.025F;
-		int compassSize = 3;
+		float compassSize = 2.5F;
 		float clamp = size * 0.7F;
 		float clampScaled = clamp * 0.005F;
 
@@ -90,7 +91,6 @@ public class RenderRadarScreen {
 
 		Tessellator tessellator = Tessellator.instance;
 		Minecraft minecraft = Minecraft.getMinecraft();
-        tessellator.startDrawingQuads();
         
 		for(Blip blip : blips) {
 
@@ -105,15 +105,16 @@ public class RenderRadarScreen {
 			case 2: minecraft.getTextureManager().bindTexture(blipX); break;
 			case 3: minecraft.getTextureManager().bindTexture(blipRed); break;
 			case 4: minecraft.getTextureManager().bindTexture(blipDanger); break;
+			case 5: minecraft.getTextureManager().bindTexture(blipUnknown); break;
 			}
 
+			tessellator.startDrawingQuads();
 	        tessellator.addVertexWithUV(cX + (blip.x * clamp) - blipSize, cY + (blip.z * clamp) + blipSize, zLevel, 0, 1);
 	        tessellator.addVertexWithUV(cX + (blip.x * clamp) + blipSize, cY + (blip.z * clamp) + blipSize, zLevel, 1, 1);
 	        tessellator.addVertexWithUV(cX + (blip.x * clamp) + blipSize, cY + (blip.z * clamp) - blipSize, zLevel, 1, 0);
 	        tessellator.addVertexWithUV(cX + (blip.x * clamp) - blipSize, cY + (blip.z * clamp) - blipSize, zLevel, 0, 0);
+	        tessellator.draw();
 		}
-		
-        tessellator.draw();
 
         float fontScale = 2F / scale;
         

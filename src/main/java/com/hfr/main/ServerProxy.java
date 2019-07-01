@@ -13,4 +13,6 @@ public class ServerProxy
 	public void addBlip(float x, float y, float z, int type) { }
 
 	public void clearBlips(boolean sufficient, boolean enabled, int offset, int range) { }
+	
+	public boolean isPressed(int id) { return false; }
 }

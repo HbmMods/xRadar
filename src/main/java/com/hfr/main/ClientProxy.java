@@ -61,6 +61,18 @@ public class ClientProxy extends ServerProxy
 	}
 	
 	@Override
+	public boolean isPressed(int id) {
+		
+		switch(id) {
+		case 0: return toggleZoom.isPressed();
+		case 1: return incScale.isPressed();
+		case 2: return decScale.isPressed();
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public void registerTileEntitySpecialRenderer() { }
 	
 	//please fucking end my life i'm begging you

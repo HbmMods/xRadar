@@ -31,6 +31,8 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 	int pingTimer = 0;
 	final static int maxTimer = 40;
 	public int mode = 0;
+	int scanTimer = 0;
+	int maxScan = 5;
 	
 	public EnergyStorage storage = new EnergyStorage(MainRegistry.radarConsumption * 1000, MainRegistry.radarConsumption * 10, MainRegistry.radarConsumption * 10);
 
@@ -64,8 +66,13 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		if(storage.getEnergyStored() > 0) {
 
 			if(!worldObj.isRemote) {
-				allocateMissiles();
-				sendMissileData();
+				
+				scanTimer++;
+				if(scanTimer == maxScan) {
+					scanTimer = 0;
+					allocateMissiles();
+					sendMissileData();
+				}
 			}
 			
 			storage.setEnergyStored(storage.getEnergyStored() - MainRegistry.radarConsumption);
