@@ -53,6 +53,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_derrick:
+			{
+				if(entity instanceof TileEntityMachineDerrick)
+				{
+					return new ContainerMachineOilWell(player.inventory, (TileEntityMachineDerrick) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -96,6 +105,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityLaunchPad)
 					{
 						return new GUILaunchPad(player.inventory, (TileEntityLaunchPad) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_derrick:
+				{
+					if(entity instanceof TileEntityMachineDerrick)
+					{
+						return new GUIMachineOilWell(player.inventory, (TileEntityMachineDerrick) entity);
 					}
 					return null;
 				}

@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileEMPStrong extends EntityMissileBaseAdvanced {
+public class EntityMissileEMPStrong extends EntityMissileBaseSimple {
 
 	public EntityMissileEMPStrong(World p_i1582_1_) {
 		super(p_i1582_1_);

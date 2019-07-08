@@ -52,4 +52,12 @@ public class ResourceManager {
 	//BLAST SPHERES
 	public static final IModelCustom sphere_ruv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_ruv.obj"));
 	public static final IModelCustom sphere_iuv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_iuv.obj"));
+	
+	//DEVON LKW
+	public static final IModelCustom devon = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/truck_busted.obj"));
+	public static final ResourceLocation devon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/truck_busted.png");
+	
+	//DERRICK
+	public static final IModelCustom derrick = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/derrick.obj"));
+	public static final ResourceLocation derrick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/derrick.png");
 }

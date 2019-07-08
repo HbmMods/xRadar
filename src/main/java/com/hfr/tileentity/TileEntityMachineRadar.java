@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hfr.entity.EntityMissileAntiBallistic;
 import com.hfr.entity.EntityMissileBaseAdvanced;
+import com.hfr.entity.EntityMissileBaseSimple;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.PacketDispatcher;
@@ -113,6 +114,8 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 				if(mode == 0 || mode == 1) {
 					if(e instanceof EntityMissileBaseAdvanced)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseAdvanced)e).getMissileType() + 1) + " Missile"));
+					if(e instanceof EntityMissileBaseSimple)
+						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseSimple)e).getMissileType() + 1) + " Missile"));
 					if(e instanceof EntityMissileAntiBallistic)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Anti-Ballistic Missile"));
 				}

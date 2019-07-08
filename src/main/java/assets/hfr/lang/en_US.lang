@@ -1,4 +1,5 @@
 death.attack.blast=%1$s was obliterated.
+death.attack.zyklon=%1$s died from natural causes.
 
 tile.machine_siren.name=Siren
 container.siren=Siren
@@ -6,30 +7,51 @@ tile.machine_radar.name=Radar
 container.radar=Radar
 tile.machine_forcefield.name=Forcefield Generator
 container.forceField=Forcefield Generator
+tile.machine_derrick.name=Oil Derrick
+container.oilWell=Oil Derrick
+tile.oil_pipe.name=Oil Drill Pipe
 
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
+tile.temp.name=Temporary Block
+tile.ore_oil.name=Oil Deposit
+tile.ore_oil_empty.name=Empty Oil Deposit
 
 tile.seal_controller.name=Silo Hatch Controller
 tile.seal_frame.name=Silo Hatch Frame
-tile.seal_hatch.name=Silo Hatch
 tile.seal_hatch.name=Silo Hatch
 
 tile.vault_door.name=Vault-Tec Blast Door
 tile.vault_door_dummy.name=Blast Door Dummy Block
 
+tile.vent_chlorine_seal.name=Zyklon B Vent
+tile.chlorine_gas.name=Poison Gas
+
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad
 
 item.hammer.name=Maul of Bench Appearo
+item.wand.name=ThotBeGone Anti Mob Wand
+item.battery.name=HFR Infinite Battery
+item.oil_detector.name=Oil Detector
+item.gas_mask.name=Dräger M65 Gas Mask
 
 item.cassette.name=Siren Track
 item.coil.name=Golden Coil
-item.circuit.name=RedLap Circuit
+item.circuit.name=Circuit
 item.magnetron.name=Magnetron
 item.upgrade_radius.name=Forcefield Radius Upgrade
 item.upgrade_health.name=Forcefield Shield Upgrade
 item.upgrade_bedrock.name=Forcefield Invincibility Upgrade
+
+item.canister_empty.name=Empty Canister
+item.canister_oil.name=Crude Oil Canister
+item.canister_petroil.name=Petroil Canister
+item.canister_diesel.name=Diesel Canister
+item.canister_kerosene.name=Kerosene Canister
+item.gas_empty.name=Empty Gas Tank
+item.gas_natural.name=Natural Gas Tank
+item.gas_petroleum.name=Petroleum Gas Tank
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

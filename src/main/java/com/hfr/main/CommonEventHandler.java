@@ -3,6 +3,7 @@ package com.hfr.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.data.AntiMobData;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.SRadarPacket;
 import com.hfr.packet.VRadarDestructorPacket;
@@ -11,13 +12,16 @@ import com.hfr.render.hud.RenderRadarScreen.Blip;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class CommonEventHandler {
 
@@ -107,6 +111,27 @@ public class CommonEventHandler {
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public void onWorldTick(WorldTickEvent event) {
+		
+		World world = event.world;
+		
+		if(!world.isRemote) {
+			
+			List<int[]> list = AntiMobData.getData(world).list;
+			
+			for(int[] i : list) {
+				
+				List<EntityMob> entities = world.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox(i[0], 0, i[1], i[2] + 1, 255, i[3] + 1));
+				
+				for(EntityMob entity : entities) {
+					entity.setHealth(0);
+				}
+			}
+		}
+		
 	}
 
 }

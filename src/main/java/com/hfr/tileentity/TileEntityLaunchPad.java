@@ -1,5 +1,6 @@
 package com.hfr.tileentity;
 
+import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.PacketDispatcher;
@@ -198,7 +199,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 				storage.setEnergyStored(storage.getEnergyStored() + extract);
 			}
 			
-			if(slots[2] != null && slots[2].getItem() == Items.nether_star)
+			if(slots[2] != null && slots[2].getItem() == ModItems.battery)
 				storage.setEnergyStored(MainRegistry.padBuffer);
 			
 			PacketDispatcher.wrapper.sendToAll(new TEMissilePacket(xCoord, yCoord, zCoord, slots[0]));

@@ -105,6 +105,10 @@ public class MainRegistry
 	public static int padBuffer = 100000000;
 	public static int padUse = 50000000;
 	public static int mHealth = 15;
+	public static int mDespawn = 5000;
+	public static int mSpawn = 6000;
+	public static int derrickBuffer = 100000;
+	public static int derrickUse = 1000;
 
 	public static int mushLife = 15 * 20;
 	public static int mushScale = 80;
@@ -120,8 +124,9 @@ public class MainRegistry
 	public static boolean comparator = false;
 	
 	Random rand = new Random();
-	
+
 	public static DamageSource blast = (new DamageSource("blast")).setExplosion();
+	public static DamageSource zyklon = (new DamageSource("zyklon")).setDamageBypassesArmor().setDamageIsAbsolute();
 	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
@@ -144,6 +149,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDummy.class, "tileentity_hfr_dummy");
 		GameRegistry.registerTileEntity(TileEntityHatch.class, "tileentity_hfr_hatch");
 		GameRegistry.registerTileEntity(TileEntityLaunchPad.class, "tileentity_hfr_launchpad");
+		GameRegistry.registerTileEntity(TileEntityChlorineSeal.class, "tileentity_hfr_gaschamber");
+		GameRegistry.registerTileEntity(TileEntityMachineDerrick.class, "tileentity_hfr_derrick");
+		GameRegistry.registerTileEntity(TileEntityDebug.class, "tileentity_hfr_devon_truck");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -342,6 +350,14 @@ public class MainRegistry
         mHealthP.comment = "How much beating a missile can take before it goes to commit unlive.";
         mHealth = mHealthP.getInt();
         
+        Property mDespawnP = config.get("MISSILE", "simpleMissileDespawn", 5000);
+        mDespawnP.comment = "Altitude at which cheapo missiles despawn and teleport to the target";
+        mDespawn = mDespawnP.getInt();
+        
+        Property mSpawnP = config.get("MISSILE", "simpleMissileSpawn", 6000);
+        mSpawnP.comment = "Altitude at which cheapo missiles spawn in when teleporting";
+        mSpawn = mSpawnP.getInt();
+        
         Property drywall = config.get("MISSILE", "blastShields", new String[] {
         		"" + Block.getIdFromBlock(Blocks.obsidian),
         		"" + Block.getIdFromBlock(ModBlocks.concrete),
@@ -354,6 +370,14 @@ public class MainRegistry
         for(String val : vals) {
         	blastShields.add(Block.getBlockById(Integer.parseInt(val)));
         }
+        
+        Property dBufferP = config.get("DERRICK", "derrickBuffer", 100000);
+        dBufferP.comment = "How much energy the derrick can store";
+        derrickBuffer = dBufferP.getInt();
+        
+        Property dUseP = config.get("DERRICK", "derrickConsumption", 1000);
+        dUseP.comment = "How much energy the derrick uses per tick";
+        derrickUse = dUseP.getInt();
         
         config.save();
 	}

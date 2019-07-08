@@ -1,4 +1,9 @@
 {
+    "step.concrete": {"category": "block", "sounds": ["step/concreteStep1", "step/concreteStep2", "step/concreteStep3", "step/concreteStep4"]},
+    "step.metal": {"category": "block", "sounds": ["step/metalStep1", "step/metalStep2", "step/metalStep3", "step/metalStep4"]},
+    "dig.concrete": {"category": "block", "sounds": ["step/concreteBreak1", "step/concreteBreak2"]},
+    "dig.metal": {"category": "block", "sounds": ["step/metalBreak1", "step/metalBreak2", "step/metalBreak3"]},
+    
     "block.sonarPing": {"category": "block", "sounds": [{"name": "block/sonarPing", "stream": false}]},
     "block.vaultScrapeNew": {"category": "block", "sounds": [{"name": "block/vaultScrapeNew", "stream": false}]},
     "block.vaultThudNew": {"category": "block", "sounds": [{"name": "block/vaultThudNew", "stream": false}]},

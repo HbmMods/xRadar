@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileDecoy extends EntityMissileBaseAdvanced {
+public class EntityMissileDecoy extends EntityMissileBaseSimple {
 
 	public EntityMissileDecoy(World p_i1582_1_) {
 		super(p_i1582_1_);

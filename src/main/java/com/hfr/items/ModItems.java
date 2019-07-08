@@ -11,6 +11,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -30,6 +31,15 @@ public class ModItems {
 	public static Item upgrade_health;
 	public static Item upgrade_bedrock;
 
+	public static Item canister_empty;
+	public static Item canister_oil;
+	public static Item canister_petroil;
+	public static Item canister_diesel;
+	public static Item canister_kerosene;
+	public static Item gas_empty;
+	public static Item gas_natural;
+	public static Item gas_petroleum;
+
 	public static Item designator;
 	public static Item designator_range;
 	public static Item designator_manual;
@@ -47,6 +57,12 @@ public class ModItems {
 	public static Item missile_decoy;
 
 	public static Item hammer;
+	public static Item wand;
+	public static Item battery;
+	public static Item oil_detector;
+	public static Item gas_mask;
+	
+	public static ArmorMaterial matGasMask = EnumHelper.addArmorMaterial("GASMASK", 10, new int[] {0, 0, 0, 0}, 0);
 
 	public static void initializeItem()
 	{			
@@ -57,6 +73,15 @@ public class ModItems {
 		upgrade_radius = new ItemLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_radius");
 		upgrade_health = new ItemLore().setUnlocalizedName("upgrade_health").setMaxStackSize(16).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_health");
 		upgrade_bedrock = new ItemLore().setUnlocalizedName("upgrade_bedrock").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_bedrock");
+
+		canister_empty = new ItemLore().setUnlocalizedName("canister_empty").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":canister_empty");
+		canister_oil = new ItemLore().setUnlocalizedName("canister_oil").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":canister_oil");
+		canister_petroil = new ItemLore().setUnlocalizedName("canister_petroil").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":canister_petroil");
+		canister_diesel = new ItemLore().setUnlocalizedName("canister_diesel").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":canister_diesel");
+		canister_kerosene = new ItemLore().setUnlocalizedName("canister_kerosene").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":canister_kerosene");
+		gas_empty = new ItemLore().setUnlocalizedName("gas_empty").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":gas_empty");
+		gas_natural = new ItemLore().setUnlocalizedName("gas_natural").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":gas_natural");
+		gas_petroleum = new ItemLore().setUnlocalizedName("gas_petroleum").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":gas_petroleum");
 
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":designator_range");
@@ -74,10 +99,18 @@ public class ModItems {
 		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
 		
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":hammer");
+		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabTools).setTextureName(RefStrings.MODID + ":wand");
+		battery = new ItemLore().setUnlocalizedName("battery").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabRedstone).setTextureName(RefStrings.MODID + ":battery");
+		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTools).setTextureName(RefStrings.MODID + ":oil_detector");
+		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":gas_mask");
 	}
 	
 	private static void registerItem() {
 		GameRegistry.registerItem(hammer, hammer.getUnlocalizedName());
+		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
+		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
+		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
+		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
 		
 		GameRegistry.registerItem(cassette, cassette.getUnlocalizedName());
 		GameRegistry.registerItem(coil, coil.getUnlocalizedName());
@@ -86,6 +119,15 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_health, upgrade_health.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_bedrock, upgrade_bedrock.getUnlocalizedName());
+
+		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
+		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
+		GameRegistry.registerItem(canister_petroil, canister_petroil.getUnlocalizedName());
+		GameRegistry.registerItem(canister_diesel, canister_diesel.getUnlocalizedName());
+		GameRegistry.registerItem(canister_kerosene, canister_kerosene.getUnlocalizedName());
+		GameRegistry.registerItem(gas_empty, gas_empty.getUnlocalizedName());
+		GameRegistry.registerItem(gas_natural, gas_natural.getUnlocalizedName());
+		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
 
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());

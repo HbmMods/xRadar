@@ -288,8 +288,8 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 		if (!worldObj.isRemote) {
 
-			if (MainRegistry.freeRadar)
-				storage.setEnergyStored(1000000);
+			if(slots[0] != null && slots[0].getItem() == ModItems.battery)
+				storage.setEnergyStored(storage.getMaxEnergyStored());
 
 			PacketDispatcher.wrapper.sendToAll(new TEFFPacket(xCoord, yCoord, zCoord, radius, health, maxHealth,
 					storage.getEnergyStored(), isOn, color, cooldown));

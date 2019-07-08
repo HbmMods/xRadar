@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileIncendiaryStrong extends EntityMissileBaseAdvanced {
+public class EntityMissileIncendiaryStrong extends EntityMissileBaseSimple {
 
 	public EntityMissileIncendiaryStrong(World p_i1582_1_) {
 		super(p_i1582_1_);
