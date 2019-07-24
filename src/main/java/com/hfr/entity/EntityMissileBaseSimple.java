@@ -60,7 +60,7 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
     
     public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
     {
-        if (this.isEntityInvulnerable() || mode != 1)
+        if (this.isEntityInvulnerable() || mode == 1)
         {
             return false;
         }
@@ -211,6 +211,11 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
         	if(dataWatcher.getWatchableObjectInt(10) <= 0)
         		mode = 2;
         	
+        } else {
+        	
+        	//to pull deflected missiles back to earth
+        	if(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector() < 5)
+        		motionY -= 0.1;
         }
         this.dataWatcher.updateObject(9, mode);
         if(!worldObj.isRemote)

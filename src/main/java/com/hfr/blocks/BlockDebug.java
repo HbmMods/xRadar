@@ -1,9 +1,13 @@
 package com.hfr.blocks;
 
+import java.util.Random;
+
+import com.hfr.items.ModItems;
 import com.hfr.tileentity.TileEntityDebug;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -31,6 +35,14 @@ public class BlockDebug extends BlockContainer {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+	
+	public Item getItemDropped(int i, Random rand, int j) {
+		return ModItems.uranium;
+	}
+	
+	public int quantityDropped(Random rand) {
+		return rand.nextInt(8) + 1;
 	}
 
 }

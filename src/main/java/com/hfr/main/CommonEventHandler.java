@@ -2,12 +2,22 @@ package com.hfr.main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.hfr.ai.EntityAIAllah;
+import com.hfr.ai.EntityAIBreaking;
+import com.hfr.ai.EntityAIHFTargeter;
 import com.hfr.data.AntiMobData;
+import com.hfr.main.MainRegistry.ControlEntry;
+import com.hfr.main.MainRegistry.ImmunityEntry;
+import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.SRadarPacket;
 import com.hfr.packet.VRadarDestructorPacket;
 import com.hfr.packet.VRadarPacket;
+import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -15,16 +25,35 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class CommonEventHandler {
 
+	//all the serverside crap for vehicle radars
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
@@ -46,8 +75,8 @@ public class CommonEventHandler {
 				float range = ReflectionEngine.hasValue(vehicle, Float.class, "radarRange", 1.0F);
 				int offset = ReflectionEngine.hasValue(vehicle, Integer.class, "radarPositionOffset", 0);
 				boolean isPlaneRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false);
-				float altitude = isPlaneRadar ? 55 : 30;
-				double des = isPlaneRadar ? altitude : player.posY - 2;
+				float altitude = isPlaneRadar ? MainRegistry.fPlaneAltitude : MainRegistry.fTankAltitude;
+				double des = isPlaneRadar ? altitude : player.posY - MainRegistry.fOffset;
 				
 				boolean sufficient = altitude <= player.posY;
 				List<Blip> blips = new ArrayList();
@@ -111,8 +140,25 @@ public class CommonEventHandler {
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
 			}
 		}
+		
+		if(player.worldObj.isRemote && event.phase == event.phase.START && player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8")) {
+			
+			int i = player.ticksExisted * 3;
+			
+			Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
+			vec.rotateAroundY((float) (i * Math.PI / 180D));
+			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 1);
+			vec.rotateAroundY((float) (Math.PI * 2D / 3D));
+			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 2);
+			vec.rotateAroundY((float) (Math.PI * 2D / 3D));
+			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 3);
+			/*MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 0.4, player.posZ + vec.zCoord, 2);
+			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 0.6, player.posZ + vec.zCoord, 3);
+			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 0.8, player.posZ + vec.zCoord, 1);*/
+		}
 	}
 
+	//handles the anti-mob wand
 	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent event) {
 		
@@ -129,6 +175,82 @@ public class CommonEventHandler {
 				for(EntityMob entity : entities) {
 					entity.setHealth(0);
 				}
+			}
+		}
+	}
+	
+	//for manipulating zombert AI and handling spawn control
+	@SubscribeEvent
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		
+		if(event.world.isRemote || event.entity instanceof EntityPlayer)
+			return;
+		
+		int chance = ControlEntry.getEntry(event.entity);
+		
+		if(chance > 0 && event.entity.worldObj.rand.nextInt(100) > chance) {
+			event.entity.setDead();
+			if(event.isCancelable())
+				event.setCanceled(true);
+			return;
+		}
+		
+		if(event.entity instanceof EntityZombie) {
+			EntityZombie zomb = ((EntityZombie)event.entity);
+			
+			//enables block-breaking behavior for zomberts
+			zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
+			//zomb.tasks.addTask(2, new EntityAIAttackOnCollide(zomb, EntityPlayer.class, 1.0D, false));
+			//duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
+			zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
+			//zomb.targetTasks.addTask(2, new EntityAIHFTargeter(zomb, EntityPlayer.class, 0, false));
+			
+	        /*Multimap multimap = HashMultimap.create();
+			multimap.put(SharedMonsterAttributes.followRange.getAttributeUnlocalizedName(), new AttributeModifier(zomb.field_110179_h, "Range modifier", 0, 0));
+			zomb.getAttributeMap().applyAttributeModifiers(multimap);*/
+		}
+		
+		if(event.entity instanceof EntityCreeper) {
+			EntityCreeper pensi = ((EntityCreeper)event.entity);
+			
+			pensi.tasks.addTask(1, new EntityAIAllah(pensi));
+			pensi.targetTasks.addTask(2, new EntityAINearestAttackableTarget(pensi, EntityPlayer.class, 0, false));
+			//pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityPlayer.class, 0, false));
+			//pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityVillager.class, 0, false));
+		}
+		
+		if(event.entity instanceof EntityLivingBase) {
+			EntityLivingBase ent = (EntityLivingBase)event.entity;
+			
+			int[] meta = PotionEntry.getEntry(ent);
+			
+			if(meta != null && meta.length == 3) {
+				
+				ent.addPotionEffect(new PotionEffect(meta[0], meta[1], meta[2]));
+			}
+		}
+	}
+
+	//for handling damage immunity
+	@SubscribeEvent
+	public void onEntityHurt(LivingAttackEvent event) {
+		
+		EntityLivingBase e = event.entityLiving;
+		DamageSource dmg = event.source;
+		
+		List<String> pot = ImmunityEntry.getEntry(e);
+		
+		if(!pot.isEmpty()) {
+			
+			if(pot.contains(dmg.damageType))
+				event.setCanceled(true);
+		}
+		
+		Random r = e.worldObj.rand;
+		
+		if(MainRegistry.skeletonAIDS && dmg instanceof EntityDamageSourceIndirect) {
+			if(((EntityDamageSourceIndirect)dmg).getEntity() instanceof EntitySkeleton) {
+				e.worldObj.newExplosion(((EntityDamageSourceIndirect)dmg).getEntity(), e.posX + r.nextGaussian() * 0.5, e.posY + 1.5, e.posZ + r.nextGaussian() * 0.5, 1.5F, false, false);
 			}
 		}
 		

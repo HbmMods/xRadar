@@ -48,6 +48,7 @@ public class EntityNukeCloudSmall extends Entity {
         //super.onUpdate();
         this.age++;
         //this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY + 400, this.posZ));
+        this.worldObj.lastLightningBolt = 2;
         
         if(this.age >= this.maxAge)
         {
@@ -89,6 +90,15 @@ public class EntityNukeCloudSmall extends Entity {
 		cloud.posZ = z;
 		
 		return cloud;
+	}
+	
+	public EntityNukeCloudSmall scaleMulti(float mult) {
+
+		float scale = this.dataWatcher.getWatchableObjectFloat(18);
+		scale *= mult;
+		this.dataWatcher.updateObject(18, scale);
+		
+		return this;
 	}
 	
     @Override

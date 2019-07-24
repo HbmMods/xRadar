@@ -3,6 +3,7 @@ package com.hfr.entity;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.main.MainRegistry;
@@ -19,6 +20,7 @@ import cofh.api.energy.IEnergyStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,12 +30,15 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class EntityBlast extends Entity {
+public class EntityNuclearBlast extends Entity {
 	
-	int life = MainRegistry.fireDuration;
+	int progress;
 	int size;
+	float strength;
+	int dist;
+	int blast;
 
-	public EntityBlast(World p_i1582_1_) {
+	public EntityNuclearBlast(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
 	
@@ -41,12 +46,41 @@ public class EntityBlast extends Entity {
 	public void onUpdate() {
 		
 		if(!worldObj.isRemote) {
-			
+
 			fire();
+			explode();
 			
-			if(this.ticksExisted > life)
+			if(progress > size)
 				this.setDead();
 		}
+	}
+
+	Random rand = new Random();
+	private void explode() {
+		
+		int steps = MainRegistry.nukeStep;
+		
+		for(int i = progress; i < progress + steps; i++) {
+			
+			Vec3 vec =  Vec3.createVectorHelper(i, 0, 0);
+			double circ = i * 2 * Math.PI;
+			int count = (int) (circ / dist);
+			
+			for(int j = 0; j < count; j++) {
+				
+				vec.rotateAroundY(rand.nextFloat() * 360);
+				EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
+				double y = worldObj.getHeightValue((int)(this.posX + vec.xCoord), (int)(this.posZ + vec.zCoord));
+				
+				if(MainRegistry.nukeSimple)
+					y = posY;
+				
+				this.worldObj.createExplosion(scapegoat, this.posX + vec.xCoord, y, this.posZ + vec.zCoord, this.strength, true);
+			}
+		}
+		
+		progress += steps;
+		
 	}
 	
 	private void fire() {
@@ -112,13 +146,16 @@ public class EntityBlast extends Entity {
 		return false;
 	}
 	
-	public static EntityBlast statFac(World world, double posX, double posY, double posZ, int size) {
+	public static EntityNuclearBlast statFac(World world, double posX, double posY, double posZ, int size, float strength, int dist, int killblast) {
 		
-		EntityBlast blast = new EntityBlast(world);
+		EntityNuclearBlast blast = new EntityNuclearBlast(world);
 		blast.posX = posX;
 		blast.posY = posY;
 		blast.posZ = posZ;
 		blast.size = size;
+		blast.strength = strength;
+		blast.dist = dist;
+		blast.blast = killblast;
 		return blast;
 	}
 
@@ -128,13 +165,20 @@ public class EntityBlast extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.ticksExisted = nbt.getInteger("age");
+		this.progress = nbt.getInteger("progress");
 		this.size = nbt.getInteger("size");
+		this.strength = nbt.getFloat("strength");
+		this.dist = nbt.getInteger("dist");
+		this.blast = nbt.getInteger("blast");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("age", this.ticksExisted);
-		nbt.setInteger("size", this.size);
+		nbt.setInteger("progress", this.progress);
+		nbt.setFloat("strength", this.strength);
+		nbt.setInteger("dist", this.dist);
+		nbt.setInteger("blast", this.blast);
 	}
 
 }

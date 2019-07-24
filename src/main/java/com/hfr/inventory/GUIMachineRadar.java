@@ -124,6 +124,7 @@ public class GUIMachineRadar extends GuiContainer {
 		//Radar dots
 		if(!diFurnace.nearbyMissiles.isEmpty()) {
 			for(RadarEntry m : diFurnace.nearbyMissiles) {
+				
 				int x = (int)((m.posX - diFurnace.xCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;
 				int z = (int)((m.posZ - diFurnace.zCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;
 				int t = 1;

@@ -32,7 +32,22 @@ public class ItemLore extends Item {
 			list.add("Doesn't stack, because why would it?");
 		}
 		if(this == ModItems.canister_oil) {
-			list.add("Freedom Juice");
+			list.add("Freedom juice");
+		}
+		if(this == ModItems.gas_natural) {
+			list.add("Methane and ethane gas");
+		}
+		if(this == ModItems.canister_petroil) {
+			list.add("Low-quality fuel oil");
+		}
+		if(this == ModItems.canister_diesel) {
+			list.add("Standard low-sulfur diesel fuel");
+		}
+		if(this == ModItems.canister_kerosene) {
+			list.add("Jet A kerosene-based aviation fuel");
+		}
+		if(this == ModItems.gas_petroleum) {
+			list.add("Liquefied propane and buthane gas");
 		}
 	}
 }

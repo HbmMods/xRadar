@@ -373,12 +373,15 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 		
 		return false;
 	}
-	
+
+	int steps = 0;
 	public boolean succ(int x, int y, int z) {
 		
 		list.clear();
-		
+
+		steps = 0;
 		succ1(x, y, z);
+		steps = 0;
 		succ2(x, y, z);
 		
 		if(!list.isEmpty()) {
@@ -419,6 +422,11 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 	List<int[]> list = new ArrayList<int[]>();
 	
 	public void succ1(int x, int y, int z) {
+		
+		steps++;
+		if(steps > MainRegistry.derrickLimiter)
+			return;
+		
 		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil_empty && 
 				worldObj.getBlockMetadata(x, y, z) == 0) {
 			worldObj.setBlockMetadataWithNotify(x, y, z, 1, 2);
@@ -427,6 +435,11 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 	}
 	
 	public void succ2(int x, int y, int z) {
+		
+		steps++;
+		if(steps > MainRegistry.derrickLimiter)
+			return;
+		
 		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil_empty && 
 				worldObj.getBlockMetadata(x, y, z) == 1) {
 			worldObj.setBlockMetadataWithNotify(x, y, z, 0, 2);

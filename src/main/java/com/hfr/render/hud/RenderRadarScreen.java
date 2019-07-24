@@ -20,12 +20,15 @@ public class RenderRadarScreen {
 	private static final ResourceLocation base = new ResourceLocation(RefStrings.MODID + ":textures/hud/radarscreen.png");
 	private static final ResourceLocation error = new ResourceLocation(RefStrings.MODID + ":textures/hud/radarscreen_altitude.png");
 	private static final ResourceLocation combat = new ResourceLocation(RefStrings.MODID + ":textures/hud/radarscreen_zoom.png");
+	
 	private static final ResourceLocation blipGreen = new ResourceLocation(RefStrings.MODID + ":textures/hud/blip.png");
 	private static final ResourceLocation blipCircle = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipLarge.png");
 	private static final ResourceLocation blipX = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipX.png");
 	private static final ResourceLocation blipRed = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipRed.png");
 	private static final ResourceLocation blipDanger = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipDanger.png");
 	private static final ResourceLocation blipUnknown = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipUnknown.png");
+	private static final ResourceLocation blipToaster = new ResourceLocation(RefStrings.MODID + ":textures/hud/toaster.png");
+	
 	private static final ResourceLocation north = new ResourceLocation(RefStrings.MODID + ":textures/hud/north.png");
 	private static final ResourceLocation south = new ResourceLocation(RefStrings.MODID + ":textures/hud/south.png");
 	private static final ResourceLocation east = new ResourceLocation(RefStrings.MODID + ":textures/hud/east.png");

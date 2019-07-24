@@ -7,6 +7,8 @@ import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.projectile.EntityEgg;
@@ -53,6 +55,7 @@ import com.hfr.items.ModItems;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.tileentity.*;
+import com.hfr.util.RegistryUtil;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -80,6 +83,10 @@ public class MainRegistry
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
 	public static int radarConsumption = 50;
+
+	public static int fPlaneAltitude = 40;
+	public static int fTankAltitude = 30;
+	public static int fOffset = 2;
 	
 	public static int fieldBase = 100;
 	public static int fieldRange = 50;
@@ -98,6 +105,7 @@ public class MainRegistry
 
 	public static int abDelay = 40;
 	public static int abRange = 500;
+	public static double abSpeed = 0.125D;
 	public static int empRadius = 500;
 	public static int empDuration = 5 * 60 * 20;
 	public static int empParticle = 20;
@@ -109,6 +117,21 @@ public class MainRegistry
 	public static int mSpawn = 6000;
 	public static int derrickBuffer = 100000;
 	public static int derrickUse = 1000;
+	public static int derrickLimiter = 250;
+	public static int refineryBuffer = 100000;
+	public static int refineryUse = 1000;
+	public static int refOil = 50;
+	public static int refHeavy = 20;
+	public static int refNaph = 15;
+	public static int refLight = 10;
+	public static int refPetro = 5;
+
+	public static int nukeRadius = 100;
+	public static int nukeKill = 250;
+	public static float nukeStrength = 5F;
+	public static int nukeDist = 5;
+	public static int nukeStep = 5;
+	public static boolean nukeSimple = false;
 
 	public static int mushLife = 15 * 20;
 	public static int mushScale = 80;
@@ -152,6 +175,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityChlorineSeal.class, "tileentity_hfr_gaschamber");
 		GameRegistry.registerTileEntity(TileEntityMachineDerrick.class, "tileentity_hfr_derrick");
 		GameRegistry.registerTileEntity(TileEntityDebug.class, "tileentity_hfr_devon_truck");
+		GameRegistry.registerTileEntity(TileEntityMachineRefinery.class, "tileentity_hfr_refinery");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -164,6 +188,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileEMPStrong.class, "entity_missile_emp", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeCloudSmall.class, "entity_mushroom_cloud", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileDecoy.class, "entity_missile_decoy", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileNuclear.class, "entity_missile_nuclear", id++, this, 1000, 1, true);
 
 	    EntityRegistry.registerModEntity(EntityEMP.class, "entity_lingering_emp", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBlast.class, "entity_deathblast", id++, this, 1000, 1, true);
@@ -180,8 +205,10 @@ public class MainRegistry
 	            }
 	        }
 	    });
-		
-		FMLCommonHandler.instance().bus().register(new CommonEventHandler());
+
+		CommonEventHandler handler = new CommonEventHandler();
+		FMLCommonHandler.instance().bus().register(handler);
+		MinecraftForge.EVENT_BUS.register(handler);
 	}
 
 	@EventHandler
@@ -193,9 +220,18 @@ public class MainRegistry
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent)
 	{
+		//in postload, long after all blocks have been registered, the buffered config is being evaluated and processed.
+		processBuffer();
 	}
-	
+
 	public static List<Block> blastShields = new ArrayList();
+	public static List<GriefEntry> zombWhitelist = new ArrayList();
+	public static List<ControlEntry> controlList = new ArrayList();
+	public static List<PotionEntry> potionList = new ArrayList();
+	public static List<ImmunityEntry> immunityList = new ArrayList();
+	public static String[] twilightBuffer;
+	public static boolean skeletonAIDS = false;
+	public static float skeletonHIV = 2.5F;
 	
 	public void loadConfig(FMLPreInitializationEvent event)
 	{
@@ -221,6 +257,18 @@ public class MainRegistry
         Property propRadarConsumption = config.get("RADAR", "radarConsumption", 50);
         propRadarConsumption.comment = "Amount of RF per tick required for the radar to work";
         radarConsumption = propRadarConsumption.getInt();
+        
+        Property pFPlaneAltitude = config.get("RADAR", "FxR_planeAltitude", 40);
+        pFPlaneAltitude.comment = "Minimum altitude for flans planes' radars to work";
+        fPlaneAltitude = pFPlaneAltitude.getInt();
+        
+        Property pFTankAltitude = config.get("RADAR", "FxR_tankAltitude", 30);
+        pFTankAltitude.comment = "Minimum altitude for flans non-planes' radars to work";
+        fTankAltitude = pFTankAltitude.getInt();
+        
+        Property pFOffset = config.get("RADAR", "FxR_radarYOffset", 2);
+        pFOffset.comment = "Y-axis offset from where the \"is below roof\" measurement is taken (to avoid ship radars from breaking)";
+        fOffset = pFOffset.getInt();
         
         Property propCrafting = config.get(Configuration.CATEGORY_GENERAL, "craftingDifficulty", 0);
         propCrafting.comment = "How difficult the crafting recipes are, from 0 - 2 (very easy to hard), values outside this range make most stuff uncraftable";
@@ -298,6 +346,10 @@ public class MainRegistry
         propABRadius.comment = "The detection range of the AB missile.";
         abRange = propABRadius.getInt();
         
+        Property propABSpeed = config.get("MISSILE", "antiBallisticSpeed", 0.125D);
+        propABSpeed.comment = "The speed of an AB after a target has been found";
+        abSpeed = propABSpeed.getDouble();
+        
         Property propEMPDura = config.get("MISSILE", "empDuration", 5*60*20);
         propEMPDura.comment = "How long machines will stay disabled after EMP strike";
         empDuration = propEMPDura.getInt();
@@ -368,8 +420,36 @@ public class MainRegistry
         String[] vals = drywall.getStringList();
         
         for(String val : vals) {
-        	blastShields.add(Block.getBlockById(Integer.parseInt(val)));
+        	
+        	Block bl = Block.getBlockById(Integer.parseInt(val));
+        	
+        	if(bl != Blocks.air)
+        		blastShields.add(bl);
         }
+        
+        Property nukeRadiusP = config.get("NUKE", "nukeRadius", 100);
+        nukeRadiusP.comment = "Maximum radius of a nuclear explosion";
+        nukeRadius = nukeRadiusP.getInt();
+        
+        Property nukeKillP = config.get("NUKE", "nukeKillRadius", 250);
+        nukeKillP.comment = "Radius of a nuke's death blast effect";
+        nukeKill = nukeKillP.getInt();
+        
+        Property nukeStrengthP = config.get("NUKE", "nukeStrength", 5F);
+        nukeStrengthP.comment = "Maximum radius of a nuclear explosion";
+        nukeStrength = (float)nukeStrengthP.getDouble();
+        
+        Property nukeDistP = config.get("NUKE", "nukeSpacing", 5);
+        nukeDistP.comment = "How many blocks between explosions per destruction ring";
+        nukeDist = nukeDistP.getInt();
+        
+        Property nukeStepP = config.get("NUKE", "nukeStep", 5);
+        nukeStepP.comment = "How many blocks between destruction rings";
+        nukeStep = nukeStepP.getInt();
+        
+        Property nukeSimpleP = config.get("NUKE", "nukeSimple", false);
+        nukeSimpleP.comment = "Simple mode causes the explosion to be totally flat, saving on CPU power";
+        nukeSimple = nukeSimpleP.getBoolean();
         
         Property dBufferP = config.get("DERRICK", "derrickBuffer", 100000);
         dBufferP.comment = "How much energy the derrick can store";
@@ -379,6 +459,276 @@ public class MainRegistry
         dUseP.comment = "How much energy the derrick uses per tick";
         derrickUse = dUseP.getInt();
         
+        Property dLimP = config.get("DERRICK", "derrickLimiter", 250);
+        dLimP.comment = "How many steps a derrick can take (large numbers can crash the game)";
+        derrickLimiter = dLimP.getInt();
+        
+        Property rBufferP = config.get("REFINERY", "refineryBuffer", 100000);
+        rBufferP.comment = "How much energy the refinery can store";
+        refineryBuffer = rBufferP.getInt();
+        
+        Property rUseP = config.get("REFINERY", "refineryConsumption", 1000);
+        rUseP.comment = "How much energy the refinery uses per tick";
+        refineryUse = rUseP.getInt();
+
+        refOil = createConfigInt(config, "REFINERY", "refineryOilConsumption", "How much crude oil the refinery consumes per tick", 50);
+        refHeavy = createConfigInt(config, "REFINERY", "refineryOil_Heavy", "How much bunker fuel the refinery creates per tick", 20);
+        refNaph = createConfigInt(config, "REFINERY", "refineryOil_Diesel", "How much diesel the refinery creates per tick", 15);
+        refLight = createConfigInt(config, "REFINERY", "refineryOil_Kerosene", "How much kerosene the refinery creates per tick", 10);
+        refPetro = createConfigInt(config, "REFINERY", "refineryOil_Petroleum", "How much petroleum the refinery creates per tick", 5);
+        
+        Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
+        pAids.comment = "Whether or not skeleton arrows should be explosive";
+        skeletonAIDS = pAids.getBoolean();
+        
+        Property pHiv = config.get("SKELETON", "arrowStrength", 2.5).setDefaultValue(2.5);
+        pHiv.comment = "How powerful exploding arrows are";
+        skeletonHIV = (float)pHiv.getDouble();
+        
+        /////////////////////////////////////////////////////////////////////////
+        Property zombgrief = config.get("ZOMBIE", "griefableBlocks", new String[] { "dirt:1", "grass:1", "planks:2", "cobblestone:3" });
+        zombgrief.comment = "What blocks can be griefed by zomberts (syntax: [shortname]:[HP amount])";
+        //rather than being processed instantly (and by doing so, missing out half the blocks), the config data is being loaded into a string-based buffer
+        twilightBuffer = zombgrief.getStringList();
+        
+        /*for(String val : zg) {
+        	
+        	try {
+        		
+        		String name = val.split(":")[0];
+        		//gets block from string with no modifiers (intended for vanilla)
+        		Block b = Block.getBlockFromName(name);
+        		
+        		//in case the block uses the integer id notation
+        		if(b == null) {
+        			try {
+        				b = Block.getBlockById(Integer.parseInt(name));
+        			} catch(Exception ex) { }
+        		}
+        		
+        		//if there is no block found, it'll retry with the proper domain format (modid:name)
+        		//first _ is replaced with : (intended for modded blocks with the inclusion of the modid)
+        		if(b == null)
+        			//b = Block.getBlockFromName(name.replaceFirst("_", ":"));
+        			b = RegistryUtil.getBlockByNameNoCaseOrPoint(name);
+        		
+        		//if there is still no block found, it'll retry with the tile. prefix
+        		//in addition to the replacement of the _, it'll search for 'tile' and add a period to create 'tile.' (intended for HFR blocks)
+        		if(b == null) {
+        			String nname = name.replaceFirst("tile", "tile.");
+        			//b = Block.getBlockFromName(nname.replaceFirst("_", ":"));
+        			b = RegistryUtil.getBlockByNameNoCaseOrPoint(nname);
+        		}
+        		
+	        	int hp = Integer.valueOf(val.split(":")[1]);
+	        	
+	        	if(b != null)
+	        		zombWhitelist.add(new GriefEntry(b, hp));
+	        	else
+	        		logger.error("Invalid block entry '" + val.split(":")[0] + "'");
+        	
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
+        }*/
+        /////////////////////////////////////////////////////////////////////////
+        Property entcontrol = config.get("ENTITYCONTROL", "entityRestrictions", new String[] { "" });
+        entcontrol.comment = "What entities should be regulated (syntax: [entity name]:[new spawn chance])";
+        String[] ec = entcontrol.getStringList();
+        
+        for(String val : ec) {
+        	
+        	try {
+        		
+	        	String s = val.split(":")[0];
+	        	int chance = Integer.valueOf(val.split(":")[1]);
+	        	
+	        	controlList.add(new ControlEntry(s, chance));
+        	
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
+        }
+        /////////////////////////////////////////////////////////////////////////
+        Property entfx = config.get("ENTITYCONTROL", "entityEffects", new String[] { "" });
+        entfx.comment = "What entities should receive effects (syntax: [entity name]:[potion id]:[level, 0=I, 1=II, 2=III, etc.]:[duration])";
+        String[] fx = entfx.getStringList();
+        
+        for(String val : fx) {
+        	
+        	try {
+        		
+	        	String s = val.split(":")[0];
+	        	int id = Integer.valueOf(val.split(":")[1]);
+	        	int level = Integer.valueOf(val.split(":")[2]);
+	        	int dura = Integer.valueOf(val.split(":")[3]);
+	        	
+	        	potionList.add(new PotionEntry(s, id, dura, level));
+        	
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
+        }
+        /////////////////////////////////////////////////////////////////////////
+        Property entimm = config.get("ENTITYCONTROL", "entityImmunity", new String[] { "" });
+        entimm.comment = "What entities should receive damage immunity (syntax: [entity name]:[damage source name])";
+        String[] imm = entimm.getStringList();
+        
+        for(String val : imm) {
+        	
+        	try {
+        		
+	        	String s = val.split(":")[0];
+	        	String d = val.split(":")[1];
+	        	
+	        	immunityList.add(new ImmunityEntry(s, d));
+        	
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
+        }
+        /////////////////////////////////////////////////////////////////////////
+        
         config.save();
+	}
+	
+	private static int createConfigInt(Configuration config, String category, String name, String comment, int def) {
+
+        Property prop = config.get(category, name, def);
+        prop.comment = comment;
+        return prop.getInt();
+	}
+	
+	private static void processBuffer() {
+		for(String val : twilightBuffer) {
+        	
+        	try {
+        		
+        		String name = val.split(":")[0];
+        		//gets block from string with no modifiers (intended for vanilla)
+        		Block b = Block.getBlockFromName(name);
+        		
+        		//in case the block uses the integer id notation
+        		if(b == null) {
+        			try {
+        				b = Block.getBlockById(Integer.parseInt(name));
+        			} catch(Exception ex) { }
+        		}
+        		
+        		//if there is no block found, it'll retry with the proper domain format (modid:name)
+        		//first _ is replaced with : (intended for modded blocks with the inclusion of the modid)
+        		if(b == null)
+        			//b = Block.getBlockFromName(name.replaceFirst("_", ":"));
+        			b = RegistryUtil.getBlockByNameNoCaseOrPoint(name);
+        		
+        		//if there is still no block found, it'll retry with the tile. prefix
+        		//in addition to the replacement of the _, it'll search for 'tile' and add a period to create 'tile.' (intended for HFR blocks)
+        		if(b == null) {
+        			String nname = name.replaceFirst("tile", "tile.");
+        			//b = Block.getBlockFromName(nname.replaceFirst("_", ":"));
+        			b = RegistryUtil.getBlockByNameNoCaseOrPoint(nname);
+        		}
+        		
+	        	int hp = Integer.valueOf(val.split(":")[1]);
+	        	
+	        	if(b != null)
+	        		zombWhitelist.add(new GriefEntry(b, hp));
+	        	else
+	        		logger.error("Invalid block entry '" + val.split(":")[0] + "'");
+        	
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
+        }
+	}
+	
+	public static class GriefEntry {
+		
+		int hp;
+		Block block;
+		
+		public GriefEntry(Block b, int hp) {
+			this.block = b;
+			this.hp = hp;
+		}
+		
+		public static int getEntry(Block b) {
+			
+			for(GriefEntry ent : zombWhitelist) {
+				if(ent.block == b)
+					return ent.hp;
+			}
+			
+			return -1;
+		}
+	}
+	
+	public static class ControlEntry {
+		
+		int chance;
+		String entity;
+		
+		public ControlEntry(String e, int chance) {
+			this.entity = e;
+			this.chance = chance;
+		}
+		
+		public static int getEntry(Entity e) {
+			
+			for(ControlEntry ent : controlList) {
+				if(ent.entity.equals(EntityList.getEntityString(e)))
+					return ent.chance;
+			}
+			
+			return -1;
+		}
+	}
+	
+	public static class PotionEntry {
+
+		int potion;
+		int duration;
+		int amplifier;
+		String entity;
+		
+		public PotionEntry(String e, int potion, int duration, int amplifier) {
+			this.entity = e;
+			this.potion = potion;
+			this.duration = duration;
+			this.amplifier = amplifier;
+		}
+		
+		public static int[] getEntry(Entity e) {
+			
+			for(PotionEntry ent : potionList) {
+				if(ent.entity.equals(EntityList.getEntityString(e)))
+					return new int[] {ent.potion, ent.duration, ent.amplifier};
+			}
+			
+			return null;
+		}
+	}
+	
+	public static class ImmunityEntry {
+
+		String entity;
+		String damage;
+		
+		public ImmunityEntry(String e, String atk) {
+			this.entity = e;
+			this.damage = atk;
+		}
+		
+		public static List<String> getEntry(Entity e) {
+			
+			List<String> list = new ArrayList();
+			
+			for(ImmunityEntry ent : immunityList) {
+				if(ent.entity.equals(EntityList.getEntityString(e)))
+					list.add(ent.damage);
+			}
+			
+			return list;
+		}
 	}
 }

@@ -47,6 +47,7 @@ public class ResourceManager {
 	public static final ResourceLocation missileStrong_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileStrong_IN.png");
 	public static final ResourceLocation missileHuge_HE_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileBurst.png");
 	public static final ResourceLocation missileHuge_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileInferno.png");
+	public static final ResourceLocation missileNuclear_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileNuclear.png");
 	public static final ResourceLocation missile_decoy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_decoy.png");
 	
 	//BLAST SPHERES
@@ -60,4 +61,8 @@ public class ResourceManager {
 	//DERRICK
 	public static final IModelCustom derrick = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/derrick.obj"));
 	public static final ResourceLocation derrick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/derrick.png");
+	
+	//REFINERY
+	public static final IModelCustom refinery = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/refinery.obj"));
+	public static final ResourceLocation refinery_tex = new ResourceLocation(RefStrings.MODID, "textures/models/refinery.png");
 }

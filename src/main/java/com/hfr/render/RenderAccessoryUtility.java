@@ -7,9 +7,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderAccessoryUtility {
 
-	private static ResourceLocation hbm = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeHbm.png");
-	private static ResourceLocation fire = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeFire.png");
-	private static ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeTest.png");
+	public static ResourceLocation hbm = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeHbm.png");
+	public static ResourceLocation fire = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeFire.png");
+	public static ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeTest.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		

@@ -61,7 +61,7 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 				List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 5, posY - 5, posZ - 5, posX + 5, posY + 5, posZ + 5));
 
 				for(Entity e : list) {
-					if(e instanceof EntityMissileBaseAdvanced) {
+					if(e instanceof EntityMissileBaseSimple) {
 						//ExplosionLarge.explode(worldObj, posX, posY, posZ, 15F, true, false, true);
 						worldObj.newExplosion(this, posX, posY, posZ, 15F, true, false);
 						this.setDead();
@@ -124,13 +124,13 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 	
 	private void targetMissile() {
 		
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - MainRegistry.abRange, 0, posZ - MainRegistry.abRange, posX + MainRegistry.abRange, 10000, posZ + MainRegistry.abRange));
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - MainRegistry.abRange, 0, posZ - MainRegistry.abRange, posX + MainRegistry.abRange, 6000, posZ + MainRegistry.abRange));
 		
 		Entity target = null;
-		double closest = 1000D;
+		double closest = MainRegistry.abRange * Math.sqrt(2);
 		
 		for(Entity e : list) {
-			if(e instanceof EntityMissileBaseAdvanced) {
+			if(e instanceof EntityMissileBaseSimple) {
 				double dis = Math.sqrt(Math.pow(e.posX - posX, 2) + Math.pow(e.posY - posY, 2) + Math.pow(e.posZ - posZ, 2));
 				
 				if(dis < closest) {
@@ -144,21 +144,23 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 			
 			Vec3 vec = Vec3.createVectorHelper(target.posX - posX, target.posY - posY, target.posZ - posZ);
 
-			vec.normalize();
+			vec = vec.normalize();
 			
-			this.motionX = vec.xCoord * 0.125D;
-			this.motionY = vec.yCoord * 0.125D;
-			this.motionZ = vec.zCoord * 0.125D;
+			this.motionX = vec.xCoord * MainRegistry.abSpeed * 10;
+			this.motionY = vec.yCoord * MainRegistry.abSpeed * 10;
+			this.motionZ = vec.zCoord * MainRegistry.abSpeed * 10;
 		} else {
 			
-			if(posY > 300 && !worldObj.isRemote)
+			if(posY > 5000 && !worldObj.isRemote)
 				this.setDead();
 		}
 	}
 
 	@Override
 	protected void entityInit() {
-		
+
+        //mode, unused but keeps it from crashing due to sloppy renderer
+        this.dataWatcher.addObject(9, Integer.valueOf(0));
 	}
 
 	@Override

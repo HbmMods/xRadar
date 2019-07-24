@@ -1,7 +1,10 @@
 package com.hfr.tileentity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.hfr.entity.EntityMissileAntiBallistic;
 import com.hfr.entity.EntityMissileBaseAdvanced;
@@ -11,6 +14,7 @@ import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.TERadarDestructorPacket;
 import com.hfr.packet.TERadarPacket;
+import com.hfr.packet.TESRadarPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
@@ -57,12 +61,12 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		if(this.yCoord < MainRegistry.radarAltitude)
 			return;
 		
-		if(!worldObj.isRemote && storage.getEnergyStored() == 0)
+		/*if(!worldObj.isRemote && storage.getEnergyStored() == 0)
 			nearbyMissiles.clear();
 
 		if(!worldObj.isRemote) {
 			PacketDispatcher.wrapper.sendToAll(new TERadarDestructorPacket(xCoord, yCoord, zCoord, mode));
-		}
+		}*/
 		
 		if(storage.getEnergyStored() > 0) {
 
@@ -79,6 +83,8 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 			storage.setEnergyStored(storage.getEnergyStored() - MainRegistry.radarConsumption);
 			if(storage.getEnergyStored() < 0)
 				storage.setEnergyStored(0);
+		} else {
+			PacketDispatcher.wrapper.sendToAll(new TESRadarPacket(null,xCoord, yCoord, zCoord, mode));
 		}
 		
 		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
@@ -89,7 +95,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		pingTimer++;
 		
 		if(storage.getEnergyStored() > 0 && pingTimer >= maxTimer && MainRegistry.sound) {
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.sonarPing", 5.0F, 1.0F);
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.sonarPing", 2.0F, 1.0F);
 			pingTimer = 0;
 		}
 		
@@ -149,9 +155,11 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 	
 	private void sendMissileData() {
 		
-		for(RadarEntry e : this.nearbyMissiles) {
+		/*for(RadarEntry e : this.nearbyMissiles) {
 			PacketDispatcher.wrapper.sendToAll(new TERadarPacket(xCoord, yCoord, zCoord, e.posX, e.posY, e.posZ, e.name));
-		}
+		}*/
+
+		PacketDispatcher.wrapper.sendToAll(new TESRadarPacket(nearbyMissiles.toArray(new RadarEntry[0]),xCoord, yCoord, zCoord, mode));
 	}
 	
 	public long getPowerScaled(long i) {
@@ -190,7 +198,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		return storage.getMaxEnergyStored();
 	}
 	
-	public class RadarEntry {
+	public static class RadarEntry {
 		
 		public int posX;
 		public int posY;

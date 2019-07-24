@@ -110,6 +110,12 @@ public class RenderLaunch extends TileEntitySpecialRenderer {
 				bindTexture(ResourceManager.missile_decoy_tex);
 				ResourceManager.missileV2.renderAll();
 			}
+			if(state == 10)
+			{
+				GL11.glScalef(2.0F, 2.0F, 2.0F);
+				bindTexture(ResourceManager.missileNuclear_tex);
+				ResourceManager.missileNeon.renderAll();
+			}
 			
 	        GL11.glEnable(GL11.GL_CULL_FACE);
 

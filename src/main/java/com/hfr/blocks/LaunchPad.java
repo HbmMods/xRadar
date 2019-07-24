@@ -10,6 +10,7 @@ import com.hfr.entity.EntityMissileGeneric;
 import com.hfr.entity.EntityMissileIncendiary;
 import com.hfr.entity.EntityMissileIncendiaryStrong;
 import com.hfr.entity.EntityMissileInferno;
+import com.hfr.entity.EntityMissileNuclear;
 import com.hfr.entity.EntityMissileStrong;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
@@ -265,6 +266,16 @@ public class LaunchPad extends BlockContainer {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_decoy && entity.storage.getEnergyStored() >= re)
         		{
             		EntityMissileDecoy missile = new EntityMissileDecoy(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_nuclear && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileNuclear missile = new EntityMissileNuclear(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);

@@ -27,6 +27,8 @@ public class ModItems {
 	public static Item circuit;
 	public static Item magnetron;
 	public static Item coil;
+	public static Item uranium;
+	public static Item plutonium;
 	public static Item upgrade_radius;
 	public static Item upgrade_health;
 	public static Item upgrade_bedrock;
@@ -55,6 +57,7 @@ public class ModItems {
 	public static Item missile_emp;
 	public static Item missile_ab;
 	public static Item missile_decoy;
+	public static Item missile_nuclear;
 
 	public static Item hammer;
 	public static Item wand;
@@ -70,6 +73,8 @@ public class ModItems {
 		circuit = new Item().setUnlocalizedName("circuit").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":circuit");
 		magnetron = new Item().setUnlocalizedName("magnetron").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":magnetron");
 		coil = new Item().setUnlocalizedName("coil").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":coil");
+		uranium = new Item().setUnlocalizedName("uranium").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":uranium");
+		plutonium = new Item().setUnlocalizedName("plutonium").setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":plutonium");
 		upgrade_radius = new ItemLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_radius");
 		upgrade_health = new ItemLore().setUnlocalizedName("upgrade_health").setMaxStackSize(16).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_health");
 		upgrade_bedrock = new ItemLore().setUnlocalizedName("upgrade_bedrock").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabMaterials).setTextureName(RefStrings.MODID + ":upgrade_bedrock");
@@ -97,6 +102,7 @@ public class ModItems {
 		missile_emp = new Item().setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_emp");
 		missile_ab = new Item().setUnlocalizedName("missile_ab").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_ab");
 		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
+		missile_nuclear = new Item().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_nuclear");
 		
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabTools).setTextureName(RefStrings.MODID + ":wand");
@@ -116,6 +122,8 @@ public class ModItems {
 		GameRegistry.registerItem(coil, coil.getUnlocalizedName());
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());
 		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
+		GameRegistry.registerItem(uranium, uranium.getUnlocalizedName());
+		GameRegistry.registerItem(plutonium, plutonium.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_health, upgrade_health.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_bedrock, upgrade_bedrock.getUnlocalizedName());
@@ -143,5 +151,6 @@ public class ModItems {
 		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
 		GameRegistry.registerItem(missile_ab, missile_ab.getUnlocalizedName());
 		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
+		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
 	}
 }

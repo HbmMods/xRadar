@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.entity.EntityMissileBurst;
 import com.hfr.entity.EntityMissileInferno;
+import com.hfr.entity.EntityMissileNuclear;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -32,6 +33,8 @@ public class RenderMissileHuge extends Render {
         	bindTexture(ResourceManager.missileHuge_HE_tex);
         if(p_76986_1_ instanceof EntityMissileInferno)
         	bindTexture(ResourceManager.missileHuge_IN_tex);
+        if(p_76986_1_ instanceof EntityMissileNuclear)
+        	bindTexture(ResourceManager.missileNuclear_tex);
         ResourceManager.missileNeon.renderAll();
 		GL11.glPopMatrix();
 	}

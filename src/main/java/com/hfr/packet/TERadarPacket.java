@@ -70,7 +70,7 @@ public class TERadarPacket implements IMessage {
 				if (te != null && te instanceof TileEntityMachineRadar) {
 
 					TileEntityMachineRadar radar = (TileEntityMachineRadar) te;
-					radar.nearbyMissiles.add(radar.new RadarEntry(m.conX, m.conY, m.conZ, m.d));
+					radar.nearbyMissiles.add(new RadarEntry(m.conX, m.conY, m.conZ, m.d));
 				}
 			} catch (Exception x) {
 			}

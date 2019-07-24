@@ -30,6 +30,8 @@ public class PacketDispatcher {
 		//first successful serialized packet, eliminates race conditions between sender and destructor
 		wrapper.registerMessage(SRadarPacket.Handler.class, SRadarPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(AuxGaugePacket.Handler.class, AuxGaugePacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(TESRadarPacket.Handler.class, TESRadarPacket.class, i++, Side.CLIENT);
+
 	}
 	
 }

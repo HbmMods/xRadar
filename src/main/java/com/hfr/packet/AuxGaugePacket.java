@@ -3,6 +3,7 @@ package com.hfr.packet;
 import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
+import com.hfr.tileentity.TileEntityMachineRefinery;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -69,6 +70,22 @@ public class AuxGaugePacket implements IMessage {
 						gen.oil = m.value;
 					if(m.meta == 1)
 						gen.gas = m.value;
+				}
+				
+				if (te != null && te instanceof TileEntityMachineRefinery) {
+						
+					TileEntityMachineRefinery gen = (TileEntityMachineRefinery) te;
+
+					if(m.meta == 0)
+						gen.oil = m.value;
+					if(m.meta == 1)
+						gen.heavy = m.value;
+					if(m.meta == 2)
+						gen.naph = m.value;
+					if(m.meta == 3)
+						gen.light = m.value;
+					if(m.meta == 4)
+						gen.petro = m.value;
 				}
 				
 			} catch (Exception x) { }
