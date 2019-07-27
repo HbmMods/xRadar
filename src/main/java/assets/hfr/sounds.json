@@ -7,6 +7,10 @@
     "block.sonarPing": {"category": "block", "sounds": [{"name": "block/sonarPing", "stream": false}]},
     "block.vaultScrapeNew": {"category": "block", "sounds": [{"name": "block/vaultScrapeNew", "stream": false}]},
     "block.vaultThudNew": {"category": "block", "sounds": [{"name": "block/vaultThudNew", "stream": false}]},
+    "block.button": {"category": "block", "sounds": [{"name": "block/button", "stream": false}]},
+    "block.buttonYes": {"category": "block", "sounds": [{"name": "block/buttonYes", "stream": false}]},
+    "block.buttonNo": {"category": "block", "sounds": [{"name": "block/buttonNo", "stream": false}]},
+    "block.railgunOrientation": {"category": "block", "sounds": [{"name": "block/railgunOrientation", "stream": false}]},
 
 	"alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
     "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},

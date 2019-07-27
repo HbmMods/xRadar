@@ -1,6 +1,7 @@
 package com.hfr.tileentity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -225,11 +226,11 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 	@Override
 	public void updateEntity() {
 		
-		int timer = 50;
+		int timer = MainRegistry.derrickTimer;
 		
 		age++;
 		if(age >= timer)
-			age -= timer;
+			age = 0;
 		
 		if(!worldObj.isRemote) {
 			
@@ -402,21 +403,37 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 	}
 	
 	public void succInit1(int x, int y, int z) {
-		succ1(x + 1, y, z);
-		succ1(x - 1, y, z);
-		succ1(x, y + 1, z);
-		succ1(x, y - 1, z);
-		succ1(x, y, z + 1);
-		succ1(x, y, z - 1);
+
+		List<Integer> indices = new ArrayList() {{ add(0); add(1); add(2); add(3); add(4); add(5); }};
+		Collections.shuffle(indices);
+		
+		for(Integer i : indices) {
+			switch(i) {
+			case 0: succ1(x + 1, y, z); break;
+			case 1: succ1(x - 1, y, z); break;
+			case 2: succ1(x, y + 1, z); break;
+			case 3: succ1(x, y - 1, z); break;
+			case 4: succ1(x, y, z + 1); break;
+			case 5: succ1(x, y, z - 1); break;
+			}
+		}
 	}
 	
 	public void succInit2(int x, int y, int z) {
-		succ2(x + 1, y, z);
-		succ2(x - 1, y, z);
-		succ2(x, y + 1, z);
-		succ2(x, y - 1, z);
-		succ2(x, y, z + 1);
-		succ2(x, y, z - 1);
+
+		List<Integer> indices = new ArrayList() {{ add(0); add(1); add(2); add(3); add(4); add(5); }};
+		Collections.shuffle(indices);
+		
+		for(Integer i : indices) {
+			switch(i) {
+			case 0: succ2(x + 1, y, z); break;
+			case 1: succ2(x - 1, y, z); break;
+			case 2: succ2(x, y + 1, z); break;
+			case 3: succ2(x, y - 1, z); break;
+			case 4: succ2(x, y, z + 1); break;
+			case 5: succ2(x, y, z - 1); break;
+			}
+		}
 	}
 	
 	List<int[]> list = new ArrayList<int[]>();

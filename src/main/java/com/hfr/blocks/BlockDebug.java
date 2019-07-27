@@ -37,12 +37,12 @@ public class BlockDebug extends BlockContainer {
 		return false;
 	}
 	
-	public Item getItemDropped(int i, Random rand, int j) {
+	/*public Item getItemDropped(int i, Random rand, int j) {
 		return ModItems.uranium;
 	}
 	
 	public int quantityDropped(Random rand) {
 		return rand.nextInt(8) + 1;
-	}
+	}*/
 
 }

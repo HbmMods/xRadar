@@ -12,6 +12,10 @@ container.oilWell=Oil Derrick
 tile.oil_pipe.name=Oil Drill Pipe
 tile.machine_refinery.name=Crude Oil Refinery
 container.machineRefinery=Crude Oil Refinery
+tile.railgun_plasma.name=Railgun
+container.railgun=Railgun
+tile.machine_tank.name=Oil Tank
+container.tank=Oil Tank
 
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
@@ -72,3 +76,6 @@ item.missile_ab.name=Anti-Ballistic Missile
 item.missile_emp.name=EMP Missile
 item.missile_decoy.name=Decoy Missile
 item.missile_nuclear.name=Nuclear Missile
+
+item.charge_railgun.name=Deuterium Plasma Capsule
+item.charge_bfg.name=Argent Plasma Capsule

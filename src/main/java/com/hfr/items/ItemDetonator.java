@@ -63,13 +63,13 @@ public class ItemDetonator extends Item {
 				if (!world.isRemote) {
 					((LaunchPad) world.getBlock(x, y, z)).explode(world, x, y, z);
 				}
-			} else if(world.getBlock(x, y, z) == ModBlocks.debug) {
+			/*} else if(world.getBlock(x, y, z) == ModBlocks.debug) {
 
 				world.playSoundAtEntity(player, "hfr:item.techBleep", 1.0F, 1.0F);
 				if (!world.isRemote) {
 					world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z).scaleMulti(2.5F));
 					world.spawnEntityInWorld(EntityNuclearBlast.statFac(world, x, y, z, MainRegistry.nukeRadius, MainRegistry.nukeStrength, MainRegistry.nukeDist, MainRegistry.nukeKill));
-				}
+				}*/
 		    	
 			} else {
 				world.playSoundAtEntity(player, "hfr:item.techBoop", 2.0F, 1.0F);

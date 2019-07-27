@@ -31,6 +31,7 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SRadarPacket.Handler.class, SRadarPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(AuxGaugePacket.Handler.class, AuxGaugePacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(TESRadarPacket.Handler.class, TESRadarPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(RailgunCallbackPacket.Handler.class, RailgunCallbackPacket.class, i++, Side.CLIENT);
 
 	}
 	

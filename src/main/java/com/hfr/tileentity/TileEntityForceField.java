@@ -256,7 +256,7 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 				blink--;
 				color = 0xFF0000;
 			} else {
-				color = 0x00FF00;
+				color = 0x5050FF;
 			}
 		}
 

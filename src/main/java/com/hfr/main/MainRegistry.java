@@ -118,6 +118,7 @@ public class MainRegistry
 	public static int derrickBuffer = 100000;
 	public static int derrickUse = 1000;
 	public static int derrickLimiter = 250;
+	public static int derrickTimer = 50;
 	public static int refineryBuffer = 100000;
 	public static int refineryUse = 1000;
 	public static int refOil = 50;
@@ -139,6 +140,8 @@ public class MainRegistry
 	public static int t1blast = 50;
 	public static int t2blast = 100;
 	public static int t3blast = 150;
+	
+	public static int mlpf = 100;
 	
 	public static int crafting = 0;
 	
@@ -176,6 +179,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineDerrick.class, "tileentity_hfr_derrick");
 		GameRegistry.registerTileEntity(TileEntityDebug.class, "tileentity_hfr_devon_truck");
 		GameRegistry.registerTileEntity(TileEntityMachineRefinery.class, "tileentity_hfr_refinery");
+		GameRegistry.registerTileEntity(TileEntityRailgun.class, "tileentity_hfr_railgun");
+		GameRegistry.registerTileEntity(TileEntityTank.class, "tileentity_hfr_barrel");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -192,6 +197,7 @@ public class MainRegistry
 
 	    EntityRegistry.registerModEntity(EntityEMP.class, "entity_lingering_emp", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBlast.class, "entity_deathblast", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityRailgunBlast.class, "entity_railgun_pellet", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -463,6 +469,8 @@ public class MainRegistry
         dLimP.comment = "How many steps a derrick can take (large numbers can crash the game)";
         derrickLimiter = dLimP.getInt();
         
+        derrickTimer = createConfigInt(config, "DERRICK", "derrickPumpDelay", "How many ticks inbetween each derrick operation (pump and drill)", 50);
+        
         Property rBufferP = config.get("REFINERY", "refineryBuffer", 100000);
         rBufferP.comment = "How much energy the refinery can store";
         refineryBuffer = rBufferP.getInt();
@@ -481,7 +489,7 @@ public class MainRegistry
         pAids.comment = "Whether or not skeleton arrows should be explosive";
         skeletonAIDS = pAids.getBoolean();
         
-        Property pHiv = config.get("SKELETON", "arrowStrength", 2.5).setDefaultValue(2.5);
+        Property pHiv = config.get("SKELETON", "arrowStrength", 1.5).setDefaultValue(1.5);
         pHiv.comment = "How powerful exploding arrows are";
         skeletonHIV = (float)pHiv.getDouble();
         
@@ -588,6 +596,8 @@ public class MainRegistry
         	}
         }
         /////////////////////////////////////////////////////////////////////////
+        
+        mlpf = createConfigInt(config, "ENTITYCONTROL", "MLPF", "How far the multi-layered pathfinder for zombs and creeps reaches", 100);
         
         config.save();
 	}

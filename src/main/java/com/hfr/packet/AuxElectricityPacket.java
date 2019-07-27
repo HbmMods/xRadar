@@ -4,6 +4,7 @@ import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.tileentity.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -78,6 +79,11 @@ public class AuxElectricityPacket implements IMessage {
 				if (te != null && te instanceof TileEntityMachineRefinery) {
 						
 					TileEntityMachineRefinery gen = (TileEntityMachineRefinery) te;
+					gen.storage.setEnergyStored(m.charge);
+				}
+				if (te != null && te instanceof TileEntityRailgun) {
+						
+					TileEntityRailgun gen = (TileEntityRailgun) te;
 					gen.storage.setEnergyStored(m.charge);
 				}
 			} catch (Exception x) { }

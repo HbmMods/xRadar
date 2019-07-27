@@ -47,6 +47,11 @@ public class ModBlocks {
 	public static final int guiID_derrick = 4;
 	public static Block machine_refinery;
 	public static final int guiID_refinery = 5;
+	public static Block machine_tank;
+	public static final int guiID_tank = 6;
+	
+	public static Block railgun_plasma;
+	public static final int guiID_railgun = 7;
 
 	public static Block debug;
 
@@ -71,13 +76,13 @@ public class ModBlocks {
 		concrete_bricks = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_bricks").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":concrete_bricks");
 		temp = new BlockTemporary(Material.ground).setStepSound(Block.soundTypeGravel).setBlockName("temp").setHardness(1.0F).setResistance(1.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":dirt_alt");
 
-		ore_oil = new BlockGeneric(Material.rock).setBlockName("ore_oil").setHardness(1.0F).setResistance(60.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":ore_oil");
-		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setHardness(1.0F).setResistance(60.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
+		ore_oil = new BlockGeneric(Material.rock).setBlockName("ore_oil").setHardness(1.0F).setResistance(5.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":ore_oil");
+		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setHardness(1.0F).setResistance(5.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		oil_pipe = new BlockNoDrop(Material.rock).setBlockName("oil_pipe").setHardness(1.0F).setResistance(60.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_pipe");
 
 		seal_controller = new BlockSeal(Material.rock).setStepSound(soundTypeMetal).setBlockName("seal_controller").setHardness(5.0F).setResistance(10000.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":concrete");
 		seal_frame = new BlockGeneric(Material.rock).setStepSound(soundTypeMetal).setBlockName("seal_frame").setHardness(5.0F).setResistance(10000.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":seal_frame");
-		seal_hatch = new BlockHatch(Material.rock).setStepSound(soundTypeMetal).setBlockName("seal_hatch").setHardness(5.0F).setResistance(10000.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":seal_hatch");
+		seal_hatch = new BlockHatch(Material.rock).setStepSound(soundTypeMetal).setBlockName("seal_hatch").setHardness(2.5F).setResistance(10000.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":seal_hatch");
 
 		vault_door = new VaultDoor(Material.rock).setStepSound(soundTypeMetal).setBlockName("vault_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(CreativeTabs.tabBlock).setBlockTextureName(RefStrings.MODID + ":vault_door");
 		vault_door_dummy = new DummyBlockVault(Material.rock).setStepSound(soundTypeMetal).setBlockName("vault_door_dummy").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":concrete");
@@ -86,11 +91,14 @@ public class ModBlocks {
 		machine_siren = new MachineSiren(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_siren");
 		launch_pad = new LaunchPad(Material.iron).setStepSound(soundTypeMetal).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_forcefield = new MachineForceField(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_forcefield").setLightLevel(1.0F).setHardness(5.0F).setResistance(100.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_forcefield");
-		machine_derrick = new MachineDerrick(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_derrick").setLightLevel(1.0F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_derrick");
-		machine_refinery = new MachineRefinery(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_refinery").setLightLevel(1.0F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
+		machine_derrick = new MachineDerrick(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_derrick").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_derrick");
+		machine_refinery = new MachineRefinery(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_refinery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
+		machine_tank = new MachineTank(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":tank");
 
 		vent_chlorine_seal = new BlockClorineSeal(Material.iron).setStepSound(soundTypeMetal).setBlockName("vent_chlorine_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone);
 		chlorine_gas = new BlockClorine(Material.cloth).setBlockName("chlorine_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":chlorine_gas");
+		
+		railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal).setBlockName("railgun_plasma").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":railgun_plasma");
 		
 		debug = new BlockDebug(Material.cloth).setStepSound(soundTypeMetal).setBlockName("debug").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":debug");
 	}
@@ -120,8 +128,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_forcefield, ItemRadarBlock.class, machine_forcefield.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_derrick, ItemRadarBlock.class, machine_derrick.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_refinery, ItemRadarBlock.class, machine_refinery.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_tank, ItemRadarBlock.class, machine_tank.getUnlocalizedName());
 
 		GameRegistry.registerBlock(launch_pad, ItemRadarBlock.class, launch_pad.getUnlocalizedName());
+		GameRegistry.registerBlock(railgun_plasma, ItemRadarBlock.class, railgun_plasma.getUnlocalizedName());
 
 		GameRegistry.registerBlock(debug, ItemRadarBlock.class, debug.getUnlocalizedName());
 	}

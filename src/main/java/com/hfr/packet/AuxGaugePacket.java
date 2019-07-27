@@ -4,6 +4,7 @@ import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.tileentity.TileEntityTank;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -86,6 +87,16 @@ public class AuxGaugePacket implements IMessage {
 						gen.light = m.value;
 					if(m.meta == 4)
 						gen.petro = m.value;
+				}
+				
+				if (te != null && te instanceof TileEntityTank) {
+						
+					TileEntityTank gen = (TileEntityTank) te;
+
+					if(m.meta == 0)
+						gen.fill = m.value;
+					if(m.meta == 1)
+						gen.type = m.value;
 				}
 				
 			} catch (Exception x) { }

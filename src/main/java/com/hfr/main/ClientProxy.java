@@ -48,6 +48,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDebug.class, new RenderDebug());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineDerrick.class, new RenderDerrick());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRefinery.class, new RenderRefinery());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailgun.class, new RenderRailgun());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTank.class, new RenderTank());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());
@@ -65,6 +67,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityEMP.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeMK3());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRailgunBlast.class, new RenderTom());
 	}
 	
 	@Override

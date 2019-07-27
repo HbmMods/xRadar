@@ -1,7 +1,11 @@
 package com.hfr.packet;
 
 import com.hfr.tileentity.TileEntityForceField;
+import com.hfr.tileentity.TileEntityLaunchPad;
+import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
+import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.tileentity.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -74,6 +78,26 @@ public class AuxButtonPacket implements IMessage {
 					
 					if(field.mode > 2)
 						field.mode -= 3;
+				}
+				
+				if (te instanceof TileEntityRailgun) {
+					TileEntityRailgun gun = (TileEntityRailgun)te;
+					
+					if(m.id == 0) {
+						//TODO: recalculate new angles here & check if rotor can be turned
+						if(gun.setAngles()) {
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.railgunOrientation", 1.0F, 1.0F);
+							PacketDispatcher.wrapper.sendToAll(new RailgunCallbackPacket(m.x, m.y, m.z, gun.pitch, gun.yaw));
+						} else {
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonNo", 1.0F, 1.0F);
+						}
+					}
+					
+					if(m.id == 1) {
+						if(gun.delay <= 0) {
+							gun.tryFire();
+						}
+					}
 				}
 				
 			//} catch (Exception x) { }

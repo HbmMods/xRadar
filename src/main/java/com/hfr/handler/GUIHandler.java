@@ -71,6 +71,24 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_railgun:
+			{
+				if(entity instanceof TileEntityRailgun)
+				{
+					return new ContainerRailgun(player.inventory, (TileEntityRailgun) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_tank:
+			{
+				if(entity instanceof TileEntityTank)
+				{
+					return new ContainerTank(player.inventory, (TileEntityTank) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -132,6 +150,24 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineRefinery)
 					{
 						return new GUIMachineRefinery(player.inventory, (TileEntityMachineRefinery) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_railgun:
+				{
+					if(entity instanceof TileEntityRailgun)
+					{
+						return new GUIRailgun(player.inventory, (TileEntityRailgun) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_tank:
+				{
+					if(entity instanceof TileEntityTank)
+					{
+						return new GUITank(player.inventory, (TileEntityTank) entity);
 					}
 					return null;
 				}

@@ -145,6 +145,12 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		slots = new ItemStack[getSizeInventory()];
+		storage.readFromNBT(nbt);
+		this.oil = nbt.getInteger("oil");
+		this.heavy = nbt.getInteger("heavy");
+		this.naph = nbt.getInteger("naph");
+		this.light = nbt.getInteger("light");
+		this.petro = nbt.getInteger("petro");
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
@@ -161,6 +167,13 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
+
+		storage.writeToNBT(nbt);
+		nbt.setInteger("oil", oil);
+		nbt.setInteger("heavy", heavy);
+		nbt.setInteger("naph", naph);
+		nbt.setInteger("light", light);
+		nbt.setInteger("petro", petro);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -216,9 +229,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 					this.decrStackSize(3, 1);
 					slots[4].stackSize++;
 					heavy -= 1000;
-				}
-				
-				if(slots[4] == null) {
+				} else if(slots[4] == null) {
 					
 					this.decrStackSize(3, 1);
 					slots[4] = new ItemStack(ModItems.canister_petroil);
@@ -234,9 +245,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 					this.decrStackSize(5, 1);
 					slots[6].stackSize++;
 					naph -= 1000;
-				}
-				
-				if(slots[6] == null) {
+				} else if(slots[6] == null) {
 					
 					this.decrStackSize(5, 1);
 					slots[6] = new ItemStack(ModItems.canister_diesel);
@@ -252,9 +261,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 					this.decrStackSize(7, 1);
 					slots[8].stackSize++;
 					light -= 1000;
-				}
-				
-				if(slots[8] == null) {
+				} else if(slots[8] == null) {
 					
 					this.decrStackSize(7, 1);
 					slots[8] = new ItemStack(ModItems.canister_kerosene);
@@ -270,9 +277,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 					this.decrStackSize(9, 1);
 					slots[10].stackSize++;
 					petro -= 1000;
-				}
-				
-				if(slots[10] == null) {
+				} else if(slots[10] == null) {
 					
 					this.decrStackSize(9, 1);
 					slots[10] = new ItemStack(ModItems.gas_petroleum);
@@ -288,9 +293,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 					this.decrStackSize(1, 1);
 					slots[2].stackSize++;
 					oil += 1000;
-				}
-				
-				if(slots[2] == null) {
+				} else if(slots[2] == null) {
 					
 					this.decrStackSize(1, 1);
 					slots[2] = new ItemStack(ModItems.canister_empty);

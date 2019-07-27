@@ -59,6 +59,9 @@ public class ModItems {
 	public static Item missile_decoy;
 	public static Item missile_nuclear;
 
+	public static Item charge_railgun;
+	public static Item charge_bfg;
+
 	public static Item hammer;
 	public static Item wand;
 	public static Item battery;
@@ -104,6 +107,9 @@ public class ModItems {
 		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
 		missile_nuclear = new Item().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_nuclear");
 		
+		charge_railgun = new ItemLore().setUnlocalizedName("charge_railgun").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_railgun");
+		charge_bfg = new ItemLore().setUnlocalizedName("charge_bfg").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_bfg");
+
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(CreativeTabs.tabTools).setTextureName(RefStrings.MODID + ":wand");
 		battery = new ItemLore().setUnlocalizedName("battery").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabRedstone).setTextureName(RefStrings.MODID + ":battery");
@@ -152,5 +158,8 @@ public class ModItems {
 		GameRegistry.registerItem(missile_ab, missile_ab.getUnlocalizedName());
 		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
+
+		GameRegistry.registerItem(charge_railgun, charge_railgun.getUnlocalizedName());
+		GameRegistry.registerItem(charge_bfg, charge_bfg.getUnlocalizedName());
 	}
 }

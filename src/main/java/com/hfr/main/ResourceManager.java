@@ -65,4 +65,26 @@ public class ResourceManager {
 	//REFINERY
 	public static final IModelCustom refinery = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/refinery.obj"));
 	public static final ResourceLocation refinery_tex = new ResourceLocation(RefStrings.MODID, "textures/models/refinery.png");
+	
+	//PLASMA RAILGUN
+	public static final IModelCustom railgun_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_base.obj"));
+	public static final IModelCustom railgun_rotor = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_rotor.obj"));
+	public static final IModelCustom railgun_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_main.obj"));
+	
+	//TOM
+	public static final IModelCustom tom_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/tom_main.obj"));
+	public static final IModelCustom tom_flame = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/tom_flame.hmf"));
+	public static final ResourceLocation tom_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tom_main.png");
+	public static final ResourceLocation tom_flame_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tom_flame.png");
+
+	//TANK
+	public static final IModelCustom tank_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/fluidtank_main.obj"));
+	public static final IModelCustom tank_label = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/fluidtank_label.obj"));
+	public static final ResourceLocation tank_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank.png");
+	public static final ResourceLocation tank_0_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_0.png");
+	public static final ResourceLocation tank_1_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_1.png");
+	public static final ResourceLocation tank_2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_2.png");
+	public static final ResourceLocation tank_3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_3.png");
+	public static final ResourceLocation tank_4_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_4.png");
+	public static final ResourceLocation tank_5_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_5.png");
 }

@@ -31,6 +31,9 @@ public class ItemLore extends Item {
 			list.add("");
 			list.add("Doesn't stack, because why would it?");
 		}
+		
+		
+		
 		if(this == ModItems.canister_oil) {
 			list.add("Freedom juice");
 		}
@@ -48,6 +51,15 @@ public class ItemLore extends Item {
 		}
 		if(this == ModItems.gas_petroleum) {
 			list.add("Liquefied propane and buthane gas");
+		}
+		
+		
+		
+		if(this == ModItems.charge_railgun) {
+			list.add("Railgun ammo");
+		}
+		if(this == ModItems.charge_bfg) {
+			list.add("BFG 10K ammo");
 		}
 	}
 }
