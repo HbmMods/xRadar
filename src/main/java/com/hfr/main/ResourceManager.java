@@ -1,14 +1,18 @@
 package com.hfr.main;
 
 import com.hfr.lib.RefStrings;
+import com.hfr.render.loader.HFRWavefrontObject;
+import com.hfr.render.loader.S_WavefrontObject;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class ResourceManager {
 
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/deb.png");
+	public static final IModelCustom cylinder = new S_WavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cylinder.obj"));
 	
 	//RADAR AND FF
 	public static final IModelCustom radar_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/radar_base.obj"));
@@ -72,7 +76,7 @@ public class ResourceManager {
 	public static final ResourceLocation railgun_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/railgun_main.png");
 	public static final IModelCustom railgun_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_base.obj"));
 	public static final IModelCustom railgun_rotor = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_rotor.obj"));
-	public static final IModelCustom railgun_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_main.obj"));
+	public static final IModelCustom railgun_main = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/railgun_main.obj"));
 	
 	//TOM
 	public static final IModelCustom tom_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/tom_main.obj"));
@@ -81,7 +85,7 @@ public class ResourceManager {
 	public static final ResourceLocation tom_flame_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tom_flame.png");
 
 	//TANK
-	public static final IModelCustom tank_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/fluidtank_main.obj"));
+	public static final IModelCustom tank_main = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fluidtank_main.obj"));
 	public static final IModelCustom tank_label = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/fluidtank_label.obj"));
 	public static final ResourceLocation tank_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank.png");
 	public static final ResourceLocation tank_0_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_0.png");

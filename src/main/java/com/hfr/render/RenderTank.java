@@ -28,8 +28,10 @@ public class RenderTank extends TileEntitySpecialRenderer {
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         bindTexture(ResourceManager.tank_main_tex);
         ResourceManager.tank_main.renderAll();
+        GL11.glShadeModel(GL11.GL_FLAT);
         
         TileEntityTank tank = (TileEntityTank)tile;
         switch(tank.type) {

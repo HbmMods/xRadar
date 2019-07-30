@@ -65,7 +65,9 @@ public class RenderRailgun extends TileEntitySpecialRenderer {
         GL11.glRotatef(pitch, 0, 0, 1);
         GL11.glTranslatef(0, -1F, 0);
         bindTexture(ResourceManager.railgun_main_tex);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.railgun_main.renderAll();
+        GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glPopMatrix();
 
