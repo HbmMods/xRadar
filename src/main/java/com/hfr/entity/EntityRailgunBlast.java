@@ -47,7 +47,7 @@ public class EntityRailgunBlast extends Entity implements IChunkLoader {
 
 	    		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
 	        	worldObj.newExplosion(scapegoat, posX, posY, posZ, 12F, false, true);
-	        	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, 45));
+	        	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, 45, MainRegistry.railgunDamage));
 			}
 			this.setDead();
 			return;

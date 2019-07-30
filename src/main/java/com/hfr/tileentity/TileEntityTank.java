@@ -9,6 +9,8 @@ import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.TESirenPacket;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -16,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityTank extends TileEntity implements ISidedInventory {
 
@@ -266,5 +269,17 @@ public class TileEntityTank extends TileEntity implements ISidedInventory {
 	
 	public long getFillScaled(long i) {
 		return (fill * i) / maxFill;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

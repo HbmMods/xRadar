@@ -7,6 +7,7 @@ import com.hfr.tileentity.TileEntityRailgun;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
 public class RenderRailgun extends TileEntitySpecialRenderer {
 
@@ -19,8 +20,7 @@ public class RenderRailgun extends TileEntitySpecialRenderer {
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.universal);
-
+        bindTexture(ResourceManager.railgun_base_tex);
         ResourceManager.railgun_base.renderAll();
         
         TileEntityRailgun gun = (TileEntityRailgun)tile;
@@ -37,12 +37,34 @@ public class RenderRailgun extends TileEntitySpecialRenderer {
         	pitch = gun.lastPitch + pi;
         }
         
+        int max = 5;
+        int count = max - (int)(((gun.fireTime + gun.cooldownDurationMillis) - System.currentTimeMillis()) * max / gun.cooldownDurationMillis);
+		
+        if(System.currentTimeMillis() < gun.fireTime + gun.cooldownDurationMillis) {
+			Vec3 vec = Vec3.createVectorHelper(5.375, 0, 0);
+			vec.rotateAroundZ((float) (pitch * Math.PI / 180D));
+			vec.rotateAroundY((float) (yaw * Math.PI / 180D));
+	
+			double fX = vec.xCoord;
+			double fY = 1 + vec.yCoord;
+			double fZ = vec.zCoord;
+	
+			GL11.glRotatef(180, 0F, 1F, 0F);
+			for(int i = 0; i < count; i++)
+				RenderSparks.renderSpark((int) System.currentTimeMillis() / 100 + i * 10000, fX, fY, fZ);
+			for(int i = 0; i < count; i++)
+				RenderSparks.renderSpark((int) System.currentTimeMillis() / 50 + i * 10000, fX, fY, fZ);
+			GL11.glRotatef(180, 0F, 1F, 0F);
+        }
+        
         GL11.glRotatef(yaw, 0, 1, 0);
+        bindTexture(ResourceManager.railgun_rotor_tex);
         ResourceManager.railgun_rotor.renderAll();
         
         GL11.glTranslatef(0, 1F, 0);
         GL11.glRotatef(pitch, 0, 0, 1);
         GL11.glTranslatef(0, -1F, 0);
+        bindTexture(ResourceManager.railgun_main_tex);
         ResourceManager.railgun_main.renderAll();
 
         GL11.glPopMatrix();

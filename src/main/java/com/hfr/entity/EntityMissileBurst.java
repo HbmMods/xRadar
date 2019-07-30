@@ -27,7 +27,7 @@ public class EntityMissileBurst extends EntityMissileBaseSimple {
 			this.worldObj.createExplosion(scapegoat, this.posX, this.posY, this.posZ, 50.0F, true);
 		
 		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ));
-    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t3blast));
+    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t3blast, MainRegistry.t3Damage));
 	}
 
 	@Override

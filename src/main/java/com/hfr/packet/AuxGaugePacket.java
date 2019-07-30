@@ -1,9 +1,12 @@
 package com.hfr.packet;
 
+import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.tileentity.TileEntityNaval;
+import com.hfr.tileentity.TileEntityRailgun;
 import com.hfr.tileentity.TileEntityTank;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -14,6 +17,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
 public class AuxGaugePacket implements IMessage {
 
@@ -97,6 +101,29 @@ public class AuxGaugePacket implements IMessage {
 						gen.fill = m.value;
 					if(m.meta == 1)
 						gen.type = m.value;
+				}
+				
+				if (te != null && te instanceof TileEntityRailgun) {
+						
+					TileEntityRailgun gen = (TileEntityRailgun) te;
+					
+					Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
+					vec.rotateAroundZ((float) (gen.pitch * Math.PI / 180D));
+					vec.rotateAroundY((float) (gen.yaw * Math.PI / 180D));
+
+					double fX = gen.xCoord + 0.5 + vec.xCoord;
+					double fY = gen.yCoord + 1 + vec.yCoord;
+					double fZ = gen.zCoord + 0.5 + vec.zCoord;
+					
+					MainRegistry.proxy.spawnSFX(gen.getWorldObj(), fX, fY, fZ, 0, vec.normalize());
+				}
+				
+				if (te != null && te instanceof TileEntityNaval) {
+						
+					TileEntityNaval gen = (TileEntityNaval) te;
+
+					if(m.meta == 0)
+						gen.powder = m.value;
 				}
 				
 			} catch (Exception x) { }

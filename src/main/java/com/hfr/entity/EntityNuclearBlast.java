@@ -98,7 +98,7 @@ public class EntityNuclearBlast extends Entity {
 				
 				if(dist <= size && canHurt(e)) {
 					e.setFire(5);
-					e.attackEntityFrom(MainRegistry.blast, 1000.0F);
+					e.attackEntityFrom(MainRegistry.blast, MainRegistry.nukeDamage);
 				}
 			}
 		}

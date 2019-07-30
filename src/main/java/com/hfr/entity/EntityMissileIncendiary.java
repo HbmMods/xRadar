@@ -27,7 +27,7 @@ public class EntityMissileIncendiary extends EntityMissileBaseSimple {
 		//ExplosionLarge.explodeFire(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 10.0F, true, true, true);
 		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
     	worldObj.newExplosion(scapegoat, posX, posY, posZ, 10F, true, true);
-    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t1blast));
+    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t1blast, MainRegistry.t1Damage));
 	}
 
 	@Override

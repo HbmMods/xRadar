@@ -40,6 +40,10 @@ public class RenderTank extends TileEntitySpecialRenderer {
         case 4: bindTexture(ResourceManager.tank_4_tex); break;
         case 5: bindTexture(ResourceManager.tank_5_tex); break;
         }
+        
+        if(tank.fill == 0)
+        	bindTexture(ResourceManager.tank_empty_tex);
+        
         ResourceManager.tank_label.renderAll();
 
         GL11.glPopMatrix();

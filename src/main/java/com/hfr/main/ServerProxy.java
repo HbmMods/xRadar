@@ -15,4 +15,6 @@ public class ServerProxy
 	public void clearBlips(boolean sufficient, boolean enabled, int offset, int range) { }
 	
 	public boolean isPressed(int id) { return false; }
+
+	public void spawnSFX(World world, double posX, double posY, double posZ, int type, Object payload) { }
 }

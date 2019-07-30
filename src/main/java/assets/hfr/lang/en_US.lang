@@ -16,6 +16,8 @@ tile.railgun_plasma.name=Railgun
 container.railgun=Railgun
 tile.machine_tank.name=Oil Tank
 container.tank=Oil Tank
+tile.cannon_naval.name=16" Naval Gun
+container.naval=16" Naval Gun
 
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
@@ -77,5 +79,7 @@ item.missile_emp.name=EMP Missile
 item.missile_decoy.name=Decoy Missile
 item.missile_nuclear.name=Nuclear Missile
 
+item.drum.name=Powder Drum
+item.charge_naval.name=16" HE Shell
 item.charge_railgun.name=Deuterium Plasma Capsule
 item.charge_bfg.name=Argent Plasma Capsule

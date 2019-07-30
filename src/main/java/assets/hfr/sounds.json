@@ -11,6 +11,8 @@
     "block.buttonYes": {"category": "block", "sounds": [{"name": "block/buttonYes", "stream": false}]},
     "block.buttonNo": {"category": "block", "sounds": [{"name": "block/buttonNo", "stream": false}]},
     "block.railgunOrientation": {"category": "block", "sounds": [{"name": "block/railgunOrientation", "stream": false}]},
+    "block.railgunFire": {"category": "block", "sounds": [{"name": "block/railgunFire", "stream": false}]},
+    "block.railgunCharge": {"category": "block", "sounds": [{"name": "block/railgunCharge", "stream": false}]},
 
 	"alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
     "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},

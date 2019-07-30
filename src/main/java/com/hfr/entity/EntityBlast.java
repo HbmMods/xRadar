@@ -32,6 +32,7 @@ public class EntityBlast extends Entity {
 	
 	int life = MainRegistry.fireDuration;
 	int size;
+	int damage = 100;
 
 	public EntityBlast(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -64,7 +65,7 @@ public class EntityBlast extends Entity {
 				
 				if(dist <= size && canHurt(e)) {
 					e.setFire(5);
-					e.attackEntityFrom(MainRegistry.blast, 1000.0F);
+					e.attackEntityFrom(MainRegistry.blast, damage);
 				}
 			}
 		}
@@ -112,13 +113,14 @@ public class EntityBlast extends Entity {
 		return false;
 	}
 	
-	public static EntityBlast statFac(World world, double posX, double posY, double posZ, int size) {
+	public static EntityBlast statFac(World world, double posX, double posY, double posZ, int size, int damage) {
 		
 		EntityBlast blast = new EntityBlast(world);
 		blast.posX = posX;
 		blast.posY = posY;
 		blast.posZ = posZ;
 		blast.size = size;
+		blast.damage = damage;
 		return blast;
 	}
 
@@ -129,12 +131,14 @@ public class EntityBlast extends Entity {
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.ticksExisted = nbt.getInteger("age");
 		this.size = nbt.getInteger("size");
+		this.damage = nbt.getInteger("damage");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("age", this.ticksExisted);
 		nbt.setInteger("size", this.size);
+		nbt.setInteger("damage", this.damage);
 	}
 
 }

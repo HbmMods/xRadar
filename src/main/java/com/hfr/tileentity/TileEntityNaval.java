@@ -1,10 +1,7 @@
 package com.hfr.tileentity;
 
-import java.util.Arrays;
-
 import com.hfr.entity.EntityRailgunBlast;
 import com.hfr.items.ModItems;
-import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
@@ -14,7 +11,7 @@ import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRailgun extends TileEntity implements ISidedInventory, IEnergyHandler {
+public class TileEntityNaval extends TileEntity implements ISidedInventory {
 
 	private ItemStack slots[];
 	
@@ -32,12 +29,11 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	private static final int[] slots_bottom = new int[] { 0 };
 	private static final int[] slots_side = new int[] { 0 };
 	
-	public EnergyStorage storage = new EnergyStorage(1000, 100, 100);
+	public int powder;
+	public static final int maxPowder = 30 * 64 * 4;
 
 	//system time for interpolation
 	public long startTime;
-	//system time for fire button
-	public long fireTime;
 	//prev pitch for interpolation
 	public float lastPitch;
 	//prev yaw for interpolation
@@ -50,12 +46,10 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	public float yaw;
 	//delay so the server disables fire buton while turning
 	public int delay;
-	//countdown to firing
-	public int fireDelay;
 	
 	private String customName;
 	
-	public TileEntityRailgun() {
+	public TileEntityNaval() {
 		slots = new ItemStack[3];
 	}
 
@@ -92,7 +86,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.railgun";
+		return this.hasCustomInventoryName() ? this.customName : "container.naval";
 	}
 
 	@Override
@@ -159,7 +153,6 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		slots = new ItemStack[getSizeInventory()];
-		storage.readFromNBT(nbt);
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
@@ -177,7 +170,6 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 		super.writeToNBT(nbt);
 
 		NBTTagList list = new NBTTagList();
-		storage.writeToNBT(nbt);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -207,6 +199,10 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
 	}
+	
+	public int getPowderScaled(int i) {
+		return (powder * i) / maxPowder;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -217,17 +213,25 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 				delay--;
 			}
 			
-			if(fireDelay > 0) {
-				fireDelay--;
-				
-				if(fireDelay == 0)
-					tryFire();
+			for(int i = 0; i < 64; i++) {
+				if(slots[0] != null) {
+					
+					if(slots[0].getItem() == Items.gunpowder && powder < maxPowder) {
+						this.decrStackSize(0, 1);
+						powder++;
+					} else if(slots[0].getItem() == ModItems.drum && powder + 30 * 64 <= maxPowder) {
+						this.decrStackSize(0, 1);
+						powder += 30 * 64;
+					} else {
+						break;
+					}
+					
+				} else {
+					break;
+				}
 			}
 			
-			if(slots[0] != null && slots[0].getItem() == ModItems.battery)
-				storage.setEnergyStored(storage.getMaxEnergyStored());
-			
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, storage.getEnergyStored()));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, powder, 0));
 		}
 	}
 	
@@ -252,7 +256,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
     		float pitch = (float) (Math.asin((vec.lengthVector() * 9.81) / (300 * 300)) / 2D);
 			
     		float newYaw = (float) (yaw * 180D / Math.PI);
-    		float newPitch = (float) (pitch * 180D / Math.PI) - 90F;
+    		float newPitch = (float) (pitch * 180D / Math.PI);
     		
     		if(vec.zCoord > 0)
     			newYaw = 0 - (float) (yaw * 180D / Math.PI);
@@ -270,22 +274,16 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	
 	public boolean canFire() {
 		
-		int required = (int)(storage.getMaxEnergyStored() * 0.75);
-		
-		if(slots[2] != null && slots[2].getItem() == ModItems.charge_railgun && storage.getEnergyStored() >= required) {
-			return true;
-		}
-		
-		return false;
+		return slots[2] != null && slots[2].getItem() == ModItems.charge_naval && powder >= 30 * 64;
 	}
 	
 	public void tryFire() {
 		
 		if(canFire()) {
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.buttonYes", 1.0F, 1.0F);
 			fire();
-			slots[2] = null;
-			storage.setEnergyStored(storage.getEnergyStored() - (int)(storage.getMaxEnergyStored() * 0.75));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, 0, 0));
+			this.decrStackSize(2, 1);
+			powder -= 30 * 64;
 		} else {
 			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.buttonNo", 1.0F, 1.0F);
 		}
@@ -298,7 +296,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 		vec.rotateAroundY((float) (yaw * Math.PI / 180D));
 
 		double fX = xCoord + 0.5 + vec.xCoord;
-		double fY = yCoord + 1 + vec.yCoord;
+		double fY = yCoord + 1.75 + vec.yCoord;
 		double fZ = zCoord + 0.5 + vec.zCoord;
 		
 		vec = vec.normalize();
@@ -313,7 +311,6 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 		fart.motionX = motionX;
 		fart.motionY = motionY;
 		fart.motionZ = motionZ;
-		fart.rotation();
 		worldObj.spawnEntityInWorld(fart);
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.railgunFire", 100.0F, 1.0F);
 	}
@@ -328,41 +325,5 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
-	}
-
-	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		return from == ForgeDirection.DOWN;
-	}
-
-	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		return storage.receiveEnergy(maxReceive, simulate);
-	}
-
-	@Override
-	public int getEnergyStored(ForgeDirection from) {
-		return storage.getEnergyStored();
-	}
-
-	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
-		return storage.getMaxEnergyStored();
-	}
-	
-	public long getPowerScaled(long i) {
-		return (storage.getEnergyStored() * i) / storage.getMaxEnergyStored();
-	}
-
-	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-
-		double toSend = Math.min(storage.getEnergyStored(), storage.getMaxExtract());
-
-		if (!simulate) {
-			storage.setEnergyStored(storage.getEnergyStored() - (int) Math.round(toSend));
-		}
-
-		return (int) Math.round(toSend);
 	}
 }

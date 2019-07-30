@@ -1,6 +1,5 @@
 package com.hfr.packet;
 
-import com.hfr.tileentity.TileEntityNaval;
 import com.hfr.tileentity.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -12,23 +11,19 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-public class RailgunCallbackPacket implements IMessage {
+public class RailgunFirePacket implements IMessage {
 
 	int x;
 	int y;
 	int z;
-	float pitch;
-	float yaw;
 
-	public RailgunCallbackPacket() { }
+	public RailgunFirePacket() { }
 
-	public RailgunCallbackPacket(int x, int y, int z, float pitch, float yaw)
+	public RailgunFirePacket(int x, int y, int z)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.pitch = pitch;
-		this.yaw = yaw;
 	}
 
 	@Override
@@ -36,8 +31,6 @@ public class RailgunCallbackPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		pitch = buf.readFloat();
-		yaw = buf.readFloat();
 	}
 
 	@Override
@@ -45,37 +38,21 @@ public class RailgunCallbackPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeFloat(pitch);
-		buf.writeFloat(yaw);
 	}
 
-	public static class Handler implements IMessageHandler<RailgunCallbackPacket, IMessage> {
+	public static class Handler implements IMessageHandler<RailgunFirePacket, IMessage> {
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-		public IMessage onMessage(RailgunCallbackPacket m, MessageContext ctx) {
+		public IMessage onMessage(RailgunFirePacket m, MessageContext ctx) {
 			try {
 				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
+	
 				if (te != null && te instanceof TileEntityRailgun) {
 						
 					TileEntityRailgun gun = (TileEntityRailgun) te;
 					
-					gun.startTime = System.currentTimeMillis();
-					gun.lastPitch = gun.pitch;
-					gun.lastYaw = gun.yaw;
-					gun.pitch = m.pitch;
-					gun.yaw = m.yaw;
-				}
-				if (te != null && te instanceof TileEntityNaval) {
-						
-					TileEntityNaval gun = (TileEntityNaval) te;
-					
-					gun.startTime = System.currentTimeMillis();
-					gun.lastPitch = gun.pitch;
-					gun.lastYaw = gun.yaw;
-					gun.pitch = m.pitch;
-					gun.yaw = m.yaw;
+					gun.fireTime = System.currentTimeMillis();
 				}
 				
 			} catch (Exception x) { }

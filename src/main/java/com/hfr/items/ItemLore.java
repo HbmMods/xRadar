@@ -54,7 +54,13 @@ public class ItemLore extends Item {
 		}
 		
 		
-		
+
+		if(this == ModItems.drum) {
+			list.add("Contains 30 stacks of gunpowder");
+		}
+		if(this == ModItems.charge_naval) {
+			list.add("Naval cannon ammo");
+		}
 		if(this == ModItems.charge_railgun) {
 			list.add("Railgun ammo");
 		}

@@ -5,6 +5,7 @@ import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.tileentity.TileEntityNaval;
 import com.hfr.tileentity.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -84,8 +85,8 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityRailgun gun = (TileEntityRailgun)te;
 					
 					if(m.id == 0) {
-						//TODO: recalculate new angles here & check if rotor can be turned
 						if(gun.setAngles()) {
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonYes", 1.0F, 1.0F);
 							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.railgunOrientation", 1.0F, 1.0F);
 							PacketDispatcher.wrapper.sendToAll(new RailgunCallbackPacket(m.x, m.y, m.z, gun.pitch, gun.yaw));
 						} else {
@@ -94,9 +95,32 @@ public class AuxButtonPacket implements IMessage {
 					}
 					
 					if(m.id == 1) {
-						if(gun.delay <= 0) {
-							gun.tryFire();
+						if(gun.canFire()) {
+							gun.fireDelay = gun.cooldownDurationTicks;
+							PacketDispatcher.wrapper.sendToAll(new RailgunFirePacket(m.x, m.y, m.z));
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonYes", 1.0F, 1.0F);
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.railgunCharge", 10.0F, 1.0F);
+						} else {
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonNo", 1.0F, 1.0F);
 						}
+					}
+				}
+				
+				if (te instanceof TileEntityNaval) {
+					TileEntityNaval gun = (TileEntityNaval)te;
+					
+					if(m.id == 0) {
+						if(gun.setAngles()) {
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonYes", 1.0F, 1.0F);
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.railgunOrientation", 1.0F, 1.0F);
+							PacketDispatcher.wrapper.sendToAll(new RailgunCallbackPacket(m.x, m.y, m.z, gun.pitch, gun.yaw));
+						} else {
+							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonNo", 1.0F, 1.0F);
+						}
+					}
+					
+					if(m.id == 1) {
+						gun.tryFire();
 					}
 				}
 				

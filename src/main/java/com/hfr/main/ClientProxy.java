@@ -5,6 +5,7 @@ import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,6 +51,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRefinery.class, new RenderRefinery());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailgun.class, new RenderRailgun());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTank.class, new RenderTank());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNaval.class, new RenderNaval());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());
@@ -108,6 +110,40 @@ public class ClientProxy extends ServerProxy
 		case 3:
 			EntityReddustFX fx2 = new EntityReddustFX(world, posX, posY, posZ, 223F/256F, 55F/256F, 149F/256F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx2);
+			break;
+			
+		default: break;
+		
+		}
+	}
+	
+	//sfx stands for special effects, not sound effects
+	@Override
+	public void spawnSFX(World world, double posX, double posY, double posZ, int type, Object payload) {
+
+		switch(type) {
+		
+		case 0:
+			int pow = 250;
+			float angle = 25;
+			float base = 0.5F;
+			for(int i = 0; i < pow; i++) {
+
+				float momentum = base * world.rand.nextFloat();
+				float sway = (pow - i) / (float)pow;
+				Vec3 vec = Vec3.createVectorHelper(((Vec3)payload).xCoord, ((Vec3)payload).yCoord, ((Vec3)payload).zCoord);
+				vec.rotateAroundZ((float) (angle * world.rand.nextGaussian() * sway * Math.PI / 180D));
+				vec.rotateAroundY((float) (angle * world.rand.nextGaussian() * sway * Math.PI / 180D));
+				
+				EntityFireworkSparkFX blast = new EntityFireworkSparkFX(world, posX, posY, posZ, vec.xCoord * momentum, vec.yCoord * momentum, vec.zCoord * momentum, Minecraft.getMinecraft().effectRenderer);
+				
+				if(world.rand.nextBoolean())
+					blast.setColour(0x0088EA);
+				else
+					blast.setColour(0x52A8E6);
+				
+				Minecraft.getMinecraft().effectRenderer.addEffect(blast);
+			}
 			break;
 			
 		default: break;

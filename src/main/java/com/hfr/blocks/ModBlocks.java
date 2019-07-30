@@ -49,9 +49,11 @@ public class ModBlocks {
 	public static final int guiID_refinery = 5;
 	public static Block machine_tank;
 	public static final int guiID_tank = 6;
-	
+
 	public static Block railgun_plasma;
 	public static final int guiID_railgun = 7;
+	public static Block cannon_naval;
+	public static final int guiID_naval = 8;
 
 	public static Block debug;
 
@@ -99,6 +101,7 @@ public class ModBlocks {
 		chlorine_gas = new BlockClorine(Material.cloth).setBlockName("chlorine_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":chlorine_gas");
 		
 		railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal).setBlockName("railgun_plasma").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":railgun_plasma");
+		cannon_naval = new CannonNaval(Material.iron).setStepSound(soundTypeMetal).setBlockName("cannon_naval").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":cannon_naval");
 		
 		debug = new BlockDebug(Material.cloth).setStepSound(soundTypeMetal).setBlockName("debug").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":debug");
 	}
@@ -132,6 +135,7 @@ public class ModBlocks {
 
 		GameRegistry.registerBlock(launch_pad, ItemRadarBlock.class, launch_pad.getUnlocalizedName());
 		GameRegistry.registerBlock(railgun_plasma, ItemRadarBlock.class, railgun_plasma.getUnlocalizedName());
+		GameRegistry.registerBlock(cannon_naval, ItemRadarBlock.class, cannon_naval.getUnlocalizedName());
 
 		GameRegistry.registerBlock(debug, ItemRadarBlock.class, debug.getUnlocalizedName());
 	}

@@ -67,6 +67,9 @@ public class ResourceManager {
 	public static final ResourceLocation refinery_tex = new ResourceLocation(RefStrings.MODID, "textures/models/refinery.png");
 	
 	//PLASMA RAILGUN
+	public static final ResourceLocation railgun_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/railgun_base.png");
+	public static final ResourceLocation railgun_rotor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/railgun_rotor.png");
+	public static final ResourceLocation railgun_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/railgun_main.png");
 	public static final IModelCustom railgun_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_base.obj"));
 	public static final IModelCustom railgun_rotor = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_rotor.obj"));
 	public static final IModelCustom railgun_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/railgun_main.obj"));
@@ -87,4 +90,10 @@ public class ResourceManager {
 	public static final ResourceLocation tank_3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_3.png");
 	public static final ResourceLocation tank_4_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_4.png");
 	public static final ResourceLocation tank_5_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_5.png");
+	public static final ResourceLocation tank_empty_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_empty.png");
+	
+	//16" NAVAL CANNON
+	public static final IModelCustom naval_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/naval_base.obj"));
+	public static final IModelCustom naval_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/naval_main.obj"));
+	public static final IModelCustom naval_cannons = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/naval_cannons.obj"));
 }

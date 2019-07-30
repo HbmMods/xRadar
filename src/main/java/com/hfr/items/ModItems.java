@@ -59,6 +59,8 @@ public class ModItems {
 	public static Item missile_decoy;
 	public static Item missile_nuclear;
 
+	public static Item drum;
+	public static Item charge_naval;
 	public static Item charge_railgun;
 	public static Item charge_bfg;
 
@@ -107,6 +109,8 @@ public class ModItems {
 		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
 		missile_nuclear = new Item().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_nuclear");
 		
+		drum = new ItemLore().setUnlocalizedName("drum").setMaxStackSize(3).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":drum");
+		charge_naval = new ItemLore().setUnlocalizedName("charge_naval").setMaxStackSize(3).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_naval");
 		charge_railgun = new ItemLore().setUnlocalizedName("charge_railgun").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_railgun");
 		charge_bfg = new ItemLore().setUnlocalizedName("charge_bfg").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_bfg");
 
@@ -159,6 +163,8 @@ public class ModItems {
 		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
 
+		GameRegistry.registerItem(drum, drum.getUnlocalizedName());
+		GameRegistry.registerItem(charge_naval, charge_naval.getUnlocalizedName());
 		GameRegistry.registerItem(charge_railgun, charge_railgun.getUnlocalizedName());
 		GameRegistry.registerItem(charge_bfg, charge_bfg.getUnlocalizedName());
 	}

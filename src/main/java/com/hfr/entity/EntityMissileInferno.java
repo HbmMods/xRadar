@@ -29,7 +29,7 @@ public class EntityMissileInferno extends EntityMissileBaseSimple {
     	worldObj.newExplosion(scapegoat, posX, posY, posZ, 35F, true, true);
     	
 		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ));
-    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t3blast));
+    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t3blast, MainRegistry.t3Damage));
 	}
 
 	@Override

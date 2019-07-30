@@ -25,7 +25,7 @@ public class EntityMissileStrong extends EntityMissileBaseSimple {
 		//ExplosionLarge.explode(worldObj, posX, posY, posZ, 25.0F, true, true, true);
 		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
     	worldObj.newExplosion(scapegoat, posX, posY, posZ, 25F, false, true);
-    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t2blast));
+    	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, MainRegistry.t2blast, MainRegistry.t2Damage));
 	}
 
 	@Override

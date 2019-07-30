@@ -133,13 +133,20 @@ public class MainRegistry
 	public static int nukeDist = 5;
 	public static int nukeStep = 5;
 	public static boolean nukeSimple = false;
+	public static int nukeDamage = 100;
 
 	public static int mushLife = 15 * 20;
 	public static int mushScale = 80;
 	public static int fireDuration = 4 * 20;
 	public static int t1blast = 50;
+	public static int t1Damage = 100;
 	public static int t2blast = 100;
+	public static int t2Damage = 100;
 	public static int t3blast = 150;
+	public static int t3Damage = 100;
+	
+	public static int navalDamage = 100;
+	public static int railgunDamage = 100;
 	
 	public static int mlpf = 100;
 	
@@ -181,6 +188,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineRefinery.class, "tileentity_hfr_refinery");
 		GameRegistry.registerTileEntity(TileEntityRailgun.class, "tileentity_hfr_railgun");
 		GameRegistry.registerTileEntity(TileEntityTank.class, "tileentity_hfr_barrel");
+		GameRegistry.registerTileEntity(TileEntityNaval.class, "tileentity_hfr_naval");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -403,6 +411,10 @@ public class MainRegistry
         Property t3blastP = config.get("MISSILE", "tier3Blast", 150);
         t3blastP.comment = "Blast radius(c) of tier 3 missiles";
         t3blast = t3blastP.getInt();
+
+        t1Damage = createConfigInt(config, "MISSILE", "tier1Damage", "How much damage a tier 1 death blast does per tick", 100);
+        t2Damage = createConfigInt(config, "MISSILE", "tier2Damage", "How much damage a tier 2 death blast does per tick", 100);
+        t3Damage = createConfigInt(config, "MISSILE", "tier3Damage", "How much damage a tier 3 death blast does per tick", 1000);
         
         Property mHealthP = config.get("MISSILE", "missileHealth", 15);
         mHealthP.comment = "How much beating a missile can take before it goes to commit unlive.";
@@ -457,6 +469,8 @@ public class MainRegistry
         nukeSimpleP.comment = "Simple mode causes the explosion to be totally flat, saving on CPU power";
         nukeSimple = nukeSimpleP.getBoolean();
         
+        nukeDamage = createConfigInt(config, "NUKE", "nukeDamage", "How much damage a nuclear death blast does per tick", 1000);
+        
         Property dBufferP = config.get("DERRICK", "derrickBuffer", 100000);
         dBufferP.comment = "How much energy the derrick can store";
         derrickBuffer = dBufferP.getInt();
@@ -484,6 +498,9 @@ public class MainRegistry
         refNaph = createConfigInt(config, "REFINERY", "refineryOil_Diesel", "How much diesel the refinery creates per tick", 15);
         refLight = createConfigInt(config, "REFINERY", "refineryOil_Kerosene", "How much kerosene the refinery creates per tick", 10);
         refPetro = createConfigInt(config, "REFINERY", "refineryOil_Petroleum", "How much petroleum the refinery creates per tick", 5);
+
+        navalDamage = createConfigInt(config, "RAILGUN", "navalDamage", "How much damage a naval cannon death blast does per tick", 100);
+        railgunDamage = createConfigInt(config, "RAILGUN", "railgunDamage", "How much damage a railgun death blast does per tick", 1000);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";
