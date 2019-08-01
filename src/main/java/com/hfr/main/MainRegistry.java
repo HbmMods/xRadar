@@ -49,6 +49,7 @@ import java.util.Random;
 import org.apache.logging.log4j.Logger;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.blocks.TileEntityDuct;
 import com.hfr.entity.*;
 import com.hfr.handler.GUIHandler;
 import com.hfr.items.ModItems;
@@ -147,6 +148,8 @@ public class MainRegistry
 	
 	public static int navalDamage = 100;
 	public static int railgunDamage = 100;
+	public static int railgunBuffer = 500000000;
+	public static int railgunUse = 250000000;
 	
 	public static int mlpf = 100;
 	
@@ -189,6 +192,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityRailgun.class, "tileentity_hfr_railgun");
 		GameRegistry.registerTileEntity(TileEntityTank.class, "tileentity_hfr_barrel");
 		GameRegistry.registerTileEntity(TileEntityNaval.class, "tileentity_hfr_naval");
+		GameRegistry.registerTileEntity(TileEntityDuct.class, "tileentity_hfr_duct");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -206,6 +210,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityEMP.class, "entity_lingering_emp", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBlast.class, "entity_deathblast", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityRailgunBlast.class, "entity_railgun_pellet", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityShell.class, "entity_naval_pellet", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -501,6 +506,8 @@ public class MainRegistry
 
         navalDamage = createConfigInt(config, "RAILGUN", "navalDamage", "How much damage a naval cannon death blast does per tick", 100);
         railgunDamage = createConfigInt(config, "RAILGUN", "railgunDamage", "How much damage a railgun death blast does per tick", 1000);
+        railgunBuffer = createConfigInt(config, "RAILGUN", "railgunBuffer", "How much RF the railgun can store", 500000000);
+        railgunUse = createConfigInt(config, "RAILGUN", "railgunConsumption", "How much RF the railgun requires per shot", 250000000);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";

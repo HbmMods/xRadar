@@ -55,6 +55,7 @@ public class RenderLaunch extends TileEntitySpecialRenderer {
         	state = ((TileEntityLaunchPad)tileEntity).state;
         
 	        GL11.glTranslated(0, 1, 0);
+	        GL11.glShadeModel(GL11.GL_SMOOTH);
 	        
 			if(state == 1)
 			{
@@ -118,6 +119,7 @@ public class RenderLaunch extends TileEntitySpecialRenderer {
 			}
 			
 	        GL11.glEnable(GL11.GL_CULL_FACE);
+	        GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glPopMatrix();
     }

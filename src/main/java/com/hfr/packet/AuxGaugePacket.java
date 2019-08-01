@@ -107,15 +107,17 @@ public class AuxGaugePacket implements IMessage {
 						
 					TileEntityRailgun gen = (TileEntityRailgun) te;
 					
-					Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
-					vec.rotateAroundZ((float) (gen.pitch * Math.PI / 180D));
-					vec.rotateAroundY((float) (gen.yaw * Math.PI / 180D));
-
-					double fX = gen.xCoord + 0.5 + vec.xCoord;
-					double fY = gen.yCoord + 1 + vec.yCoord;
-					double fZ = gen.zCoord + 0.5 + vec.zCoord;
-					
-					MainRegistry.proxy.spawnSFX(gen.getWorldObj(), fX, fY, fZ, 0, vec.normalize());
+					if(m.meta == 0) {
+						Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
+						vec.rotateAroundZ((float) (gen.pitch * Math.PI / 180D));
+						vec.rotateAroundY((float) (gen.yaw * Math.PI / 180D));
+	
+						double fX = gen.xCoord + 0.5 + vec.xCoord;
+						double fY = gen.yCoord + 1 + vec.yCoord;
+						double fZ = gen.zCoord + 0.5 + vec.zCoord;
+						
+						MainRegistry.proxy.spawnSFX(gen.getWorldObj(), fX, fY, fZ, 0, vec.normalize());
+					}
 				}
 				
 				if (te != null && te instanceof TileEntityNaval) {

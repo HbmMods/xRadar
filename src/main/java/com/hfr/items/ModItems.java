@@ -109,8 +109,8 @@ public class ModItems {
 		missile_decoy = new Item().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_decoy");
 		missile_nuclear = new Item().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":missile_nuclear");
 		
-		drum = new ItemLore().setUnlocalizedName("drum").setMaxStackSize(3).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":drum");
-		charge_naval = new ItemLore().setUnlocalizedName("charge_naval").setMaxStackSize(3).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_naval");
+		drum = new ItemLore().setUnlocalizedName("drum").setMaxStackSize(4).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":drum");
+		charge_naval = new ItemLore().setUnlocalizedName("charge_naval").setMaxStackSize(2).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_naval");
 		charge_railgun = new ItemLore().setUnlocalizedName("charge_railgun").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_railgun");
 		charge_bfg = new ItemLore().setUnlocalizedName("charge_bfg").setMaxStackSize(1).setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":charge_bfg");
 

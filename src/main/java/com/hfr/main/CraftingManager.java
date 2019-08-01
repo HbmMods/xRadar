@@ -112,6 +112,9 @@ public class CraftingManager {
 				
 				GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cassette, 1, next), new Object[] { new ItemStack(ModItems.cassette, 1, i) });
 			}
+			
+			GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.machine_tank), new Object[] { ModBlocks.machine_tank });
+
 		}
 		
 		//GameRegistry.addRecipe(new ItemStack(ModBlocks.debug), new Object[] { "DBB", "PBB", "I I", 'D', ModItems.canister_diesel, 'B', Blocks.iron_block, 'P', Blocks.piston, 'I', Items.iron_ingot });

@@ -1,10 +1,12 @@
 package com.hfr.tileentity;
 
 import com.hfr.entity.EntityRailgunBlast;
+import com.hfr.entity.EntityShell;
 import com.hfr.items.ModItems;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.RailgunRotationPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
@@ -153,6 +155,9 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		slots = new ItemStack[getSizeInventory()];
+		pitch = nbt.getFloat("pitch");
+		yaw = nbt.getFloat("yaw");
+		powder = nbt.getInteger("powder");
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
@@ -170,6 +175,9 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 		super.writeToNBT(nbt);
 
 		NBTTagList list = new NBTTagList();
+		nbt.setFloat("pitch", pitch);
+		nbt.setFloat("yaw", yaw);
+		nbt.setInteger("powder", powder);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -232,6 +240,7 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 			}
 			
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, powder, 0));
+			PacketDispatcher.wrapper.sendToAll(new RailgunRotationPacket(xCoord, yCoord, zCoord, pitch, yaw));
 		}
 	}
 	
@@ -247,16 +256,16 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
     		Vec3 vec = Vec3.createVectorHelper(x - xCoord, 0, z - zCoord);
     		Vec3 unit = Vec3.createVectorHelper(1, 0, 0);
     		
-    		if(vec.lengthVector() < 1 || vec.lengthVector() > 9000)
+    		if(vec.lengthVector() < 1 || vec.lengthVector() > 4950)
     			return false;
     		
     		double yawUpper = vec.xCoord * unit.xCoord/* + vec.zCoord * unit.zCoord*/; //second side falls away since unit.z is always 0
     		double yawLower = vec.lengthVector()/* * unit.lengthVector()*/; //second side falls away since unit always has length 1
     		float yaw = (float) Math.acos(yawUpper / yawLower);
-    		float pitch = (float) (Math.asin((vec.lengthVector() * 9.81) / (300 * 300)) / 2D);
+    		float pitch = (float) (Math.asin((vec.lengthVector() * 2.02031) / (100 * 100)) / 2D);
 			
     		float newYaw = (float) (yaw * 180D / Math.PI);
-    		float newPitch = (float) (pitch * 180D / Math.PI);
+    		float newPitch = (float) (pitch * 180D / Math.PI) - 90F;
     		
     		if(vec.zCoord > 0)
     			newYaw = 0 - (float) (yaw * 180D / Math.PI);
@@ -296,15 +305,15 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 		vec.rotateAroundY((float) (yaw * Math.PI / 180D));
 
 		double fX = xCoord + 0.5 + vec.xCoord;
-		double fY = yCoord + 1.75 + vec.yCoord;
+		double fY = yCoord + 1 + vec.yCoord;
 		double fZ = zCoord + 0.5 + vec.zCoord;
 		
 		vec = vec.normalize();
-		double motionX = vec.xCoord * 15D;
-		double motionY = vec.yCoord * 15D;
-		double motionZ = vec.zCoord * 15D;
+		double motionX = vec.xCoord * 5D;
+		double motionY = vec.yCoord * 5D;
+		double motionZ = vec.zCoord * 5D;
 		
-		EntityRailgunBlast fart = new EntityRailgunBlast(worldObj);
+		EntityShell fart = new EntityShell(worldObj);
 		fart.posX = fX;
 		fart.posY = fY;
 		fart.posZ = fZ;
@@ -312,7 +321,7 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 		fart.motionY = motionY;
 		fart.motionZ = motionZ;
 		worldObj.spawnEntityInWorld(fart);
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.railgunFire", 100.0F, 1.0F);
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.navalFire", 100.0F, 1.0F);
 	}
 	
 	@Override

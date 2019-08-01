@@ -27,15 +27,15 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public EnergyStorage storage = new EnergyStorage(MainRegistry.refineryBuffer, MainRegistry.refineryBuffer / 100, MainRegistry.refineryBuffer / 100);
 
 	public int oil;
-	private static final int maxOil = 64000;
+	public static final int maxOil = 64000;
 	public int heavy;
-	private static final int maxHeavy = 16000;
+	public static final int maxHeavy = 16000;
 	public int naph;
-	private static final int maxNaph = 16000;
+	public static final int maxNaph = 16000;
 	public int light;
-	private static final int maxLight = 16000;
+	public static final int maxLight = 16000;
 	public int petro;
-	private static final int maxPetro = 16000;
+	public static final int maxPetro = 16000;
 	
 	private static final int[] slots_top = new int[] { 1 };
 	private static final int[] slots_bottom = new int[] { 0, 2, 4, 6, 8, 10, 11};

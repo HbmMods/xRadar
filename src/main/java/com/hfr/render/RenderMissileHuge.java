@@ -35,7 +35,9 @@ public class RenderMissileHuge extends Render {
         	bindTexture(ResourceManager.missileHuge_IN_tex);
         if(p_76986_1_ instanceof EntityMissileNuclear)
         	bindTexture(ResourceManager.missileNuclear_tex);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.missileNeon.renderAll();
+        GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
 

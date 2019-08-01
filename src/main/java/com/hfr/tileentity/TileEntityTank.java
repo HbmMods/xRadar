@@ -30,7 +30,7 @@ public class TileEntityTank extends TileEntity implements ISidedInventory {
 
 	public int type;
 	public int fill;
-	public static final int maxFill = 2000;
+	public static final int maxFill = 2000*1000;
 
 	public static final int FLUID_OIL = 0;
 	public static final int FLUID_GAS = 1;
@@ -229,36 +229,36 @@ public class TileEntityTank extends TileEntity implements ISidedInventory {
 			}
 			
 			//add fluid
-			if(slots[0] != null && slots[0].getItem() == full && fill < maxFill) {
+			if(slots[0] != null && slots[0].getItem() == full && fill + 1000 <= maxFill) {
 				
 				if(slots[1] != null && slots[1].getItem() == empty && slots[1].stackSize < slots[1].getMaxStackSize()) {
 					
 					this.decrStackSize(0, 1);
 					slots[1].stackSize++;
-					fill += 1;
+					fill += 1000;
 				} else if(slots[1] == null) {
 					
 					this.decrStackSize(0, 1);
 					slots[1] = new ItemStack(empty);
-					fill += 1;
+					fill += 1000;
 				}
 			}
 			
 			//remove fluid
-			if(fill > 0 && slots[2] != null && slots[2].getItem() == empty) {
+			if(fill >= 1000 && slots[2] != null && slots[2].getItem() == empty) {
 				
 				if(slots[3] != null && slots[3].getItem() == full && slots[3].stackSize < slots[3].getMaxStackSize()) {
 					
 					this.decrStackSize(2, 1);
 					slots[3].stackSize++;
-					fill -= 1;
+					fill -= 1000;
 				}
 				
 				if(slots[3] == null) {
 					
 					this.decrStackSize(2, 1);
 					slots[3] = new ItemStack(full);
-					fill -= 1;
+					fill -= 1000;
 				}
 			}
 			

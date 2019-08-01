@@ -1,6 +1,7 @@
 package com.hfr.blocks;
 
 import com.hfr.items.ItemRadarBlock;
+import com.hfr.items.ItemTankBlock;
 import com.hfr.lib.RefStrings;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -50,6 +51,9 @@ public class ModBlocks {
 	public static Block machine_tank;
 	public static final int guiID_tank = 6;
 
+	public static Block oil_duct;
+	public static Block gas_duct;
+
 	public static Block railgun_plasma;
 	public static final int guiID_railgun = 7;
 	public static Block cannon_naval;
@@ -97,6 +101,9 @@ public class ModBlocks {
 		machine_refinery = new MachineRefinery(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_refinery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
 		machine_tank = new MachineTank(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":tank");
 
+		oil_duct = new BlockDuct(Material.iron).setStepSound(soundTypeMetal).setBlockName("oil_duct").setHardness(2.5F).setResistance(1.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":oil_duct_icon");
+		gas_duct = new BlockDuct(Material.iron).setStepSound(soundTypeMetal).setBlockName("gas_duct").setHardness(2.5F).setResistance(1.0F).setCreativeTab(CreativeTabs.tabRedstone).setBlockTextureName(RefStrings.MODID + ":gas_duct_icon");
+
 		vent_chlorine_seal = new BlockClorineSeal(Material.iron).setStepSound(soundTypeMetal).setBlockName("vent_chlorine_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabRedstone);
 		chlorine_gas = new BlockClorine(Material.cloth).setBlockName("chlorine_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":chlorine_gas");
 		
@@ -131,7 +138,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_forcefield, ItemRadarBlock.class, machine_forcefield.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_derrick, ItemRadarBlock.class, machine_derrick.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_refinery, ItemRadarBlock.class, machine_refinery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_tank, ItemRadarBlock.class, machine_tank.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_tank, ItemTankBlock.class, machine_tank.getUnlocalizedName());
+
+		GameRegistry.registerBlock(oil_duct, oil_duct.getUnlocalizedName());
+		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
 
 		GameRegistry.registerBlock(launch_pad, ItemRadarBlock.class, launch_pad.getUnlocalizedName());
 		GameRegistry.registerBlock(railgun_plasma, ItemRadarBlock.class, railgun_plasma.getUnlocalizedName());

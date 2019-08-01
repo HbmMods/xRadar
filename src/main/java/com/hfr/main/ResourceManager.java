@@ -40,9 +40,9 @@ public class ResourceManager {
 	public static final ResourceLocation vault4_label_81_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault4_label_81.png");
 
 	//MISSILES
-	public static final IModelCustom missileV2 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileV2.obj"));
-	public static final IModelCustom missileStrong = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileGeneric.obj"));
-	public static final IModelCustom missileNeon = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileNeon.obj"));
+	public static final IModelCustom missileV2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileV2.obj"));
+	public static final IModelCustom missileStrong = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileGeneric.obj"));
+	public static final IModelCustom missileNeon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileNeon.obj"));
 	public static final ResourceLocation missileV2_HE_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_HE.png");
 	public static final ResourceLocation missileV2_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_IN.png");
 	public static final ResourceLocation missileAA_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileAA.png");
@@ -63,11 +63,11 @@ public class ResourceManager {
 	public static final ResourceLocation devon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/truck_busted.png");
 	
 	//DERRICK
-	public static final IModelCustom derrick = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/derrick.obj"));
+	public static final IModelCustom derrick = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/derrick.obj"));
 	public static final ResourceLocation derrick_tex = new ResourceLocation(RefStrings.MODID, "textures/models/derrick.png");
 	
 	//REFINERY
-	public static final IModelCustom refinery = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/refinery.obj"));
+	public static final IModelCustom refinery = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/refinery.obj"));
 	public static final ResourceLocation refinery_tex = new ResourceLocation(RefStrings.MODID, "textures/models/refinery.png");
 	
 	//PLASMA RAILGUN
@@ -83,6 +83,7 @@ public class ResourceManager {
 	public static final IModelCustom tom_flame = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/tom_flame.hmf"));
 	public static final ResourceLocation tom_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tom_main.png");
 	public static final ResourceLocation tom_flame_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tom_flame.png");
+	public static final ResourceLocation tom_flame_o_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tom_flame_o.png");
 
 	//TANK
 	public static final IModelCustom tank_main = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/fluidtank_main.obj"));
@@ -97,7 +98,10 @@ public class ResourceManager {
 	public static final ResourceLocation tank_empty_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tank_empty.png");
 	
 	//16" NAVAL CANNON
-	public static final IModelCustom naval_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/naval_base.obj"));
-	public static final IModelCustom naval_main = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/naval_main.obj"));
-	public static final IModelCustom naval_cannons = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/naval_cannons.obj"));
+	public static final IModelCustom naval_base = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/naval_base.obj"));
+	public static final IModelCustom naval_main = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/naval_main.obj"));
+	public static final IModelCustom naval_cannons = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/naval_cannons.obj"));
+	public static final ResourceLocation naval_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/naval_base.png");
+	public static final ResourceLocation naval_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/naval_main.png");
+	public static final ResourceLocation naval_cannons_tex = new ResourceLocation(RefStrings.MODID, "textures/models/naval_cannons.png");
 }

@@ -8,6 +8,7 @@ import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.RailgunRotationPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
@@ -32,7 +33,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	private static final int[] slots_bottom = new int[] { 0 };
 	private static final int[] slots_side = new int[] { 0 };
 	
-	public EnergyStorage storage = new EnergyStorage(1000, 100, 100);
+	public EnergyStorage storage = new EnergyStorage(MainRegistry.railgunBuffer, MainRegistry.railgunBuffer / 100, MainRegistry.railgunBuffer / 100);
 
 	//system time for interpolation
 	public long startTime;
@@ -160,6 +161,8 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 
 		slots = new ItemStack[getSizeInventory()];
 		storage.readFromNBT(nbt);
+		pitch = nbt.getFloat("pitch");
+		yaw = nbt.getFloat("yaw");
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
@@ -178,6 +181,8 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 
 		NBTTagList list = new NBTTagList();
 		storage.writeToNBT(nbt);
+		nbt.setFloat("pitch", pitch);
+		nbt.setFloat("yaw", yaw);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -228,6 +233,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 				storage.setEnergyStored(storage.getMaxEnergyStored());
 			
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, storage.getEnergyStored()));
+			PacketDispatcher.wrapper.sendToAll(new RailgunRotationPacket(xCoord, yCoord, zCoord, pitch, yaw));
 		}
 	}
 	
@@ -270,7 +276,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 	
 	public boolean canFire() {
 		
-		int required = (int)(storage.getMaxEnergyStored() * 0.75);
+		int required = MainRegistry.railgunUse;
 		
 		if(slots[2] != null && slots[2].getItem() == ModItems.charge_railgun && storage.getEnergyStored() >= required) {
 			return true;
@@ -284,7 +290,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 		if(canFire()) {
 			fire();
 			slots[2] = null;
-			storage.setEnergyStored(storage.getEnergyStored() - (int)(storage.getMaxEnergyStored() * 0.75));
+			storage.setEnergyStored(storage.getEnergyStored() - MainRegistry.railgunUse);
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, 0, 0));
 		} else {
 			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.buttonNo", 1.0F, 1.0F);

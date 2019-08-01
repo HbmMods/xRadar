@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -115,7 +116,7 @@ public class MachineTank extends BlockContainer {
     }
 
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
 		if (i == 0) {
@@ -130,6 +131,45 @@ public class MachineTank extends BlockContainer {
 		if (i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+		
+		TileEntityTank tank = (TileEntityTank)world.getTileEntity(x, y, z);
+		
+		if(tank != null && stack.hasTagCompound()) {
+			tank.fill = stack.stackTagCompound.getInteger("fill");
+			tank.type = stack.stackTagCompound.getInteger("type");
+		}
 	}
+	
+	@Override
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest)
+	{
+		if(!player.capabilities.isCreativeMode && !world.isRemote && willHarvest)
+		{
+			float motion = 0.7F;
+			double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+			double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+			double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+			
+			TileEntityTank tank = (TileEntityTank)world.getTileEntity(x, y, z);
+			
+			if(tank != null) {
+			
+				ItemStack stack = new ItemStack(ModBlocks.machine_tank);
+				stack.stackTagCompound = new NBTTagCompound();
+				stack.stackTagCompound.setInteger("type", tank.type);
+				stack.stackTagCompound.setInteger("fill", tank.fill);
+	
+				EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, stack);
+				world.spawnEntityInWorld(entityItem);
+			}
+		}
+
+		return world.setBlockToAir(x, y, z);
+	}
+
+    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+        return null;
+    }
 
 }

@@ -11,6 +11,7 @@ import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.util.PipeUtil;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
@@ -36,9 +37,9 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 	public EnergyStorage storage = new EnergyStorage(MainRegistry.derrickBuffer, MainRegistry.derrickBuffer / 100, MainRegistry.derrickBuffer / 100);
 
 	public int oil;
-	private static final int maxOil = 32000;
+	public static final int maxOil = 32000;
 	public int gas;
-	private static final int maxGas = 32000;
+	public static final int maxGas = 32000;
 	
 	public int warning;
 	public int warning2;
@@ -233,6 +234,11 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 			age = 0;
 		
 		if(!worldObj.isRemote) {
+			
+			if(age == timer - 1) {
+				PipeUtil.initOil(this, worldObj, xCoord, yCoord, zCoord);
+				PipeUtil.initGas(this, worldObj, xCoord, yCoord, zCoord);
+			}
 			
 			if(slots[0] != null && slots[0].getItem() == ModItems.battery)
 				storage.setEnergyStored(storage.getMaxEnergyStored());

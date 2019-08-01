@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 public class TomPronter {
 
 	
-	public static void prontTom() {
+	public static void prontTom(int type) {
 		GL11.glPushMatrix();
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
@@ -37,9 +37,13 @@ public class TomPronter {
 		GL11.glScalef(0.8F, 5F, 0.8F);
 		
 		Random rand = new Random(0);
+
+		if(type == 0)
+			tex.bindTexture(ResourceManager.tom_flame_tex);
+		if(type == 1)
+			tex.bindTexture(ResourceManager.tom_flame_o_tex);
 		
         for(int i = 0; i < 20/*10*/; i++) {
-			tex.bindTexture(ResourceManager.tom_flame_tex);
 			
 			int r = rand.nextInt(90);
 			

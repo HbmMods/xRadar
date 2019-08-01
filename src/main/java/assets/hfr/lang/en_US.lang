@@ -19,6 +19,9 @@ container.tank=Oil Tank
 tile.cannon_naval.name=16" Naval Gun
 container.naval=16" Naval Gun
 
+tile.oil_duct.name=Oil Pipe
+tile.gas_duct.name=Gas Pipe
+
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
 tile.temp.name=Temporary Block

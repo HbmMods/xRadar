@@ -18,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
 public class AuxButtonPacket implements IMessage {
 
@@ -120,6 +121,19 @@ public class AuxButtonPacket implements IMessage {
 					}
 					
 					if(m.id == 1) {
+						if(gun.canFire()) {
+							
+							Vec3 vec = Vec3.createVectorHelper(6, 0, 0);
+							vec.rotateAroundZ((float) (gun.pitch * Math.PI / 180D));
+							vec.rotateAroundY((float) (gun.yaw * Math.PI / 180D));
+
+							double fX = gun.xCoord + 0.5 + vec.xCoord;
+							double fY = gun.yCoord + 1 + vec.yCoord;
+							double fZ = gun.zCoord + 0.5 + vec.zCoord;
+							
+							PacketDispatcher.wrapper.sendToAll(new ParticleControlPacket(fX, fY, fZ, 4));
+						}
+						
 						gun.tryFire();
 					}
 				}

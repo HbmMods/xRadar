@@ -204,6 +204,8 @@ public class VaultDoor extends BlockContainer {
     			world.func_147480_a(x, y, z, true);
 			}
 		}
+		
+		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 	
 	@Override

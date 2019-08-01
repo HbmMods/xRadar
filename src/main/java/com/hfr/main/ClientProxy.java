@@ -2,6 +2,7 @@
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFireworkSparkFX;
+import net.minecraft.client.particle.EntityLargeExplodeFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
@@ -10,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
+import com.hfr.blocks.TileEntityDuct;
 import com.hfr.effect.ParticleContrail;
 import com.hfr.entity.*;
 import com.hfr.loader.HmfModelLoader;
@@ -52,6 +54,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRailgun.class, new RenderRailgun());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTank.class, new RenderTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNaval.class, new RenderNaval());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDuct.class, new RenderDuct());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());
@@ -70,6 +73,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeMK3());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRailgunBlast.class, new RenderTom());
+		RenderingRegistry.registerEntityRenderingHandler(EntityShell.class, new RenderTom());
 	}
 	
 	@Override
@@ -110,6 +114,10 @@ public class ClientProxy extends ServerProxy
 		case 3:
 			EntityReddustFX fx2 = new EntityReddustFX(world, posX, posY, posZ, 223F/256F, 55F/256F, 149F/256F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx2);
+			break;
+		case 4:
+			EntityLargeExplodeFX fx3 = new EntityLargeExplodeFX(Minecraft.getMinecraft().getTextureManager(), world, posX, posY, posZ, 0, 0, 0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx3);
 			break;
 			
 		default: break;

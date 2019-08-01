@@ -37,7 +37,9 @@ public class RenderMissileGeneric extends Render {
         	bindTexture(ResourceManager.missileAA_tex);
         if(p_76986_1_ instanceof EntityMissileDecoy)
         	bindTexture(ResourceManager.missile_decoy_tex);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.missileV2.renderAll();
+        GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
 

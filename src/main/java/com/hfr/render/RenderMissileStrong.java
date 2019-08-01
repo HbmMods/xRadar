@@ -35,7 +35,9 @@ public class RenderMissileStrong extends Render {
         	bindTexture(ResourceManager.missileStrong_IN_tex);
         if(p_76986_1_ instanceof EntityMissileEMPStrong)
         	bindTexture(ResourceManager.missileStrong_EMP_tex);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.missileStrong.renderAll();
+        GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
 

@@ -1,5 +1,7 @@
 package com.hfr.ai;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.hfr.main.MainRegistry;
@@ -32,16 +34,20 @@ public class EntityAI_MLPF extends EntityAIBase {
 	private Class targetClass;
     private EntityLivingBase target;
 	private EntityLiving mover;
+    private final Sorter theNearestAttackableTargetSorter;
 	private int range;
+	private int distance;
 	private static final int vertical = 10;
     private double speed;
 	
-	public EntityAI_MLPF(EntityLiving entity, Class targetClass, int range, double speed)
+	public EntityAI_MLPF(EntityLiving entity, Class targetClass, int range, double speed, int distance)
 	{
 		this.mover = entity;
 		this.targetClass = targetClass;
 		this.range = range;
 		this.speed = speed;
+		this.distance = distance;
+        this.theNearestAttackableTargetSorter = new Sorter(entity);
 	}
 	
 	@Override
@@ -68,11 +74,11 @@ public class EntityAI_MLPF extends EntityAIBase {
     			target.posY - mover.posY,
     			target.posZ - mover.posZ);
     	
-    	vec = vec.normalize();
     	
     	//line length is capped so the pathfinder can manage it
-    	int range = 20;
+    	int range = distance;
 
+    	vec = vec.normalize();
     	vec.xCoord *= range;
     	vec.yCoord *= range;
     	vec.zCoord *= range;
@@ -115,9 +121,29 @@ public class EntityAI_MLPF extends EntityAIBase {
 				mover.posY + vertical,
 				mover.posZ + range));
 		
-		if(list != null && !list.isEmpty())
-			target = (EntityLivingBase)list.get(mover.getRNG().nextInt(list.size()));
-		//else
-		//	System.out.println("No target...");
+		Collections.sort(list, theNearestAttackableTargetSorter);
+		
+		if (!list.isEmpty())
+        {
+			target = (EntityLivingBase)list.get(0);
+        }
+	}
+
+	public static class Sorter implements Comparator {
+		private final Entity theEntity;
+
+		public Sorter(Entity p_i1662_1_) {
+			this.theEntity = p_i1662_1_;
+		}
+
+		public int compare(Entity p_compare_1_, Entity p_compare_2_) {
+			double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
+			double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
+			return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
+		}
+
+		public int compare(Object p_compare_1_, Object p_compare_2_) {
+			return this.compare((Entity) p_compare_1_, (Entity) p_compare_2_);
+		}
 	}
 }

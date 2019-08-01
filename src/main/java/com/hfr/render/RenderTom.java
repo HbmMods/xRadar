@@ -2,6 +2,8 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.entity.EntityShell;
+
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -16,7 +18,12 @@ public class RenderTom extends Render {
         GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * f1 - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * f1, 0.0F, 0.0F, 1.0F);
 		
-		TomPronter.prontTom();
+        int i = 0;
+        
+        if(entity instanceof EntityShell)
+        	i = 1;
+        
+		TomPronter.prontTom(i);
 		GL11.glPopMatrix();
 	}
 

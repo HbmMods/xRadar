@@ -19,8 +19,10 @@ public class RenderRefinery extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
         bindTexture(ResourceManager.refinery_tex);
-        
+
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.refinery.renderAll();
+        GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glPopMatrix();
 
