@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldServer;
 
 public class TileEntityMachineSiren extends TileEntity implements ISidedInventory {
 
@@ -37,6 +38,8 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 	public int getSizeInventory() {
 		return slots.length;
 	}
+	
+	
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
@@ -133,6 +136,7 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		slots = new ItemStack[getSizeInventory()];
+		lock = nbt.getBoolean("lock");
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
@@ -150,6 +154,7 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 		super.writeToNBT(nbt);
 
 		NBTTagList list = new NBTTagList();
+		nbt.setBoolean("lock", lock);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -187,7 +192,8 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			int id = Arrays.asList(TrackType.values()).indexOf(getCurrentType());
 			
 			if(getCurrentType().name().equals(TrackType.NULL.name())) {
-				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false));
+				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false, (WorldServer) this.getWorldObj()));
+
 				return;
 			}
 			
@@ -195,21 +201,25 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			
 			if(getCurrentType().getType().name().equals(SoundType.LOOP.name())) {
 				
-				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, active));
+				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, active, (WorldServer) this.getWorldObj()));
+
 			} else {
 				
 				if(!lock && active) {
 					lock = true;
-					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false));
-					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, true));
-				}
-				
-				if(lock && !active) {
+					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false, (WorldServer) this.getWorldObj()));
+					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, true, (WorldServer) this.getWorldObj()));
+
+				} else if(lock && !active) {
 					lock = false;
+
+				} else {
+	
 				}
 			}
 		}
 	}
+
 	
 	public TrackType getCurrentType() {
 		if(slots[0] != null && slots[0].getItem() instanceof ItemCassette) {

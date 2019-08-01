@@ -3,6 +3,7 @@ package com.hfr.sound;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.blocks.ModBlocks;
 import com.hfr.items.ItemCassette.SoundType;
 import com.hfr.tileentity.TileEntityMachineSiren;
 
@@ -41,10 +42,11 @@ public class SoundLoopSiren extends SoundLoopMachine {
 			volume = intendedVolume;
 		}
 		
-		if(te instanceof TileEntityMachineSiren) {
+		if(te instanceof TileEntityMachineSiren && !te.isInvalid() && te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord) == ModBlocks.machine_siren && te.getWorldObj().isBlockIndirectlyGettingPowered(te.xCoord, te.yCoord, te.zCoord)) {
 			this.setRepeat(type.name().equals(SoundType.LOOP.name()));
 		} else {
 			this.donePlaying = true;
+			volume = 0;
 		}
 	}
 	
