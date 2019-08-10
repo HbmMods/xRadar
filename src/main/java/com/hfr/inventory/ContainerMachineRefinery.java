@@ -2,6 +2,7 @@ package com.hfr.inventory;
 
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.util.LockedSlot;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -23,23 +24,23 @@ public class ContainerMachineRefinery extends Container {
 		//Canister Input
 		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
 		//Canister Output
-		this.addSlotToContainer(new Slot(tedf, 2, 35, 108));
+		this.addSlotToContainer(new LockedSlot(tedf, 2, 35, 108));
 		//Heavy Oil Input
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
-		this.addSlotToContainer(new Slot(tedf, 4, 80, 108));
+		this.addSlotToContainer(new LockedSlot(tedf, 4, 80, 108));
 		//Nahptha Input
 		this.addSlotToContainer(new Slot(tedf, 5, 98, 90));
 		//Nahptha Output
-		this.addSlotToContainer(new Slot(tedf, 6, 98, 108));
+		this.addSlotToContainer(new LockedSlot(tedf, 6, 98, 108));
 		//Light Oil Input
 		this.addSlotToContainer(new Slot(tedf, 7, 116, 90));
 		//Light Oil Output
-		this.addSlotToContainer(new Slot(tedf, 8, 116, 108));
+		this.addSlotToContainer(new LockedSlot(tedf, 8, 116, 108));
 		//Petroleum Input
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
 		//Petroleum Output
-		this.addSlotToContainer(new Slot(tedf, 10, 134, 108));
+		this.addSlotToContainer(new LockedSlot(tedf, 10, 134, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{

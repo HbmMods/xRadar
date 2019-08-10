@@ -40,6 +40,11 @@ public class TileEntityVaultDoor extends TileEntity {
 		
 		if(!worldObj.isRemote) {
 			
+			if(worldObj.getBlock(xCoord, yCoord + 4, zCoord) != ModBlocks.vault_door_dummy) {
+				worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+				return;
+			}
+			
 			boolean flagX = false;
 			boolean flagZ = false;
 

@@ -11,6 +11,7 @@ import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.RailgunRotationPacket;
 
 import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -231,6 +232,14 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 			
 			if(slots[0] != null && slots[0].getItem() == ModItems.battery)
 				storage.setEnergyStored(storage.getMaxEnergyStored());
+
+			if(slots[0] != null && slots[0].getItem() instanceof IEnergyContainerItem) {
+				IEnergyContainerItem item = (IEnergyContainerItem)slots[0].getItem();
+				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), item.getEnergyStored(slots[0]));
+				
+				item.extractEnergy(slots[0], extract, false);
+				storage.setEnergyStored(storage.getEnergyStored() + extract);
+			}
 			
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, storage.getEnergyStored()));
 			PacketDispatcher.wrapper.sendToAll(new RailgunRotationPacket(xCoord, yCoord, zCoord, pitch, yaw));

@@ -39,7 +39,6 @@ public class VaultDoor extends BlockContainer {
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		
 		TileEntityVaultDoor te = (TileEntityVaultDoor) world.getTileEntity(x, y, z);
 		
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
@@ -204,7 +203,7 @@ public class VaultDoor extends BlockContainer {
     			world.func_147480_a(x, y, z, true);
 			}
 		}
-		
+
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 	

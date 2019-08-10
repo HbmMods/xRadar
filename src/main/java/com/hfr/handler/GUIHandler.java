@@ -98,6 +98,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_hydro:
+			{
+				if(entity instanceof TileEntityHydro)
+				{
+					return new ContainerHydro(player.inventory, (TileEntityHydro) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -186,6 +195,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityNaval)
 					{
 						return new GUINaval(player.inventory, (TileEntityNaval) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_hydro:
+				{
+					if(entity instanceof TileEntityHydro)
+					{
+						return new GUIHydro(player.inventory, (TileEntityHydro) entity);
 					}
 					return null;
 				}

@@ -67,5 +67,9 @@ public class ItemLore extends Item {
 		if(this == ModItems.charge_bfg) {
 			list.add("BFG 10K ammo");
 		}
+		
+		if(this == ModItems.tidal_energy) {
+			list.add("Hydroelectric energy currency");
+		}
 	}
 }

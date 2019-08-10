@@ -45,6 +45,10 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 	public int warning2;
 	public int age = 0;
 	
+	//drill token that allows to drill one (1) empty oil deposit
+	//is granted every time there is no more oil to be found
+	public boolean token = false;
+	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
 	private static final int[] slots_side = new int[] {0};
@@ -286,7 +290,10 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 				}
 			}
 			
-			if(storage.getEnergyStored() >= 100) {
+			pipe(token);
+			token = false;
+			
+			if(storage.getEnergyStored() >= MainRegistry.derrickUse) {
 				
 				//operation start
 				
@@ -309,19 +316,7 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 						if(b == ModBlocks.oil_pipe)
 							continue;
 						
-						if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || 
-								b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
-								b == Blocks.clay || b == Blocks.hardened_clay || b == Blocks.stained_hardened_clay || 
-								b == Blocks.gravel || isOre(b, worldObj.getBlockMetadata(xCoord, i, zCoord)) ||
-								b.isReplaceable(worldObj, xCoord, i, zCoord)) {
-							worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
-						
-							//Code 2: The drilling ended
-							if(i == this.yCoord - 100)
-								warning = 2;
-							break;
-							
-						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && oil < maxOil && gas < maxGas) {
+						if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && oil < maxOil && gas < maxGas) {
 							if(succ(this.xCoord, i, this.zCoord)) {
 
 								oil += 500;
@@ -337,7 +332,7 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 								
 								break;
 							} else {
-								worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
+								token = true;
 								break;
 							}
 							
@@ -364,6 +359,31 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, gas, 1));
 		}
 		
+	}
+	
+	private void pipe(boolean bool) {
+		
+		for(int i = this.yCoord - 1; i > this.yCoord - 1 - 100; i--) {
+			
+			Block b = worldObj.getBlock(this.xCoord, i, this.zCoord);
+			if(b == ModBlocks.oil_pipe)
+				continue;
+			
+			if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || (b == ModBlocks.ore_oil_empty && token) ||
+					b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
+					b == Blocks.clay || b == Blocks.hardened_clay || b == Blocks.stained_hardened_clay || 
+					b == Blocks.gravel || isOre(b, worldObj.getBlockMetadata(xCoord, i, zCoord)) ||
+					b.isReplaceable(worldObj, xCoord, i, zCoord)) {
+				worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
+			
+				warning = 0;
+				if(i == this.yCoord - 100)
+					warning = 2;
+				break;
+			} else {
+				break;
+			}
+		}
 	}
 	
 	public boolean isOre(Block b, int meta) {

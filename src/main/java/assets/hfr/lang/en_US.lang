@@ -1,3 +1,5 @@
+itemGroup.tabHFR=xRadar
+
 death.attack.blast=%1$s was obliterated.
 death.attack.zyklon=%1$s died from natural causes.
 
@@ -18,6 +20,8 @@ tile.machine_tank.name=Oil Tank
 container.tank=Oil Tank
 tile.cannon_naval.name=16" Naval Gun
 container.naval=16" Naval Gun
+tile.hydro_core.name=Hydroelectric Dam Core Component
+container.hydro=Hydroelectric Dam
 
 tile.oil_duct.name=Oil Pipe
 tile.gas_duct.name=Gas Pipe
@@ -37,6 +41,9 @@ tile.vault_door_dummy.name=Blast Door Dummy Block
 
 tile.vent_chlorine_seal.name=Zyklon B Vent
 tile.chlorine_gas.name=Poison Gas
+
+tile.hydro_wall.name=Hydroelectric Dam Wall
+tile.hydro_turbine.name=Hydroelectric Dam Turbine
 
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad
@@ -65,6 +72,8 @@ item.canister_kerosene.name=Kerosene Canister
 item.gas_empty.name=Empty Gas Tank
 item.gas_natural.name=Natural Gas Tank
 item.gas_petroleum.name=Petroleum Gas Tank
+
+item.tidal_energy.name=Tidal Energy
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

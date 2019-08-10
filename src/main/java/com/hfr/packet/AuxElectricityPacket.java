@@ -1,5 +1,6 @@
 package com.hfr.packet;
 
+import com.hfr.tileentity.TileEntityHydro;
 import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRadar;
@@ -85,6 +86,11 @@ public class AuxElectricityPacket implements IMessage {
 						
 					TileEntityRailgun gen = (TileEntityRailgun) te;
 					gen.storage.setEnergyStored(m.charge);
+				}
+				if (te != null && te instanceof TileEntityHydro) {
+						
+					TileEntityHydro gen = (TileEntityHydro) te;
+					gen.power = m.charge;
 				}
 			} catch (Exception x) { }
 			return null;

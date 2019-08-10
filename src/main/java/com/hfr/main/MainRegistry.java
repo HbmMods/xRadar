@@ -164,6 +164,8 @@ public class MainRegistry
 	public static DamageSource blast = (new DamageSource("blast")).setExplosion();
 	public static DamageSource zyklon = (new DamageSource("zyklon")).setDamageBypassesArmor().setDamageIsAbsolute();
 	
+	public static CreativeTabs tab = new CreativeTabHFR(CreativeTabs.getNextID(), "tabHFR");
+	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
 	{
@@ -193,6 +195,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTank.class, "tileentity_hfr_barrel");
 		GameRegistry.registerTileEntity(TileEntityNaval.class, "tileentity_hfr_naval");
 		GameRegistry.registerTileEntity(TileEntityDuct.class, "tileentity_hfr_duct");
+		GameRegistry.registerTileEntity(TileEntityHydro.class, "tileentity_hfr_hydro");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);

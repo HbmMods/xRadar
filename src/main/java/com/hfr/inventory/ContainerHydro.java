@@ -1,7 +1,6 @@
 package com.hfr.inventory;
 
-import com.hfr.tileentity.TileEntityMachineSiren;
-import com.hfr.tileentity.TileEntityTank;
+import com.hfr.tileentity.TileEntityHydro;
 import com.hfr.util.LockedSlot;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,23 +10,16 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerTank extends Container {
+public class ContainerHydro extends Container {
 	
-	private TileEntityTank diFurnace;
+	private TileEntityHydro diFurnace;
 	
-	public ContainerTank(InventoryPlayer invPlayer, TileEntityTank tedf) {
+	public ContainerHydro(InventoryPlayer invPlayer, TileEntityHydro tedf) {
 		
 		diFurnace = tedf;
 
-		//fluid in
-		this.addSlotToContainer(new Slot(tedf, 0, 35, 18));
-		//canister in
-		this.addSlotToContainer(new LockedSlot(tedf, 1, 35, 54));
-		
-		//canister out
-		this.addSlotToContainer(new Slot(tedf, 2, 125, 18));
-		//fluid out
-		this.addSlotToContainer(new LockedSlot(tedf, 3, 125, 54));
+		//Battery
+		this.addSlotToContainer(new LockedSlot(tedf, 0, 134, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -59,16 +51,15 @@ public class ContainerTank extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 3) {
-				if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true))
+            if (par2 <= 0) {
+				if (!this.mergeItemStack(var5, 1, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
 			else if (!this.mergeItemStack(var5, 0, 1, false))
 			{
-				if (!this.mergeItemStack(var5, 2, 3, false))
-					return null;
+				return null;
 			}
 			
 			if (var5.stackSize == 0)

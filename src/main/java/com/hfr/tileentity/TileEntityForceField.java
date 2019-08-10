@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.entity.EntityRailgunBlast;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
@@ -303,6 +304,9 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		 * MainRegistry.logger.info(e.toString());
 		 * MainRegistry.logger.info(e.getClass().toString());
 		 */
+		
+		if(e instanceof EntityRailgunBlast)
+			return 1000000;
 
 		double flanDMG = 0;
 
