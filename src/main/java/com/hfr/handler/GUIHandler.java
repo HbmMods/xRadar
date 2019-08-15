@@ -107,6 +107,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_net:
+			{
+				if(entity instanceof TileEntityMachineNet)
+				{
+					return new ContainerMachineNet(player.inventory, (TileEntityMachineNet) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -204,6 +213,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityHydro)
 					{
 						return new GUIHydro(player.inventory, (TileEntityHydro) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_net:
+				{
+					if(entity instanceof TileEntityMachineNet)
+					{
+						return new GUIMachineNet(player.inventory, (TileEntityMachineNet) entity);
 					}
 					return null;
 				}

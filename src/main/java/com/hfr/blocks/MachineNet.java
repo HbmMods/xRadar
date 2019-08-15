@@ -2,16 +2,13 @@ package com.hfr.blocks;
 
 import java.util.Random;
 
-import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityHydro;
+import com.hfr.tileentity.TileEntityMachineNet;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -20,23 +17,30 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHydroCore extends BlockTurbine {
+public class MachineNet extends BlockContainer {
 
-	protected BlockHydroCore(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		this.isBlockContainer = true;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":hydro_port");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":hydro_wall");
+	protected MachineNet(Material p_i45386_1_) {
+		super(p_i45386_1_);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityHydro();
+		return new TileEntityMachineNet();
+	}
+	
+	@Override
+	public int getRenderType(){
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 	
 	@Override
@@ -46,7 +50,7 @@ public class BlockHydroCore extends BlockTurbine {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hydro, world, x, y, z);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_net, world, x, y, z);
 			return true;
 		} else {
 			return true;

@@ -66,6 +66,7 @@ public class ModItems {
 	public static Item charge_bfg;
 
 	public static Item tidal_energy;
+	public static Item whale_meat;
 
 	public static Item hammer;
 	public static Item wand;
@@ -118,6 +119,7 @@ public class ModItems {
 		charge_bfg = new ItemLore().setUnlocalizedName("charge_bfg").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":charge_bfg");
 		
 		tidal_energy = new ItemLore().setUnlocalizedName("tidal_energy").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":tidal_energy");
+		whale_meat = new ItemMeat().setUnlocalizedName("whale_meat").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":whale_meat");
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
@@ -153,6 +155,7 @@ public class ModItems {
 		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
 
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
+		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());
 
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());

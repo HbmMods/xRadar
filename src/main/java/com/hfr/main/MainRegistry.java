@@ -50,6 +50,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.blocks.TileEntityDuct;
+import com.hfr.command.CommandXPlayer;
 import com.hfr.entity.*;
 import com.hfr.handler.GUIHandler;
 import com.hfr.items.ModItems;
@@ -62,6 +63,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -145,6 +147,13 @@ public class MainRegistry
 	public static int t2Damage = 100;
 	public static int t3blast = 150;
 	public static int t3Damage = 100;
+
+	public static int superFishrate = 20;
+	public static int goodFishrate = 40;
+	public static int averageFishrate = 60;
+	public static int crapFishrate = 1000000;
+	public static int jamRate = 15 * 60;
+	public static int whaleChance = 5;
 	
 	public static int navalDamage = 100;
 	public static int railgunDamage = 100;
@@ -196,6 +205,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityNaval.class, "tileentity_hfr_naval");
 		GameRegistry.registerTileEntity(TileEntityDuct.class, "tileentity_hfr_duct");
 		GameRegistry.registerTileEntity(TileEntityHydro.class, "tileentity_hfr_hydro");
+		GameRegistry.registerTileEntity(TileEntityMachineNet.class, "tileentity_hfr_net");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -244,6 +254,12 @@ public class MainRegistry
 	{
 		//in postload, long after all blocks have been registered, the buffered config is being evaluated and processed.
 		processBuffer();
+	}
+	
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new CommandXPlayer());
 	}
 
 	public static List<Block> blastShields = new ArrayList();
@@ -511,6 +527,13 @@ public class MainRegistry
         railgunDamage = createConfigInt(config, "RAILGUN", "railgunDamage", "How much damage a railgun death blast does per tick", 1000);
         railgunBuffer = createConfigInt(config, "RAILGUN", "railgunBuffer", "How much RF the railgun can store", 500000000);
         railgunUse = createConfigInt(config, "RAILGUN", "railgunConsumption", "How much RF the railgun requires per shot", 250000000);
+
+        superFishrate = createConfigInt(config, "FISHING", "superFishrate", "Average amount of seconds for fish in oceans", 20);
+        goodFishrate = createConfigInt(config, "FISHING", "goodFishrate", "Average amount of seconds for fish in rivers", 40);
+        averageFishrate = createConfigInt(config, "FISHING", "averageFishrate", "Average amount of seconds for fish in most biomes", 60);
+        crapFishrate = createConfigInt(config, "FISHING", "crapFishrate", "Average amount of seconds for fish in hills, deserts and savannas", 1000000);
+        jamRate = createConfigInt(config, "FISHING", "jamRate", "Average amount of seconds for net to get jammed", 15 * 60);
+        whaleChance = createConfigInt(config, "FISHING", "whaleChance", "Chance in percent of chatching whale meat", 5);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";

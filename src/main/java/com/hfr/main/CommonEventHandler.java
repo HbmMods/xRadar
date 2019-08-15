@@ -8,9 +8,12 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hfr.ai.*;
 import com.hfr.data.AntiMobData;
+import com.hfr.data.CBTData;
+import com.hfr.data.CBTData.CBTEntry;
 import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
+import com.hfr.packet.CBTPacket;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.SRadarPacket;
 import com.hfr.packet.VRadarDestructorPacket;
@@ -39,6 +42,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -156,6 +160,8 @@ public class CommonEventHandler {
 		}
 	}
 
+	int timer = 0;
+	
 	//handles the anti-mob wand
 	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent event) {
@@ -172,6 +178,24 @@ public class CommonEventHandler {
 				
 				for(EntityMob entity : entities) {
 					entity.setHealth(0);
+				}
+			}
+			
+			timer++;
+			
+			if(timer >= 60 * 20) {
+				timer -= 60 * 20;
+				
+				CBTData cbtdata = CBTData.getData(world);
+		        MinecraftServer minecraftserver = MinecraftServer.getServer();
+				
+				for(CBTEntry entry : cbtdata.entries) {
+
+		            EntityPlayerMP target = minecraftserver.getConfigurationManager().func_152612_a(entry.player);
+		            
+		            if(target != null) {
+		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
+		            }
 				}
 			}
 		}

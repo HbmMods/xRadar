@@ -3,25 +3,22 @@ package com.hfr.inventory;
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.lib.RefStrings;
-import com.hfr.packet.AuxButtonPacket;
-import com.hfr.packet.PacketDispatcher;
-import com.hfr.tileentity.TileEntityForceField;
 import com.hfr.tileentity.TileEntityHydro;
+import com.hfr.tileentity.TileEntityMachineNet;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIHydro extends GuiContainer {
+public class GUIMachineNet extends GuiContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_hydro.png");
-	private TileEntityHydro diFurnace;
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_net.png");
+	private TileEntityMachineNet diFurnace;
 	
-	public GUIHydro(InventoryPlayer invPlayer, TileEntityHydro tedf) {
-		super(new ContainerHydro(invPlayer, tedf));
+	public GUIMachineNet(InventoryPlayer invPlayer, TileEntityMachineNet tedf) {
+		super(new ContainerMachineNet(invPlayer, tedf));
 		diFurnace = tedf;
 
 		this.xSize = 176;
@@ -34,15 +31,6 @@ public class GUIHydro extends GuiContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-
-		int walls = diFurnace.getWallNr();
-		int turbines = diFurnace.getTurbineNr();
-		this.fontRendererObj.drawString("Size: " + walls, 16, 24, 4210752);
-		this.fontRendererObj.drawString("Turbines: " + turbines, 16, 34, 4210752);
-		this.fontRendererObj.drawString("Output: " + (diFurnace.getRate(walls, turbines) / 500D) + " TE/s", 16, 44, 4210752);
-		
-		if(walls > 0 && turbines > 0)
-			this.fontRendererObj.drawString(Math.round(1D / (diFurnace.getRate(walls, turbines) / 500D) * 10D) / 10D + " s/TE", 54, 54, 4210752);
 	}
 	
 	@Override
@@ -50,8 +38,11 @@ public class GUIHydro extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-
-		int i = (int)diFurnace.getPowerScaled(52);
-		drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 176, 52 - i, 16, i);
+		
+		if(!diFurnace.operational() || !diFurnace.hasSpace())
+			drawTexturedModalRect(guiLeft + 99, guiTop + 38, 176, 0, 10, 10);
+		
+		if(diFurnace.slots[4] != null)
+			drawTexturedModalRect(guiLeft + 121, guiTop + 38, 176, 0, 10, 10);
 	}
 }

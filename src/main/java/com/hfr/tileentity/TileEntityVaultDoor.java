@@ -21,7 +21,7 @@ public class TileEntityVaultDoor extends TileEntity {
 	private int timer = 0;
 	public int type;
 	public boolean redstoned = false;
-	public static final int maxTypes = 6;
+	public static final int maxTypes = 7;
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {

@@ -1,13 +1,7 @@
 package com.hfr.packet;
 
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityLaunchPad;
-import com.hfr.tileentity.TileEntityMachineDerrick;
-import com.hfr.tileentity.TileEntityMachineRadar;
-import com.hfr.tileentity.TileEntityMachineRefinery;
-import com.hfr.tileentity.TileEntityNaval;
-import com.hfr.tileentity.TileEntityRailgun;
-import com.hfr.tileentity.TileEntityTank;
+import com.hfr.tileentity.*;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -126,6 +120,13 @@ public class AuxGaugePacket implements IMessage {
 
 					if(m.meta == 0)
 						gen.powder = m.value;
+				}
+				
+				if (te != null && te instanceof TileEntityMachineNet) {
+						
+					TileEntityMachineNet gen = (TileEntityMachineNet) te;
+
+					gen.isJammed = m.value == 1;
 				}
 				
 			} catch (Exception x) { }

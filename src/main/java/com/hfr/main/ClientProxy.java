@@ -55,6 +55,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTank.class, new RenderTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNaval.class, new RenderNaval());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDuct.class, new RenderDuct());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineNet.class, new RenderNet());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());

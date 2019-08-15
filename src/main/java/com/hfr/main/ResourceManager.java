@@ -105,4 +105,9 @@ public class ResourceManager {
 	public static final ResourceLocation naval_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/naval_base.png");
 	public static final ResourceLocation naval_main_tex = new ResourceLocation(RefStrings.MODID, "textures/models/naval_main.png");
 	public static final ResourceLocation naval_cannons_tex = new ResourceLocation(RefStrings.MODID, "textures/models/naval_cannons.png");
+	
+	//NOW LOOK AT THIS NET THAT I JUST FOUND
+	public static final IModelCustom net = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/net.obj"));
+	public static final ResourceLocation net_tex = new ResourceLocation(RefStrings.MODID, "textures/models/net.png");
+	public static final ResourceLocation net_jammed_tex = new ResourceLocation(RefStrings.MODID, "textures/models/net_jammed.png");
 }

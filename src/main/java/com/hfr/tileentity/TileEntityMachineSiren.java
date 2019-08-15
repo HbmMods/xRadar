@@ -192,7 +192,7 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			int id = Arrays.asList(TrackType.values()).indexOf(getCurrentType());
 			
 			if(getCurrentType().name().equals(TrackType.NULL.name())) {
-				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false, (WorldServer) this.getWorldObj()));
+				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false));
 
 				return;
 			}
@@ -201,14 +201,14 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			
 			if(getCurrentType().getType().name().equals(SoundType.LOOP.name())) {
 				
-				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, active, (WorldServer) this.getWorldObj()));
+				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, active));
 
 			} else {
 				
 				if(!lock && active) {
 					lock = true;
-					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false, (WorldServer) this.getWorldObj()));
-					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, true, (WorldServer) this.getWorldObj()));
+					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false));
+					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, true));
 
 				} else if(lock && !active) {
 					lock = false;

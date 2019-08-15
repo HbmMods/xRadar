@@ -22,6 +22,8 @@ tile.cannon_naval.name=16" Naval Gun
 container.naval=16" Naval Gun
 tile.hydro_core.name=Hydroelectric Dam Core Component
 container.hydro=Hydroelectric Dam
+tile.machine_net.name=Fishing Net
+container.machineNet=Fishing Net
 
 tile.oil_duct.name=Oil Pipe
 tile.gas_duct.name=Gas Pipe
@@ -74,6 +76,7 @@ item.gas_natural.name=Natural Gas Tank
 item.gas_petroleum.name=Petroleum Gas Tank
 
 item.tidal_energy.name=Tidal Energy
+item.whale_meat.name=Whale Meat
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

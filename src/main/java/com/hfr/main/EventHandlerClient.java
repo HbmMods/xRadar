@@ -33,6 +33,9 @@ public class EventHandlerClient {
 	public static int lastRange = 500;
 	boolean lock = false;
 	
+	public static boolean fps = false;
+	public static boolean tilt = false;
+	
 	public void register() {
 
 		MinecraftForge.EVENT_BUS.register(this);
@@ -94,6 +97,14 @@ public class EventHandlerClient {
 				
 				RenderRadarScreen.renderRadar(offset, range, zoom);
 			}
+		}
+		
+		if(fps) {
+			Minecraft.getMinecraft().gameSettings.limitFramerate = 5;
+		}
+		
+		if(tilt) {
+			Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
 		}
 	}
 	

@@ -56,6 +56,8 @@ public class ModBlocks {
 	public static final int guiID_tank = 6;
 	public static Block hydro_core;
 	public static final int guiID_hydro = 9;
+	public static Block machine_net;
+	public static final int guiID_net = 10;
 
 	public static Block oil_duct;
 	public static Block gas_duct;
@@ -116,6 +118,8 @@ public class ModBlocks {
 		hydro_wall = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("hydro_wall").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hydro_wall");
 		hydro_turbine = new BlockTurbine(Material.rock).setStepSound(soundTypeMetal).setBlockName("hydro_turbine").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab);
 		hydro_core = new BlockHydroCore(Material.rock).setStepSound(soundTypeMetal).setBlockName("hydro_core").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab);
+		
+		machine_net = new MachineNet(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("machine_net").setHardness(0.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_net");
 
 		/*public static Block hydro_wall;
 		public static Block hydro_turbine;
@@ -141,12 +145,14 @@ public class ModBlocks {
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
 		GameRegistry.registerBlock(seal_hatch, seal_hatch.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(vault_door, vault_door.getUnlocalizedName());
+		GameRegistry.registerBlock(vault_door, ItemRadarBlock.class, vault_door.getUnlocalizedName());
 		GameRegistry.registerBlock(vault_door_dummy, vault_door_dummy.getUnlocalizedName());
 
 		GameRegistry.registerBlock(hydro_wall, hydro_wall.getUnlocalizedName());
 		GameRegistry.registerBlock(hydro_turbine, hydro_turbine.getUnlocalizedName());
 		GameRegistry.registerBlock(hydro_core, hydro_core.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(machine_net, machine_net.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
