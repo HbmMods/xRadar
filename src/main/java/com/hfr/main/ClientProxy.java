@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.client.particle.EntityLargeExplodeFX;
 import net.minecraft.client.particle.EntityReddustFX;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.util.Vec3;
@@ -14,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import com.hfr.blocks.TileEntityDuct;
 import com.hfr.effect.ParticleContrail;
 import com.hfr.entity.*;
+import com.hfr.items.ModItems;
 import com.hfr.loader.HmfModelLoader;
 import com.hfr.render.*;
 import com.hfr.render.hud.RenderRadarScreen;
@@ -75,6 +77,10 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeMK3());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRailgunBlast.class, new RenderTom());
 		RenderingRegistry.registerEntityRenderingHandler(EntityShell.class, new RenderTom());
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGas.class, new RenderSnowball(ModItems.grenade_gas));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBoxcar.class, new RenderBoxcar());
 	}
 	
 	@Override

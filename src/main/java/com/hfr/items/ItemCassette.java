@@ -118,9 +118,6 @@ public class ItemCassette extends Item {
     	
     	if(!(stack.getItem() instanceof ItemCassette))
     		return;
-
-		list.add("[CREATED USING TEMPLATE FOLDER]");
-		list.add("");
     	
     	list.add("Siren sound cassette:");
     	list.add("   Name: " + TrackType.getEnum(stack.getItemDamage()).getTrackTitle());

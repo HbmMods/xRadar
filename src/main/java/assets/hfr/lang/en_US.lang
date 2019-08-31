@@ -24,6 +24,7 @@ tile.hydro_core.name=Hydroelectric Dam Core Component
 container.hydro=Hydroelectric Dam
 tile.machine_net.name=Fishing Net
 container.machineNet=Fishing Net
+tile.machine_market.name=Stock Market Terminal
 
 tile.oil_duct.name=Oil Pipe
 tile.gas_duct.name=Gas Pipe
@@ -41,8 +42,8 @@ tile.seal_hatch.name=Silo Hatch
 tile.vault_door.name=Vault-Tec Blast Door
 tile.vault_door_dummy.name=Blast Door Dummy Block
 
-tile.vent_chlorine_seal.name=Zyklon B Vent
-tile.chlorine_gas.name=Poison Gas
+tile.vent_chlorine_seal.name=Mustard Gas Vent
+tile.chlorine_gas.name=Mustard Gas
 
 tile.hydro_wall.name=Hydroelectric Dam Wall
 tile.hydro_turbine.name=Hydroelectric Dam Turbine
@@ -55,6 +56,10 @@ item.wand.name=ThotBeGone Anti Mob Wand
 item.battery.name=HFR Infinite Battery
 item.oil_detector.name=Oil Detector
 item.gas_mask.name=Dräger M65 Gas Mask
+
+item.grenade_gas.name=Gas Grenade
+item.grenade_nuclear.name=Atomic Grenade
+item.grenade_boxcar.name=Giant Rotating Boxcar
 
 item.cassette.name=Siren Track
 item.coil.name=Golden Coil
@@ -77,6 +82,7 @@ item.gas_petroleum.name=Petroleum Gas Tank
 
 item.tidal_energy.name=Tidal Energy
 item.whale_meat.name=Whale Meat
+item.hfr_coin.name=Stock Market Coin
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder
@@ -98,3 +104,5 @@ item.drum.name=Powder Drum
 item.charge_naval.name=16" HE Shell
 item.charge_railgun.name=Deuterium Plasma Capsule
 item.charge_bfg.name=Argent Plasma Capsule
+
+item.sexlol.name=the sex

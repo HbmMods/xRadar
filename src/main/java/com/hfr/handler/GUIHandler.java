@@ -116,6 +116,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_market:
+			{
+				if(entity instanceof TileEntityMachineMarket)
+				{
+					return new ContainerMachineMarket(player.inventory, (TileEntityMachineMarket) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -222,6 +231,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineNet)
 					{
 						return new GUIMachineNet(player.inventory, (TileEntityMachineNet) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_market:
+				{
+					if(entity instanceof TileEntityMachineMarket)
+					{
+						return new GUIMachineMarket(player.inventory, (TileEntityMachineMarket) entity);
 					}
 					return null;
 				}

@@ -37,6 +37,7 @@ public class EntityNuclearBlast extends Entity {
 	float strength;
 	int dist;
 	int blast;
+	boolean simple = MainRegistry.nukeSimple;
 
 	public EntityNuclearBlast(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -72,7 +73,7 @@ public class EntityNuclearBlast extends Entity {
 				EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
 				double y = worldObj.getHeightValue((int)(this.posX + vec.xCoord), (int)(this.posZ + vec.zCoord));
 				
-				if(MainRegistry.nukeSimple)
+				if(this.simple)
 					y = posY;
 				
 				this.worldObj.createExplosion(scapegoat, this.posX + vec.xCoord, y, this.posZ + vec.zCoord, this.strength, true);
@@ -158,6 +159,11 @@ public class EntityNuclearBlast extends Entity {
 		blast.blast = killblast;
 		return blast;
 	}
+	
+	public EntityNuclearBlast setSimple(boolean b) {
+		this.simple = b;
+		return this;
+	}
 
 	@Override
 	protected void entityInit() { }
@@ -170,6 +176,7 @@ public class EntityNuclearBlast extends Entity {
 		this.strength = nbt.getFloat("strength");
 		this.dist = nbt.getInteger("dist");
 		this.blast = nbt.getInteger("blast");
+		this.simple = nbt.getBoolean("simple");
 	}
 
 	@Override
@@ -179,6 +186,7 @@ public class EntityNuclearBlast extends Entity {
 		nbt.setFloat("strength", this.strength);
 		nbt.setInteger("dist", this.dist);
 		nbt.setInteger("blast", this.blast);
+		nbt.setBoolean("simple", this.simple);
 	}
 
 }

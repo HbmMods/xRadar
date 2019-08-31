@@ -10,6 +10,8 @@ import com.hfr.ai.*;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.CBTData;
 import com.hfr.data.CBTData.CBTEntry;
+import com.hfr.data.StockData;
+import com.hfr.data.StockData.Stock;
 import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
@@ -197,6 +199,17 @@ public class CommonEventHandler {
 		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
 		            }
 				}
+				
+				StockData data = StockData.getData(world);
+				
+				for(Stock stock : data.stocks) {
+					
+					for(int i = 0; i < 14; i++)
+						stock.value[i] = stock.value[i + 1];
+					
+					stock.value[14] = stock.value[14] + world.rand.nextFloat() * 2.5F - 1.25F;
+					data.markDirty();
+				}
 			}
 		}
 	}
@@ -217,7 +230,7 @@ public class CommonEventHandler {
 			return;
 		}
 		
-		if(event.entity instanceof EntityZombie) {
+		if(event.entity instanceof EntityZombie && MainRegistry.zombAI) {
 			EntityZombie zomb = ((EntityZombie)event.entity);
 			
 			//enables block-breaking behavior for zomberts
@@ -233,7 +246,7 @@ public class CommonEventHandler {
 			zomb.getAttributeMap().applyAttributeModifiers(multimap);*/
 		}
 		
-		if(event.entity instanceof EntityCreeper) {
+		if(event.entity instanceof EntityCreeper && MainRegistry.creepAI) {
 			EntityCreeper pensi = ((EntityCreeper)event.entity);
 			
 			pensi.tasks.addTask(1, new EntityAIAllah(pensi));

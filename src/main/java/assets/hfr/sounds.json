@@ -40,5 +40,7 @@
     "weapon.missileTakeOff": {"category": "block", "sounds": [{"name": "missile/missileTakeOff", "stream": false}]},
     "item.techBleep": {"category": "record", "sounds": [{"name": "tool/beep", "stream": true}]},
     "item.techBoop": {"category": "record", "sounds": [{"name": "tool/boop", "stream": true}]},
-    "item.toggle": {"category": "record", "sounds": [{"name": "tool/toggle", "stream": true}]}
+    "item.toggle": {"category": "record", "sounds": [{"name": "tool/toggle", "stream": true}]},
+    
+    "grenade.gBounce": {"category": "block", "sounds": ["grenade/gBounce1", "grenade/gBounce2", "grenade/gBounce3"]}
 }

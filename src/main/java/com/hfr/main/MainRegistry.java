@@ -48,16 +48,17 @@ import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
-import com.hfr.blocks.ModBlocks;
-import com.hfr.blocks.TileEntityDuct;
-import com.hfr.command.CommandXPlayer;
+import com.hfr.blocks.*;
+import com.hfr.command.*;
+import com.hfr.data.StockData;
+import com.hfr.data.StockData.Stock;
 import com.hfr.entity.*;
-import com.hfr.handler.GUIHandler;
-import com.hfr.items.ModItems;
-import com.hfr.lib.RefStrings;
-import com.hfr.packet.PacketDispatcher;
+import com.hfr.handler.*;
+import com.hfr.items.*;
+import com.hfr.lib.*;
+import com.hfr.packet.*;
 import com.hfr.tileentity.*;
-import com.hfr.util.RegistryUtil;
+import com.hfr.util.*;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -206,6 +207,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDuct.class, "tileentity_hfr_duct");
 		GameRegistry.registerTileEntity(TileEntityHydro.class, "tileentity_hfr_hydro");
 		GameRegistry.registerTileEntity(TileEntityMachineNet.class, "tileentity_hfr_net");
+		GameRegistry.registerTileEntity(TileEntityMachineMarket.class, "tileentity_hfr_stonks");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -224,6 +226,9 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBlast.class, "entity_deathblast", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityRailgunBlast.class, "entity_railgun_pellet", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityShell.class, "entity_naval_pellet", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeGas.class, "entity_hfr_gas_grenade", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_hfr_nuke_grenade", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeBoxcar.class, "entity_hfr_grb_grenade", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -260,6 +265,7 @@ public class MainRegistry
 	public void serverLoad(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandXPlayer());
+		event.registerServerCommand(new CommandXDebug());
 	}
 
 	public static List<Block> blastShields = new ArrayList();
@@ -270,6 +276,8 @@ public class MainRegistry
 	public static String[] twilightBuffer;
 	public static boolean skeletonAIDS = false;
 	public static float skeletonHIV = 2.5F;
+	public static boolean zombAI = true;
+	public static boolean creepAI = true;
 	
 	public void loadConfig(FMLPreInitializationEvent event)
 	{
@@ -646,8 +654,35 @@ public class MainRegistry
         	}
         }
         /////////////////////////////////////////////////////////////////////////
+        Property stocks = config.get("STOCKMARKET", "stocks", new String[] { "Bobcum Industries:CUM:50:0.1:5:10:5:0.1", "Bingus International:BIN:50:0.1:5:10:5:0.1" });
+        stocks.comment = "NAME:SHORTNAME:STARTING VALUE:U2CHANCE:U1CHANCE:NCHANCE:D1CHANCE:D2CHANCE";
+        String[] sto = stocks.getStringList();
+        
+        for(String val : sto) {
+        	
+        	try {
+        		
+	        	String name = val.split(":")[0];
+	        	String shortname = val.split(":")[1];
+	        	float start = Float.parseFloat(val.split(":")[2]);
+	        	float u2 = Float.parseFloat(val.split(":")[3]);
+	        	float u1 = Float.parseFloat(val.split(":")[4]);
+	        	float n = Float.parseFloat(val.split(":")[5]);
+	        	float d1 = Float.parseFloat(val.split(":")[6]);
+	        	float d2 = Float.parseFloat(val.split(":")[7]);
+	        	
+	        	StockData.stocks.add(new Stock(name, shortname, start, u2, u1, n, d1, d2));
+        	
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
+        }
+        /////////////////////////////////////////////////////////////////////////
         
         mlpf = createConfigInt(config, "ENTITYCONTROL", "MLPF", "How far the multi-layered pathfinder for zombs and creeps reaches", 100);
+
+        zombAI = createConfigBool(config, "ENTITYCONTROL", "zombAI", "Enables advanced zombert AI", true);
+        creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);
         
         config.save();
 	}
@@ -657,6 +692,13 @@ public class MainRegistry
         Property prop = config.get(category, name, def);
         prop.comment = comment;
         return prop.getInt();
+	}
+	
+	private static boolean createConfigBool(Configuration config, String category, String name, String comment, boolean def) {
+
+        Property prop = config.get(category, name, def);
+        prop.comment = comment;
+        return prop.getBoolean();
 	}
 	
 	private static void processBuffer() {

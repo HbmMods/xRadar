@@ -201,7 +201,7 @@ public class TileEntityHydro extends TileEntity implements ISidedInventory {
 				if(slots[0] == null) {
 					slots[0] = new ItemStack(ModItems.tidal_energy);
 					
-				} else if(slots[0].getItem() == ModItems.tidal_energy){
+				} else if(slots[0].getItem() == ModItems.tidal_energy && slots[0].stackSize < 64){
 					slots[0].stackSize++;
 				}
 			}

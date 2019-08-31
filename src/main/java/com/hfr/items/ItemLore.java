@@ -68,8 +68,43 @@ public class ItemLore extends Item {
 			list.add("BFG 10K ammo");
 		}
 		
+		
+		
 		if(this == ModItems.tidal_energy) {
 			list.add("Hydroelectric energy currency");
+		}
+		
+		
+		
+		if(this == ModItems.missile_he_1) {
+			list.add("V2 missile (Aggregat 4)");
+		}
+		if(this == ModItems.missile_he_3) {
+			list.add("BM missile assembly with HMX warhead");
+		}
+		if(this == ModItems.missile_incendiary_1) {
+			list.add("V2 with modified incendiary warhead");
+		}
+		if(this == ModItems.missile_emp) {
+			list.add("Creates powerful EMP that");
+			list.add("jams machines for 5 minutes");
+		}
+		if(this == ModItems.missile_ab) {
+			list.add("Homes in on other missiles");
+		}
+		if(this == ModItems.missile_decoy) {
+			list.add("Harmless missile that appears");
+			list.add("as a tier 3 one on radars");
+		}
+		if(this == ModItems.missile_nuclear) {
+			list.add("OpFo's \"The Package\" all over again");
+		}
+
+		if(this == ModItems.sexlol) {
+			list.add("go fuck yourself");
+		}
+		if(this == ModItems.coin) {
+			list.add("Inflation? Are we blowing up balloons now?");
 		}
 	}
 }

@@ -44,13 +44,6 @@ public class MachineRadar extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
-		if(y < MainRegistry.radarAltitude) {
-			if(world.isRemote)
-				player.addChatMessage(new ChatComponentText("[Radar] Error: Radar altitude not sufficient."));
-			return true;
-		}
-		
 		if(world.isRemote)
 		{
 			return true;
