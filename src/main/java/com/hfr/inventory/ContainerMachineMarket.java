@@ -53,12 +53,13 @@ public class ContainerMachineMarket extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if (par2 <= 4) {
-				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true)) {
+			if (par2 <= 5) {
+				if (!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
-				return null;
+				if (!this.mergeItemStack(var5, 0, 3, false))
+					return null;
 			}
 
 			if (var5.stackSize == 0) {

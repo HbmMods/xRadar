@@ -67,10 +67,11 @@ public class ItemGrenade extends Item {
 			list.add("GAS GAS GAS");
 		}
 		if (this == ModItems.grenade_nuclear) {
-			list.add("yikes");
+			list.add("(Dash-Algorithm)");
 		}
 		if (this == ModItems.grenade_boxcar) {
-			list.add("SPEEN");
+			list.add("The ultimate admin abuse.");
+			list.add("Pip's finest. (Config Algorithm)");
 		}
 	}
 

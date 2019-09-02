@@ -98,13 +98,14 @@ public class ItemLore extends Item {
 		}
 		if(this == ModItems.missile_nuclear) {
 			list.add("OpFo's \"The Package\" all over again");
+			list.add("(Config Algorithm)");
 		}
 
 		if(this == ModItems.sexlol) {
 			list.add("go fuck yourself");
 		}
 		if(this == ModItems.coin) {
-			list.add("Inflation? Are we blowing up balloons now?");
+			list.add("Buy high, sell low");
 		}
 	}
 }

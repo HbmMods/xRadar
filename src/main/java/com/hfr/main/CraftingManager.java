@@ -119,7 +119,8 @@ public class CraftingManager {
 		
 		//GameRegistry.addRecipe(new ItemStack(ModBlocks.debug), new Object[] { "DBB", "PBB", "I I", 'D', ModItems.canister_diesel, 'B', Blocks.iron_block, 'P', Blocks.piston, 'I', Items.iron_ingot });
 		GameRegistry.addRecipe(new ItemStack(ModItems.plutonium), new Object[] { "UUU", "URU", "UUU", 'U', ModItems.uranium, 'R', Items.redstone });
-		GameRegistry.addRecipe(new ItemStack(ModItems.missile_nuclear), new Object[] { "PPP", "PMP", "PPP", 'P', ModItems.plutonium, 'M', ModItems.missile_incendiary_3 });
+		GameRegistry.addRecipe(new ItemStack(ModItems.americium), new Object[] { "UUU", "URU", "UUU", 'U', ModItems.plutonium, 'R', Items.redstone });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_nuclear), new Object[] { " A ", "AMA", " A ", 'A', ModItems.americium, 'M', ModItems.missile_incendiary_3 });
 	}
 	
 	public static void AddSmeltingRec()

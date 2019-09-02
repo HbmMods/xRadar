@@ -25,6 +25,7 @@ import com.hfr.render.hud.RenderRadarScreen.Blip;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -43,9 +44,11 @@ import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
@@ -143,6 +146,13 @@ public class CommonEventHandler {
 				//if the player does not have a radar up, he will only receive destructor packets that remove all blips and deny radar screens
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
 			}
+			
+			if(player.posY <= MainRegistry.caveCap) {
+				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 50, 0));
+				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 50, 1));
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 50, 0));
+				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 50, 2));
+			}
 		}
 		
 		if(player.worldObj.isRemote && event.phase == event.phase.START && player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8")) {
@@ -170,7 +180,7 @@ public class CommonEventHandler {
 		
 		World world = event.world;
 		
-		if(!world.isRemote) {
+		if(!world.isRemote && event.phase == Phase.START) {
 			
 			List<int[]> list = AntiMobData.getData(world).list;
 			
@@ -185,8 +195,7 @@ public class CommonEventHandler {
 			
 			timer++;
 			
-			if(timer >= 60 * 20) {
-				timer -= 60 * 20;
+			if(timer % (60 * 20) == 0) {
 				
 				CBTData cbtdata = CBTData.getData(world);
 		        MinecraftServer minecraftserver = MinecraftServer.getServer();
@@ -199,6 +208,9 @@ public class CommonEventHandler {
 		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
 		            }
 				}
+			}
+			
+			if(timer % (MainRegistry.updateInterval * 20) == 0) {
 				
 				StockData data = StockData.getData(world);
 				
@@ -207,10 +219,17 @@ public class CommonEventHandler {
 					for(int i = 0; i < 14; i++)
 						stock.value[i] = stock.value[i + 1];
 					
-					stock.value[14] = stock.value[14] + world.rand.nextFloat() * 2.5F - 1.25F;
+					stock.rollTheDice();
+					stock.update();
+
+					//MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(stock.shortname + " " + stock.phase.name()));
+					
 					data.markDirty();
 				}
 			}
+			
+			if(timer < 100000000)
+				timer -= 100000000;
 		}
 	}
 	
@@ -234,7 +253,8 @@ public class CommonEventHandler {
 			EntityZombie zomb = ((EntityZombie)event.entity);
 			
 			//enables block-breaking behavior for zomberts
-			zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
+			if(MainRegistry.zombAI)
+				zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
 			//zomb.tasks.addTask(2, new EntityAIAttackOnCollide(zomb, EntityPlayer.class, 1.0D, false));
 			//duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
 			zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
@@ -246,10 +266,11 @@ public class CommonEventHandler {
 			zomb.getAttributeMap().applyAttributeModifiers(multimap);*/
 		}
 		
-		if(event.entity instanceof EntityCreeper && MainRegistry.creepAI) {
+		if(event.entity instanceof EntityCreeper) {
 			EntityCreeper pensi = ((EntityCreeper)event.entity);
 			
-			pensi.tasks.addTask(1, new EntityAIAllah(pensi));
+			if(MainRegistry.creepAI)
+				pensi.tasks.addTask(1, new EntityAIAllah(pensi));
 			pensi.targetTasks.addTask(2, new EntityAINearestAttackableTarget(pensi, EntityPlayer.class, 0, false));
 			pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D, 15));
 			//pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D));

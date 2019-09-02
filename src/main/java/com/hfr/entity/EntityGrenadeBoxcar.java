@@ -30,7 +30,7 @@ public class EntityGrenadeBoxcar extends EntityGrenadeBouncyBase {
 			this.setDead();
 			
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, posX, posY, posZ).scaleMulti(3.5F));
-	    	worldObj.spawnEntityInWorld(EntityNuclearBlast.statFac(worldObj, posX, posY, posZ, 150, MainRegistry.nukeStrength, MainRegistry.nukeDist, 300));
+	    	worldObj.spawnEntityInWorld(EntityNuclearBlast.statFac(worldObj, posX, posY, posZ, 100, MainRegistry.nukeStrength, MainRegistry.nukeDist, 250));
 		}
 	}
 

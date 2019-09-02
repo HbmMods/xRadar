@@ -162,6 +162,8 @@ public class MainRegistry
 	public static int railgunUse = 250000000;
 	
 	public static int mlpf = 100;
+
+	public static int caveCap = 10;
 	
 	public static int crafting = 0;
 	
@@ -208,6 +210,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityHydro.class, "tileentity_hfr_hydro");
 		GameRegistry.registerTileEntity(TileEntityMachineNet.class, "tileentity_hfr_net");
 		GameRegistry.registerTileEntity(TileEntityMachineMarket.class, "tileentity_hfr_stonks");
+		GameRegistry.registerTileEntity(TileEntityDisplay.class, "tileentity_hfr_display");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -255,17 +258,18 @@ public class MainRegistry
 	}
 	
 	@EventHandler
-	public static void PostLoad(FMLPostInitializationEvent PostEvent)
+	public static void PostLoad(FMLPostInitializationEvent event)
 	{
 		//in postload, long after all blocks have been registered, the buffered config is being evaluated and processed.
 		processBuffer();
 	}
 	
 	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event)
+	public void ServerLoad(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandXPlayer());
 		event.registerServerCommand(new CommandXDebug());
+		event.registerServerCommand(new CommandXMarket());
 	}
 
 	public static List<Block> blastShields = new ArrayList();
@@ -278,6 +282,17 @@ public class MainRegistry
 	public static float skeletonHIV = 2.5F;
 	public static boolean zombAI = true;
 	public static boolean creepAI = true;
+
+	public static List<String> u2 = new ArrayList();
+	public static List<String> u1 = new ArrayList();
+	public static List<String> d1 = new ArrayList();
+	public static List<String> d2 = new ArrayList();
+	public static boolean u2en = true;
+	public static boolean u1en = true;
+	public static boolean d1en = true;
+	public static boolean d2en = true;
+	public static int updateInterval = 10 * 60;
+	public static int stockCap = 50;
 	
 	public void loadConfig(FMLPreInitializationEvent event)
 	{
@@ -654,7 +669,14 @@ public class MainRegistry
         	}
         }
         /////////////////////////////////////////////////////////////////////////
-        Property stocks = config.get("STOCKMARKET", "stocks", new String[] { "Bobcum Industries:CUM:50:0.1:5:10:5:0.1", "Bingus International:BIN:50:0.1:5:10:5:0.1" });
+        Property stocks = config.get("STOCKMARKET", "stocks", new String[] {
+        		"Bobcum Motors:CUM:50:2.5:7.5:10:7.5:2.5",
+        		"Bingus International:BIN:50:2.5:7.5:10:7.5:2.5",
+        		"Spark Corporation:SPK:50:2.5:7.5:10:7.5:2.5",
+        		"FlimFlam Industries:FLIM:50:2.5:7.5:10:7.5:2.5",
+        		"Magpie Electricals:MAG:50:2.5:7.5:10:7.5:2.5",
+        		"Papa G Softworks:PAPA:50:2.5:7.5:10:7.5:2.5"
+        });
         stocks.comment = "NAME:SHORTNAME:STARTING VALUE:U2CHANCE:U1CHANCE:NCHANCE:D1CHANCE:D2CHANCE";
         String[] sto = stocks.getStringList();
         
@@ -678,8 +700,57 @@ public class MainRegistry
         	}
         }
         /////////////////////////////////////////////////////////////////////////
+        String[] u2 = createConfigStringList(config, "STOCKMARKET", "u2messages", "Broadcast for econ boosts, %s replaces company short", new String[] { "%s's newest product proved to be a smash hit!", "%s is doing very well this quarter!" } );
+        
+        for(String val : u2) {
+        	
+        	if(val.contains("%s"))
+        		this.u2.add(val);
+        	else
+        		logger.error("Invalid config entry '" + val + "'");
+        }
+        
+        String[] u1 = createConfigStringList(config, "STOCKMARKET", "u1messages", "Broadcast for small econ boosts, %s replaces company short", new String[] { "%s's newest product was featured in a famous television show!", "Customer ratings for %s's services are on the rise!" } );
+        
+        for(String val : u1) {
+        	
+        	if(val.contains("%s"))
+        		this.u1.add(val);
+        	else
+        		logger.error("Invalid config entry '" + val + "'");
+        }
+        
+        String[] d1 = createConfigStringList(config, "STOCKMARKET", "d1messages", "Broadcast for small econ falls, %s replaces company short", new String[] { "%s's newest product was poorly received.", "%s lost a lawsuit over a faulty product." } );
+        
+        for(String val : d1) {
+        	
+        	if(val.contains("%s"))
+        		this.d1.add(val);
+        	else
+        		logger.error("Invalid config entry '" + val + "'");
+        }
+        
+        String[] d2 = createConfigStringList(config, "STOCKMARKET", "d2messages", "Broadcast for econ falls, %s replaces company short", new String[] { "%s's newest product was an utter flop.", "Public outrage after a poor advertising campaign made by %s." } );
+        
+        for(String val : d2) {
+        	
+        	if(val.contains("%s"))
+        		this.d2.add(val);
+        	else
+        		logger.error("Invalid config entry '" + val + "'");
+        }
+
+        u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);
+        u1en = createConfigBool(config, "STOCKMARKET", "u1enable", "Whether small econ boost messages should be broadcasted", true);
+        d1en = createConfigBool(config, "STOCKMARKET", "d1enable", "Whether small econ fall messages should be broadcasted", true);
+        d2en = createConfigBool(config, "STOCKMARKET", "d2enable", "Whether econ fall messages should be broadcasted", true);
+        updateInterval = createConfigInt(config, "STOCKMARKET", "updateInterval", "Time in seconds between market updates", 10 * 60);
+        stockCap = createConfigInt(config, "STOCKMARKET", "stockCap", "How many shares a player can own per stock", 50);
+        
+        /////////////////////////////////////////////////////////////////////////
         
         mlpf = createConfigInt(config, "ENTITYCONTROL", "MLPF", "How far the multi-layered pathfinder for zombs and creeps reaches", 100);
+        caveCap = createConfigInt(config, "ENTITYCONTROL", "caveCap", "Sets the maximum Y-coord where cave sickness kick in", 20);
 
         zombAI = createConfigBool(config, "ENTITYCONTROL", "zombAI", "Enables advanced zombert AI", true);
         creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);
@@ -699,6 +770,13 @@ public class MainRegistry
         Property prop = config.get(category, name, def);
         prop.comment = comment;
         return prop.getBoolean();
+	}
+	
+	private static String[] createConfigStringList(Configuration config, String category, String name, String comment, String[] def) {
+
+        Property prop = config.get(category, name, def);
+        prop.comment = comment;
+        return prop.getStringList();
 	}
 	
 	private static void processBuffer() {

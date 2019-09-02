@@ -1,16 +1,21 @@
 package com.hfr.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.StockPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -27,6 +32,8 @@ public class TileEntityMachineMarket extends TileEntity implements ISidedInvento
 	public ItemStack slots[];
 	
 	private String customName;
+	
+	public static List<Stock> stocks = new ArrayList();
 	
 	public TileEntityMachineMarket() {
 		slots = new ItemStack[6];
@@ -181,17 +188,69 @@ public class TileEntityMachineMarket extends TileEntity implements ISidedInvento
 		
 		if(!worldObj.isRemote) {
 			
+			StockData data = StockData.getData(worldObj);
+			
+			List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 10, yCoord - 10, zCoord - 10, xCoord + 10, yCoord + 10, zCoord + 10));
+			
+			for(EntityPlayer player : list) {
+				
+				for(int i = 0; i < data.stocks.size(); i++) {
+					Stock stock = data.stocks.get(i);
+					int shares = data.getShares(player.getDisplayName(), stock);
+					PacketDispatcher.wrapper.sendTo(new StockPacket(stock.name, stock.shortname, stock.value, shares, i), (EntityPlayerMP) player);
+				}
+			}
 		}
 	}
 	
 	public void buyStock(Stock stock, String player) {
 		
+		int price = (int) Math.ceil(stock.value[14]);
+		
+		int coins = 0;
+		
+		for(int i = 0; i < 3; i++)
+			if(slots[i] != null && slots[i].getItem() == ModItems.coin)
+				coins += slots[i].stackSize;
+		
+		if(coins < price)
+			return;
+		
 		StockData data = StockData.getData(worldObj);
 		int stocks = data.getShares(player, stock);
+		
+		if(stocks >= MainRegistry.stockCap)
+			return;
+		
 		data.setShares(player, stock, stocks + 1);
+		
+		for(int i = 0; i < price; i++) {
+			for(int j = 0; j < 3; j++) {
+				if(slots[j] != null && slots[j].getItem() == ModItems.coin) {
+					this.decrStackSize(j, 1);
+					break;
+				}
+			}
+		}
 	}
 	
 	public void sellStock(Stock stock, String player) {
+		
+		int price = (int) Math.floor(stock.value[14]);
+		
+		int space = 0;
+		
+		for(int i = 3; i < 6; i++) {
+			
+			if(slots[i] != null && slots[i].getItem() == ModItems.coin)
+				space += 64 - slots[i].stackSize;
+			
+			if(slots[i] == null)
+				space += 64;
+		}
+		
+		if(space < price)
+			return;
 		
 		StockData data = StockData.getData(worldObj);
 		int stocks = data.getShares(player, stock);
@@ -200,6 +259,18 @@ public class TileEntityMachineMarket extends TileEntity implements ISidedInvento
 			return;
 		
 		data.setShares(player, stock, stocks - 1);
+		
+		for(int i = 0; i < price; i++) {
+			for(int j = 3; j < 6; j++) {
+				if(slots[j] != null && slots[j].getItem() == ModItems.coin && slots[j].stackSize < 64) {
+					this.decrStackSize(j, -1);
+					break;
+				} else if(slots[j] == null) {
+					slots[j] = new ItemStack(ModItems.coin);
+					break;
+				}
+			}
+		}
 	}
 	
 	@Override

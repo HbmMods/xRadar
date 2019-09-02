@@ -29,7 +29,7 @@ public class GUIMachineMarket extends GuiContainer {
 	private TileEntityMachineMarket diFurnace;
 	
 	int index = 0;
-	Stock stock;
+	//Stock stock;
 	
 	public GUIMachineMarket(InventoryPlayer invPlayer, TileEntityMachineMarket tedf) {
 		super(new ContainerMachineMarket(invPlayer, tedf));
@@ -37,11 +37,6 @@ public class GUIMachineMarket extends GuiContainer {
 
 		this.xSize = 176;
 		this.ySize = 222;
-		
-		StockData data = StockData.getData(diFurnace.getWorldObj());
-		
-		if(data != null)
-			stock = data.getByInt(0);
 	}
 
     protected void mouseClicked(int x, int y, int i) {
@@ -58,29 +53,27 @@ public class GUIMachineMarket extends GuiContainer {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			index++;
     	}
-    	
-    	stock = StockData.getData(diFurnace.getWorldObj()).getByInt(index);
 
     	if(guiLeft + 79 <= x && guiLeft + 79 + 18 > x && guiTop + 89 < y && guiTop + 89 + 18 >= y) {
 
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			diFurnace.buyStock(stock, Minecraft.getMinecraft().thePlayer.getDisplayName());
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, index, 0));
     	}
 
     	if(guiLeft + 79 <= x && guiLeft + 79 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
 
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			diFurnace.sellStock(stock, Minecraft.getMinecraft().thePlayer.getDisplayName());
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, index, 1));
     	}
     }
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		
-		if(stock == null)
+		if(getStock(index) == null)
 			return;
 		
-		String name = stock.name + " (" + stock.shortname + ")";
+		String name = getStock(index).name + " (" + getStock(index).shortname + ")";
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -95,7 +88,7 @@ public class GUIMachineMarket extends GuiContainer {
         Tessellator tessellator = Tessellator.instance;
 		Minecraft minecraft = Minecraft.getMinecraft();
         
-        float vals[] = stock.value;
+        float vals[] = getStock(index).value;
         float render[] = new float[15];
 
         List<Float> floats = Arrays.asList(ArrayUtils.toObject(vals));
@@ -158,16 +151,16 @@ public class GUIMachineMarket extends GuiContainer {
 	    if(diff == 0)
 	    	color = 0xFFFF00;
 	    
-	    minecraft.fontRenderer.drawString("" + round(diff), (int) ((guiLeft + 155.5) * fontScale), (int) ((guiTop + 38.5) * fontScale), color);
-	    minecraft.fontRenderer.drawString("= " + round(vals[14]), (int) ((guiLeft + 149.5) * fontScale), (int) ((guiTop + 48.5) * fontScale), 0xFFFFFF);
+	    minecraft.fontRenderer.drawString("" + round(diff) + "%", (int) ((guiLeft + 155.5) * fontScale), (int) ((guiTop + 38.5) * fontScale), color);
+	    minecraft.fontRenderer.drawString("=" + round(vals[14]), (int) ((guiLeft + 150) * fontScale), (int) ((guiTop + 48.5) * fontScale), 0xFFFFFF);
 
 	    
 		GL11.glScalef(fontScale, fontScale, fontScale);
 
 		fontScale = 1.5F;
 		GL11.glScalef(1 / fontScale, 1 / fontScale, 1 / fontScale);
-	    minecraft.fontRenderer.drawString("Your " + stock.shortname + " shares:", (int) ((guiLeft + 105) * fontScale), (int) ((guiTop + 95) * fontScale), 4210752);
-	    minecraft.fontRenderer.drawString("" + StockData.getData(diFurnace.getWorldObj()).getShares(Minecraft.getMinecraft().thePlayer.getDisplayName(), stock), (int) ((guiLeft + 110) * fontScale), (int) ((guiTop + 105) * fontScale), 4210752);
+	    minecraft.fontRenderer.drawString("Your " + getStock(index).shortname + " shares:", (int) ((guiLeft + 105) * fontScale), (int) ((guiTop + 95) * fontScale), 4210752);
+	    minecraft.fontRenderer.drawString("" + getStock(index).shares, (int) ((guiLeft + 110) * fontScale), (int) ((guiTop + 105) * fontScale), 4210752);
 		GL11.glScalef(fontScale, fontScale, fontScale);
 		
 	    GL11.glEnable(GL11.GL_LIGHTING);
@@ -182,5 +175,16 @@ public class GUIMachineMarket extends GuiContainer {
 		f /= 100F;
 		
 		return f;
+	}
+	
+	private int getIndex(int i) {
+		
+		return i % diFurnace.stocks.size();
+	}
+	
+	private Stock getStock(int i) {
+		
+		i = getIndex(i);
+		return diFurnace.stocks.get(i);
 	}
 }

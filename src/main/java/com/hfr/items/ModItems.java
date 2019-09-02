@@ -30,6 +30,7 @@ public class ModItems {
 	public static Item coil;
 	public static Item uranium;
 	public static Item plutonium;
+	public static Item americium;
 	public static Item upgrade_radius;
 	public static Item upgrade_health;
 	public static Item upgrade_bedrock;
@@ -90,6 +91,7 @@ public class ModItems {
 		coil = new Item().setUnlocalizedName("coil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":coil");
 		uranium = new Item().setUnlocalizedName("uranium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium");
 		plutonium = new Item().setUnlocalizedName("plutonium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":plutonium");
+		americium = new Item().setUnlocalizedName("americium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":americium");
 		upgrade_radius = new ItemLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":upgrade_radius");
 		upgrade_health = new ItemLore().setUnlocalizedName("upgrade_health").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":upgrade_health");
 		upgrade_bedrock = new ItemLore().setUnlocalizedName("upgrade_bedrock").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":upgrade_bedrock");
@@ -157,6 +159,7 @@ public class ModItems {
 		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
 		GameRegistry.registerItem(uranium, uranium.getUnlocalizedName());
 		GameRegistry.registerItem(plutonium, plutonium.getUnlocalizedName());
+		GameRegistry.registerItem(americium, americium.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_health, upgrade_health.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_bedrock, upgrade_bedrock.getUnlocalizedName());

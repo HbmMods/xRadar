@@ -35,6 +35,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(RailgunFirePacket.Handler.class, RailgunFirePacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(RailgunRotationPacket.Handler.class, RailgunRotationPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(CBTPacket.Handler.class, CBTPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(StockPacket.Handler.class, StockPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(StockDisplayPacket.Handler.class, StockDisplayPacket.class, i++, Side.CLIENT);
 
 	}
 	

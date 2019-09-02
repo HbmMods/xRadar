@@ -26,6 +26,8 @@ tile.machine_net.name=Fishing Net
 container.machineNet=Fishing Net
 tile.machine_market.name=Stock Market Terminal
 
+tile.display.name=Stock Market Display
+
 tile.oil_duct.name=Oil Pipe
 tile.gas_duct.name=Gas Pipe
 
@@ -67,6 +69,7 @@ item.circuit.name=Circuit
 item.magnetron.name=Magnetron
 item.uranium.name=Uranium 235 Pellet
 item.plutonium.name=Plutonium 239 Pellet
+item.americium.name=Americium 242 Pellet
 item.upgrade_radius.name=Forcefield Radius Upgrade
 item.upgrade_health.name=Forcefield Shield Upgrade
 item.upgrade_bedrock.name=Forcefield Invincibility Upgrade

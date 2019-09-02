@@ -1,8 +1,10 @@
 package com.hfr.packet;
 
+import com.hfr.data.StockData;
 import com.hfr.tileentity.TileEntityForceField;
 import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
+import com.hfr.tileentity.TileEntityMachineMarket;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRefinery;
 import com.hfr.tileentity.TileEntityNaval;
@@ -136,6 +138,17 @@ public class AuxButtonPacket implements IMessage {
 						
 						gun.tryFire();
 					}
+				}
+				
+				if (te instanceof TileEntityMachineMarket) {
+					TileEntityMachineMarket market = (TileEntityMachineMarket)te;
+					
+					StockData data = StockData.getData(market.getWorldObj());
+
+					if(m.id == 0)
+						market.buyStock(data.getByInt(m.value), p.getDisplayName());
+					if(m.id == 1)
+						market.sellStock(data.getByInt(m.value), p.getDisplayName());
 				}
 				
 			//} catch (Exception x) { }
