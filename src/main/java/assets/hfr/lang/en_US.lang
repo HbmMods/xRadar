@@ -26,6 +26,11 @@ tile.machine_net.name=Fishing Net
 container.machineNet=Fishing Net
 tile.machine_market.name=Stock Market Terminal
 
+tile.rbmk_element.name=RBMK Fuel Rod
+tile.rbmk_rods.name=RBMK Control Rods
+tile.block_graphite.name=Block of Graphite
+tile.block_boron.name=Block of Boron
+
 tile.display.name=Stock Market Display
 
 tile.oil_duct.name=Oil Pipe
@@ -68,6 +73,8 @@ item.coil.name=Golden Coil
 item.circuit.name=Circuit
 item.magnetron.name=Magnetron
 item.uranium.name=Uranium 235 Pellet
+item.uranium_fuel.name=Enriched Uranium Fuel
+item.uranium_depleted.name=Depleted Uranium Fuel
 item.plutonium.name=Plutonium 239 Pellet
 item.americium.name=Americium 242 Pellet
 item.upgrade_radius.name=Forcefield Radius Upgrade

@@ -114,4 +114,9 @@ public class ResourceManager {
 	//BOXCAR
 	public static final IModelCustom boxcar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/boxcar.obj"));
 	public static final ResourceLocation boxcar_tex = new ResourceLocation(RefStrings.MODID, "textures/models/boxcar.png");
+	
+	//RBMK
+	public static final IModelCustom rbmk_element = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk_element.obj"));
+	public static final IModelCustom rbmk_rods_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk_rods_base.obj"));
+	public static final IModelCustom rbmk_rods = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk_rods.obj"));
 }

@@ -163,7 +163,7 @@ public class MainRegistry
 	
 	public static int mlpf = 100;
 
-	public static int caveCap = 10;
+	public static int caveCap = -10;
 	
 	public static int crafting = 0;
 	
@@ -750,7 +750,7 @@ public class MainRegistry
         /////////////////////////////////////////////////////////////////////////
         
         mlpf = createConfigInt(config, "ENTITYCONTROL", "MLPF", "How far the multi-layered pathfinder for zombs and creeps reaches", 100);
-        caveCap = createConfigInt(config, "ENTITYCONTROL", "caveCap", "Sets the maximum Y-coord where cave sickness kick in", 20);
+        caveCap = createConfigInt(config, "ENTITYCONTROL", "caveCap_New", "Sets the maximum Y-coord where cave sickness kick in", -10);
 
         zombAI = createConfigBool(config, "ENTITYCONTROL", "zombAI", "Enables advanced zombert AI", true);
         creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);

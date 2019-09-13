@@ -147,7 +147,7 @@ public class CommonEventHandler {
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
 			}
 			
-			if(player.posY <= MainRegistry.caveCap) {
+			if(player.posY <= MainRegistry.caveCap && !player.isRiding()) {
 				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 50, 0));
 				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 50, 1));
 				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 50, 0));

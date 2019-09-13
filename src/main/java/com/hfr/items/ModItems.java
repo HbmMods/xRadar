@@ -29,6 +29,8 @@ public class ModItems {
 	public static Item magnetron;
 	public static Item coil;
 	public static Item uranium;
+	public static Item uranium_fuel;
+	public static Item uranium_depleted;
 	public static Item plutonium;
 	public static Item americium;
 	public static Item upgrade_radius;
@@ -90,6 +92,8 @@ public class ModItems {
 		magnetron = new Item().setUnlocalizedName("magnetron").setCreativeTab(null).setTextureName(RefStrings.MODID + ":magnetron");
 		coil = new Item().setUnlocalizedName("coil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":coil");
 		uranium = new Item().setUnlocalizedName("uranium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium");
+		uranium_fuel = new Item().setUnlocalizedName("uranium_fuel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium_fuel");
+		uranium_depleted = new Item().setUnlocalizedName("uranium_depleted").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium_depleted");
 		plutonium = new Item().setUnlocalizedName("plutonium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":plutonium");
 		americium = new Item().setUnlocalizedName("americium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":americium");
 		upgrade_radius = new ItemLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":upgrade_radius");
@@ -158,6 +162,8 @@ public class ModItems {
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());
 		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
 		GameRegistry.registerItem(uranium, uranium.getUnlocalizedName());
+		GameRegistry.registerItem(uranium_fuel, uranium_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(uranium_depleted, uranium_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(plutonium, plutonium.getUnlocalizedName());
 		GameRegistry.registerItem(americium, americium.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());

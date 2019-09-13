@@ -18,6 +18,8 @@ import com.hfr.entity.*;
 import com.hfr.items.ModItems;
 import com.hfr.loader.HmfModelLoader;
 import com.hfr.render.*;
+import com.hfr.render.block.RenderControlRods;
+import com.hfr.render.block.RenderRBMK;
 import com.hfr.render.hud.RenderRadarScreen;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.tileentity.*;
@@ -40,6 +42,9 @@ public class ClientProxy extends ServerProxy
 		
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
 		RenderingRegistry.addNewArmourRendererPrefix("5");
+
+		RenderingRegistry.registerBlockHandler(new RenderRBMK());
+		RenderingRegistry.registerBlockHandler(new RenderControlRods());
 
 		ClientRegistry.registerKeyBinding(toggleZoom);
 		ClientRegistry.registerKeyBinding(incScale);
