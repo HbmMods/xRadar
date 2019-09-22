@@ -1,8 +1,11 @@
 package com.hfr.packet;
 
 import com.hfr.data.StockData;
+import com.hfr.main.MainRegistry;
+import com.hfr.schematic.Schematic;
 import com.hfr.tileentity.TileEntityForceField;
 import com.hfr.tileentity.TileEntityLaunchPad;
+import com.hfr.tileentity.TileEntityMachineBuilder;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineMarket;
 import com.hfr.tileentity.TileEntityMachineRadar;
@@ -69,7 +72,7 @@ public class AuxButtonPacket implements IMessage {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
 
-			//try {
+			try {
 				TileEntity te = p.worldObj.getTileEntity(m.x, m.y, m.z);
 
 				if (te instanceof TileEntityForceField) {
@@ -80,8 +83,8 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityMachineRadar field = (TileEntityMachineRadar)te;
 					field.mode++;
 					
-					if(field.mode > 2)
-						field.mode -= 3;
+					if(field.mode > 3)
+						field.mode -= 4;
 				}
 				
 				if (te instanceof TileEntityRailgun) {
@@ -151,7 +154,32 @@ public class AuxButtonPacket implements IMessage {
 						market.sellStock(data.getByInt(m.value), p.getDisplayName());
 				}
 				
-			//} catch (Exception x) { }
+				if (te instanceof TileEntityMachineBuilder) {
+					TileEntityMachineBuilder builder = (TileEntityMachineBuilder)te;
+					
+					if(m.id == 0) {
+						
+						if(builder.preview == null) {
+							builder.preview = MainRegistry.schems.get(m.value);
+							PacketDispatcher.wrapper.sendToAll(new SchematicPreviewPacket(m.x, m.y, m.z, MainRegistry.schems.get(m.value)));
+						} else {
+							builder.preview = null;
+							PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(m.x, m.y, m.z, 0, 0));
+						}
+					}
+					
+					if(m.id == 1) {
+						Schematic schem = MainRegistry.schems.get(m.value);
+						builder.construct(schem);
+					}
+					
+					if(m.id == 2) {
+						Schematic schem = MainRegistry.schems.get(m.value);
+						builder.deconstruct(schem);
+					}
+				}
+				
+			} catch (Exception x) { }
 			
 			return null;
 		}

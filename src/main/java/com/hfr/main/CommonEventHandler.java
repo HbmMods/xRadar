@@ -18,10 +18,12 @@ import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.CBTPacket;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.SRadarPacket;
+import com.hfr.packet.SchemOfferPacket;
 import com.hfr.packet.VRadarDestructorPacket;
 import com.hfr.packet.VRadarPacket;
 import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
+import com.hfr.schematic.Schematic;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -195,7 +197,7 @@ public class CommonEventHandler {
 			
 			timer++;
 			
-			if(timer % (60 * 20) == 0) {
+			/*if(timer % (60 * 20) == 0) {
 				
 				CBTData cbtdata = CBTData.getData(world);
 		        MinecraftServer minecraftserver = MinecraftServer.getServer();
@@ -208,7 +210,7 @@ public class CommonEventHandler {
 		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
 		            }
 				}
-			}
+			}*/
 			
 			if(timer % (MainRegistry.updateInterval * 20) == 0) {
 				
@@ -237,8 +239,20 @@ public class CommonEventHandler {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
 		
-		if(event.world.isRemote || event.entity instanceof EntityPlayer)
+		if(event.world.isRemote)
 			return;
+		
+		if(event.entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)event.entity;
+			
+			String[] schems = new String[MainRegistry.schems.size()];
+			
+			for(int i = 0; i < schems.length; i++) {
+				schems[i] = MainRegistry.schems.get(i).name + "_" + MainRegistry.schems.get(i).value;
+			}
+			
+			PacketDispatcher.wrapper.sendTo(new SchemOfferPacket(schems), (EntityPlayerMP) player);
+		}
 		
 		int chance = ControlEntry.getEntry(event.entity);
 		

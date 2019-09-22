@@ -100,7 +100,9 @@ public class ItemLore extends Item {
 			list.add("OpFo's \"The Package\" all over again");
 			list.add("(Config Algorithm)");
 		}
+		
 
+		
 		if(this == ModItems.sexlol) {
 			list.add("go fuck yourself");
 		}

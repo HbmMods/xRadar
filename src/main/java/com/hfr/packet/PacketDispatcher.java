@@ -37,6 +37,9 @@ public class PacketDispatcher {
 		wrapper.registerMessage(CBTPacket.Handler.class, CBTPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(StockPacket.Handler.class, StockPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(StockDisplayPacket.Handler.class, StockDisplayPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(SchematicPreviewPacket.Handler.class, SchematicPreviewPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(BuilderPacket.Handler.class, BuilderPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(SchemOfferPacket.Handler.class, SchemOfferPacket.class, i++, Side.CLIENT);
 
 	}
 	

@@ -25,6 +25,8 @@ container.hydro=Hydroelectric Dam
 tile.machine_net.name=Fishing Net
 container.machineNet=Fishing Net
 tile.machine_market.name=Stock Market Terminal
+tile.builder.name=Schematic Printer
+container.builder=Schematic Printer
 
 tile.rbmk_element.name=RBMK Fuel Rod
 tile.rbmk_rods.name=RBMK Control Rods
@@ -68,6 +70,8 @@ item.grenade_gas.name=Gas Grenade
 item.grenade_nuclear.name=Atomic Grenade
 item.grenade_boxcar.name=Giant Rotating Boxcar
 
+item.hatter.name=Hat Tool
+
 item.cassette.name=Siren Track
 item.coil.name=Golden Coil
 item.circuit.name=Circuit
@@ -93,6 +97,7 @@ item.gas_petroleum.name=Petroleum Gas Tank
 item.tidal_energy.name=Tidal Energy
 item.whale_meat.name=Whale Meat
 item.hfr_coin.name=Stock Market Coin
+item.hfr_wrench.name=Construction Materials
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

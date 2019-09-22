@@ -41,6 +41,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +58,8 @@ import com.hfr.handler.*;
 import com.hfr.items.*;
 import com.hfr.lib.*;
 import com.hfr.packet.*;
+import com.hfr.schematic.Schematic;
+import com.hfr.schematic.SchematicLoader;
 import com.hfr.tileentity.*;
 import com.hfr.util.*;
 
@@ -211,6 +214,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineNet.class, "tileentity_hfr_net");
 		GameRegistry.registerTileEntity(TileEntityMachineMarket.class, "tileentity_hfr_stonks");
 		GameRegistry.registerTileEntity(TileEntityDisplay.class, "tileentity_hfr_display");
+		GameRegistry.registerTileEntity(TileEntityMachineBuilder.class, "tileentity_hfr_builder");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -756,7 +760,28 @@ public class MainRegistry
         creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);
         
         config.save();
+        
+        File schemDir = new File(event.getModConfigurationDirectory() + "/schematics");
+        
+        if(!schemDir.exists())
+        	schemDir.mkdir();
+        
+        for(File f : schemDir.listFiles()) {
+        	if(f.isFile() && f.getName().endsWith(".schematic") && f.getName().split("_").length == 2) {
+        		
+        		Schematic schem = SchematicLoader.readFromFile(f);
+        		
+        		int val = Integer.parseInt(f.getName().split("_")[1].replace("_", "").replace(".schematic", ""));
+        		
+        		if(schem != null) {
+        			schem.value = val;
+        			schems.add(schem);
+        		}
+        	}
+        }
 	}
+	
+	public static List<Schematic> schems = new ArrayList();
 	
 	private static int createConfigInt(Configuration config, String category, String name, String comment, int def) {
 

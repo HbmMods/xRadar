@@ -6,6 +6,33 @@ import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.inventory.*;
+import com.hfr.inventory.container.ContainerForceField;
+import com.hfr.inventory.container.ContainerHydro;
+import com.hfr.inventory.container.ContainerLaunchPad;
+import com.hfr.inventory.container.ContainerMachineBuilder;
+import com.hfr.inventory.container.ContainerMachineMarket;
+import com.hfr.inventory.container.ContainerMachineNet;
+import com.hfr.inventory.container.ContainerMachineOilWell;
+import com.hfr.inventory.container.ContainerMachineRadar;
+import com.hfr.inventory.container.ContainerMachineRefinery;
+import com.hfr.inventory.container.ContainerMachineSiren;
+import com.hfr.inventory.container.ContainerNaval;
+import com.hfr.inventory.container.ContainerRailgun;
+import com.hfr.inventory.container.ContainerTank;
+import com.hfr.inventory.gui.GUIForceField;
+import com.hfr.inventory.gui.GUIHydro;
+import com.hfr.inventory.gui.GUILaunchPad;
+import com.hfr.inventory.gui.GUIMachineBuilder;
+import com.hfr.inventory.gui.GUIMachineMarket;
+import com.hfr.inventory.gui.GUIMachineNet;
+import com.hfr.inventory.gui.GUIMachineOilWell;
+import com.hfr.inventory.gui.GUIMachineRadar;
+import com.hfr.inventory.gui.GUIMachineRefinery;
+import com.hfr.inventory.gui.GUIMachineSiren;
+import com.hfr.inventory.gui.GUINaval;
+import com.hfr.inventory.gui.GUIRailgun;
+import com.hfr.inventory.gui.GUIScreenDesignator;
+import com.hfr.inventory.gui.GUITank;
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.*;
 
@@ -125,6 +152,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_builder:
+			{
+				if(entity instanceof TileEntityMachineBuilder)
+				{
+					return new ContainerMachineBuilder(player.inventory, (TileEntityMachineBuilder) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -240,6 +276,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineMarket)
 					{
 						return new GUIMachineMarket(player.inventory, (TileEntityMachineMarket) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_builder:
+				{
+					if(entity instanceof TileEntityMachineBuilder)
+					{
+						return new GUIMachineBuilder(player.inventory, (TileEntityMachineBuilder) entity);
 					}
 					return null;
 				}

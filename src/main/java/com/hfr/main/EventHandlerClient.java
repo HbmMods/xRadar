@@ -99,13 +99,13 @@ public class EventHandlerClient {
 			}
 		}
 		
-		if(fps) {
+		/*if(fps) {
 			Minecraft.getMinecraft().gameSettings.limitFramerate = 5;
 		}
 		
 		if(tilt) {
 			Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
-		}
+		}*/
 	}
 	
 	@SubscribeEvent

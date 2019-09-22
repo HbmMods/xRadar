@@ -129,6 +129,13 @@ public class AuxGaugePacket implements IMessage {
 					gen.isJammed = m.value == 1;
 				}
 				
+				if (te != null && te instanceof TileEntityMachineBuilder) {
+						
+					TileEntityMachineBuilder gen = (TileEntityMachineBuilder) te;
+
+					gen.preview = null;
+				}
+				
 			} catch (Exception x) { }
 			return null;
 		}

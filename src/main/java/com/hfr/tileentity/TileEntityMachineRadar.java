@@ -9,6 +9,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.hfr.entity.EntityMissileAntiBallistic;
 import com.hfr.entity.EntityMissileBaseAdvanced;
 import com.hfr.entity.EntityMissileBaseSimple;
+import com.hfr.entity.EntityRailgunBlast;
+import com.hfr.entity.EntityShell;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.PacketDispatcher;
@@ -124,6 +126,10 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseSimple)e).getMissileType() + 1) + " Missile"));
 					if(e instanceof EntityMissileAntiBallistic)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Anti-Ballistic Missile"));
+				}
+				if(mode == 0 || mode == 3) {
+					if(e instanceof EntityShell)
+						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Shell"));
 				}
 			}
 		}

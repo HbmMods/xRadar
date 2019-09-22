@@ -71,7 +71,7 @@ public class EntityNuclearBlast extends Entity {
 				
 				vec.rotateAroundY(rand.nextFloat() * 360);
 				EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
-				double y = worldObj.getHeightValue((int)(this.posX + vec.xCoord), (int)(this.posZ + vec.zCoord));
+				double y = worldObj.getHeightValue((int)(this.posX + vec.xCoord), (int)(this.posZ + vec.zCoord)) + 1.5;
 				
 				if(this.simple)
 					y = posY;
