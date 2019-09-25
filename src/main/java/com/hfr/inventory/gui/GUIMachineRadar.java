@@ -58,6 +58,15 @@ public class GUIMachineRadar extends GuiContainer {
 					} else if(m.name.equals("Tier 3 Missile")) {
 						
 						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Tier 1 Missile (Ascending)")) {
+
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Tier 2 Missile (Ascending)")) {
+
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Tier 3 Missile (Ascending)")) {
+						
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
 					} else if(m.name.equals("Anti-Ballistic Missile")) {
 
 						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
@@ -140,6 +149,15 @@ public class GUIMachineRadar extends GuiContainer {
 
 					t = 1;
 				} else if(m.name.equals("Tier 3 Missile")) {
+
+					t = 2;
+				} else if(m.name.equals("Tier 1 Missile (Ascending)")) {
+
+					t = 0;
+				} else if(m.name.equals("Tier 2 Missile (Ascending)")) {
+
+					t = 1;
+				} else if(m.name.equals("Tier 3 Missile (Ascending)")) {
 
 					t = 2;
 				} else if(m.name.equals("Anti-Ballistic Missile")) {

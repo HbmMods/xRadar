@@ -48,6 +48,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		super.readFromNBT(nbt);
 		
 		storage.readFromNBT(nbt);
+		mode = nbt.getInteger("mode");
 	}
 
 	@Override
@@ -55,6 +56,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		super.writeToNBT(nbt);
 		
 		storage.writeToNBT(nbt);
+		nbt.setInteger("mode", mode);
 	}
 
 	@Override
@@ -86,7 +88,8 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 			if(storage.getEnergyStored() < 0)
 				storage.setEnergyStored(0);
 		} else {
-			PacketDispatcher.wrapper.sendToAll(new TESRadarPacket(null,xCoord, yCoord, zCoord, mode));
+			if(!worldObj.isRemote)
+				PacketDispatcher.wrapper.sendToAll(new TESRadarPacket(null,xCoord, yCoord, zCoord, mode));
 		}
 		
 		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
@@ -122,14 +125,21 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 				if(mode == 0 || mode == 1) {
 					if(e instanceof EntityMissileBaseAdvanced)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseAdvanced)e).getMissileType() + 1) + " Missile"));
-					if(e instanceof EntityMissileBaseSimple)
+
+					else if(e instanceof EntityMissileBaseSimple && ((EntityMissileBaseSimple)e).mode != 2)
+						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseSimple)e).getMissileType() + 1) + " Missile (Ascending)"));
+					
+					else if(e instanceof EntityMissileBaseSimple)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Tier " + (((EntityMissileBaseSimple)e).getMissileType() + 1) + " Missile"));
-					if(e instanceof EntityMissileAntiBallistic)
+					
+					else if(e instanceof EntityMissileAntiBallistic)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Anti-Ballistic Missile"));
 				}
 				if(mode == 0 || mode == 3) {
 					if(e instanceof EntityShell)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Shell"));
+					else if(e instanceof EntityRailgunBlast)
+						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Rilgun Charge"));
 				}
 			}
 		}
@@ -146,6 +156,10 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 			for(int i = 0; i < nearbyMissiles.size(); i++) {
 				
 				RadarEntry j = nearbyMissiles.get(i);
+				
+				if(j.name.equals("Anti-Ballistic Missile") || j.name.endsWith("(Ascending)"))
+					continue;
+				
 				double dist = Math.sqrt(Math.pow(j.posX - xCoord, 2) + Math.pow(j.posZ - zCoord, 2));
 				int p = 15 - (int)Math.floor(dist / maxRange * 15);
 				

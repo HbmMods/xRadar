@@ -130,7 +130,7 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 		double closest = MainRegistry.abRange * Math.sqrt(2);
 		
 		for(Entity e : list) {
-			if(e instanceof EntityMissileBaseSimple) {
+			if(e instanceof EntityMissileBaseSimple && ((EntityMissileBaseSimple)e).mode == 2) {
 				double dis = Math.sqrt(Math.pow(e.posX - posX, 2) + Math.pow(e.posY - posY, 2) + Math.pow(e.posZ - posZ, 2));
 				
 				if(dis < closest) {

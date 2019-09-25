@@ -39,7 +39,7 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
     //0: ascent
     //1: pause
     //2: descent
-    int mode = 0;
+    public int mode = 0;
     //when the timer runs out, it sets the mode from 1 to 2
     int timer;
 
@@ -217,9 +217,12 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
         	if(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector() < 5)
         		motionY -= 0.1;
         }
-        this.dataWatcher.updateObject(9, mode);
-        if(!worldObj.isRemote)
+        
+        if(!worldObj.isRemote) {
+        	this.dataWatcher.updateObject(9, mode);
         	this.dataWatcher.updateObject(10, timer);
+        }
+        
         if(worldObj.isRemote)
         	timer = dataWatcher.getWatchableObjectInt(10);
         
