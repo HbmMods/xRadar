@@ -158,6 +158,9 @@ public class MainRegistry
 	public static int crapFishrate = 1000000;
 	public static int jamRate = 15 * 60;
 	public static int whaleChance = 5;
+
+	public static int uniRate = 60 * 3;
+	public static int uniJamRate = 60 * 15;
 	
 	public static int navalDamage = 100;
 	public static int railgunDamage = 100;
@@ -215,6 +218,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineMarket.class, "tileentity_hfr_stonks");
 		GameRegistry.registerTileEntity(TileEntityDisplay.class, "tileentity_hfr_display");
 		GameRegistry.registerTileEntity(TileEntityMachineBuilder.class, "tileentity_hfr_builder");
+		GameRegistry.registerTileEntity(TileEntityMachineUni.class, "tileentity_hfr_university");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -236,6 +240,8 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeGas.class, "entity_hfr_gas_grenade", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_hfr_nuke_grenade", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeBoxcar.class, "entity_hfr_grb_grenade", id++, this, 1000, 1, true);
+
+	    EntityRegistry.registerModEntity(EntityFarmer.class, "entity_hfr_slave", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -561,6 +567,9 @@ public class MainRegistry
         crapFishrate = createConfigInt(config, "FISHING", "crapFishrate", "Average amount of seconds for fish in hills, deserts and savannas", 1000000);
         jamRate = createConfigInt(config, "FISHING", "jamRate", "Average amount of seconds for net to get jammed", 15 * 60);
         whaleChance = createConfigInt(config, "FISHING", "whaleChance", "Chance in percent of chatching whale meat", 5);
+
+        uniRate = createConfigInt(config, "UNIVERSITY", "uniRate", "Average amount of seconds for uni to generate research", 60 * 3);
+        uniJamRate = createConfigInt(config, "UNIVERSITY", "uniJamRate", "Average amount of seconds for uni to get jammed", 60 * 15);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";

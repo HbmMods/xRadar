@@ -27,6 +27,8 @@ container.machineNet=Fishing Net
 tile.machine_market.name=Stock Market Terminal
 tile.builder.name=Schematic Printer
 container.builder=Schematic Printer
+tile.machine_uni.name=University
+container.machineUni=University
 
 tile.rbmk_element.name=RBMK Fuel Rod
 tile.rbmk_rods.name=RBMK Control Rods
@@ -41,6 +43,7 @@ tile.gas_duct.name=Gas Pipe
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
 tile.temp.name=Temporary Block
+tile.uni_foundation.name=University Foundation Block
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
 
@@ -65,6 +68,8 @@ item.wand.name=ThotBeGone Anti Mob Wand
 item.battery.name=HFR Infinite Battery
 item.oil_detector.name=Oil Detector
 item.gas_mask.name=Dräger M65 Gas Mask
+
+item.farmer.name=Farming Contract
 
 item.grenade_gas.name=Gas Grenade
 item.grenade_nuclear.name=Atomic Grenade
@@ -96,6 +101,7 @@ item.gas_petroleum.name=Petroleum Gas Tank
 
 item.tidal_energy.name=Tidal Energy
 item.whale_meat.name=Whale Meat
+item.science.name=Research Point
 item.hfr_coin.name=Stock Market Coin
 item.hfr_wrench.name=Construction Materials
 

@@ -16,6 +16,7 @@ import com.hfr.inventory.container.ContainerMachineOilWell;
 import com.hfr.inventory.container.ContainerMachineRadar;
 import com.hfr.inventory.container.ContainerMachineRefinery;
 import com.hfr.inventory.container.ContainerMachineSiren;
+import com.hfr.inventory.container.ContainerMachineUni;
 import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
@@ -29,6 +30,7 @@ import com.hfr.inventory.gui.GUIMachineOilWell;
 import com.hfr.inventory.gui.GUIMachineRadar;
 import com.hfr.inventory.gui.GUIMachineRefinery;
 import com.hfr.inventory.gui.GUIMachineSiren;
+import com.hfr.inventory.gui.GUIMachineUni;
 import com.hfr.inventory.gui.GUINaval;
 import com.hfr.inventory.gui.GUIRailgun;
 import com.hfr.inventory.gui.GUIScreenDesignator;
@@ -161,6 +163,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_uni:
+			{
+				if(entity instanceof TileEntityMachineUni)
+				{
+					return new ContainerMachineUni(player.inventory, (TileEntityMachineUni) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -285,6 +296,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineBuilder)
 					{
 						return new GUIMachineBuilder(player.inventory, (TileEntityMachineBuilder) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_uni:
+				{
+					if(entity instanceof TileEntityMachineUni)
+					{
+						return new GUIMachineUni(player.inventory, (TileEntityMachineUni) entity);
 					}
 					return null;
 				}

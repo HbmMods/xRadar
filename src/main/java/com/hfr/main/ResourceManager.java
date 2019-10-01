@@ -110,6 +110,10 @@ public class ResourceManager {
 	public static final IModelCustom net = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/net.obj"));
 	public static final ResourceLocation net_tex = new ResourceLocation(RefStrings.MODID, "textures/models/net.png");
 	public static final ResourceLocation net_jammed_tex = new ResourceLocation(RefStrings.MODID, "textures/models/net_jammed.png");
+	
+	//UNI
+	public static final IModelCustom uni = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/uni.obj"));
+	public static final ResourceLocation uni_tex = new ResourceLocation(RefStrings.MODID, "textures/models/uni.png");
 
 	//BOXCAR
 	public static final IModelCustom boxcar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/boxcar.obj"));

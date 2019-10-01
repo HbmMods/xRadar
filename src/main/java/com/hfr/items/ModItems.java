@@ -46,6 +46,8 @@ public class ModItems {
 	public static Item gas_natural;
 	public static Item gas_petroleum;
 
+	public static Item farmer;
+
 	public static Item designator;
 	public static Item designator_range;
 	public static Item designator_manual;
@@ -63,6 +65,16 @@ public class ModItems {
 	public static Item missile_decoy;
 	public static Item missile_nuclear;
 
+	public static Item slbm_martin_1;
+	public static Item slbm_martin_2;
+	public static Item slbm_martin_3;
+	public static Item slbm_pegasus_1;
+	public static Item slbm_pegasus_2;
+	public static Item slbm_pegasus_3;
+	public static Item slbm_spear_1;
+	public static Item slbm_spear_2;
+	public static Item slbm_spear_3;
+
 	public static Item drum;
 	public static Item charge_naval;
 	public static Item charge_railgun;
@@ -70,6 +82,7 @@ public class ModItems {
 
 	public static Item tidal_energy;
 	public static Item whale_meat;
+	public static Item science;
 	public static Item coin;
 	public static Item wrench;
 
@@ -111,6 +124,8 @@ public class ModItems {
 		gas_natural = new ItemLore().setUnlocalizedName("gas_natural").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_natural");
 		gas_petroleum = new ItemLore().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_petroleum");
 
+		farmer = new ItemContract().setUnlocalizedName("farmer").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":farmer");
+		
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_range");
 		designator_manual = new ItemDesingatorManual().setUnlocalizedName("designator_manual").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_manual");
@@ -126,7 +141,17 @@ public class ModItems {
 		missile_ab = new ItemLore().setUnlocalizedName("missile_ab").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_ab");
 		missile_decoy = new ItemLore().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_decoy");
 		missile_nuclear = new ItemLore().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_nuclear");
-		
+
+		slbm_martin_1 = new ItemLore().setUnlocalizedName("slbm_martin_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_martin_1");
+		slbm_martin_2 = new ItemLore().setUnlocalizedName("slbm_martin_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_martin_2");
+		slbm_martin_3 = new ItemLore().setUnlocalizedName("slbm_martin_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_martin_3");
+		slbm_pegasus_1 = new ItemLore().setUnlocalizedName("slbm_pegasus_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_pegasus_1");
+		slbm_pegasus_2 = new ItemLore().setUnlocalizedName("slbm_pegasus_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_pegasus_2");
+		slbm_pegasus_3 = new ItemLore().setUnlocalizedName("slbm_pegasus_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_pegasus_3");
+		slbm_spear_1 = new ItemLore().setUnlocalizedName("slbm_spear_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_spear_1");
+		slbm_spear_2 = new ItemLore().setUnlocalizedName("slbm_spear_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_spear_2");
+		slbm_spear_3 = new ItemLore().setUnlocalizedName("slbm_spear_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_spear_3");
+
 		drum = new ItemLore().setUnlocalizedName("drum").setMaxStackSize(4).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":drum");
 		charge_naval = new ItemLore().setUnlocalizedName("charge_naval").setMaxStackSize(2).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":charge_naval");
 		charge_railgun = new ItemLore().setUnlocalizedName("charge_railgun").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":charge_railgun");
@@ -134,6 +159,7 @@ public class ModItems {
 		
 		tidal_energy = new ItemLore().setUnlocalizedName("tidal_energy").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":tidal_energy");
 		whale_meat = new ItemMeat().setUnlocalizedName("whale_meat").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":whale_meat");
+		science = new ItemLore().setUnlocalizedName("science").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science");
 		coin = new ItemLore().setUnlocalizedName("hfr_coin").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":coin");
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
 
@@ -187,9 +213,12 @@ public class ModItems {
 
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
 		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());
+		GameRegistry.registerItem(science, science.getUnlocalizedName());
 		GameRegistry.registerItem(coin, coin.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
 
+		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
+		
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
 		GameRegistry.registerItem(designator_manual, designator_manual.getUnlocalizedName());
@@ -205,6 +234,16 @@ public class ModItems {
 		GameRegistry.registerItem(missile_ab, missile_ab.getUnlocalizedName());
 		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
+
+		GameRegistry.registerItem(slbm_martin_1, slbm_martin_1.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_martin_2, slbm_martin_2.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_martin_3, slbm_martin_3.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_pegasus_1, slbm_pegasus_1.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_pegasus_2, slbm_pegasus_2.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_pegasus_3, slbm_pegasus_3.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_spear_1, slbm_spear_1.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_spear_2, slbm_spear_2.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_spear_3, slbm_spear_3.getUnlocalizedName());
 
 		GameRegistry.registerItem(drum, drum.getUnlocalizedName());
 		GameRegistry.registerItem(charge_naval, charge_naval.getUnlocalizedName());

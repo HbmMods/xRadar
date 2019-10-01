@@ -1,5 +1,8 @@
 package com.hfr.tileentity;
 
+import com.hfr.packet.AuxGaugePacket;
+import com.hfr.packet.PacketDispatcher;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -130,5 +133,11 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	//shit i don't know man
 	@Override
     public abstract void updateEntity();
+	
+	public void updateGauge(int val, int id) {
+
+		if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id));
+	}
 
 }
