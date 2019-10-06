@@ -3,7 +3,7 @@ package com.hfr.tileentity;
 import com.hfr.blocks.DummyBlockVault;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.TEVaultPacket;
+import com.hfr.packet.tile.TEVaultPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -2,10 +2,10 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.entity.EntityMissileAntiBallistic;
-import com.hfr.entity.EntityMissileDecoy;
-import com.hfr.entity.EntityMissileGeneric;
-import com.hfr.entity.EntityMissileIncendiary;
+import com.hfr.entity.missile.EntityMissileAntiBallistic;
+import com.hfr.entity.missile.EntityMissileDecoy;
+import com.hfr.entity.missile.EntityMissileGeneric;
+import com.hfr.entity.missile.EntityMissileIncendiary;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;

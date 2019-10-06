@@ -3,8 +3,8 @@ package com.hfr.render;
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.blocks.ModBlocks;
-import com.hfr.blocks.TileEntityDuct;
 import com.hfr.lib.RefStrings;
+import com.hfr.tileentity.TileEntityDuct;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

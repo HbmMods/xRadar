@@ -102,6 +102,45 @@ public class ItemLore extends Item {
 		}
 		
 
+
+		if(this == ModItems.slbm_martin_1) {
+			list.add("Conventional warhead");
+			list.add("Ballistic missile (arcing)");
+		}
+		if(this == ModItems.slbm_martin_2) {
+			list.add("Incendiary warhead");
+			list.add("Ballistic missile (arcing)");
+		}
+		if(this == ModItems.slbm_martin_3) {
+			list.add("Nuclear warhead");
+			list.add("Ballistic missile (arcing)");
+		}
+		if(this == ModItems.slbm_pegasus_1) {
+			list.add("Conventional warhead");
+			list.add("Ballistic missile (high-range)");
+		}
+		if(this == ModItems.slbm_pegasus_2) {
+			list.add("Incendiary warhead");
+			list.add("Ballistic missile (high-range)");
+		}
+		if(this == ModItems.slbm_pegasus_3) {
+			list.add("Nuclear warhead");
+			list.add("Ballistic missile (high-range)");
+		}
+		if(this == ModItems.slbm_spear_1) {
+			list.add("Conventional warhead");
+			list.add("Cruise missile");
+		}
+		if(this == ModItems.slbm_spear_2) {
+			list.add("Incendiary warhead");
+			list.add("Cruise missile");
+		}
+		if(this == ModItems.slbm_spear_3) {
+			list.add("Nuclear warhead");
+			list.add("Cruise missile");
+		}
+		
+
 		
 		if(this == ModItems.sexlol) {
 			list.add("go fuck yourself");

@@ -54,12 +54,15 @@ import com.hfr.command.*;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.entity.*;
+import com.hfr.entity.grenade.*;
+import com.hfr.entity.logic.*;
+import com.hfr.entity.missile.*;
+import com.hfr.entity.projectile.*;
 import com.hfr.handler.*;
 import com.hfr.items.*;
 import com.hfr.lib.*;
 import com.hfr.packet.*;
-import com.hfr.schematic.Schematic;
-import com.hfr.schematic.SchematicLoader;
+import com.hfr.schematic.*;
 import com.hfr.tileentity.*;
 import com.hfr.util.*;
 
@@ -113,7 +116,7 @@ public class MainRegistry
 	public static int abDelay = 40;
 	public static int abRange = 500;
 	public static double abSpeed = 0.125D;
-	public static int empRadius = 500;
+	public static int empRadius = 100;
 	public static int empDuration = 5 * 60 * 20;
 	public static int empParticle = 20;
 	public static boolean empSpecial = true;
@@ -242,6 +245,10 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeBoxcar.class, "entity_hfr_grb_grenade", id++, this, 1000, 1, true);
 
 	    EntityRegistry.registerModEntity(EntityFarmer.class, "entity_hfr_slave", id++, this, 1000, 1, true);
+
+	    EntityRegistry.registerModEntity(EntityMissileMartin.class, "entity_missile_martin", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissilePegasus.class, "entity_missile_pegasus", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileSpear.class, "entity_missile_spear", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -288,6 +295,7 @@ public class MainRegistry
 	public static List<PotionEntry> potionList = new ArrayList();
 	public static List<ImmunityEntry> immunityList = new ArrayList();
 	public static String[] twilightBuffer;
+	public static List<Integer> t2Buffer = new ArrayList();
 	public static boolean skeletonAIDS = false;
 	public static float skeletonHIV = 2.5F;
 	public static boolean zombAI = true;
@@ -496,10 +504,10 @@ public class MainRegistry
         
         for(String val : vals) {
         	
-        	Block bl = Block.getBlockById(Integer.parseInt(val));
+        	int i = Integer.parseInt(val);
         	
-        	if(bl != Blocks.air)
-        		blastShields.add(bl);
+        	if(i != 0)
+        		t2Buffer.add(i);
         }
         
         Property nukeRadiusP = config.get("NUKE", "nukeRadius", 100);
@@ -854,6 +862,14 @@ public class MainRegistry
         		logger.error("Invalid config entry '" + val + "'");
         	}
         }
+		
+		for(Integer i : t2Buffer) {
+			
+			Block b = Block.getBlockById(i);
+			
+			if(b != Blocks.air)
+				blastShields.add(b);
+		}
 	}
 	
 	public static class GriefEntry {

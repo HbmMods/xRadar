@@ -3,6 +3,9 @@ package com.hfr.items;
 import java.util.List;
 
 import com.hfr.entity.*;
+import com.hfr.entity.grenade.EntityGrenadeBoxcar;
+import com.hfr.entity.grenade.EntityGrenadeGas;
+import com.hfr.entity.grenade.EntityGrenadeNuclear;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;

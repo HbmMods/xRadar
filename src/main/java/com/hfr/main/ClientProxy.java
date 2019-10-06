@@ -1,6 +1,7 @@
  package com.hfr.main;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.client.particle.EntityLargeExplodeFX;
 import net.minecraft.client.particle.EntityReddustFX;
@@ -12,15 +13,17 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
-import com.hfr.blocks.TileEntityDuct;
 import com.hfr.effect.ParticleContrail;
 import com.hfr.entity.*;
+import com.hfr.entity.grenade.*;
+import com.hfr.entity.logic.*;
+import com.hfr.entity.missile.*;
+import com.hfr.entity.projectile.*;
 import com.hfr.items.ModItems;
 import com.hfr.loader.HmfModelLoader;
 import com.hfr.render.*;
-import com.hfr.render.block.RenderControlRods;
-import com.hfr.render.block.RenderRBMK;
-import com.hfr.render.hud.RenderRadarScreen;
+import com.hfr.render.block.*;
+import com.hfr.render.hud.*;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.tileentity.*;
 
@@ -33,6 +36,8 @@ public class ClientProxy extends ServerProxy
 	public static KeyBinding toggleZoom = new KeyBinding("Toggle Radar Zoom", 33, "xRadar");
 	public static KeyBinding incScale = new KeyBinding("Increase Radar Scale", 78, "xRadar");
 	public static KeyBinding decScale = new KeyBinding("Decrease Radar Scale", 74, "xRadar");
+	//public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 200, "xRadar");
+	public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 0, "xRadar");
 	//public static KeyBinding toggleDebug = new KeyBinding("Decrease Radar Scale", 83, "xRadar");
 	
 	@Override
@@ -49,6 +54,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.registerKeyBinding(toggleZoom);
 		ClientRegistry.registerKeyBinding(incScale);
 		ClientRegistry.registerKeyBinding(decScale);
+		ClientRegistry.registerKeyBinding(slbm);
 		//ClientRegistry.registerKeyBinding(toggleDebug);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
@@ -79,6 +85,10 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileBurst.class, new RenderMissileHuge());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileInferno.class, new RenderMissileHuge());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileNuclear.class, new RenderMissileHuge());
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissileMartin.class, new RenderMissileMartin());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissilePegasus.class, new RenderMissilePegasus());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissileSpear.class, new RenderMissileSpear());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityEMP.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new RenderEmpty());
@@ -135,6 +145,10 @@ public class ClientProxy extends ServerProxy
 		case 4:
 			EntityLargeExplodeFX fx3 = new EntityLargeExplodeFX(Minecraft.getMinecraft().getTextureManager(), world, posX, posY, posZ, 0, 0, 0);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx3);
+			break;
+		case 5:
+			EntityCloudFX fx4 = new EntityCloudFX(world, posX, posY, posZ, 0, 0, 0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx4);
 			break;
 			
 		default: break;

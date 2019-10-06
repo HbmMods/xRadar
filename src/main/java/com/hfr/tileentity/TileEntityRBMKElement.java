@@ -3,7 +3,7 @@ package com.hfr.tileentity;
 public class TileEntityRBMKElement extends TileEntityMachineBase {
 
 	public TileEntityRBMKElement() {
-		super(6);
+		super(4);
 	}
 
 	@Override

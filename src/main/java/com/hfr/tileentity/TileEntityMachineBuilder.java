@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.AuxGaugePacket;
-import com.hfr.packet.BuilderPacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.tile.AuxGaugePacket;
+import com.hfr.packet.tile.BuilderPacket;
 import com.hfr.schematic.Schematic;
 import com.hfr.schematic.SchematicPayload;
 import com.hfr.schematic.SchematicPronter;

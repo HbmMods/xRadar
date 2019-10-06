@@ -8,7 +8,7 @@ import com.hfr.items.ItemCassette;
 import com.hfr.items.ItemCassette.SoundType;
 import com.hfr.items.ItemCassette.TrackType;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.TESirenPacket;
+import com.hfr.packet.tile.TESirenPacket;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;

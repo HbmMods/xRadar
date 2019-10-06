@@ -28,6 +28,9 @@ public class RenderRadarScreen {
 	private static final ResourceLocation blipDanger = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipDanger.png");
 	private static final ResourceLocation blipUnknown = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipUnknown.png");
 	private static final ResourceLocation blipToaster = new ResourceLocation(RefStrings.MODID + ":textures/hud/toaster.png");
+	private static final ResourceLocation blipMissileUp = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipMissileUp.png");
+	private static final ResourceLocation blipMissileDown = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipMissileDown.png");
+	private static final ResourceLocation blipAB = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipAB.png");
 	
 	private static final ResourceLocation north = new ResourceLocation(RefStrings.MODID + ":textures/hud/north.png");
 	private static final ResourceLocation south = new ResourceLocation(RefStrings.MODID + ":textures/hud/south.png");
@@ -109,6 +112,9 @@ public class RenderRadarScreen {
 			case 3: minecraft.getTextureManager().bindTexture(blipRed); break;
 			case 4: minecraft.getTextureManager().bindTexture(blipDanger); break;
 			case 5: minecraft.getTextureManager().bindTexture(blipUnknown); break;
+			case 6: minecraft.getTextureManager().bindTexture(blipMissileUp); break;
+			case 7: minecraft.getTextureManager().bindTexture(blipMissileDown); break;
+			case 8: minecraft.getTextureManager().bindTexture(blipAB); break;
 			}
 
 			tessellator.startDrawingQuads();

@@ -2,6 +2,8 @@ package com.hfr.main;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hfr.handler.SLBMHandler;
+import com.hfr.items.ModItems;
 import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.render.hud.RenderRadarScreen;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
@@ -54,7 +56,10 @@ public class EventHandlerClient {
 				if(player.ticksExisted > 5 * 60 * 20) //<- time til the autism kicks in
 					Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
 			
+			/// START KEYBINDS ///
 			if(!FMLClientHandler.instance().isGUIOpen(GuiChat.class)) {
+				
+				//flans radar zoom
 				if(Keyboard.isKeyDown(ClientProxy.toggleZoom.getKeyCode())) {
 					
 					if(!lock) {
@@ -64,6 +69,7 @@ public class EventHandlerClient {
 					
 					lock = true;
 					
+				//flans radar scale +
 				} else if(Keyboard.isKeyDown(ClientProxy.incScale.getKeyCode()) && RenderRadarScreen.scale < 3) {
 					
 					if(!lock) {
@@ -73,6 +79,7 @@ public class EventHandlerClient {
 					
 					lock = true;
 					
+				//flans radar scale -
 				} else if(Keyboard.isKeyDown(ClientProxy.decScale.getKeyCode()) && RenderRadarScreen.scale > 0.5) {
 					
 					if(!lock) {
@@ -82,11 +89,21 @@ public class EventHandlerClient {
 					
 					lock = true;
 					
+				//slbm launch screen
+				} else if(Keyboard.isKeyDown(ClientProxy.slbm.getKeyCode())) {
+					
+					if(!lock/* && SLBMHandler.hasSLBM(player)*/) {
+						player.openGui(MainRegistry.instance, ModItems.guiID_slbm, player.worldObj, 0, 0, 0);
+					}
+					
+					lock = true;
+					
 				} else {
 					
 					lock = false;
 				}
 			}
+			/// END KEYBINDS ///
 			
 			if(lastEnabled) {
 				int offset = lastOffset;
@@ -119,21 +136,4 @@ public class EventHandlerClient {
 		if(cloak != null)
 			player.func_152121_a(Type.CAPE, cloak);
 	}
-	
-	/*@SubscribeEvent
-	public void getKeyInput(InputEvent.KeyInputEvent event) {
-
-		if(ClientProxy.toggleZoom.isPressed()) {
-			zoom = !zoom;
-			Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 1.0F, 0.75F);
-		}
-		if(ClientProxy.incScale.isPressed() && RenderRadarScreen.scale < 2) {
-			RenderRadarScreen.scale += 0.1F;
-			Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 1.0F, 1F);
-		}
-		if(ClientProxy.decScale.isPressed() && RenderRadarScreen.scale > 0.1) {
-			RenderRadarScreen.scale -= 0.1F;
-			Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 1.0F, 1F);
-		}
-	}*/
 }

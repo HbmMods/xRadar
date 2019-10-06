@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.lib.RefStrings;
-import com.hfr.packet.AuxButtonPacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.client.AuxButtonPacket;
 import com.hfr.tileentity.TileEntityRailgun;
 
 import net.minecraft.client.Minecraft;

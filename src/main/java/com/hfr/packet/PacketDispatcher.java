@@ -1,6 +1,32 @@
 package com.hfr.packet;
 
 import com.hfr.lib.RefStrings;
+import com.hfr.packet.client.AuxButtonPacket;
+import com.hfr.packet.client.ItemDesignatorPacket;
+import com.hfr.packet.client.SLBMCommandPacket;
+import com.hfr.packet.effect.CBTPacket;
+import com.hfr.packet.effect.ParticleBurstPacket;
+import com.hfr.packet.effect.ParticleControlPacket;
+import com.hfr.packet.effect.VRadarDestructorPacket;
+import com.hfr.packet.effect.VRadarPacket;
+import com.hfr.packet.tile.AuxElectricityPacket;
+import com.hfr.packet.tile.AuxGaugePacket;
+import com.hfr.packet.tile.BuilderPacket;
+import com.hfr.packet.tile.RailgunCallbackPacket;
+import com.hfr.packet.tile.RailgunFirePacket;
+import com.hfr.packet.tile.RailgunRotationPacket;
+import com.hfr.packet.tile.SRadarPacket;
+import com.hfr.packet.tile.SchemOfferPacket;
+import com.hfr.packet.tile.SchematicPreviewPacket;
+import com.hfr.packet.tile.StockDisplayPacket;
+import com.hfr.packet.tile.StockPacket;
+import com.hfr.packet.tile.TEFFPacket;
+import com.hfr.packet.tile.TEMissilePacket;
+import com.hfr.packet.tile.TERadarDestructorPacket;
+import com.hfr.packet.tile.TERadarPacket;
+import com.hfr.packet.tile.TESRadarPacket;
+import com.hfr.packet.tile.TESirenPacket;
+import com.hfr.packet.tile.TEVaultPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -40,6 +66,7 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SchematicPreviewPacket.Handler.class, SchematicPreviewPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(BuilderPacket.Handler.class, BuilderPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(SchemOfferPacket.Handler.class, SchemOfferPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(SLBMCommandPacket.Handler.class, SLBMCommandPacket.class, i++, Side.SERVER);
 
 	}
 	

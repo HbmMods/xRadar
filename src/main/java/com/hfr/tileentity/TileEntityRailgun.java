@@ -2,13 +2,13 @@ package com.hfr.tileentity;
 
 import java.util.Arrays;
 
-import com.hfr.entity.EntityRailgunBlast;
+import com.hfr.entity.projectile.EntityRailgunBlast;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.AuxElectricityPacket;
-import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.RailgunRotationPacket;
+import com.hfr.packet.tile.AuxElectricityPacket;
+import com.hfr.packet.tile.AuxGaugePacket;
+import com.hfr.packet.tile.RailgunRotationPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;

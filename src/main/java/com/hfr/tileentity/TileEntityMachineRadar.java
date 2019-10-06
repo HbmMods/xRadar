@@ -6,17 +6,17 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.hfr.entity.EntityMissileAntiBallistic;
-import com.hfr.entity.EntityMissileBaseAdvanced;
-import com.hfr.entity.EntityMissileBaseSimple;
-import com.hfr.entity.EntityRailgunBlast;
-import com.hfr.entity.EntityShell;
+import com.hfr.entity.missile.EntityMissileAntiBallistic;
+import com.hfr.entity.missile.EntityMissileBaseAdvanced;
+import com.hfr.entity.missile.EntityMissileBaseSimple;
+import com.hfr.entity.projectile.EntityRailgunBlast;
+import com.hfr.entity.projectile.EntityShell;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.AuxElectricityPacket;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.TERadarDestructorPacket;
-import com.hfr.packet.TERadarPacket;
-import com.hfr.packet.TESRadarPacket;
+import com.hfr.packet.tile.AuxElectricityPacket;
+import com.hfr.packet.tile.TERadarDestructorPacket;
+import com.hfr.packet.tile.TERadarPacket;
+import com.hfr.packet.tile.TESRadarPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;

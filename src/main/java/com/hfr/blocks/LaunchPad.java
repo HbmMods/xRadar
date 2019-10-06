@@ -2,16 +2,16 @@ package com.hfr.blocks;
 
 import java.util.Random;
 
-import com.hfr.entity.EntityMissileAntiBallistic;
-import com.hfr.entity.EntityMissileBurst;
-import com.hfr.entity.EntityMissileDecoy;
-import com.hfr.entity.EntityMissileEMPStrong;
-import com.hfr.entity.EntityMissileGeneric;
-import com.hfr.entity.EntityMissileIncendiary;
-import com.hfr.entity.EntityMissileIncendiaryStrong;
-import com.hfr.entity.EntityMissileInferno;
-import com.hfr.entity.EntityMissileNuclear;
-import com.hfr.entity.EntityMissileStrong;
+import com.hfr.entity.missile.EntityMissileAntiBallistic;
+import com.hfr.entity.missile.EntityMissileBurst;
+import com.hfr.entity.missile.EntityMissileDecoy;
+import com.hfr.entity.missile.EntityMissileEMPStrong;
+import com.hfr.entity.missile.EntityMissileGeneric;
+import com.hfr.entity.missile.EntityMissileIncendiary;
+import com.hfr.entity.missile.EntityMissileIncendiaryStrong;
+import com.hfr.entity.missile.EntityMissileInferno;
+import com.hfr.entity.missile.EntityMissileNuclear;
+import com.hfr.entity.missile.EntityMissileStrong;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.TileEntityLaunchPad;

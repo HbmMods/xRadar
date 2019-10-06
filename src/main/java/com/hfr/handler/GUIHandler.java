@@ -18,6 +18,7 @@ import com.hfr.inventory.container.ContainerMachineRefinery;
 import com.hfr.inventory.container.ContainerMachineSiren;
 import com.hfr.inventory.container.ContainerMachineUni;
 import com.hfr.inventory.container.ContainerNaval;
+import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
 import com.hfr.inventory.gui.GUIForceField;
@@ -32,8 +33,10 @@ import com.hfr.inventory.gui.GUIMachineRefinery;
 import com.hfr.inventory.gui.GUIMachineSiren;
 import com.hfr.inventory.gui.GUIMachineUni;
 import com.hfr.inventory.gui.GUINaval;
+import com.hfr.inventory.gui.GUIRBMKElement;
 import com.hfr.inventory.gui.GUIRailgun;
 import com.hfr.inventory.gui.GUIScreenDesignator;
+import com.hfr.inventory.gui.GUIScreenSLBM;
 import com.hfr.inventory.gui.GUITank;
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.*;
@@ -169,6 +172,15 @@ public class GUIHandler implements IGuiHandler {
 				if(entity instanceof TileEntityMachineUni)
 				{
 					return new ContainerMachineUni(player.inventory, (TileEntityMachineUni) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_rbmk:
+			{
+				if(entity instanceof TileEntityRBMKElement)
+				{
+					return new ContainerRBMKElement(player.inventory, (TileEntityRBMKElement) entity);
 				}
 				return null;
 			}
@@ -308,15 +320,28 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+				
+				case ModBlocks.guiID_rbmk:
+				{
+					if(entity instanceof TileEntityRBMKElement)
+					{
+						return new GUIRBMKElement(player.inventory, (TileEntityRBMKElement) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			
 			switch(ID)
 			{
-				case ModItems.guiID_desingator:
-				{
-					return new GUIScreenDesignator(player);
-				}
+			case ModItems.guiID_desingator:
+			{
+				return new GUIScreenDesignator(player);
+			}
+			case ModItems.guiID_slbm:
+			{
+				return new GUIScreenSLBM(player);
+			}
 			}
 		}
 		return null;

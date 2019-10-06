@@ -1,12 +1,12 @@
 package com.hfr.tileentity;
 
-import com.hfr.entity.EntityRailgunBlast;
-import com.hfr.entity.EntityShell;
+import com.hfr.entity.projectile.EntityRailgunBlast;
+import com.hfr.entity.projectile.EntityShell;
 import com.hfr.items.ModItems;
-import com.hfr.packet.AuxElectricityPacket;
-import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.RailgunRotationPacket;
+import com.hfr.packet.tile.AuxElectricityPacket;
+import com.hfr.packet.tile.AuxGaugePacket;
+import com.hfr.packet.tile.RailgunRotationPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;

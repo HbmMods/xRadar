@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GL11;
 import com.hfr.inventory.container.ContainerMachineRadar;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.AuxButtonPacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.client.AuxButtonPacket;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRadar.RadarEntry;
 

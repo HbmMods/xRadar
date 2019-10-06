@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.hfr.data.CBTData;
 import com.hfr.data.CBTData.CBTEntry;
-import com.hfr.packet.CBTPacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.CBTPacket;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.command.CommandBase;

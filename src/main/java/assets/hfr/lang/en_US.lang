@@ -121,9 +121,21 @@ item.missile_emp.name=EMP Missile
 item.missile_decoy.name=Decoy Missile
 item.missile_nuclear.name=Nuclear Missile
 
+item.slbm_martin_1.name=SLBM Martin-2 M1
+item.slbm_martin_2.name=SLBM Martin-2 M2
+item.slbm_martin_3.name=SLBM Martin-2 M3
+item.slbm_pegasus_1.name=SLBM Tempest M1
+item.slbm_pegasus_2.name=SLBM Tempest M2
+item.slbm_pegasus_3.name=SLBM Tempest M3
+item.slbm_spear_1.name=SLCM Spear M1
+item.slbm_spear_2.name=SLCM Spear M2
+item.slbm_spear_3.name=SLCM Spear M3
+
 item.drum.name=Powder Drum
 item.charge_naval.name=16" HE Shell
 item.charge_railgun.name=Deuterium Plasma Capsule
 item.charge_bfg.name=Argent Plasma Capsule
 
 item.sexlol.name=the sex
+item.canned_jizz.name=Canned Horse Milk
+item.canned_spam.name=Canned Coochie

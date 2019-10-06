@@ -123,4 +123,12 @@ public class ResourceManager {
 	public static final IModelCustom rbmk_element = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk_element.obj"));
 	public static final IModelCustom rbmk_rods_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk_rods_base.obj"));
 	public static final IModelCustom rbmk_rods = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rbmk_rods.obj"));
+	
+	//SLBMs
+	public static final IModelCustom slbm_martin = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/slbm_martin.obj"));
+	public static final ResourceLocation slbm_martin_tex = new ResourceLocation(RefStrings.MODID, "textures/models/slbm_martin.png");
+	public static final IModelCustom slbm_pegasus = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/slbm_pegasus.obj"));
+	public static final ResourceLocation slbm_pegasus_tex = new ResourceLocation(RefStrings.MODID, "textures/models/slbm_pegasus.png");
+	public static final IModelCustom slbm_spear = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/slbm_spear.obj"));
+	public static final ResourceLocation slbm_spear_tex = new ResourceLocation(RefStrings.MODID, "textures/models/slbm_spear.png");
 }

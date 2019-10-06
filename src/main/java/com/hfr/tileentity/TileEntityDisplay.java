@@ -5,8 +5,8 @@ import java.util.List;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.StockDisplayPacket;
-import com.hfr.packet.StockPacket;
+import com.hfr.packet.tile.StockDisplayPacket;
+import com.hfr.packet.tile.StockPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

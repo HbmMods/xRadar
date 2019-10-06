@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hfr.blocks.LaunchPad;
 import com.hfr.blocks.ModBlocks;
-import com.hfr.entity.EntityNuclearBlast;
 import com.hfr.entity.EntityNukeCloudSmall;
+import com.hfr.entity.logic.EntityNuclearBlast;
 import com.hfr.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;

@@ -7,9 +7,9 @@ import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.StockPacket;
+import com.hfr.packet.tile.AuxGaugePacket;
+import com.hfr.packet.tile.StockPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

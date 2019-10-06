@@ -12,15 +12,17 @@ import com.hfr.data.CBTData;
 import com.hfr.data.CBTData.CBTEntry;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
+import com.hfr.entity.missile.EntityMissileAntiBallistic;
+import com.hfr.entity.missile.EntityMissileBaseSimple;
 import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
-import com.hfr.packet.CBTPacket;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.SRadarPacket;
-import com.hfr.packet.SchemOfferPacket;
-import com.hfr.packet.VRadarDestructorPacket;
-import com.hfr.packet.VRadarPacket;
+import com.hfr.packet.effect.CBTPacket;
+import com.hfr.packet.effect.VRadarDestructorPacket;
+import com.hfr.packet.effect.VRadarPacket;
+import com.hfr.packet.tile.SRadarPacket;
+import com.hfr.packet.tile.SchemOfferPacket;
 import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.schematic.Schematic;
@@ -113,10 +115,17 @@ public class CommonEventHandler {
 							Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
 							boolean isRiding = bogey != null;
 							
+							if(bogey == vehicle)
+								continue;
+							
 							//only detect if visible on radar or the radar is on a ground vehicle
 							if(ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false)) {
+
+								//Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
 								
-								Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
+								Entity entBogey = (Entity)bogey;
+								
+								Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY, entBogey.posZ - player.posZ);
 								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
 								
 								//default: 5 (questionmark)
@@ -136,6 +145,26 @@ public class CommonEventHandler {
 								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
 								int type = 4;
 								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, type));
+								
+							} else if(entity instanceof EntityMissileBaseSimple) {
+
+								Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
+								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
+
+								int mode = ((EntityMissileBaseSimple)entity).mode;
+								
+								if(mode == 0) {
+									blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, 6));
+								} else if(mode == 2) {
+									blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, 7));
+								}
+								
+							} else if(entity instanceof EntityMissileAntiBallistic) {
+
+								Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
+								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
+								
+								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, 8));
 							}
 						}
 					}

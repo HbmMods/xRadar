@@ -4,11 +4,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hfr.entity.EntityRailgunBlast;
+import com.hfr.entity.missile.EntityMissileAntiBallistic;
+import com.hfr.entity.missile.EntityMissileBaseSimple;
+import com.hfr.entity.projectile.EntityRailgunBlast;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.TEFFPacket;
+import com.hfr.packet.tile.TEFFPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
@@ -307,6 +309,16 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		
 		if(e instanceof EntityRailgunBlast)
 			return 1000000;
+		
+		if(e instanceof EntityMissileBaseSimple) {
+			
+			((EntityMissileBaseSimple)e).onForceImpact();
+			
+			if(((EntityMissileBaseSimple)e).getIsBreaching())
+				return 1000000;
+			else
+				return 0;
+		}
 
 		double flanDMG = 0;
 
@@ -390,7 +402,8 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 
 		for (Object o : list) {
 
-			if (o instanceof Entity && !(o instanceof EntityPlayer)) {
+			//deflects all entities        except players                  and ABMs
+			if (o instanceof Entity && !(o instanceof EntityPlayer) && !(o instanceof EntityMissileAntiBallistic)) {
 				Entity entity = (Entity) o;
 
 				double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2)

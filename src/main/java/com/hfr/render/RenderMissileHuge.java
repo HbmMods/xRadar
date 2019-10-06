@@ -2,9 +2,9 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.entity.EntityMissileBurst;
-import com.hfr.entity.EntityMissileInferno;
-import com.hfr.entity.EntityMissileNuclear;
+import com.hfr.entity.missile.EntityMissileBurst;
+import com.hfr.entity.missile.EntityMissileInferno;
+import com.hfr.entity.missile.EntityMissileNuclear;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;

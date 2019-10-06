@@ -53,6 +53,7 @@ public class ModItems {
 	public static Item designator_manual;
 	public static Item detonator;
 	public static final int guiID_desingator = 99;
+	public static final int guiID_slbm = 100;
 
 	public static Item missile_he_1;
 	public static Item missile_he_2;
@@ -97,6 +98,8 @@ public class ModItems {
 	public static Item hatter;
 
 	public static Item sexlol;
+	public static Item canned_spam;
+	public static Item canned_jizz;
 	
 	public static ArmorMaterial matGasMask = EnumHelper.addArmorMaterial("GASMASK", 10, new int[] {0, 0, 0, 0}, 0);
 
@@ -107,8 +110,8 @@ public class ModItems {
 		magnetron = new Item().setUnlocalizedName("magnetron").setCreativeTab(null).setTextureName(RefStrings.MODID + ":magnetron");
 		coil = new Item().setUnlocalizedName("coil").setCreativeTab(null).setTextureName(RefStrings.MODID + ":coil");
 		uranium = new Item().setUnlocalizedName("uranium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium");
-		uranium_fuel = new Item().setUnlocalizedName("uranium_fuel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium_fuel");
-		uranium_depleted = new Item().setUnlocalizedName("uranium_depleted").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium_depleted");
+		uranium_fuel = new ItemFuel().setUnlocalizedName("uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium_fuel");
+		uranium_depleted = new Item().setUnlocalizedName("uranium_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":uranium_depleted");
 		plutonium = new Item().setUnlocalizedName("plutonium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":plutonium");
 		americium = new Item().setUnlocalizedName("americium").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":americium");
 		upgrade_radius = new ItemLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":upgrade_radius");
@@ -174,6 +177,8 @@ public class ModItems {
 		hatter = new ItemHatter().setUnlocalizedName("hatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hat");
 		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
+		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
+		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
 	}
 	
 	private static void registerItem() {
@@ -251,5 +256,7 @@ public class ModItems {
 		GameRegistry.registerItem(charge_bfg, charge_bfg.getUnlocalizedName());
 
 		GameRegistry.registerItem(sexlol, sexlol.getUnlocalizedName());
+		GameRegistry.registerItem(canned_spam, canned_spam.getUnlocalizedName());
+		GameRegistry.registerItem(canned_jizz, canned_jizz.getUnlocalizedName());
 	}
 }

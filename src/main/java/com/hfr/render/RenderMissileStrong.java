@@ -2,9 +2,9 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.entity.EntityMissileEMPStrong;
-import com.hfr.entity.EntityMissileIncendiaryStrong;
-import com.hfr.entity.EntityMissileStrong;
+import com.hfr.entity.missile.EntityMissileEMPStrong;
+import com.hfr.entity.missile.EntityMissileIncendiaryStrong;
+import com.hfr.entity.missile.EntityMissileStrong;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;

@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.hfr.blocks.ModBlocks;
-import com.hfr.blocks.TileEntityDuct;
+import com.hfr.tileentity.TileEntityDuct;
 import com.hfr.tileentity.TileEntityMachineDerrick;
 import com.hfr.tileentity.TileEntityMachineRefinery;
 import com.hfr.tileentity.TileEntityTank;

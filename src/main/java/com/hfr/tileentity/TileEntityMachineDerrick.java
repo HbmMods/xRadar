@@ -8,9 +8,9 @@ import java.util.Random;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.AuxElectricityPacket;
-import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.tile.AuxElectricityPacket;
+import com.hfr.packet.tile.AuxGaugePacket;
 import com.hfr.util.PipeUtil;
 
 import cofh.api.energy.EnergyStorage;

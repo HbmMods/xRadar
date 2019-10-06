@@ -1,7 +1,7 @@
 package com.hfr.tileentity;
 
-import com.hfr.packet.AuxGaugePacket;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.tile.AuxGaugePacket;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -139,5 +139,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 		if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id));
 	}
+	
+	public void processGauge(int val, int id) { }
 
 }

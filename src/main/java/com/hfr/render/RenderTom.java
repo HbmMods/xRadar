@@ -2,7 +2,7 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.entity.EntityShell;
+import com.hfr.entity.projectile.EntityShell;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
