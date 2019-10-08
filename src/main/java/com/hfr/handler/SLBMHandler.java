@@ -20,21 +20,23 @@ public class SLBMHandler {
 	
 	public static void tryLaunch(World world, EntityPlayer player, int xCoord, int zCoord) {
 		
-		if(!world.isRemote/* && hasSLBM(player)*/) {
+		if(!world.isRemote && hasSLBM(player)) {
 			
-			//Object vehicle = getVehicle(player);
-			int type = 2;//getFlightType(vehicle);
-			int range = 1000;//getRange(vehicle);
-			int strength = 10;//getStrength(vehicle);
-			int warhead = 2;//getWarhead(vehicle);
+			Object vehicle = getVehicle(player);
+			int type = getFlightType(vehicle);
+			int range = getRange(vehicle);
+			int strength = getStrength(vehicle);
+			int warhead = getWarhead(vehicle);
+			int delay = getDelay(vehicle) * 1000;
 
 			float posX = (float) player.posX;
 			float posY = (float) player.posY;
 			float posZ = (float) player.posZ;
 			
-			Item missile = ModItems.missile_decoy;//getMissile(type, warhead);
+			Item missile = getMissile(type, warhead);
+			Entity entVehicle = (Entity)vehicle;
 			
-			if(player.inventory.hasItem(missile)) {
+			if(player.inventory.hasItem(missile) && entVehicle.getEntityData().getLong("slbmLastShort") + delay < System.currentTimeMillis()) {
 				
 				double dist = Math.sqrt(Math.pow(player.posX - xCoord, 2) + Math.pow(player.posZ - zCoord, 2));
 				
@@ -60,6 +62,7 @@ public class SLBMHandler {
 					
 					player.inventory.consumeInventoryItem(missile);
 					world.playSoundEffect(posX, posY, posZ, "hfr:block.buttonYes", 1.0F, 1.0F);
+					entVehicle.getEntityData().setLong("slbmLastShot", System.currentTimeMillis());
 					return;
 				}
 			}
