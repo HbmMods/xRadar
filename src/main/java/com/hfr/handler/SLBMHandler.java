@@ -5,6 +5,7 @@ import com.hfr.entity.logic.EntityBlast;
 import com.hfr.entity.logic.EntityNuclearBlast;
 import com.hfr.entity.missile.EntityMissileMartin;
 import com.hfr.entity.missile.EntityMissilePegasus;
+import com.hfr.entity.missile.EntityMissileShell;
 import com.hfr.entity.missile.EntityMissileSpear;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
@@ -36,7 +37,7 @@ public class SLBMHandler {
 			Item missile = getMissile(type, warhead);
 			Entity entVehicle = (Entity)vehicle;
 			
-			if(player.inventory.hasItem(missile) && entVehicle.getEntityData().getLong("slbmLastShort") + delay < System.currentTimeMillis()) {
+			if(player.inventory.hasItem(missile) && entVehicle.getEntityData().getLong("slbmLastShot") + delay < System.currentTimeMillis()) {
 				
 				double dist = Math.sqrt(Math.pow(player.posX - xCoord, 2) + Math.pow(player.posZ - zCoord, 2));
 				
@@ -44,24 +45,33 @@ public class SLBMHandler {
 					
 					switch(type) {
 					//Martin-2
-					case 0:
+					case 1:
 						EntityMissileMartin martin = new EntityMissileMartin(world, posX, posY, posZ, xCoord, zCoord, strength, warhead);
 						world.spawnEntityInWorld(martin);
+						world.playSoundEffect(posX, posY, posZ, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
 						break;
 					//Tempest
-					case 1:
+					case 2:
 						EntityMissilePegasus tempest = new EntityMissilePegasus(world, posX, posY, posZ, xCoord, zCoord, strength, warhead);
 						world.spawnEntityInWorld(tempest);
+						world.playSoundEffect(posX, posY, posZ, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
 						break;
 					//Spear
-					case 2:
+					case 3:
 						EntityMissileSpear spear = new EntityMissileSpear(world, posX, posY, posZ, xCoord, zCoord, strength, warhead);
 						world.spawnEntityInWorld(spear);
+						world.playSoundEffect(posX, posY, posZ, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+						break;
+					//Pepper
+					case 4:
+						EntityMissileShell pepper = new EntityMissileShell(world, posX, posY, posZ, xCoord, zCoord, strength, warhead);
+						world.spawnEntityInWorld(pepper);
+						world.playSoundEffect(posX, posY, posZ, "hfr:block.navalFire", 2.0F, 1.0F);
 						break;
 					}
 					
 					player.inventory.consumeInventoryItem(missile);
-					world.playSoundEffect(posX, posY, posZ, "hfr:block.buttonYes", 1.0F, 1.0F);
+					//world.playSoundEffect(posX, posY, posZ, "hfr:block.buttonYes", 1.0F, 1.0F);
 					entVehicle.getEntityData().setLong("slbmLastShot", System.currentTimeMillis());
 					return;
 				}
@@ -135,9 +145,15 @@ public class SLBMHandler {
 		return ModItems.missile_decoy;
 	}
 	
+	public static int flight;
+	public static int warhead;
+	public static Item getMissileFromClient() {
+		return getMissile(flight, warhead);
+	}
+	
 	public static Item getMissile(int flightType, int warhead) {
 		
-		if(flightType == 0) {
+		if(flightType == 1) {
 			
 			if(warhead == 0)
 				return ModItems.slbm_martin_1;
@@ -146,7 +162,7 @@ public class SLBMHandler {
 			else if(warhead == 2)
 				return ModItems.slbm_martin_3;
 			
-		} else if(flightType == 1) {
+		} else if(flightType == 2) {
 			
 			if(warhead == 0)
 				return ModItems.slbm_pegasus_1;
@@ -155,7 +171,7 @@ public class SLBMHandler {
 			else if(warhead == 2)
 				return ModItems.slbm_pegasus_3;
 			
-		} else if(flightType == 2) {
+		} else if(flightType == 3) {
 			
 			if(warhead == 0)
 				return ModItems.slbm_spear_1;
@@ -163,6 +179,15 @@ public class SLBMHandler {
 				return ModItems.slbm_spear_2;
 			else if(warhead == 2)
 				return ModItems.slbm_spear_3;
+			
+		} else if(flightType == 4) {
+			
+			if(warhead == 0)
+				return ModItems.slbm_pepper_1;
+			else if(warhead == 1)
+				return ModItems.slbm_pepper_2;
+			else if(warhead == 2)
+				return ModItems.slbm_pepper_3;
 			
 		}
 		

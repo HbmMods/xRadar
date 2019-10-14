@@ -1,5 +1,7 @@
 package com.hfr.inventory.gui;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerRBMKElement;
@@ -26,6 +28,14 @@ public class GUIRBMKElement extends GuiContainer {
 	}
 	
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		if(guiLeft + 26 <= mouseX && guiLeft + 26 + 16 > mouseX && guiTop + 69 - 52 < mouseY && guiTop + 69 >= mouseY)
+			this.func_146283_a(Arrays.asList("Water: " + diFurnace.water.getFluidAmount() + "mB", "Steam: " + diFurnace.steam.getFluidAmount() + "mB"), mouseX, mouseY);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
 		
@@ -38,5 +48,17 @@ public class GUIRBMKElement extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		int i = diFurnace.getXenonScaled(52);
+		drawTexturedModalRect(guiLeft + 134, guiTop + 69 - i, 208, 52 - i, 16, i);
+
+		int j = diFurnace.getReactivityScaled(62);
+		drawTexturedModalRect(guiLeft + 57, guiTop + 74 - j, 176, 114 - j, 62, j);
+
+		int k = diFurnace.getGaugeScaled(52, diFurnace.water);
+		drawTexturedModalRect(guiLeft + 26, guiTop + 69 - k, 176, 52 - k, 16, k);
+
+		int l = diFurnace.getGaugeScaled(52, diFurnace.steam);
+		drawTexturedModalRect(guiLeft + 26, guiTop + 69 - k - l, 192, 52 - k - l, 16, l);
 	}
 }

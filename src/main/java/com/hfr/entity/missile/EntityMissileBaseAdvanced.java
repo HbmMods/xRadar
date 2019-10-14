@@ -223,7 +223,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	        	motionZ -= vector.zCoord;
 	        }
 	
-			if(this.worldObj.isRemote) {
+			if(this.worldObj.isRemote && trailing()) {
 				//PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 500));
 				//Minecraft.getMinecraft().effectRenderer.addEffect(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
 	            //this.worldObj.spawnParticle("largeexplode", this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D);
@@ -277,6 +277,10 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	public abstract int getMissileType();
 	
 	public void cluster() { }
+	
+	protected boolean trailing() {
+		return true;
+	}
 	
 	public void init(Ticket ticket) {
 		if(!worldObj.isRemote) {

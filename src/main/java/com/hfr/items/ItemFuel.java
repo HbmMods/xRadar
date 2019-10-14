@@ -12,19 +12,26 @@ public class ItemFuel extends Item {
 	public static final int maxLife = 72000000;
 	
 	public static int getDura(ItemStack stack) {
-		return getTag(stack, "dura");
+		
+		if(stack.hasTagCompound()) {
+			return stack.stackTagCompound.getInteger("dura");
+		} else {
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setInteger("dura", maxLife);
+			return maxLife;
+		}
 	}
 	
 	public static void setDura(ItemStack stack, int value) {
 		setTag(stack, value, "dura");
 	}
 	
-	public static int getPoison(ItemStack stack) {
-		return getTag(stack, "xenon");
+	public static float getPoison(ItemStack stack) {
+		return getTagFloat(stack, "xenon");
 	}
 	
-	public static void setPoison(ItemStack stack, int value) {
-		setTag(stack, value, "xenon");
+	public static void setPoison(ItemStack stack, float value) {
+		setTagFloat(stack, value, "xenon");
 	}
 	
 	public static int getTag(ItemStack stack, String name) {
@@ -33,8 +40,19 @@ public class ItemFuel extends Item {
 			return stack.stackTagCompound.getInteger(name);
 		} else {
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setInteger("dura", maxLife);
-			return maxLife;
+			stack.stackTagCompound.setInteger(name, 0);
+			return 0;
+		}
+	}
+	
+	public static float getTagFloat(ItemStack stack, String name) {
+		
+		if(stack.hasTagCompound()) {
+			return stack.stackTagCompound.getFloat(name);
+		} else {
+			stack.stackTagCompound = new NBTTagCompound();
+			stack.stackTagCompound.setFloat(name, 0);
+			return 0;
 		}
 	}
 	
@@ -42,6 +60,13 @@ public class ItemFuel extends Item {
 
 		if(stack.hasTagCompound()) {
 			stack.stackTagCompound.setInteger(name, dura);
+		}
+	}
+	
+	public static void setTagFloat(ItemStack stack, float dura, String name) {
+
+		if(stack.hasTagCompound()) {
+			stack.stackTagCompound.setFloat(name, dura);
 		}
 	}
 

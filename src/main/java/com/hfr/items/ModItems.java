@@ -75,6 +75,9 @@ public class ModItems {
 	public static Item slbm_spear_1;
 	public static Item slbm_spear_2;
 	public static Item slbm_spear_3;
+	public static Item slbm_pepper_1;
+	public static Item slbm_pepper_2;
+	public static Item slbm_pepper_3;
 
 	public static Item drum;
 	public static Item charge_naval;
@@ -154,6 +157,9 @@ public class ModItems {
 		slbm_spear_1 = new ItemLore().setUnlocalizedName("slbm_spear_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_spear_1");
 		slbm_spear_2 = new ItemLore().setUnlocalizedName("slbm_spear_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_spear_2");
 		slbm_spear_3 = new ItemLore().setUnlocalizedName("slbm_spear_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_spear_3");
+		slbm_pepper_1 = new ItemLore().setUnlocalizedName("slbm_pepper_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_pepper_1");
+		slbm_pepper_2 = new ItemLore().setUnlocalizedName("slbm_pepper_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_pepper_2");
+		slbm_pepper_3 = new ItemLore().setUnlocalizedName("slbm_pepper_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_pepper_3");
 
 		drum = new ItemLore().setUnlocalizedName("drum").setMaxStackSize(4).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":drum");
 		charge_naval = new ItemLore().setUnlocalizedName("charge_naval").setMaxStackSize(2).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":charge_naval");
@@ -249,6 +255,9 @@ public class ModItems {
 		GameRegistry.registerItem(slbm_spear_1, slbm_spear_1.getUnlocalizedName());
 		GameRegistry.registerItem(slbm_spear_2, slbm_spear_2.getUnlocalizedName());
 		GameRegistry.registerItem(slbm_spear_3, slbm_spear_3.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_pepper_1, slbm_pepper_1.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_pepper_2, slbm_pepper_2.getUnlocalizedName());
+		GameRegistry.registerItem(slbm_pepper_3, slbm_pepper_3.getUnlocalizedName());
 
 		GameRegistry.registerItem(drum, drum.getUnlocalizedName());
 		GameRegistry.registerItem(charge_naval, charge_naval.getUnlocalizedName());

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.hfr.entity.missile.EntityMissileAntiBallistic;
 import com.hfr.entity.missile.EntityMissileBaseAdvanced;
+import com.hfr.entity.missile.EntityMissileBaseCruise;
 import com.hfr.entity.missile.EntityMissileBaseSimple;
 import com.hfr.entity.projectile.EntityRailgunBlast;
 import com.hfr.entity.projectile.EntityShell;
@@ -134,6 +135,9 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 					
 					else if(e instanceof EntityMissileAntiBallistic)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Anti-Ballistic Missile"));
+					
+					else if(e instanceof EntityMissileBaseCruise)
+						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Cruise Missile"));
 				}
 				if(mode == 0 || mode == 3) {
 					if(e instanceof EntityShell)

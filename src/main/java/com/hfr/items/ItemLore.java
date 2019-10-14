@@ -139,6 +139,18 @@ public class ItemLore extends Item {
 			list.add("Nuclear warhead");
 			list.add("Cruise missile");
 		}
+		if(this == ModItems.slbm_pepper_1) {
+			list.add("Conventional warhead");
+			list.add("Artillery Shell");
+		}
+		if(this == ModItems.slbm_pepper_2) {
+			list.add("Incendiary warhead");
+			list.add("Artillery Shell");
+		}
+		if(this == ModItems.slbm_pepper_3) {
+			list.add("Nuclear warhead");
+			list.add("Artillery Shell");
+		}
 		
 
 		

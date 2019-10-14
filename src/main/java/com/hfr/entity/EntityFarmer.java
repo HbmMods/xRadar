@@ -107,8 +107,8 @@ public class EntityFarmer extends EntityLiving {
     		if(fuel == 0) {
     			this.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 10, 0));
     			
-    			if(rand.nextInt(100) == 0)
-    				this.attackEntityFrom(DamageSource.starve, 1.0F);
+    			//if(rand.nextInt(100) == 0)
+    			//	this.attackEntityFrom(DamageSource.starve, 1.0F);
     		} else {
     			fuel--;
     		}

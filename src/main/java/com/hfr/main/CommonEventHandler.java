@@ -14,11 +14,13 @@ import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.entity.missile.EntityMissileAntiBallistic;
 import com.hfr.entity.missile.EntityMissileBaseSimple;
+import com.hfr.handler.SLBMHandler;
 import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.CBTPacket;
+import com.hfr.packet.effect.SLBMOfferPacket;
 import com.hfr.packet.effect.VRadarDestructorPacket;
 import com.hfr.packet.effect.VRadarPacket;
 import com.hfr.packet.tile.SRadarPacket;
@@ -176,6 +178,12 @@ public class CommonEventHandler {
 			} else {
 				//if the player does not have a radar up, he will only receive destructor packets that remove all blips and deny radar screens
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
+			}
+			
+			if(vehicle != null && SLBMHandler.getFlightType(vehicle) > 0) {
+				PacketDispatcher.wrapper.sendTo(new SLBMOfferPacket(SLBMHandler.getFlightType(vehicle), SLBMHandler.getWarhead(vehicle)), (EntityPlayerMP) player);
+			} else {
+				PacketDispatcher.wrapper.sendTo(new SLBMOfferPacket(0, 0), (EntityPlayerMP) player);
 			}
 			
 			if(player.posY <= MainRegistry.caveCap && !player.isRiding()) {

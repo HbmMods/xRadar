@@ -80,21 +80,26 @@ public class GUIScreenSLBM extends GuiScreen {
         this.zCoord.setEnableBackgroundDrawing(false);
         this.zCoord.setMaxStringLength(8);
     }
+    
+    private void sendLaunch() {
+    	
+    	if(player.inventory.hasItem(SLBMHandler.getMissileFromClient())) {
+
+			try {
+				Integer posX = Integer.valueOf(xCoord.getText());
+				Integer posZ = Integer.valueOf(zCoord.getText());
+				PacketDispatcher.wrapper.sendToServer(new SLBMCommandPacket(posX, posZ));
+	            this.mc.thePlayer.closeScreen();
+	            
+			} catch(Exception ex) { }
+		}
+    }
 
     protected void mouseClicked(int x, int y, int i) {
 
 		if(guiLeft + 124 <= x && guiLeft + 124 + 18 > x && guiTop + 34 < y && guiTop + 34 + 18 >= y) {
-
-			if(player.inventory.hasItem(SLBMHandler.getMissileFromPlayer(player))) {
-
-				try {
-					Integer posX = Integer.valueOf(xCoord.getText());
-					Integer posZ = Integer.valueOf(zCoord.getText());
-					PacketDispatcher.wrapper.sendToServer(new SLBMCommandPacket(posX, posZ));
-				} catch(Exception ex) { }
-			}
+			sendLaunch();
     	}
-    	
 
         this.xCoord.mouseClicked(x, y, i);
         this.zCoord.mouseClicked(x, y, i);
@@ -105,7 +110,7 @@ public class GUIScreenSLBM extends GuiScreen {
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(SLBMHandler.getMissileFromPlayer(player)), guiLeft + 35, guiTop + 35);
+        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(SLBMHandler.getMissileFromClient()), guiLeft + 35, guiTop + 35);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
@@ -115,18 +120,54 @@ public class GUIScreenSLBM extends GuiScreen {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(player.inventory.hasItem(SLBMHandler.getMissileFromPlayer(player)))
+		if(player.inventory.hasItem(SLBMHandler.getMissileFromClient()))
 			drawTexturedModalRect(guiLeft + 34, guiTop + 34, 176, 18, 18, 18);
 	}
 	
-    protected void keyTyped(char p_73869_1_, int p_73869_2_)
+	//handles characters being typed into the text field, the gui being closed and keyboard controls for the gui elements
+    protected void keyTyped(char character, int key)
     {
-    	this.xCoord.textboxKeyTyped(p_73869_1_, p_73869_2_);
-    	this.zCoord.textboxKeyTyped(p_73869_1_, p_73869_2_);
+    	this.xCoord.textboxKeyTyped(character, key);
+    	this.zCoord.textboxKeyTyped(character, key);
     	
-        if (p_73869_2_ == 1 || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode())
+    	//ESC
+        if (key == 1)
         {
             this.mc.thePlayer.closeScreen();
+        }
+    	
+        //TAB
+        if (key == 15)
+        {
+        	//if x is in focus, focus changes to z
+        	if(xCoord.isFocused()) {
+        		zCoord.setFocused(true);
+        		xCoord.setFocused(false);
+        		
+        	//if z is focused, focus is removed
+        	} else if(zCoord.isFocused()) {
+        		zCoord.setFocused(false);
+        		xCoord.setFocused(false);
+        		
+        	//if none is focused, x becomes focused
+        	} else {
+        		xCoord.setFocused(true);
+        		zCoord.setFocused(false);
+        	}
+        }
+    	
+    	//ENTER
+        if (key == 28)
+        {
+        	//if either is focused, focus is removed
+        	if(xCoord.isFocused() || zCoord.isFocused()) {
+        		zCoord.setFocused(false);
+        		xCoord.setFocused(false);
+        		
+        	//if none is focused, enter counts as a press of the launch button
+        	} else {
+        		sendLaunch();
+        	}
         }
         
     }

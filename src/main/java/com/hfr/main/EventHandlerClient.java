@@ -90,9 +90,9 @@ public class EventHandlerClient {
 					lock = true;
 					
 				//slbm launch screen
-				} else if(Keyboard.isKeyDown(ClientProxy.slbm.getKeyCode())) {
+				} else if(Keyboard.isKeyDown(ClientProxy.slbm.getKeyCode())/* && Minecraft.getMinecraft().currentScreen != null*/) {
 					
-					if(!lock/* && SLBMHandler.hasSLBM(player)*/) {
+					if(!lock && SLBMHandler.flight > 0 && player.isRiding()) {
 						player.openGui(MainRegistry.instance, ModItems.guiID_slbm, player.worldObj, 0, 0, 0);
 					}
 					

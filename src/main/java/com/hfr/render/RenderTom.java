@@ -2,6 +2,7 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.entity.missile.EntityMissileShell;
 import com.hfr.entity.projectile.EntityShell;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -20,7 +21,7 @@ public class RenderTom extends Render {
 		
         int i = 0;
         
-        if(entity instanceof EntityShell)
+        if(entity instanceof EntityShell || entity instanceof EntityMissileShell)
         	i = 1;
         
 		TomPronter.prontTom(i);

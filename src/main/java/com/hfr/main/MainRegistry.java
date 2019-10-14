@@ -198,6 +198,7 @@ public class MainRegistry
 		loadConfig(PreEvent);
 		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
+		FluidHandler.init();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
@@ -222,6 +223,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDisplay.class, "tileentity_hfr_display");
 		GameRegistry.registerTileEntity(TileEntityMachineBuilder.class, "tileentity_hfr_builder");
 		GameRegistry.registerTileEntity(TileEntityMachineUni.class, "tileentity_hfr_university");
+		GameRegistry.registerTileEntity(TileEntityRBMKElement.class, "tileentity_hfr_rbmk_fuel");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -249,6 +251,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileMartin.class, "entity_missile_martin", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissilePegasus.class, "entity_missile_pegasus", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileSpear.class, "entity_missile_spear", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileShell.class, "entity_missile_shell", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			

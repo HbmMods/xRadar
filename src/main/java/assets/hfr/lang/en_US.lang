@@ -3,6 +3,8 @@ itemGroup.tabHFR=xRadar
 death.attack.blast=%1$s was obliterated.
 death.attack.zyklon=%1$s died from natural causes.
 
+hfr_steam.name=Steam
+
 tile.machine_siren.name=Siren
 container.siren=Siren
 tile.machine_radar.name=Radar
@@ -130,6 +132,9 @@ item.slbm_pegasus_3.name=SLBM Tempest M3
 item.slbm_spear_1.name=SLCM Spear M1
 item.slbm_spear_2.name=SLCM Spear M2
 item.slbm_spear_3.name=SLCM Spear M3
+item.slbm_pepper_1.name=Naval Artillery Shell M1
+item.slbm_pepper_2.name=Naval Artillery Shell M2
+item.slbm_pepper_3.name=Naval Artillery Shell M3
 
 item.drum.name=Powder Drum
 item.charge_naval.name=16" HE Shell
