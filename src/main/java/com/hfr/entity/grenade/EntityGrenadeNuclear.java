@@ -1,18 +1,12 @@
 package com.hfr.entity.grenade;
 
-import java.util.Random;
-
-import com.hfr.blocks.ModBlocks;
 import com.hfr.entity.EntityNukeCloudSmall;
 import com.hfr.entity.logic.EntityNuclearBlast;
 import com.hfr.items.ItemGrenade;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityGrenadeNuclear extends EntityGrenadeBouncyBase {

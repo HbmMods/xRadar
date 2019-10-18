@@ -5,11 +5,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
-import com.hfr.inventory.*;
 import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerHydro;
 import com.hfr.inventory.container.ContainerLaunchPad;
 import com.hfr.inventory.container.ContainerMachineBuilder;
+import com.hfr.inventory.container.ContainerMachineEMP;
 import com.hfr.inventory.container.ContainerMachineMarket;
 import com.hfr.inventory.container.ContainerMachineNet;
 import com.hfr.inventory.container.ContainerMachineOilWell;
@@ -25,6 +25,7 @@ import com.hfr.inventory.gui.GUIForceField;
 import com.hfr.inventory.gui.GUIHydro;
 import com.hfr.inventory.gui.GUILaunchPad;
 import com.hfr.inventory.gui.GUIMachineBuilder;
+import com.hfr.inventory.gui.GUIMachineEMP;
 import com.hfr.inventory.gui.GUIMachineMarket;
 import com.hfr.inventory.gui.GUIMachineNet;
 import com.hfr.inventory.gui.GUIMachineOilWell;
@@ -184,6 +185,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_emp:
+			{
+				if(entity instanceof TileEntityMachineEMP)
+				{
+					return new ContainerMachineEMP(player.inventory, (TileEntityMachineEMP) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -326,6 +336,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityRBMKElement)
 					{
 						return new GUIRBMKElement(player.inventory, (TileEntityRBMKElement) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_emp:
+				{
+					if(entity instanceof TileEntityMachineEMP)
+					{
+						return new GUIMachineEMP(player.inventory, (TileEntityMachineEMP) entity);
 					}
 					return null;
 				}

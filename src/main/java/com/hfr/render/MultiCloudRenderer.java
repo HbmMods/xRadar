@@ -1,18 +1,11 @@
 package com.hfr.render;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import com.hfr.lib.RefStrings;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 public class MultiCloudRenderer extends Render {

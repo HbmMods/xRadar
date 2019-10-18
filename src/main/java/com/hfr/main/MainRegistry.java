@@ -1,39 +1,18 @@
 package com.hfr.main;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.dispenser.BehaviorProjectileDispense;
-import net.minecraft.dispenser.IBehaviorDispenseItem;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -43,7 +22,6 @@ import cpw.mods.fml.common.ModMetadata;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -62,6 +40,7 @@ import com.hfr.handler.*;
 import com.hfr.items.*;
 import com.hfr.lib.*;
 import com.hfr.packet.*;
+import com.hfr.potion.HFRPotion;
 import com.hfr.schematic.*;
 import com.hfr.tileentity.*;
 import com.hfr.util.*;
@@ -180,6 +159,8 @@ public class MainRegistry
 	public static boolean sound = true;
 	public static boolean comparator = false;
 	
+	public static int empID = 66;
+	
 	Random rand = new Random();
 
 	public static DamageSource blast = (new DamageSource("blast")).setExplosion();
@@ -199,6 +180,7 @@ public class MainRegistry
 		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
 		FluidHandler.init();
+		HFRPotion.init();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
@@ -224,6 +206,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineBuilder.class, "tileentity_hfr_builder");
 		GameRegistry.registerTileEntity(TileEntityMachineUni.class, "tileentity_hfr_university");
 		GameRegistry.registerTileEntity(TileEntityRBMKElement.class, "tileentity_hfr_rbmk_fuel");
+		GameRegistry.registerTileEntity(TileEntityMachineEMP.class, "tileentity_hfr_emp");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);

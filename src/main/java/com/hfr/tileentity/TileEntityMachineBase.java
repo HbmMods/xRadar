@@ -183,5 +183,4 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 		}
 		nbt.setTag("items", list);
 	}
-
 }

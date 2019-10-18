@@ -1,7 +1,6 @@
 package com.hfr.packet.tile;
 
 import com.hfr.data.StockData.Stock;
-import com.hfr.main.EventHandlerClient;
 import com.hfr.tileentity.TileEntityMachineMarket;
 
 import cpw.mods.fml.common.network.ByteBufUtils;

@@ -5,9 +5,7 @@ import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class TileEntityMachineUni extends TileEntityMachineBase {

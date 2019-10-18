@@ -1,12 +1,7 @@
 package com.hfr.entity.missile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hfr.entity.logic.EntityEMP;
-import com.hfr.main.MainRegistry;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityMissileEMPStrong extends EntityMissileBaseSimple {

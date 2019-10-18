@@ -1,6 +1,5 @@
 package com.hfr.inventory.container;
 
-import com.hfr.tileentity.TileEntityMachineSiren;
 import com.hfr.tileentity.TileEntityRailgun;
 
 import net.minecraft.entity.player.EntityPlayer;

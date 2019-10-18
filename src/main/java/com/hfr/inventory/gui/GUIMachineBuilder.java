@@ -2,16 +2,11 @@ package com.hfr.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.data.StockData.Stock;
-import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerMachineBuilder;
 import com.hfr.items.ModItems;
 import com.hfr.lib.RefStrings;
-import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.schematic.Schematic;
-import com.hfr.tileentity.TileEntityForceField;
 import com.hfr.tileentity.TileEntityMachineBuilder;
 import com.hfr.tileentity.TileEntityMachineBuilder.SchemOffer;
 

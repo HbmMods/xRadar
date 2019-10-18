@@ -1,32 +1,19 @@
 package com.hfr.inventory.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hfr.handler.SLBMHandler;
-import com.hfr.items.ModItems;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.packet.client.ItemDesignatorPacket;
 import com.hfr.packet.client.SLBMCommandPacket;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -169,7 +156,6 @@ public class GUIScreenSLBM extends GuiScreen {
         		sendLaunch();
         	}
         }
-        
     }
     
     public boolean doesGuiPauseGame()

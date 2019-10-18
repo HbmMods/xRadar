@@ -1,21 +1,14 @@
 package com.hfr.tileentity;
 
-import java.util.List;
-
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.tile.StockDisplayPacket;
-import com.hfr.packet.tile.StockPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 

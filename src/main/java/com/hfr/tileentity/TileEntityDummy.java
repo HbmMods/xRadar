@@ -1,6 +1,6 @@
 package com.hfr.tileentity;
 
-import com.hfr.blocks.VaultDoor;
+import com.hfr.blocks.door.VaultDoor;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

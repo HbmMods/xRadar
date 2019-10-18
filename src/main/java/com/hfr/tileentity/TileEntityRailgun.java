@@ -1,7 +1,5 @@
 package com.hfr.tileentity;
 
-import java.util.Arrays;
-
 import com.hfr.entity.projectile.EntityRailgunBlast;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
@@ -16,7 +14,6 @@ import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -246,7 +243,7 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 		}
 	}
 	
-	public boolean setAngles() {
+	public boolean setAngles(boolean miss) {
 		
 		if(slots[1] != null &&
 				(slots[1].getItem() == ModItems.designator || slots[1].getItem() == ModItems.designator_range || slots[1].getItem() == ModItems.designator_manual) &&
@@ -257,6 +254,10 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 
     		Vec3 vec = Vec3.createVectorHelper(x - xCoord, 0, z - zCoord);
     		Vec3 unit = Vec3.createVectorHelper(1, 0, 0);
+    		
+    		if(miss) {
+    			vec.rotateAroundY((float) (worldObj.rand.nextGaussian() * Math.PI / 45));
+    		}
     		
     		if(vec.lengthVector() < 1 || vec.lengthVector() > 9000)
     			return false;

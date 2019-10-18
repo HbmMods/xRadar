@@ -1,6 +1,5 @@
 package com.hfr.handler;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -12,7 +11,7 @@ public class FluidHandler {
         public String getLocalizedName() {
             return StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
         }
-    };
+    }.setGaseous(true).setTemperature(523);
 
     public static void init() {
     	FluidRegistry.registerFluid(STEAM);

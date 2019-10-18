@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.entity.IChunkLoader;
+import com.hfr.entity.IEmpable;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.effect.ParticleControlPacket;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -22,9 +20,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
+public class EntityMissileAntiBallistic extends Entity implements IChunkLoader, IEmpable {
 	
 	int activationTimer;
+	boolean blind;
 
 	public EntityMissileAntiBallistic(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -88,7 +87,7 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 		if(!worldObj.isRemote) {
 			Vec3 movement = Vec3.createVectorHelper(motionX, motionY, motionZ);
 			
-			if(movement.lengthVector() < 0.1)
+			if(movement.lengthVector() < 0.1 || this.ticksExisted > 30 * 20)
 				this.setDead();
 		}
 		
@@ -165,13 +164,15 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		nbt.setBoolean("blind", blind);
+		nbt.setInteger("age", ticksExisted);
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		this.blind = nbt.getBoolean("blind");
+		this.ticksExisted = nbt.getInteger("age");
 	}
 	
     @Override
@@ -228,5 +229,10 @@ public class EntityMissileAntiBallistic extends Entity implements IChunkLoader {
             }
         }
     }
+
+	@Override
+	public void pulse() {
+		blind = true;
+	}
 
 }

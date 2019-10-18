@@ -2,7 +2,7 @@ package com.hfr.items;
 
 import java.util.List;
 
-import com.hfr.blocks.LaunchPad;
+import com.hfr.blocks.weapon.LaunchPad;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

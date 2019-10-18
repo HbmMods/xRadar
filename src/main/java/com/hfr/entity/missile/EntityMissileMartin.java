@@ -1,15 +1,7 @@
 package com.hfr.entity.missile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hfr.entity.logic.EntityBlast;
 import com.hfr.handler.SLBMHandler;
-import com.hfr.main.MainRegistry;
 
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 

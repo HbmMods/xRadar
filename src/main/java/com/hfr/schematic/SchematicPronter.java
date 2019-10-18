@@ -1,14 +1,8 @@
 package com.hfr.schematic;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
 import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
 public class SchematicPronter {

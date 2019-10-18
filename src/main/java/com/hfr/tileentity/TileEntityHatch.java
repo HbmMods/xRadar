@@ -1,7 +1,7 @@
 package com.hfr.tileentity;
 
-import com.hfr.blocks.BlockSeal;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.blocks.door.BlockSeal;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

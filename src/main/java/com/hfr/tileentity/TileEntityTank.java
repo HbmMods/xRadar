@@ -1,13 +1,8 @@
 package com.hfr.tileentity;
 
-import java.util.Arrays;
-
-import com.hfr.items.ItemCassette.SoundType;
-import com.hfr.items.ItemCassette.TrackType;
 import com.hfr.items.ModItems;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.tile.AuxGaugePacket;
-import com.hfr.packet.tile.TESirenPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

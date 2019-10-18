@@ -1,10 +1,7 @@
 package com.hfr.tileentity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 import com.hfr.entity.missile.EntityMissileAntiBallistic;
 import com.hfr.entity.missile.EntityMissileBaseAdvanced;
@@ -15,22 +12,17 @@ import com.hfr.entity.projectile.EntityShell;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.tile.AuxElectricityPacket;
-import com.hfr.packet.tile.TERadarDestructorPacket;
-import com.hfr.packet.tile.TERadarPacket;
 import com.hfr.packet.tile.TESRadarPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
-import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler {
@@ -105,7 +97,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 			pingTimer = 0;
 		}
 		
-		if(MainRegistry.freeRadar)
+		////if(MainRegistry.freeRadar)
 			this.storage.setEnergyStored(storage.getMaxEnergyStored());
 	}
 	

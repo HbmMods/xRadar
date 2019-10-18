@@ -3,6 +3,7 @@ package com.hfr.packet.tile;
 import com.hfr.tileentity.TileEntityHydro;
 import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineDerrick;
+import com.hfr.tileentity.TileEntityMachineEMP;
 import com.hfr.tileentity.TileEntityMachineRadar;
 import com.hfr.tileentity.TileEntityMachineRefinery;
 import com.hfr.tileentity.TileEntityRailgun;
@@ -14,8 +15,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class AuxElectricityPacket implements IMessage {
@@ -91,6 +90,11 @@ public class AuxElectricityPacket implements IMessage {
 						
 					TileEntityHydro gen = (TileEntityHydro) te;
 					gen.power = m.charge;
+				}
+				if (te != null && te instanceof TileEntityMachineEMP) {
+						
+					TileEntityMachineEMP gen = (TileEntityMachineEMP) te;
+					gen.storage.setEnergyStored(m.charge);
 				}
 			} catch (Exception x) { }
 			return null;

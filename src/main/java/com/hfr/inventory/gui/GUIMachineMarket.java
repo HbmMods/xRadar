@@ -7,13 +7,11 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.inventory.container.ContainerMachineMarket;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.tileentity.TileEntityMachineMarket;
 
 import net.minecraft.client.Minecraft;

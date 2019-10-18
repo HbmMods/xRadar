@@ -1,13 +1,9 @@
 package com.hfr.blocks;
 
-import java.util.Random;
-
-import com.hfr.items.ModItems;
 import com.hfr.tileentity.TileEntityDebug;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

@@ -2,8 +2,6 @@ package com.hfr.items;
 
 import java.util.List;
 
-import com.hfr.main.MainRegistry;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;

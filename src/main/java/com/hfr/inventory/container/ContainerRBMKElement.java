@@ -1,7 +1,6 @@
 package com.hfr.inventory.container;
 
 import com.hfr.tileentity.TileEntityRBMKElement;
-import com.hfr.util.LockedSlot;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

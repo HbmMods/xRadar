@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraft.entity.Entity;
 
 public class ReflectionEngine {
 

@@ -4,7 +4,6 @@ import com.hfr.entity.EntityNukeCloudSmall;
 import com.hfr.entity.logic.EntityNuclearBlast;
 import com.hfr.main.MainRegistry;
 
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.world.World;
 
 public class EntityMissileNuclear extends EntityMissileBaseSimple {

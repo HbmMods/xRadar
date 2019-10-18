@@ -1,8 +1,6 @@
 package com.hfr.inventory.container;
 
 import com.hfr.tileentity.TileEntityMachineBuilder;
-import com.hfr.tileentity.TileEntityMachineMarket;
-import com.hfr.util.LockedSlot;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

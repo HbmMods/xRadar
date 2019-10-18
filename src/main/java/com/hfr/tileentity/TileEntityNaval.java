@@ -1,15 +1,11 @@
 package com.hfr.tileentity;
 
-import com.hfr.entity.projectile.EntityRailgunBlast;
 import com.hfr.entity.projectile.EntityShell;
 import com.hfr.items.ModItems;
 import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.tile.AuxElectricityPacket;
 import com.hfr.packet.tile.AuxGaugePacket;
 import com.hfr.packet.tile.RailgunRotationPacket;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +17,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityNaval extends TileEntity implements ISidedInventory {
 
@@ -244,7 +239,7 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 		}
 	}
 	
-	public boolean setAngles() {
+	public boolean setAngles(boolean miss) {
 		
 		if(slots[1] != null &&
 				(slots[1].getItem() == ModItems.designator || slots[1].getItem() == ModItems.designator_range || slots[1].getItem() == ModItems.designator_manual) &&
@@ -255,6 +250,10 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 
     		Vec3 vec = Vec3.createVectorHelper(x - xCoord, 0, z - zCoord);
     		Vec3 unit = Vec3.createVectorHelper(1, 0, 0);
+    		
+    		if(miss) {
+    			vec.rotateAroundY((float) (worldObj.rand.nextGaussian() * Math.PI / 45));
+    		}
     		
     		if(vec.lengthVector() < 1 || vec.lengthVector() > 4950)
     			return false;

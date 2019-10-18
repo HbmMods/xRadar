@@ -4,11 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.main.ResourceManager;
 import com.hfr.tileentity.TileEntityNaval;
-import com.hfr.tileentity.TileEntityRailgun;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
 
 public class RenderNaval extends TileEntitySpecialRenderer {
 

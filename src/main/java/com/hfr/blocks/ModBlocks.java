@@ -1,15 +1,15 @@
 package com.hfr.blocks;
 
-import com.hfr.items.ItemRadarBlock;
-import com.hfr.items.ItemTankBlock;
+import com.hfr.blocks.door.*;
+import com.hfr.blocks.machine.*;
+import com.hfr.blocks.weapon.*;
+import com.hfr.items.*;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 
 public class ModBlocks {
 	
@@ -69,6 +69,8 @@ public class ModBlocks {
 	public static final int guiID_builder = 14;
 	public static Block machine_uni;
 	public static final int guiID_uni = 15;
+	public static Block machine_emp;
+	public static final int guiID_emp = 16;
 
 	public static Block block_graphite;
 	public static Block block_boron;
@@ -120,6 +122,7 @@ public class ModBlocks {
 		
 		machine_radar = new MachineRadar(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		machine_siren = new MachineSiren(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_siren");
+		machine_emp = new MachineEMP(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_emp").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_emp");
 		launch_pad = new LaunchPad(Material.iron).setStepSound(soundTypeMetal).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_forcefield = new MachineForceField(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_forcefield").setLightLevel(1.0F).setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_forcefield");
 		machine_derrick = new MachineDerrick(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_derrick").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_derrick");
@@ -186,6 +189,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_radar, ItemRadarBlock.class, machine_radar.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_forcefield, ItemRadarBlock.class, machine_forcefield.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_emp, ItemRadarBlock.class, machine_emp.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_derrick, ItemRadarBlock.class, machine_derrick.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_refinery, ItemRadarBlock.class, machine_refinery.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_tank, ItemTankBlock.class, machine_tank.getUnlocalizedName());

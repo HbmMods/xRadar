@@ -1,15 +1,11 @@
 package com.hfr.render;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.entity.EntityNukeCloudSmall;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.ResourceManager;
 
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

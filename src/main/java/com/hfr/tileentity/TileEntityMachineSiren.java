@@ -1,8 +1,6 @@
 package com.hfr.tileentity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.hfr.items.ItemCassette;
 import com.hfr.items.ItemCassette.SoundType;
@@ -16,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.WorldServer;
 
 public class TileEntityMachineSiren extends TileEntity implements ISidedInventory {
 

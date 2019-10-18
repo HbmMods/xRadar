@@ -1,6 +1,5 @@
 package com.hfr.entity.logic;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import com.hfr.main.ReflectionEngine;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ParticleBurstPacket;
 
-import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;

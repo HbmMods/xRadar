@@ -9,7 +9,7 @@ import net.minecraft.util.Vec3;
 
 public class RenderSparks {
 	
-	public static void renderSpark(int seed, double x, double y, double z) {
+	public static void renderSpark(int seed, double x, double y, double z, float length, int min, int max, int color1, int color2) {
 
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -24,9 +24,8 @@ public class RenderSparks {
 		double prevX;
 		double prevY;
 		double prevZ;
-		float length = 0.75F;
 		
-		for(int i = 0; i < 5 + rand.nextInt(6); i++) {
+		for(int i = 0; i < min + rand.nextInt(max); i++) {
 
 			prevX = x;
 			prevY = y;
@@ -43,13 +42,13 @@ public class RenderSparks {
 
 	        GL11.glLineWidth(5F);
             tessellator.startDrawing(3);
-            tessellator.setColorOpaque_I(0x0088FF);
+            tessellator.setColorOpaque_I(color1);
             tessellator.addVertex(prevX, prevY, prevZ);
             tessellator.addVertex(x, y, z);
             tessellator.draw();
 	        GL11.glLineWidth(2F);
             tessellator.startDrawing(3);
-            tessellator.setColorOpaque_I(0xDFDFFF);
+            tessellator.setColorOpaque_I(color2);
             tessellator.addVertex(prevX, prevY, prevZ);
             tessellator.addVertex(x, y, z);
             tessellator.draw();

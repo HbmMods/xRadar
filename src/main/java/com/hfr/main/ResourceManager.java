@@ -7,7 +7,6 @@ import com.hfr.render.loader.S_WavefrontObject;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class ResourceManager {
 
@@ -131,4 +130,8 @@ public class ResourceManager {
 	public static final ResourceLocation slbm_pegasus_tex = new ResourceLocation(RefStrings.MODID, "textures/models/slbm_pegasus.png");
 	public static final IModelCustom slbm_spear = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/slbm_spear.obj"));
 	public static final ResourceLocation slbm_spear_tex = new ResourceLocation(RefStrings.MODID, "textures/models/slbm_spear.png");
+	
+	//EMP TOWER
+	public static final IModelCustom emp = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/emp.obj"));
+	public static final ResourceLocation emp_tex = new ResourceLocation(RefStrings.MODID, "textures/models/emp.png");
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.data.StockData.Stock;
 import com.hfr.lib.RefStrings;
 import com.hfr.tileentity.TileEntityDisplay;
 

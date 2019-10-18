@@ -1,7 +1,7 @@
 package com.hfr.tileentity;
 
-import com.hfr.blocks.DummyBlockVault;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.blocks.door.DummyBlockVault;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.tile.TEVaultPacket;
 

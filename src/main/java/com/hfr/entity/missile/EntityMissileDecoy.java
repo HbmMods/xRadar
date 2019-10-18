@@ -1,13 +1,6 @@
 package com.hfr.entity.missile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hfr.main.MainRegistry;
-
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityMissileDecoy extends EntityMissileBaseSimple {
@@ -24,7 +17,7 @@ public class EntityMissileDecoy extends EntityMissileBaseSimple {
 	public void onImpact() {
 		//ExplosionLarge.explode(worldObj, posX, posY, posZ, 10.0F, true, true, true);
 		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
-    	worldObj.newExplosion(scapegoat, posX, posY, posZ, 10F, false, false);
+		worldObj.newExplosion(scapegoat, posX, posY, posZ, 10F, false, false);
 	}
 
 	@Override
@@ -44,7 +37,7 @@ public class EntityMissileDecoy extends EntityMissileBaseSimple {
 	public EntityMissileGeneric(World p_i1582_1_, int x, int z, double a, double b, double c) {
 		super(p_i1582_1_, x, z, a, b, c);
 	}
-	
+
 	@Override
     public void onUpdate()
     {
@@ -52,9 +45,9 @@ public class EntityMissileDecoy extends EntityMissileBaseSimple {
         this.posX += this.motionX;
         this.posY += this.motionY;
         this.posZ += this.motionZ;
-        
+
         this.rotation();
-        
+
         switch(phase)
         {
         case 0:
@@ -166,9 +159,9 @@ public class EntityMissileDecoy extends EntityMissileBaseSimple {
         	}
         	break;
         }
-        
+
         this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
-        
+
         if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water)
         {
     		if(!this.worldObj.isRemote)

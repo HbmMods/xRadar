@@ -2,11 +2,8 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.main.MainRegistry;
-import com.hfr.main.ResourceManager;
 import com.hfr.schematic.SchematicRenderer;
 import com.hfr.tileentity.TileEntityMachineBuilder;
-import com.hfr.tileentity.TileEntityMachineNet;
 
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

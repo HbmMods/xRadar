@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.entity.IChunkLoader;
+import com.hfr.entity.IEmpable;
 import com.hfr.main.MainRegistry;
-import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.effect.ParticleControlPacket;
-import com.hfr.tileentity.TileEntityMachineRadar;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -27,7 +21,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public abstract class EntityMissileBaseSimple extends Entity implements IChunkLoader {
+public abstract class EntityMissileBaseSimple extends Entity implements IChunkLoader, IEmpable {
 	
 	int startX;
 	int startZ;
@@ -364,5 +358,19 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
                 ForgeChunkManager.forceChunk(loaderTicket, chunk);
             }
         }
+    }
+    
+    @Override
+    public void pulse() {
+
+    	if(mode == 0) {
+    		targetX += rand.nextGaussian();
+    		targetZ += rand.nextGaussian();
+    	}
+    	
+    	if(mode == 2) {
+        	motionX += rand.nextGaussian() * 0.01;
+        	motionZ += rand.nextGaussian() * 0.01;
+    	}
     }
 }

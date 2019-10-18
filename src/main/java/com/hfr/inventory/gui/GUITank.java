@@ -3,9 +3,7 @@ package com.hfr.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerTank;
-import com.hfr.items.ItemCassette.TrackType;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityMachineSiren;
 import com.hfr.tileentity.TileEntityTank;
 
 import net.minecraft.client.Minecraft;

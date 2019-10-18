@@ -1,6 +1,5 @@
 package com.hfr.inventory.container;
 
-import com.hfr.tileentity.TileEntityHydro;
 import com.hfr.tileentity.TileEntityMachineNet;
 import com.hfr.util.LockedSlot;
 

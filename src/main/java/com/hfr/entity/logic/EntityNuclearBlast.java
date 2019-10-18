@@ -1,34 +1,19 @@
 package com.hfr.entity.logic;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hfr.blocks.ModBlocks;
 import com.hfr.main.MainRegistry;
-import com.hfr.main.ReflectionEngine;
-import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.effect.ParticleBurstPacket;
 
-import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyConnection;
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.IEnergyStorage;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityNuclearBlast extends Entity {
 	

@@ -2,17 +2,13 @@ package com.hfr.items;
 
 import java.util.List;
 
-import com.hfr.blocks.LaunchPad;
 import com.hfr.blocks.ModBlocks;
-import com.hfr.entity.EntityNukeCloudSmall;
-import com.hfr.entity.logic.EntityNuclearBlast;
-import com.hfr.main.MainRegistry;
+import com.hfr.blocks.weapon.LaunchPad;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemDetonator extends Item {

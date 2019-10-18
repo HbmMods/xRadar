@@ -51,9 +51,9 @@ public class RenderRailgun extends TileEntitySpecialRenderer {
 	
 			GL11.glRotatef(180, 0F, 1F, 0F);
 			for(int i = 0; i < count; i++)
-				RenderSparks.renderSpark((int) System.currentTimeMillis() / 100 + i * 10000, fX, fY, fZ);
+				RenderSparks.renderSpark((int) System.currentTimeMillis() / 100 + i * 10000, fX, fY, fZ, 0.75F, 5, 6, 0x0088FF, 0xDFDFFF);
 			for(int i = 0; i < count; i++)
-				RenderSparks.renderSpark((int) System.currentTimeMillis() / 50 + i * 10000, fX, fY, fZ);
+				RenderSparks.renderSpark((int) System.currentTimeMillis() / 50 + i * 10000, fX, fY, fZ, 0.75F, 5, 6, 0x0088FF, 0xDFDFFF);
 			GL11.glRotatef(180, 0F, 1F, 0F);
         }
         

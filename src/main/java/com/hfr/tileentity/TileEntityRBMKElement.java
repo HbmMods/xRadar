@@ -6,7 +6,6 @@ import com.hfr.items.ItemFuel;
 import com.hfr.items.ModItems;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;

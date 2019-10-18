@@ -1,8 +1,6 @@
 package com.hfr.packet.effect;
 
 import com.hfr.main.EventHandlerClient;
-import com.hfr.main.MainRegistry;
-import com.hfr.render.hud.RenderRadarScreen.Blip;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

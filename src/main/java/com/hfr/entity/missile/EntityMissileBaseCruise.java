@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.entity.IChunkLoader;
+import com.hfr.entity.IEmpable;
 import com.hfr.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -22,7 +21,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public abstract class EntityMissileBaseCruise extends Entity implements IChunkLoader {
+public abstract class EntityMissileBaseCruise extends Entity implements IChunkLoader, IEmpable {
 	
     private Ticket loaderTicket;
     public float health = MainRegistry.mHealth;
@@ -299,6 +298,19 @@ public abstract class EntityMissileBaseCruise extends Entity implements IChunkLo
                 ForgeChunkManager.forceChunk(loaderTicket, chunk);
             }
         }
+    }
+    
+    @Override
+    public void pulse() {
+
+		int targetX = this.dataWatcher.getWatchableObjectInt(8);
+		int targetZ = this.dataWatcher.getWatchableObjectInt(9);
+
+		targetX += rand.nextGaussian();
+		targetZ += rand.nextGaussian();
+		
+		this.dataWatcher.updateObject(8, targetX);
+		this.dataWatcher.updateObject(9, targetZ);
     }
 
 }

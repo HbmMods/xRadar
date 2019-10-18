@@ -8,26 +8,21 @@ import com.hfr.packet.tile.AuxGaugePacket;
 import com.hfr.packet.tile.RailgunCallbackPacket;
 import com.hfr.packet.tile.RailgunFirePacket;
 import com.hfr.packet.tile.SchematicPreviewPacket;
+import com.hfr.potion.HFRPotion;
 import com.hfr.schematic.Schematic;
 import com.hfr.tileentity.TileEntityForceField;
-import com.hfr.tileentity.TileEntityLaunchPad;
 import com.hfr.tileentity.TileEntityMachineBuilder;
-import com.hfr.tileentity.TileEntityMachineDerrick;
+import com.hfr.tileentity.TileEntityMachineEMP;
 import com.hfr.tileentity.TileEntityMachineMarket;
 import com.hfr.tileentity.TileEntityMachineRadar;
-import com.hfr.tileentity.TileEntityMachineRefinery;
 import com.hfr.tileentity.TileEntityNaval;
 import com.hfr.tileentity.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
@@ -97,7 +92,7 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityRailgun gun = (TileEntityRailgun)te;
 					
 					if(m.id == 0) {
-						if(gun.setAngles()) {
+						if(gun.setAngles(p.isPotionActive(HFRPotion.emp))) {
 							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonYes", 1.0F, 1.0F);
 							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.railgunOrientation", 1.0F, 1.0F);
 							PacketDispatcher.wrapper.sendToAll(new RailgunCallbackPacket(m.x, m.y, m.z, gun.pitch, gun.yaw));
@@ -122,7 +117,7 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityNaval gun = (TileEntityNaval)te;
 					
 					if(m.id == 0) {
-						if(gun.setAngles()) {
+						if(gun.setAngles(p.isPotionActive(HFRPotion.emp))) {
 							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonYes", 1.0F, 1.0F);
 							p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.railgunOrientation", 1.0F, 1.0F);
 							PacketDispatcher.wrapper.sendToAll(new RailgunCallbackPacket(m.x, m.y, m.z, gun.pitch, gun.yaw));
@@ -182,6 +177,18 @@ public class AuxButtonPacket implements IMessage {
 					if(m.id == 2) {
 						Schematic schem = MainRegistry.schems.get(m.value);
 						builder.deconstruct(schem);
+					}
+				}
+				
+				if (te instanceof TileEntityMachineEMP) {
+					TileEntityMachineEMP emp = (TileEntityMachineEMP)te;
+					
+					if(m.id == 0) {
+						emp.isOn = !emp.isOn;
+					}
+					
+					if(m.id == 1) {
+						emp.range = m.value;
 					}
 				}
 				
