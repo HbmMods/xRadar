@@ -134,4 +134,8 @@ public class ResourceManager {
 	//EMP TOWER
 	public static final IModelCustom emp = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/emp.obj"));
 	public static final ResourceLocation emp_tex = new ResourceLocation(RefStrings.MODID, "textures/models/emp.png");
+	
+	//FLAG POLE
+	public static final IModelCustom flag = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/flag.obj"));
+	public static final ResourceLocation flag_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flag.png");
 }

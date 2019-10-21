@@ -17,7 +17,7 @@ public class AntiMobData extends WorldSavedData {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		
+
 		int count = nbt.getInteger("count");
 		
 		for(int i = 0; i < count; i++) {
@@ -32,7 +32,7 @@ public class AntiMobData extends WorldSavedData {
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		
+
 		nbt.setInteger("count", list.size());
 		
 		for(int i = 0; i < list.size(); i++) {
