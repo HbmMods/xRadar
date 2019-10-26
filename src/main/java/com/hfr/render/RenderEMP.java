@@ -29,9 +29,10 @@ public class RenderEMP extends TileEntitySpecialRenderer {
         	if(on)
         		GL11.glRotatef(System.currentTimeMillis() / 2 % 360, 0, 1, 0);
 	    	
-	        for(int i = 0; i < 3; i++) {
+        	float rotors = 3;
+	        for(int i = 0; i < rotors; i++) {
 	        	ResourceManager.emp.renderOnly("Rotor");
-	        	GL11.glRotatef(120, 0, 1, 0);
+	        	GL11.glRotatef(360 / rotors, 0, 1, 0);
 	        }
         GL11.glPopMatrix();
 

@@ -1,5 +1,8 @@
 package com.hfr.clowder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hfr.lib.RefStrings;
 
 import net.minecraft.util.ResourceLocation;
@@ -7,18 +10,33 @@ import net.minecraft.util.ResourceLocation;
 public enum ClowderFlag {
 
 	//default case, acts like NULL
-	NONE("none"),
+	NONE("none", false),
 	TRICOLOR("tri"),
 	TRICOLOR_VERTICAL("vtri"),
 	BCROSS("bcross"),
 	WCROSS("wcross"),
 	USA("usa"),
-	PONYCUM("pc");
-	
-	String name;
+	VOLTZ("voltz", false),
+	PONYCUM("pc", false);
+
+	private String name = "";
+	private boolean show = true;
+	private ResourceLocation flag;
+	private ResourceLocation overlay;
 	
 	private ClowderFlag(String name) {
 		this.name = name;
+
+		flag = new ResourceLocation(getLoc() + ".png");
+		overlay = new ResourceLocation(getLoc() + "_overlay.png");
+	}
+	
+	private ClowderFlag(String name, boolean show) {
+		this.name = name;
+		this.show = show;
+
+		flag = new ResourceLocation(getLoc() + ".png");
+		overlay = new ResourceLocation(getLoc() + "_overlay.png");
 	}
 	
 	private String getLoc() {
@@ -26,14 +44,14 @@ public enum ClowderFlag {
 	}
 	
 	public ResourceLocation getFlag() {
-		return new ResourceLocation(getLoc() + ".png");
+		return flag;
 	}
 	
 	public ResourceLocation getFlagOverlay() {
-		return new ResourceLocation(getLoc() + "_overlay.png");
+		return overlay;
 	}
 	
-	public ClowderFlag getFromName(String name) {
+	public static ClowderFlag getFromName(String name) {
 		
 		for(ClowderFlag flag : ClowderFlag.values()) {
 			if(flag.name.equals(name))
@@ -41,5 +59,17 @@ public enum ClowderFlag {
 		}
 		
 		return NONE;
+	}
+	
+	public static List<String> getFlags() {
+		
+		List<String> list = new ArrayList();
+		
+		for(ClowderFlag flag : ClowderFlag.values()) {
+			if(flag.show)
+				list.add(flag.name);
+		}
+		
+		return list;
 	}
 }

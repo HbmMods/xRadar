@@ -45,6 +45,7 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SchemOfferPacket.Handler.class, SchemOfferPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(SLBMCommandPacket.Handler.class, SLBMCommandPacket.class, i++, Side.SERVER);
 		wrapper.registerMessage(SLBMOfferPacket.Handler.class, SLBMOfferPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(ClowderFlagPacket.Handler.class, ClowderFlagPacket.class, i++, Side.CLIENT);
 
 	}
 	

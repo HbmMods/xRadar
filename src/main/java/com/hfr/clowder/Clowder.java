@@ -2,7 +2,9 @@ package com.hfr.clowder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.hfr.data.ClowderData;
 
@@ -26,7 +28,7 @@ public class Clowder {
 	
 	public String leader;
 	public List<String> members = new ArrayList();
-	public HashMap<String, Long> applications = new HashMap();
+	public Set<String> applications = new HashSet();
 	
 	public static List<Clowder> clowders = new ArrayList();
 	public static HashMap<String, Clowder> inverseMap = new HashMap();
@@ -82,18 +84,37 @@ public class Clowder {
 		ClowderData.getData(player.worldObj).markDirty();
 	}
 	
+	public void rename(String name, EntityPlayer player) {
+		
+		this.name = name;
+		
+		ClowderData.getData(player.worldObj).markDirty();
+	}
+	
+	public void setMotd(String motd, EntityPlayer player) {
+		
+		this.motd = motd;
+		
+		ClowderData.getData(player.worldObj).markDirty();
+	}
+	
+	public void setColor(int color, EntityPlayer player) {
+		
+		this.color = color;
+		
+		ClowderData.getData(player.worldObj).markDirty();
+	}
+	
 	public boolean isOwner(EntityPlayer player) {
 		
 		String key = player.getDisplayName();
 		
-		return this.leader == key;
+		return this.leader.equals(key);
 	}
 	
 	public boolean disbandClowder(EntityPlayer player) {
 		
-		String key = player.getDisplayName();
-		
-		if(this.leader != key)
+		if(!isOwner(player))
 			return false;
 		
 		clowders.remove(this);

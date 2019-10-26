@@ -15,7 +15,7 @@ public class ClowderEvents {
 		if(clowder != null) {
 			
 			event.setCanceled(true);
-			String message = String.format("%s <%s> %s", clowder.name, event.username, event.message);
+			String message = String.format("%s <%s> %s", clowder.name.replace('_', ' '), event.username, event.message);
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
 		}
 	}

@@ -38,6 +38,8 @@ public class ResourceManager {
 	public static final ResourceLocation vault4_cog_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault4_cog.png");
 	public static final ResourceLocation vault4_label_111_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault4_label_111.png");
 	public static final ResourceLocation vault4_label_81_tex = new ResourceLocation(RefStrings.MODID, "textures/models/vault4_label_81.png");
+	public static final ResourceLocation lvl9_cog_tex = new ResourceLocation(RefStrings.MODID, "textures/models/lvl9_cog.png");
+	public static final ResourceLocation lvl9_label_tex = new ResourceLocation(RefStrings.MODID, "textures/models/lvl9_label.png");
 
 	//MISSILES
 	public static final IModelCustom missileV2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileV2.obj"));

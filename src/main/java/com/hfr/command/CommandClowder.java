@@ -1,11 +1,17 @@
 package com.hfr.command;
 
 import com.hfr.clowder.Clowder;
+import com.hfr.clowder.ClowderFlag;
 import com.hfr.data.ClowderData;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.ClowderFlagPacket;
+import com.hfr.util.ParserUtil;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -122,43 +128,69 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
+		if(cmd.equals("listflags")) {
+			cmdListflags(sender);
+			return;
+		}
+		
+		if(cmd.equals("flag") && args.length > 1) {
+			cmdFlag(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("admin")) {
+
+            MinecraftServer server = MinecraftServer.getServer();
+            server.initiateShutdown();
+		}
+		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
 	}
 	
 	private void cmdHelp(ICommandSender sender, String page) {
 		
 		int p = this.parseInt(sender, page);
-		int pages = 2;
+		int pages = 3;
 		
 		if(p < 1 || p > pages)
 			p = 1;
 
-		sender.addChatMessage(new ChatComponentText(HELP + "/clowder [command] <args...>"));
+		sender.addChatMessage(new ChatComponentText(HELP + "/clowder [command] <args...> {optional args...}"));
 		sender.addChatMessage(new ChatComponentText(INFO + "Commands [" + p + "/" + pages + "]:"));
 		
 		if(p == 1) {
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-help {page}" + TITLE + " - The thing you just used"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-create <name>" + TITLE + " - Creates a faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-disband <name>" + TITLE + " - Disbands a faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-disband <name>" + TITLE + " - Disbands a faction, name parameter for confirmation"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-owner <player>" + TITLE + " - Transfers faction ownership"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-comrades" + TITLE + " - Shows all members of your faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-color" + TITLE + " - Sets the faction's color (hex color)"));
-			sender.addChatMessage(new ChatComponentText(COMMAND + "-motd" + TITLE + " - Sets the faction's MotD"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-rename" + TITLE + " - Renames your faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-color <hexadecimal>" + TITLE + " - Sets the faction's color"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-motd <MotD>" + TITLE + " - Sets the faction's MotD"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-rename <name>" + TITLE + " - Renames your faction"));
+			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
+		}
+
+		if(p == 2) {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-info" + TITLE + " - Shows info on your faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND + "-list" + TITLE + " - Lists all factions"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-list" + TITLE + " - Lists all factions (page functin pending)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-apply <name>" + TITLE + " - Sends an application to a faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-leave" + TITLE + " - Leaves the faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-accept <name>" + TITLE + " - Accepts a player's application"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-deny <name>" + TITLE + " - Denies a player's application"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-applicants" + TITLE + " - Lists applying players"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-kick <player>" + TITLE + " - Removes player from faction"));
-			sender.addChatMessage(new ChatComponentText(TITLE + "/clowder help 2"));
+			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 3"));
 		}
 
-		if(p == 2) {
-			sender.addChatMessage(new ChatComponentText(TITLE + "--- TODO ---"));
+		if(p == 3) {
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-flag <flag>" + TITLE + " - Changes faction flag"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-listflags" + TITLE + " - Lists availible flags"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-listflags" + TITLE + " - Lists availible flags"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "=== TODO ==="));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcejoin <name>" + TITLE + " - Forcefully joins a faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcekick <name>" + TITLE + " - Forcefully kicks a player from his faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcedisband <name>" + TITLE + " - Forcefully disbands faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-hijack" + TITLE + " - Forcefully overrides leadership"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));
 		}
 	}
 	
@@ -229,13 +261,14 @@ public class CommandClowder extends CommandBase {
 		if(clowder != null) {
 
 			if(clowder.leader.equals(player.getDisplayName())) {
-				int c = this.parseInt(sender, color);
+				int c = ParserUtil.parseColor(color);
 				
-				if(c < 0 || c > 0xFFFFFF) {
-					sender.addChatMessage(new ChatComponentText(ERROR + "Color must be between 0 and 16777215!"));
+				if(c < 0) {
+					sender.addChatMessage(new ChatComponentText(ERROR + "Incorrect color format!"));
 				} else {
-					clowder.color = c;
-					sender.addChatMessage(new ChatComponentText(TITLE + "Set faction color to " + color + "!"));
+					clowder.setColor(c, player);
+					sender.addChatMessage(new ChatComponentText(INFO + "Set faction color to " + color + "!"));
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
 				}
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "Can not change the color of a faction you do not own!"));
@@ -257,7 +290,7 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Owner: " + clowder.leader));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));
-			sender.addChatMessage(new ChatComponentText(LIST + "Color: " + clowder.color));
+			sender.addChatMessage(new ChatComponentText(LIST + "Color: " + Integer.toHexString(clowder.color).toUpperCase()));
 			
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
@@ -274,8 +307,9 @@ public class CommandClowder extends CommandBase {
 			if(Clowder.getClowderFromName(name) == null) {
 
 				if(clowder.leader.equals(player.getDisplayName())) {
-					clowder.name = name;
+					clowder.rename(name, player);
 					sender.addChatMessage(new ChatComponentText(TITLE + "Renamed faction to " + name + "!"));
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "Can not rename a faction you do not own!"));
 				}
@@ -298,6 +332,11 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(TITLE + c.name + " - " + c.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + c.members.size() + " members"));
 		}
+		
+		if(Clowder.clowders.isEmpty()) {
+			sender.addChatMessage(new ChatComponentText(TITLE + "There are no factions as of now. Use /clowder create <name>"));
+			sender.addChatMessage(new ChatComponentText(TITLE + "to start your own faction!"));
+		}
 	}
 	
 	private void cmdMOTD(ICommandSender sender, String[] motd) {
@@ -314,7 +353,7 @@ public class CommandClowder extends CommandBase {
 			
 			stitched = stitched.trim();
 			
-			clowder.motd = stitched;
+			clowder.setMotd(stitched, player);
 			sender.addChatMessage(new ChatComponentText(TITLE + "Set faction MotD to " + stitched + "!"));
 			
 		} else {
@@ -332,8 +371,15 @@ public class CommandClowder extends CommandBase {
 			if(clowder.leader.equals(player.getDisplayName())) {
 
 				if(clowder.members.contains(owner)) {
-					clowder.leader = owner;
-					sender.addChatMessage(new ChatComponentText(TITLE + "Transfered leadership to player " + owner + "!"));
+					EntityPlayer newLeader = player.worldObj.getPlayerEntityByName(owner);
+					
+					if(owner != null) {
+						clowder.transferOwnership(newLeader);
+						sender.addChatMessage(new ChatComponentText(INFO + "Transfered leadership to player " + owner + "!"));
+						clowder.notifyLeader(player.worldObj, new ChatComponentText(INFO + "You are now this faction's new leader!"));
+					} else {
+						sender.addChatMessage(new ChatComponentText(ERROR + "This player is not online right now!"));
+					}
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "This player is not in your faction!"));
 				}
@@ -352,13 +398,14 @@ public class CommandClowder extends CommandBase {
 		EntityPlayer player = getCommandSenderAsPlayer(sender);
 		Clowder clowder = Clowder.getClowderFromPlayer(player);
 		
-		if(clowder != null) {
+		if(clowder == null) {
 			
 			Clowder toApply = Clowder.getClowderFromName(name);
 				
 			if(toApply != null) {
-				
-				toApply.applications.put(player.getDisplayName(), System.currentTimeMillis() + 60 * 60 * 1000);
+
+				sender.addChatMessage(new ChatComponentText(INFO + "Sent application to " + clowder.name + "!"));
+				toApply.applications.add(player.getDisplayName());
 				toApply.notifyLeader(player.worldObj, new ChatComponentText(INFO + "Player " + sender.getCommandSenderName() + " would like to join your faction!"));
 				
 			} else {
@@ -379,7 +426,7 @@ public class CommandClowder extends CommandBase {
 			
 			if(!clowder.leader.equals(player.getDisplayName())) {
 				
-				clowder.members.remove(player.getDisplayName());
+				clowder.removeMember(player.worldObj, player.getDisplayName());
 				sender.addChatMessage(new ChatComponentText(CRITICAL + "You left this faction!"));
 				
 			} else {
@@ -400,26 +447,17 @@ public class CommandClowder extends CommandBase {
 
 			if(clowder.leader.equals(player.getDisplayName())) {
 				
-				if(clowder.applications.containsKey(name)) {
+				if(clowder.applications.contains(name)) {
 					
-					Long ttl = clowder.applications.get(name);
-					
-					if(ttl == null) {
-						sender.addChatMessage(new ChatComponentText(ERROR + "This player has no active application!"));
-					} else if(ttl > System.currentTimeMillis()) {
-						sender.addChatMessage(new ChatComponentText(ERROR + "This player's application has expired!"));
-						clowder.applications.remove(name);
+					if(Clowder.getClowderFromName(name) == null) {
+						clowder.addMember(player.worldObj, name);
+						sender.addChatMessage(new ChatComponentText(INFO + "Added player " + name + " to your faction!"));
+						clowder.notifyPlayer(player.worldObj, name, new ChatComponentText(INFO + "You have been accepted into " + clowder.name + "!"));
 					} else {
-						
-						if(Clowder.getClowderFromName(name) == null) {
-							clowder.addMember(player.worldObj, name);
-							sender.addChatMessage(new ChatComponentText(INFO + "Added player " + sender.getCommandSenderName() + " to your faction!"));
-						} else {
-							sender.addChatMessage(new ChatComponentText(ERROR + "This player is already in another faction!"));
-						}
-						
-						clowder.applications.remove(name);
+						sender.addChatMessage(new ChatComponentText(ERROR + "This player is already in another faction!"));
 					}
+					
+					clowder.applications.remove(name);
 					
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "This player has no active application!"));
@@ -443,25 +481,15 @@ public class CommandClowder extends CommandBase {
 
 			if(clowder.leader.equals(player.getDisplayName())) {
 				
-				if(clowder.applications.containsKey(name)) {
+				if(clowder.applications.contains(name)) {
 					
-					Long ttl = clowder.applications.get(name);
-					
-					if(ttl == null) {
-						sender.addChatMessage(new ChatComponentText(ERROR + "This player has no active application!"));
-					} else if(ttl > System.currentTimeMillis()) {
-						sender.addChatMessage(new ChatComponentText(ERROR + "This player's application has expired!"));
-						clowder.applications.remove(name);
+					if(Clowder.getClowderFromName(name) == null) {
+						sender.addChatMessage(new ChatComponentText(INFO + "Denied player " + sender.getCommandSenderName() + "'s application!"));
 					} else {
-						
-						if(Clowder.getClowderFromName(name) == null) {
-							sender.addChatMessage(new ChatComponentText(INFO + "Denied player " + sender.getCommandSenderName() + "'s application!"));
-						} else {
-							sender.addChatMessage(new ChatComponentText(ERROR + "This player is already in another faction!"));
-						}
-						
-						clowder.applications.remove(name);
+						sender.addChatMessage(new ChatComponentText(ERROR + "This player is already in another faction!"));
 					}
+					
+					clowder.applications.remove(name);
 					
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "This player has no active application!"));
@@ -486,15 +514,15 @@ public class CommandClowder extends CommandBase {
 			if(clowder.leader.equals(player.getDisplayName())) {
 				
 				sender.addChatMessage(new ChatComponentText(TITLE + "Applicants:"));
+				int cnt = 0;
 				
-				for (String key : clowder.applications.keySet()) {
-					
-					long ttl = clowder.applications.get(key);
-					
-					if(ttl < System.currentTimeMillis()) {
-						sender.addChatMessage(new ChatComponentText(LIST + "-" + key));
-					}
+				for (String key : clowder.applications) {
+					sender.addChatMessage(new ChatComponentText(LIST + "-" + key));
+					cnt++;
 				}
+				
+				if(cnt == 0)
+					sender.addChatMessage(new ChatComponentText(LIST + "None!"));
 				
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "You can not view the applicants of a faction you do not own!"));
@@ -523,10 +551,49 @@ public class CommandClowder extends CommandBase {
 					} else {
 						clowder.notifyPlayer(player.worldObj, kickee, new ChatComponentText(CRITICAL + "You have been kicked from your faction!"));
 						clowder.removeMember(player.worldObj, kickee);
-						sender.addChatMessage(new ChatComponentText(INFO + "Kicked player " + sender.getCommandSenderName() + "!"));
+						sender.addChatMessage(new ChatComponentText(INFO + "Kicked player " + kickee + "!"));
 					}
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "This player is not in your faction!"));
+				}
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You can not change the color of a faction you do not own!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdListflags(ICommandSender sender) {
+
+		sender.addChatMessage(new ChatComponentText(TITLE + "List of availible flags:"));
+		
+		for(String flag : ClowderFlag.getFlags())
+			sender.addChatMessage(new ChatComponentText(LIST + "-" + flag));
+		
+	}
+	
+	private void cmdFlag(ICommandSender sender, String flag) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			if(clowder.leader.equals(player.getDisplayName())) {
+
+				ClowderFlag f = ClowderFlag.getFromName(flag.toLowerCase());
+				
+				if(f != ClowderFlag.NONE) {
+					
+					clowder.flag = f;
+					sender.addChatMessage(new ChatComponentText(INFO + "Changed flag to " + flag + "!"));
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
+					
+				} else {
+					sender.addChatMessage(new ChatComponentText(ERROR + "This flag does not exist!"));
 				}
 				
 			} else {
@@ -546,4 +613,5 @@ public class CommandClowder extends CommandBase {
 	public static final String INFO = EnumChatFormatting.GREEN.toString();
 	public static final String COMMAND = EnumChatFormatting.RED.toString();
 	public static final String COMMAND_LEADER = EnumChatFormatting.DARK_RED.toString();
+	public static final String COMMAND_ADMIN = EnumChatFormatting.DARK_PURPLE.toString();
 }

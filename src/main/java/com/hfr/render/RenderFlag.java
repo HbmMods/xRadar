@@ -23,12 +23,16 @@ public class RenderFlag extends TileEntitySpecialRenderer {
 
         GL11.glDisable(GL11.GL_CULL_FACE);
         
-        ClowderFlag flag = ClowderFlag.TRICOLOR;
+        ClowderFlag flag = ClowderFlag.PONYCUM;
         int color = 0xFF00FF;
 
 	    int r = ((color & 0xFF0000) >> 16) / 2;
 	    int g = ((color & 0xFF00) >> 8) / 2;
 	    int b = (color & 0xFF) / 2;
+
+	    r = (int) (System.currentTimeMillis() / 10 % 0x100);
+	    g = (int) (System.currentTimeMillis() / 10 + 42 % 0x100);
+	    b = (int) (System.currentTimeMillis() / 10 + 85 % 0x100);
 
         bindTexture(flag.getFlag());
         GL11.glColor3b((byte)r, (byte)g, (byte)b);

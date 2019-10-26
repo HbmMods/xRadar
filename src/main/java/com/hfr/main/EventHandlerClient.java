@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 import com.hfr.handler.SLBMHandler;
 import com.hfr.items.ModItems;
 import com.hfr.render.RenderAccessoryUtility;
+import com.hfr.render.hud.RenderFlagOverlay;
 import com.hfr.render.hud.RenderRadarScreen;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
@@ -109,6 +110,8 @@ public class EventHandlerClient {
 				
 				RenderRadarScreen.renderRadar(offset, range, zoom);
 			}
+			
+			RenderFlagOverlay.drawFlag();
 		}
 		
 		/*if(fps) {

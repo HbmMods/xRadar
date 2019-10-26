@@ -1,5 +1,7 @@
 package com.hfr.main;
 
+import com.hfr.clowder.ClowderFlag;
+
 import net.minecraft.world.World;
 
 public class ServerProxy
@@ -17,4 +19,6 @@ public class ServerProxy
 	public boolean isPressed(int id) { return false; }
 
 	public void spawnSFX(World world, double posX, double posY, double posZ, int type, Object payload) { }
+
+	public void updateFlag(ClowderFlag flag, int color, String name) { }
 }

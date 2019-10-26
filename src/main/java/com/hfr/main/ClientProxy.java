@@ -11,6 +11,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
+import com.hfr.clowder.ClowderFlag;
 import com.hfr.effect.ParticleContrail;
 import com.hfr.entity.*;
 import com.hfr.entity.grenade.*;
@@ -204,6 +205,14 @@ public class ClientProxy extends ServerProxy
 		EventHandlerClient.lastEnabled = enabled;
 		EventHandlerClient.lastOffset = offset;
 		EventHandlerClient.lastRange = range;
+	}
+
+	@Override
+	public void updateFlag(ClowderFlag flag, int color, String name) {
+		RenderFlagOverlay.flag = flag;
+		RenderFlagOverlay.color = color;
+		RenderFlagOverlay.title = name;
+		RenderFlagOverlay.startingTime = System.currentTimeMillis();
 	}
 }
 
