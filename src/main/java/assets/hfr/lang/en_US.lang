@@ -35,6 +35,8 @@ tile.machine_uni.name=University
 container.machineUni=University
 tile.machine_emp.name=EM-Jammer
 container.machineEMP=EM-Jammer
+tile.clowder_flag.name=Clowder Flag
+container.flagPole=Clowder Flag
 
 tile.rbmk_element.name=RBMK Fuel Rod
 tile.rbmk_rods.name=RBMK Control Rods
@@ -110,6 +112,7 @@ item.whale_meat.name=Whale Meat
 item.science.name=Research Point
 item.hfr_coin.name=Stock Market Coin
 item.hfr_wrench.name=Construction Materials
+item.province_point.name=province point (tm)
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder
@@ -126,6 +129,10 @@ item.missile_ab.name=Anti-Ballistic Missile
 item.missile_emp.name=EMP Missile
 item.missile_decoy.name=Decoy Missile
 item.missile_nuclear.name=Nuclear Missile
+
+item.missile_devon_1.name=DC-LACM (Tier 1)
+item.missile_devon_2.name=DC-LACM (Tier 2)
+item.missile_devon_3.name=DC-LACM (Tier 3)
 
 item.slbm_martin_1.name=SLBM Martin-2 M1
 item.slbm_martin_2.name=SLBM Martin-2 M2

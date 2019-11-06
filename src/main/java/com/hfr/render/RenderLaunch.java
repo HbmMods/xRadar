@@ -117,6 +117,21 @@ public class RenderLaunch extends TileEntitySpecialRenderer {
 				bindTexture(ResourceManager.missileNuclear_tex);
 				ResourceManager.missileNeon.renderAll();
 			}
+			if(state == 11)
+			{
+				bindTexture(ResourceManager.missile_devon1_tex);
+				ResourceManager.slbm_spear.renderAll();
+			}
+			if(state == 12)
+			{
+				bindTexture(ResourceManager.missile_devon2_tex);
+				ResourceManager.slbm_spear.renderAll();
+			}
+			if(state == 13)
+			{
+				bindTexture(ResourceManager.missile_devon3_tex);
+				ResourceManager.slbm_spear.renderAll();
+			}
 			
 	        GL11.glEnable(GL11.GL_CULL_FACE);
 	        GL11.glShadeModel(GL11.GL_FLAT);

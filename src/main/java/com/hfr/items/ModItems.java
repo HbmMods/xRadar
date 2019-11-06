@@ -58,6 +58,10 @@ public class ModItems {
 	public static Item missile_decoy;
 	public static Item missile_nuclear;
 
+	public static Item missile_devon_1;
+	public static Item missile_devon_2;
+	public static Item missile_devon_3;
+
 	public static Item slbm_martin_1;
 	public static Item slbm_martin_2;
 	public static Item slbm_martin_3;
@@ -81,6 +85,7 @@ public class ModItems {
 	public static Item science;
 	public static Item coin;
 	public static Item wrench;
+	public static Item province_point;
 
 	public static Item hammer;
 	public static Item wand;
@@ -140,6 +145,10 @@ public class ModItems {
 		missile_decoy = new ItemLore().setUnlocalizedName("missile_decoy").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_decoy");
 		missile_nuclear = new ItemLore().setUnlocalizedName("missile_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_nuclear");
 
+		missile_devon_1 = new ItemLore().setUnlocalizedName("missile_devon_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_devon_1");
+		missile_devon_2 = new ItemLore().setUnlocalizedName("missile_devon_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_devon_2");
+		missile_devon_3 = new ItemLore().setUnlocalizedName("missile_devon_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_devon_3");
+
 		slbm_martin_1 = new ItemLore().setUnlocalizedName("slbm_martin_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_martin_1");
 		slbm_martin_2 = new ItemLore().setUnlocalizedName("slbm_martin_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_martin_2");
 		slbm_martin_3 = new ItemLore().setUnlocalizedName("slbm_martin_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":slbm_martin_3");
@@ -163,6 +172,7 @@ public class ModItems {
 		science = new ItemLore().setUnlocalizedName("science").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science");
 		coin = new ItemLore().setUnlocalizedName("hfr_coin").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":coin");
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
+		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":bit");
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
@@ -219,6 +229,7 @@ public class ModItems {
 		GameRegistry.registerItem(science, science.getUnlocalizedName());
 		GameRegistry.registerItem(coin, coin.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
+		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());
 
 		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
 		
@@ -237,6 +248,10 @@ public class ModItems {
 		GameRegistry.registerItem(missile_ab, missile_ab.getUnlocalizedName());
 		GameRegistry.registerItem(missile_decoy, missile_decoy.getUnlocalizedName());
 		GameRegistry.registerItem(missile_nuclear, missile_nuclear.getUnlocalizedName());
+
+		GameRegistry.registerItem(missile_devon_1, missile_devon_1.getUnlocalizedName());
+		GameRegistry.registerItem(missile_devon_2, missile_devon_2.getUnlocalizedName());
+		GameRegistry.registerItem(missile_devon_3, missile_devon_3.getUnlocalizedName());
 
 		GameRegistry.registerItem(slbm_martin_1, slbm_martin_1.getUnlocalizedName());
 		GameRegistry.registerItem(slbm_martin_2, slbm_martin_2.getUnlocalizedName());

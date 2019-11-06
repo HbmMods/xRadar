@@ -55,6 +55,9 @@ public class ResourceManager {
 	public static final ResourceLocation missileHuge_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileInferno.png");
 	public static final ResourceLocation missileNuclear_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileNuclear.png");
 	public static final ResourceLocation missile_decoy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_decoy.png");
+	public static final ResourceLocation missile_devon1_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileDevon1.png");
+	public static final ResourceLocation missile_devon2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileDevon2.png");
+	public static final ResourceLocation missile_devon3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileDevon3.png");
 	
 	//BLAST SPHERES
 	public static final IModelCustom sphere_ruv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_ruv.obj"));

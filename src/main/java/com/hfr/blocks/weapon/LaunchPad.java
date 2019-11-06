@@ -3,16 +3,7 @@ package com.hfr.blocks.weapon;
 import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
-import com.hfr.entity.missile.EntityMissileAntiBallistic;
-import com.hfr.entity.missile.EntityMissileBurst;
-import com.hfr.entity.missile.EntityMissileDecoy;
-import com.hfr.entity.missile.EntityMissileEMPStrong;
-import com.hfr.entity.missile.EntityMissileGeneric;
-import com.hfr.entity.missile.EntityMissileIncendiary;
-import com.hfr.entity.missile.EntityMissileIncendiaryStrong;
-import com.hfr.entity.missile.EntityMissileInferno;
-import com.hfr.entity.missile.EntityMissileNuclear;
-import com.hfr.entity.missile.EntityMissileStrong;
+import com.hfr.entity.missile.*;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.TileEntityLaunchPad;
@@ -271,6 +262,39 @@ public class LaunchPad extends BlockContainer {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_nuclear && entity.storage.getEnergyStored() >= re)
         		{
             		EntityMissileNuclear missile = new EntityMissileNuclear(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		
+        		/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_devon_1 && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileDevon1 missile = new EntityMissileDevon1(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_devon_2 && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileDevon2 missile = new EntityMissileDevon2(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_devon_3 && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileDevon3 missile = new EntityMissileDevon3(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);

@@ -46,4 +46,9 @@ public class EntityMissileSpear extends EntityMissileBaseCruise {
 		nbt.setInteger("type", type);
 	}
 
+	@Override
+	public boolean getIsBreaching() {
+		return false;
+	}
+
 }

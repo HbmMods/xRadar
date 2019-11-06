@@ -1,5 +1,6 @@
 package com.hfr.packet.client;
 
+import com.hfr.clowder.Clowder;
 import com.hfr.data.StockData;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
@@ -10,6 +11,7 @@ import com.hfr.packet.tile.RailgunFirePacket;
 import com.hfr.packet.tile.SchematicPreviewPacket;
 import com.hfr.potion.HFRPotion;
 import com.hfr.schematic.Schematic;
+import com.hfr.tileentity.TileEntityFlag;
 import com.hfr.tileentity.TileEntityForceField;
 import com.hfr.tileentity.TileEntityMachineBuilder;
 import com.hfr.tileentity.TileEntityMachineEMP;
@@ -189,6 +191,14 @@ public class AuxButtonPacket implements IMessage {
 					
 					if(m.id == 1) {
 						emp.range = m.value;
+					}
+				}
+				
+				if (te instanceof TileEntityFlag) {
+					TileEntityFlag flag = (TileEntityFlag)te;
+					
+					if(m.id == 3) {
+						flag.owner = Clowder.getClowderFromPlayer(p);
 					}
 				}
 				

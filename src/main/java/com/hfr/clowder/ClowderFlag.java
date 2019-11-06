@@ -23,6 +23,10 @@ public enum ClowderFlag {
 	private boolean show = true;
 	private ResourceLocation flag;
 	private ResourceLocation overlay;
+
+	public static final ResourceLocation WILDERNESS = new ResourceLocation(RefStrings.MODID + ":textures/flags/special_wilderness.png");
+	public static final ResourceLocation SAFEZONE = new ResourceLocation(RefStrings.MODID + ":textures/flags/special_safezone.png");
+	public static final ResourceLocation WARZONE = new ResourceLocation(RefStrings.MODID + ":textures/flags/special_warzone.png");
 	
 	private ClowderFlag(String name) {
 		this.name = name;

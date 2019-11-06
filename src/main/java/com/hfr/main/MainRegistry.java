@@ -238,6 +238,10 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissilePegasus.class, "entity_missile_pegasus", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileSpear.class, "entity_missile_spear", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileShell.class, "entity_missile_shell", id++, this, 1000, 1, true);
+
+	    EntityRegistry.registerModEntity(EntityMissileDevon1.class, "entity_missile_devon1", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileDevon2.class, "entity_missile_devon2", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileDevon3.class, "entity_missile_devon3", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			

@@ -313,4 +313,12 @@ public abstract class EntityMissileBaseCruise extends Entity implements IChunkLo
 		this.dataWatcher.updateObject(9, targetZ);
     }
 
+	//if missile can knock out forcefields
+	public abstract boolean getIsBreaching();
+
+	//explosion code explosive to forcefield collisions
+	public void onForceImpact() {
+	    attackEntityFrom(DamageSource.generic, 1000);
+	}
+
 }

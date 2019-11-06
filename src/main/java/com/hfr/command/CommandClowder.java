@@ -404,7 +404,7 @@ public class CommandClowder extends CommandBase {
 				
 			if(toApply != null) {
 
-				sender.addChatMessage(new ChatComponentText(INFO + "Sent application to " + clowder.name + "!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "Sent application to " + toApply.name + "!"));
 				toApply.applications.add(player.getDisplayName());
 				toApply.notifyLeader(player.worldObj, new ChatComponentText(INFO + "Player " + sender.getCommandSenderName() + " would like to join your faction!"));
 				

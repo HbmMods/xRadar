@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.hfr.ai.*;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
@@ -40,9 +43,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
+import net.minecraftforge.event.world.ExplosionEvent.Detonate;
 
 public class CommonEventHandler {
 
@@ -343,7 +351,38 @@ public class CommonEventHandler {
 				e.worldObj.newExplosion(((EntityDamageSourceIndirect)dmg).getEntity(), e.posX + r.nextGaussian() * 0.5, e.posY + 1.5, e.posZ + r.nextGaussian() * 0.5, 1.5F, false, false);
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void clowderBlockEvent(BlockEvent event) {
 		
+		if(event instanceof BreakEvent || event instanceof PlaceEvent) {
+			int x = event.x;
+			int z = event.z;
+			
+			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
+			
+			if(owner.zone == Zone.SAFEZONE)
+				event.setCanceled(true);
+		}
+	}
+	
+	@SubscribeEvent
+	public void clowderExplosionEvent(Detonate event) {
+		
+		for(int i = 0; i < event.getAffectedBlocks().size(); i++) {
+			
+			ChunkPosition pos = event.getAffectedBlocks().get(i);
+			int x = pos.chunkPosX;
+			int z = pos.chunkPosZ;
+			
+			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
+			
+			if(owner.zone == Zone.SAFEZONE) {
+				event.getAffectedBlocks().remove(i);
+				i--;
+			}
+		}
 	}
 
 }

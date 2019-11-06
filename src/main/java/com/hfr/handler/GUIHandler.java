@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerHydro;
 import com.hfr.inventory.container.ContainerLaunchPad;
@@ -21,6 +22,7 @@ import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
+import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
 import com.hfr.inventory.gui.GUIHydro;
 import com.hfr.inventory.gui.GUILaunchPad;
@@ -194,6 +196,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_flag:
+			{
+				if(entity instanceof TileEntityFlag)
+				{
+					return new ContainerFlag(player.inventory, (TileEntityFlag) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -345,6 +356,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineEMP)
 					{
 						return new GUIMachineEMP(player.inventory, (TileEntityMachineEMP) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_flag:
+				{
+					if(entity instanceof TileEntityFlag)
+					{
+						return new GUIFlag(player.inventory, (TileEntityFlag) entity);
 					}
 					return null;
 				}

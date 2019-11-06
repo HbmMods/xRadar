@@ -2,6 +2,7 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.entity.missile.*;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -18,7 +19,7 @@ public class RenderMissileSpear extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
         
-        bindTexture(ResourceManager.slbm_spear_tex);
+        bindTexture(getEntityTexture(p_76986_1_));
         GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.slbm_spear.renderAll();
         GL11.glShadeModel(GL11.GL_FLAT);
@@ -26,7 +27,15 @@ public class RenderMissileSpear extends Render {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
+	protected ResourceLocation getEntityTexture(Entity entity) {
+
+		if(entity instanceof EntityMissileDevon1)
+			return ResourceManager.missile_devon1_tex;
+		if(entity instanceof EntityMissileDevon2)
+			return ResourceManager.missile_devon2_tex;
+		if(entity instanceof EntityMissileDevon3)
+			return ResourceManager.missile_devon3_tex;
+		
 		return ResourceManager.slbm_spear_tex;
 	}
 }

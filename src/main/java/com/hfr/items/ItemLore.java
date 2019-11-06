@@ -101,6 +101,21 @@ public class ItemLore extends Item {
 			list.add("(Config Algorithm)");
 		}
 		
+		
+
+		if(this == ModItems.missile_devon_1) {
+			list.add("Devon Corporation Land-Attack Cruise Missile");
+			list.add("Compact RDX warhead");
+		}
+		if(this == ModItems.missile_devon_2) {
+			list.add("Devon Corporation Land-Attack Cruise Missile");
+			list.add("Experimental miniature ONC warhead");
+		}
+		if(this == ModItems.missile_devon_3) {
+			list.add("Devon Corporation Land-Attack Cruise Missile");
+			list.add("N² warhead");
+		}
+		
 
 
 		if(this == ModItems.slbm_martin_1) {
@@ -159,6 +174,9 @@ public class ItemLore extends Item {
 		}
 		if(this == ModItems.coin) {
 			list.add("Buy high, sell low");
+		}
+		if(this == ModItems.province_point) {
+			list.add("it's a literal bitcoin");
 		}
 	}
 }

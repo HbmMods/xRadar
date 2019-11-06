@@ -123,7 +123,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return true;
+		return false;
 	}
 
 	@Override
