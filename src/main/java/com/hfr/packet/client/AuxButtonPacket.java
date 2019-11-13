@@ -196,9 +196,21 @@ public class AuxButtonPacket implements IMessage {
 				
 				if (te instanceof TileEntityFlag) {
 					TileEntityFlag flag = (TileEntityFlag)te;
+
+					if(flag.isClaimed) {
+
+						if(m.id == 0)
+							flag.mode = 1;
+						if(m.id == 1)
+							flag.mode = 2;
+						if(m.id == 2)
+							flag.mode = 3;
+					}
 					
 					if(m.id == 3) {
-						flag.owner = Clowder.getClowderFromPlayer(p);
+						
+						if(Clowder.getClowderFromPlayer(p) != flag.owner)
+							flag.isClaimed = false;
 					}
 				}
 				

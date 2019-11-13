@@ -76,10 +76,17 @@ public class GUIFlag extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		/*int i = diFurnace.mode;
+		int i = diFurnace.mode;
 		
 		if(i > 0)
-			drawTexturedModalRect(guiLeft + 25, guiTop + 16 - 18 + 18 * i, 176, -18 + 18 * diFurnace.mode, 18, 18);*/
+			drawTexturedModalRect(guiLeft + 25, guiTop + 16 - 18 + 18 * i, 176, -18 + 18 * diFurnace.mode, 18, 18);
+		
+		if(diFurnace.height < 1.0F)
+			drawTexturedModalRect(guiLeft + 133, guiTop + 52, 176, 72, 18, 18);
+		else if(i > 0)
+			drawTexturedModalRect(guiLeft + 133, guiTop + 52, 176, 108, 18, 18);
+		else
+			drawTexturedModalRect(guiLeft + 133, guiTop + 52, 176, 90, 18, 18);
 		
 		if(isPressed())
 			drawTexturedModalRect(guiLeft + 133, guiTop + 16, 176, 54, 18, 18);

@@ -222,7 +222,7 @@ public class CommandClowder extends CommandBase {
 			if(name.equals(clowder.name)) {
 				
 				if(clowder.disbandClowder(player)) {
-					clowder.notifyLeader(player.worldObj, new ChatComponentText(CRITICAL + "Your faction was disbanded!"));
+					sender.addChatMessage(new ChatComponentText(CRITICAL + "Your faction was disbanded!"));
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "Can not disband a faction you do not own!"));
 				}

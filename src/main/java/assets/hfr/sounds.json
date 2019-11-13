@@ -14,6 +14,10 @@
     "block.railgunFire": {"category": "block", "sounds": [{"name": "block/railgunFire", "stream": false}]},
     "block.railgunCharge": {"category": "block", "sounds": [{"name": "block/railgunCharge", "stream": false}]},
     "block.navalFire": {"category": "block", "sounds": [{"name": "block/navalFire", "stream": false}]},
+    
+    "block.flagCapture": {"category": "block", "sounds": [{"name": "block/flagCapture", "stream": false}]},
+    "block.flagChange": {"category": "block", "sounds": [{"name": "block/flagChange", "stream": false}]},
+    "block.flagHoist": {"category": "block", "sounds": [{"name": "block/flagHoist", "stream": false}]},
 
 	"alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
     "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},

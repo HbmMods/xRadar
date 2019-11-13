@@ -8,7 +8,6 @@ import com.hfr.tileentity.TileEntityFlag;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderFlag extends TileEntitySpecialRenderer {
 
@@ -19,6 +18,18 @@ public class RenderFlag extends TileEntitySpecialRenderer {
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
+		
+		switch(te.getBlockMetadata())
+		{
+		case 2:
+			GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4:
+			GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3:
+			GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5:
+			GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
         
         TileEntityFlag flagpole = (TileEntityFlag)te;
 		
@@ -42,6 +53,9 @@ public class RenderFlag extends TileEntitySpecialRenderer {
 	    /*r = (int) (System.currentTimeMillis() / 10 % 0x100);
 	    g = (int) (System.currentTimeMillis() / 10 + 42 % 0x100);
 	    b = (int) (System.currentTimeMillis() / 10 + 85 % 0x100);*/
+
+        GL11.glTranslatef(0, -4F, 0);
+        GL11.glTranslatef(0, flagpole.height * 4, 0);
 
         bindTexture(flag.getFlag());
         GL11.glColor3b((byte)r, (byte)g, (byte)b);

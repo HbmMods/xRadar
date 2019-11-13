@@ -103,4 +103,13 @@ public class ClowderTerritory {
 			this.z = z;
 		}
 	}
+	
+	//TODO
+	public static class TerritoryMeta {
+		
+		public Ownership owner;
+		public int flagX;
+		public int flagY;
+		public int flagZ;
+	}
 }
