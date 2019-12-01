@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.hfr.ai.*;
+import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.StockData;
@@ -18,6 +21,7 @@ import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.ClowderFlagPacket;
 import com.hfr.packet.effect.SLBMOfferPacket;
 import com.hfr.packet.tile.SRadarPacket;
 import com.hfr.packet.tile.SchemOfferPacket;
@@ -45,8 +49,11 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
@@ -180,9 +187,15 @@ public class CommonEventHandler {
 				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 50, 0));
 				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 50, 2));
 			}
+			
+			flagPopup(player.worldObj, player);
+			
+		} else {
+
+			//particleBorder(player.worldObj, player);
 		}
 		
-		if(player.worldObj.isRemote && event.phase == event.phase.START && player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8")) {
+		if(player.worldObj.isRemote && event.phase == event.phase.START && player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8") && !player.isInvisible() && !player.isSneaking()) {
 			
 			int i = player.ticksExisted * 3;
 			
@@ -197,6 +210,126 @@ public class CommonEventHandler {
 			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 0.6, player.posZ + vec.zCoord, 3);
 			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 0.8, player.posZ + vec.zCoord, 1);*/
 		}
+	}
+	
+	public static final String NBTKEY = "lastClowder";
+	private void flagPopup(World world, EntityPlayer player) {
+
+		TerritoryMeta meta = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ));
+		
+		Ownership owner = meta == null ? ClowderTerritory.WILDERNESS : meta.owner;
+		
+		String name = owner.zone.toString();
+		
+		if(owner.zone == Zone.FACTION)
+			name = owner.owner.name;
+		
+		String past = player.getEntityData().getString(NBTKEY);
+		
+		if(past.isEmpty()) {
+			player.getEntityData().setString(NBTKEY, name);
+			return;
+		}
+		
+		if(!name.equals(past)) {
+
+			
+			if(owner.zone == Zone.FACTION)
+				PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(owner.owner), (EntityPlayerMP) player);
+			else
+				PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(name), (EntityPlayerMP) player);
+		}
+		
+		player.getEntityData().setString(NBTKEY, name);
+	}
+	
+	private void particleBorder(World world, EntityPlayer player) {
+
+		int oX = (int)player.posX;
+		int oZ = (int)player.posZ - 1;
+
+		TerritoryMeta north = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.NORTH.offsetX * 16, oZ + ForgeDirection.NORTH.offsetZ * 16));
+		TerritoryMeta south = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.SOUTH.offsetX * 16, oZ + ForgeDirection.SOUTH.offsetZ * 16));
+		TerritoryMeta east = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.EAST.offsetX * 16, oZ + ForgeDirection.EAST.offsetZ * 16));
+		TerritoryMeta west = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.WEST.offsetX * 16, oZ + ForgeDirection.WEST.offsetZ * 16));
+		TerritoryMeta center = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(oX, (int)player.posZ));
+
+		boolean n = isTerritoryDifferent(north, center);
+		boolean s = isTerritoryDifferent(south, center);
+		boolean e = isTerritoryDifferent(east, center);
+		boolean w = isTerritoryDifferent(west, center);
+
+		int x = (int)player.posX - ((int)player.posX % 16);
+		int z = (int)player.posZ - ((int)player.posZ % 16);
+		
+		if(n) {
+			for(int i = 0; i < 16; i++) {
+
+				double spanX = x + ForgeDirection.NORTH.offsetX * 16 + ForgeDirection.WEST.offsetX * world.rand.nextDouble() * 16 + 16;
+				double spanZ = z + ForgeDirection.NORTH.offsetZ * 16 + ForgeDirection.WEST.offsetZ * world.rand.nextDouble() * 16;
+				
+				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
+				
+				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
+			}
+		}
+		
+		if(s) {
+			for(int i = 0; i < 16; i++) {
+
+				double spanX = x + ForgeDirection.SOUTH.offsetX * 16 - ForgeDirection.WEST.offsetX * world.rand.nextDouble() * 16;
+				double spanZ = z + ForgeDirection.SOUTH.offsetZ * 16 - ForgeDirection.WEST.offsetZ * world.rand.nextDouble() * 16 - 16;
+				
+				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
+				
+				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
+			}
+		}
+		
+		if(e) {
+			for(int i = 0; i < 16; i++) {
+
+				double spanX = x + ForgeDirection.EAST.offsetX * 16 + ForgeDirection.NORTH.offsetX * world.rand.nextDouble() * 16;
+				double spanZ = z + ForgeDirection.EAST.offsetZ * 16 + ForgeDirection.NORTH.offsetZ * world.rand.nextDouble() * 16;
+				
+				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
+				
+				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
+			}
+		}
+		
+		if(w) {
+			for(int i = 0; i < 16; i++) {
+
+				double spanX = x + ForgeDirection.WEST.offsetX * 16 + ForgeDirection.NORTH.offsetX * world.rand.nextDouble() * 16 + 16;
+				double spanZ = z + ForgeDirection.WEST.offsetZ * 16 + ForgeDirection.NORTH.offsetZ * world.rand.nextDouble() * 16;
+				
+				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
+				
+				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
+			}
+		}
+		
+	}
+	
+	private static boolean isTerritoryDifferent(TerritoryMeta one, TerritoryMeta two) {
+		
+		if(one == null && two != null)
+			return true;
+		
+		if(one != null && two == null)
+			return true;
+		
+		if(one != null && two != null) {
+			
+			if(one.owner.zone != two.owner.zone)
+				return true;
+			
+			if(one.owner.owner != two.owner.owner)
+				return true;
+		}
+		
+		return false;
 	}
 
 	int timer = 0;
@@ -255,8 +388,14 @@ public class CommonEventHandler {
 				}
 			}
 			
-			if(timer < 100000000)
+			if(timer <= 100000000)
 				timer -= 100000000;
+
+			/// CLOWDER TERRITORYY ADMINISTRATIVE STUFF START ///
+			
+			ClowderTerritory.persistenceAutomaton(world);
+			
+			/// CLOWDER TERRITORYY ADMINISTRATIVE STUFF END ///
 		}
 	}
 	
@@ -353,6 +492,7 @@ public class CommonEventHandler {
 		}
 	}
 	
+	//this one prevents block placements and breaking
 	@SubscribeEvent
 	public void clowderBlockEvent(BlockEvent event) {
 		
@@ -362,11 +502,28 @@ public class CommonEventHandler {
 			
 			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
 			
-			if(owner.zone == Zone.SAFEZONE)
+			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE) {
 				event.setCanceled(true);
+				return;
+			}
+			
+			if(event instanceof BreakEvent) {
+				Clowder clowder = Clowder.getClowderFromPlayer(((BreakEvent)event).getPlayer());
+				
+				if(owner.zone == Zone.FACTION && clowder != owner.owner)
+					event.setCanceled(true);
+			}
+			
+			if(event instanceof PlaceEvent) {
+				Clowder clowder = Clowder.getClowderFromPlayer(((PlaceEvent)event).player);
+				
+				if(owner.zone == Zone.FACTION && clowder != owner.owner)
+					event.setCanceled(true);
+			}
 		}
 	}
 	
+	//that one cancels explosions in safe- and warzones
 	@SubscribeEvent
 	public void clowderExplosionEvent(Detonate event) {
 		
@@ -378,11 +535,31 @@ public class CommonEventHandler {
 			
 			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
 			
-			if(owner.zone == Zone.SAFEZONE) {
+			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE) {
 				event.getAffectedBlocks().remove(i);
 				i--;
 			}
 		}
 	}
+	
+	//this thing prevents players from different facts from interacting with blocks
+	@SubscribeEvent
+	public void clowderContainerEvent(PlayerInteractEvent event) {
 
+		int x = event.x;
+		int y = event.y;
+		int z = event.z;
+		
+		if(event.action == Action.RIGHT_CLICK_BLOCK && event.world.getBlock(x, y, z) != ModBlocks.clowder_flag) {
+			
+			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
+			
+			if(owner != null) {
+				Clowder clowder = Clowder.getClowderFromPlayer(event.entityPlayer);
+				
+				if(owner.zone == Zone.FACTION && clowder != owner.owner)
+					event.setCanceled(true);
+			}
+		}
+	}
 }

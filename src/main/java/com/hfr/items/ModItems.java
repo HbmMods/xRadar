@@ -96,10 +96,15 @@ public class ModItems {
 	public static Item grenade_nuclear;
 	public static Item grenade_boxcar;
 	public static Item hatter;
+	
+	public static Item mace;
+	public static Item clowder_map;
 
 	public static Item sexlol;
 	public static Item canned_spam;
 	public static Item canned_jizz;
+
+	public static Item debug;
 	
 	public static ArmorMaterial matGasMask = EnumHelper.addArmorMaterial("GASMASK", 10, new int[] {0, 0, 0, 0}, 0);
 
@@ -184,9 +189,14 @@ public class ModItems {
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
 		hatter = new ItemHatter().setUnlocalizedName("hatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hat");
 		
+		mace = new ItemLore().setUnlocalizedName("mace").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mace");
+		clowder_map = new ItemMap().setUnlocalizedName("clowder_map").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_map");
+		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
 		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
 		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
+		
+		debug = new ItemDebug().setUnlocalizedName("debug").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
 	}
 	
 	private static void registerItem() {
@@ -232,6 +242,9 @@ public class ModItems {
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());
 
 		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
+
+		GameRegistry.registerItem(mace, mace.getUnlocalizedName());
+		GameRegistry.registerItem(clowder_map, clowder_map.getUnlocalizedName());
 		
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
@@ -274,5 +287,7 @@ public class ModItems {
 		GameRegistry.registerItem(sexlol, sexlol.getUnlocalizedName());
 		GameRegistry.registerItem(canned_spam, canned_spam.getUnlocalizedName());
 		GameRegistry.registerItem(canned_jizz, canned_jizz.getUnlocalizedName());
+		
+		GameRegistry.registerItem(debug, debug.getUnlocalizedName());
 	}
 }

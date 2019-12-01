@@ -6,6 +6,7 @@ import com.hfr.blocks.ModBlocks;
 import com.hfr.blocks.weapon.LaunchPad;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -59,13 +60,13 @@ public class ItemDetonator extends Item {
 				if (!world.isRemote) {
 					((LaunchPad) world.getBlock(x, y, z)).explode(world, x, y, z);
 				}
-			/*} else if(world.getBlock(x, y, z) == ModBlocks.debug) {
+			} else if(world.getBlock(x, y, z) == Blocks.tnt) {
 
 				world.playSoundAtEntity(player, "hfr:item.techBleep", 1.0F, 1.0F);
 				if (!world.isRemote) {
-					world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z).scaleMulti(2.5F));
-					world.spawnEntityInWorld(EntityNuclearBlast.statFac(world, x, y, z, MainRegistry.nukeRadius, MainRegistry.nukeStrength, MainRegistry.nukeDist, MainRegistry.nukeKill));
-				}*/
+					Blocks.tnt.onBlockDestroyedByPlayer(world, x, y, z, 1);
+					world.setBlockToAir(x, y, z);
+				}
 		    	
 			} else {
 				world.playSoundAtEntity(player, "hfr:item.techBoop", 2.0F, 1.0F);

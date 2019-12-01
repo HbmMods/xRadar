@@ -11,6 +11,7 @@ import com.hfr.data.ClowderData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 //it's like a faction
@@ -192,6 +193,10 @@ public class Clowder {
 		}
 	}
 	
+	public void notifyCapture(World world, int x, int z, String type) {
+
+		notifyAll(world, new ChatComponentText(EnumChatFormatting.RED + "One of your " + type + " at X:" + x + "/Z:" + z + " is under attack!"));
+	}
 	
 	/// GLOBAL METHODS ///
 	public static void recalculateIMap() {

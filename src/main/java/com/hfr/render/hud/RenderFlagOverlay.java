@@ -2,17 +2,17 @@ package com.hfr.render.hud;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.clowder.ClowderFlag;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 
 public class RenderFlagOverlay {
-	
-	public static ClowderFlag flag = ClowderFlag.TRICOLOR;
+
+	public static ResourceLocation flag = null;
+	public static ResourceLocation overlay = null;
 	public static String title = "";
 	public static int color = 0xFF0000;
 	public static long startingTime;
@@ -49,13 +49,17 @@ public class RenderFlagOverlay {
 	        GL11.glEnable(GL11.GL_BLEND);
 	        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			
-			minecraft.getTextureManager().bindTexture(flag.getFlag());
-	        GL11.glColor4b((byte)r, (byte)g, (byte)b, (byte)(alpha / 2));
-	        drawRectangle(0, 0);
+	        if(flag != null) {
+				minecraft.getTextureManager().bindTexture(flag);
+		        GL11.glColor4b((byte)r, (byte)g, (byte)b, (byte)(alpha / 2));
+		        drawRectangle(0, 0);
+	        }
 	
-			minecraft.getTextureManager().bindTexture(flag.getFlagOverlay());
-	        GL11.glColor4b((byte)127, (byte)127, (byte)127, (byte)(alpha / 2));
-	        drawRectangle(0, 0);
+	        if(overlay != null) {
+				minecraft.getTextureManager().bindTexture(overlay);
+		        GL11.glColor4b((byte)127, (byte)127, (byte)127, (byte)(alpha / 2));
+		        drawRectangle(0, 0);
+	        }
 	        
 	        FontRenderer font = minecraft.fontRenderer;
 	        

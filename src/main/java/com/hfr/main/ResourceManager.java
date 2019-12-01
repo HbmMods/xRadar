@@ -141,6 +141,14 @@ public class ResourceManager {
 	public static final ResourceLocation emp_tex = new ResourceLocation(RefStrings.MODID, "textures/models/emp.png");
 	
 	//FLAG POLE
-	public static final IModelCustom flag = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/flag.obj"));
+	public static final IModelCustom flag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/flag.obj"));
 	public static final ResourceLocation flag_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flag.png");
+	
+	//CAP POINT
+	public static final IModelCustom cap = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cap.obj"));
+	public static final ResourceLocation cap_tex = new ResourceLocation(RefStrings.MODID, "textures/models/cap.png");
+	public static final ResourceLocation cap_point_tex = new ResourceLocation(RefStrings.MODID, "textures/models/cap_point.png");
+	
+	//FLAG CHONK
+	public static final IModelCustom flag_big = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/flag_big.obj"));
 }

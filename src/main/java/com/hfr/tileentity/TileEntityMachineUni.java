@@ -4,9 +4,13 @@ import com.hfr.blocks.ModBlocks;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineUni extends TileEntityMachineBase {
 
@@ -90,6 +94,18 @@ public class TileEntityMachineUni extends TileEntityMachineBase {
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return access;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 
 }

@@ -37,6 +37,8 @@ tile.machine_emp.name=EM-Jammer
 container.machineEMP=EM-Jammer
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
+tile.clowder_flag_big.name=Clowder Territory Flag
+tile.clowder_cap.name=Clowder Cap Point
 
 tile.rbmk_element.name=RBMK Fuel Rod
 tile.rbmk_rods.name=RBMK Control Rods
@@ -119,6 +121,9 @@ item.designator_range.name=Laser Rangefinder
 item.designator_manual.name=Manual Rangefinder
 item.detonator.name=Detonator
 
+item.mace.name=Hammer of Raiding
+item.clowder_map.name=Clowder Map
+
 item.missile_he_1.name=Tier 1 HE Missile
 item.missile_he_2.name=Tier 2 HE Missile
 item.missile_he_3.name=Tier 3 HE Missile
@@ -155,3 +160,5 @@ item.charge_bfg.name=Argent Plasma Capsule
 item.sexlol.name=the sex
 item.canned_jizz.name=Canned Horse Milk
 item.canned_spam.name=Canned Coochie
+
+item.debug.name=Metal Junk of Debugging

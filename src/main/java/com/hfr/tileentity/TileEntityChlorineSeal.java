@@ -2,6 +2,7 @@ package com.hfr.tileentity;
 
 import com.hfr.blocks.ModBlocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityChlorineSeal extends TileEntity {
@@ -18,10 +19,14 @@ public class TileEntityChlorineSeal extends TileEntity {
 		if(index > 50)
 			return;
 		
-		if(worldObj.getBlock(x, y, z).isReplaceable(worldObj, x, y, z))
+		Block b = worldObj.getBlock(x, y, z);
+		
+		if(b.isReplaceable(worldObj, x, y, z) && !b.getMaterial().isLiquid())
 			worldObj.setBlock(x, y, z, ModBlocks.chlorine_gas);
 		
-		if(worldObj.getBlock(x, y, z) != ModBlocks.chlorine_gas && worldObj.getBlock(x, y, z) != ModBlocks.vent_chlorine_seal)
+		b = worldObj.getBlock(x, y, z);
+		
+		if(b != ModBlocks.chlorine_gas && b != ModBlocks.vent_chlorine_seal)
 			return;
 		
 		switch(worldObj.rand.nextInt(6)) {

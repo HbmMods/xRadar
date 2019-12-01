@@ -2,6 +2,7 @@ package com.hfr.packet.effect;
 
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.main.MainRegistry;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -33,6 +34,25 @@ public class ClowderFlagPacket implements IMessage {
 		this.name = name;
 	}
 
+	public ClowderFlagPacket(String special) {
+
+		if(special.equals(Zone.WILDERNESS.toString())) {
+			this.flag = -1;
+			this.color = 0x008000;
+			this.name = "Wilderness";
+		}
+		if(special.equals(Zone.SAFEZONE.toString())) {
+			this.flag = -2;
+			this.color = 0xFF8000;
+			this.name = "Safe Zone";
+		}
+		if(special.equals(Zone.WARZONE.toString())) {
+			this.flag = -3;
+			this.color = 0xFF0000;
+			this.name = "War Zone";
+		}
+	}
+
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		flag = buf.readInt();
@@ -52,7 +72,12 @@ public class ClowderFlagPacket implements IMessage {
 		@Override
 		public IMessage onMessage(ClowderFlagPacket m, MessageContext ctx) {
 			
-			MainRegistry.proxy.updateFlag(ClowderFlag.values()[m.flag], m.color, m.name);
+			if(m.flag > 0) {
+				ClowderFlag flag = ClowderFlag.values()[m.flag];
+				MainRegistry.proxy.updateFlag(flag.getFlag(), flag.getFlagOverlay(), m.color, m.name);
+			} else {
+				MainRegistry.proxy.updateFlag(null, m.flag == -3 ? ClowderFlag.WARZONE : m.flag == -2 ? ClowderFlag.SAFEZONE : ClowderFlag.WILDERNESS, m.color, m.name);
+			}
 			
 			return null;
 		}

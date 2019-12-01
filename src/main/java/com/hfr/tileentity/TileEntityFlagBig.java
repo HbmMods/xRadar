@@ -19,24 +19,22 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityFlag extends TileEntityMachineBase {
+public class TileEntityFlagBig extends TileEntityMachineBase {
 
 	public String tempown = "";
 	public Clowder owner;
 	public boolean isClaimed = true;
 	public float height = 1.0F;
 	public float speed = 0.005F;
-	public int mode = 0;
-	
-	private int timer = 0;
 	
 	@SideOnly(Side.CLIENT)
 	public ClowderFlag flag;
 	@SideOnly(Side.CLIENT)
 	public int color;
 
-	public TileEntityFlag() {
+	public TileEntityFlagBig() {
 		super(9);
+		height = 0.0F;
 	}
 
 	@Override
@@ -64,74 +62,52 @@ public class TileEntityFlag extends TileEntityMachineBase {
 			float prev = height;
 			Clowder prevC = owner;
 			
-			if(!isClaimed) {
-				List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 4, yCoord - 1, zCoord - 4, xCoord + 5, yCoord + 2, zCoord + 5));
+			List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 4, yCoord - 1, zCoord - 4, xCoord + 5, yCoord + 2, zCoord + 5));
+			
+			Clowder capturer = null;
+			for(EntityPlayer player : entities) {
 				
-				Clowder capturer = null;
-				for(EntityPlayer player : entities) {
-					
-					Clowder clow = Clowder.getClowderFromPlayer(player);
-					
-					if(clow != null) {
-						capturer = clow;
-						break;
-					}
-				}
+				Clowder clow = Clowder.getClowderFromPlayer(player);
 				
-				if(capturer != null) {
-					
-					//he who owns the flag now can raise it.
-					//if the flag reaches the end of the pole, the ownership will be locked
-					if(capturer == owner) {
-						height += speed;
-						
-						if(height >= 1) {
-							isClaimed = true;
-							height = 1;
-						}
-						
-					//he who does not own the flag can lower it
-					//once it reaches the bottom, it will be his
-					} else {
-						
-						height -= speed;
-						
-						if(height <= 0) {
-							owner = capturer;
-							height = 0;
-						}
-					}
-					
-				//if there is nobody capturing the flag, it will simply descend
-				} else {
-					
-					height -= speed;
-					
-					if(height <= 0) {
-						height = 0;
-					}
+				if(clow != null) {
+					capturer = clow;
+					break;
 				}
 			}
 			
-			if(!isClaimed || owner == null) {
-				mode = 0;
-				timer = 0;
+			if(capturer != null) {
+				
+				//he who owns the flag now can raise it.
+				//if the flag reaches the end of the pole, the ownership will be locked
+				if(capturer == owner) {
+					height += speed;
+					
+					if(height >= 1) {
+						isClaimed = true;
+						height = 1;
+					}
+					
+				//he who does not own the flag can lower it
+				//once it reaches the bottom, it will be his
+				} else {
+					
+					isClaimed = false;
+					height -= speed;
+					
+					if(height <= 0) {
+						owner = capturer;
+						height = 0;
+					}
+				}
+				
+			//if there is nobody capturing the flag, it will simply descend
 			} else {
 				
-				if(timer > 0)
-					timer--;
+				if(!isClaimed)
+					height -= speed;
 				
-				if(mode > 0) {
-					
-					if(timer <= 0) {
-						
-						if(consumeToken()) {
-							timer = getTime();
-						} else {
-							mode = 0;
-							timer = 0;
-						}
-					}
+				if(height <= 0) {
+					height = 0;
 				}
 			}
 			
@@ -159,15 +135,14 @@ public class TileEntityFlag extends TileEntityMachineBase {
 				this.updateGauge(ClowderFlag.NONE.ordinal(), 0, 100);
 				this.updateGauge(0xFFFFFF, 1, 100);
 			}
-			this.updateGauge(mode, 2, 25);
 			this.updateGauge((int) (height * 100F), 3, 100);
 			
 		} else {
 
-			if(mode > 0) {
-				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
+			if(height == 1F) {
+				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
 				double y = yCoord + 0.125 + worldObj.rand.nextDouble() * 0.5D;
-				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
+				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
 	
 			    int r = ((color & 0xFF0000) >> 16) / 2;
 			    int g = ((color & 0xFF00) >> 8) / 2;
@@ -191,34 +166,18 @@ public class TileEntityFlag extends TileEntityMachineBase {
 		return false;
 	}
 	
-	private int getTime() {
-		
-		switch(mode) {
-		case 1: return 200;
-		case 2: return 500;
-		case 3: return 1000;
-		default: return 0;
-		}
-	}
-	
 	public void processGauge(int val, int id) {
 		
 		switch(id) {
 		case 0: flag = ClowderFlag.values()[val]; break;
 		case 1: color = val; break;
-		case 2: mode = val; break;
 		case 3: height = val * 0.01F; break;
 		}
 	}
 	
 	public int getRadius() {
 		
-		switch(mode) {
-		case 1: return 10;
-		case 2: return 5;
-		case 3: return 2;
-		default: return 0;
-		}
+		return 20;
 	}
 	
 	public void generateClaim() {
@@ -259,8 +218,6 @@ public class TileEntityFlag extends TileEntityMachineBase {
 		this.tempown = nbt.getString("owner");
 		this.isClaimed = nbt.getBoolean("isClaimed");
 		this.height = nbt.getFloat("height");
-		this.mode = nbt.getInteger("mode");
-		this.timer = nbt.getInteger("timer");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -283,8 +240,6 @@ public class TileEntityFlag extends TileEntityMachineBase {
 			nbt.setString("owner", owner.name);
 		nbt.setBoolean("isClaimed", isClaimed);
 		nbt.setFloat("height", height);
-		nbt.setInteger("mode", mode);
-		nbt.setInteger("timer", timer);
 		
 		NBTTagList list = new NBTTagList();
 		
@@ -311,5 +266,4 @@ public class TileEntityFlag extends TileEntityMachineBase {
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-
 }

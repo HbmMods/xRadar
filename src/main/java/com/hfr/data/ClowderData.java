@@ -1,6 +1,7 @@
 package com.hfr.data;
 
 import com.hfr.clowder.Clowder;
+import com.hfr.clowder.ClowderTerritory;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -16,12 +17,14 @@ public class ClowderData extends WorldSavedData {
 	public void readFromNBT(NBTTagCompound nbt) {
 		
 		Clowder.readFromNBT(nbt);
+		ClowderTerritory.readFromNBT(nbt);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 
 		Clowder.writeToNBT(nbt);
+		ClowderTerritory.writeToNBT(nbt);
 	}
 	
 	static ClowderData data = null;

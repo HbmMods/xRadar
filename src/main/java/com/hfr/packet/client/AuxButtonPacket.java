@@ -205,6 +205,9 @@ public class AuxButtonPacket implements IMessage {
 							flag.mode = 2;
 						if(m.id == 2)
 							flag.mode = 3;
+						
+						if(flag.mode > 0)
+							flag.generateClaim();
 					}
 					
 					if(m.id == 3) {

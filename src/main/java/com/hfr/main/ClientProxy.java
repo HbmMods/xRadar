@@ -7,11 +7,11 @@ import net.minecraft.client.particle.EntityLargeExplodeFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
-import com.hfr.clowder.ClowderFlag;
 import com.hfr.effect.ParticleContrail;
 import com.hfr.entity.*;
 import com.hfr.entity.grenade.*;
@@ -72,6 +72,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineUni.class, new RenderUni());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineEMP.class, new RenderEMP());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlag.class, new RenderFlag());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCap.class, new RenderCap());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlagBig.class, new RenderFlagBig());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());
@@ -212,8 +214,9 @@ public class ClientProxy extends ServerProxy
 	}
 
 	@Override
-	public void updateFlag(ClowderFlag flag, int color, String name) {
+	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name) {
 		RenderFlagOverlay.flag = flag;
+		RenderFlagOverlay.overlay = overlay;
 		RenderFlagOverlay.color = color;
 		RenderFlagOverlay.title = name;
 		RenderFlagOverlay.startingTime = System.currentTimeMillis();

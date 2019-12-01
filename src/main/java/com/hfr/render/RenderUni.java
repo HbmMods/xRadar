@@ -17,6 +17,9 @@ public class RenderUni extends TileEntitySpecialRenderer {
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glRotatef(90, 0F, 1F, 0F);
+        
+        float scale = 9F;
+        GL11.glScalef(scale, scale, scale);
 
 		switch(tile.getBlockMetadata())
 		{

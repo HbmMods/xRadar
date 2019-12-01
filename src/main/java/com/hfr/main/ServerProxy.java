@@ -1,7 +1,6 @@
 package com.hfr.main;
 
-import com.hfr.clowder.ClowderFlag;
-
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class ServerProxy
@@ -20,5 +19,5 @@ public class ServerProxy
 
 	public void spawnSFX(World world, double posX, double posY, double posZ, int type, Object payload) { }
 
-	public void updateFlag(ClowderFlag flag, int color, String name) { }
+	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name) { }
 }

@@ -4,12 +4,12 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.main.ResourceManager;
-import com.hfr.tileentity.TileEntityFlag;
+import com.hfr.tileentity.TileEntityFlagBig;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderFlag extends TileEntitySpecialRenderer {
+public class RenderFlagBig extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float p_147500_8_) {
@@ -31,12 +31,12 @@ public class RenderFlag extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
         
-        TileEntityFlag flagpole = (TileEntityFlag)te;
+        TileEntityFlagBig flagpole = (TileEntityFlagBig)te;
 		
         bindTexture(ResourceManager.flag_tex);
         
         GL11.glShadeModel(GL11.GL_SMOOTH);
-        ResourceManager.flag.renderOnly("Pole");
+        ResourceManager.flag_big.renderOnly("Pole");
         GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -56,16 +56,16 @@ public class RenderFlag extends TileEntitySpecialRenderer {
 	    g = (int) (System.currentTimeMillis() / 10 + 42 % 0x100);
 	    b = (int) (System.currentTimeMillis() / 10 + 85 % 0x100);*/
 
-        GL11.glTranslatef(0, -4F, 0);
-        GL11.glTranslatef(0, flagpole.height * 4, 0);
+        GL11.glTranslatef(0, -8F, 0);
+        GL11.glTranslatef(0, flagpole.height * 8, 0);
 
         bindTexture(flag.getFlag());
         GL11.glColor3b((byte)r, (byte)g, (byte)b);
-        ResourceManager.flag.renderOnly("Flag");
+        ResourceManager.flag_big.renderOnly("Flag");
         
 	    bindTexture(flag.getFlagOverlay());
 	    GL11.glColor3b((byte)127, (byte)127, (byte)127);
-	    ResourceManager.flag.renderOnly("Flag");
+	    ResourceManager.flag_big.renderOnly("Flag");
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();

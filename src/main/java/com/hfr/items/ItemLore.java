@@ -177,6 +177,9 @@ public class ItemLore extends Item {
 		}
 		if(this == ModItems.province_point) {
 			list.add("it's a literal bitcoin");
+			list.add("");
+			list.add("...");
+			list.add("please don't hit me");
 		}
 	}
 }

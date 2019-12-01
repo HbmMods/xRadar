@@ -30,7 +30,6 @@ import org.apache.logging.log4j.Logger;
 import com.hfr.blocks.*;
 import com.hfr.clowder.ClowderEvents;
 import com.hfr.command.*;
-import com.hfr.data.ClowderData;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.entity.*;
@@ -210,6 +209,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityRBMKElement.class, "tileentity_hfr_rbmk_fuel");
 		GameRegistry.registerTileEntity(TileEntityMachineEMP.class, "tileentity_hfr_emp");
 		GameRegistry.registerTileEntity(TileEntityFlag.class, "tileentity_hfr_flag");
+		GameRegistry.registerTileEntity(TileEntityCap.class, "tileentity_hfr_cap");
+		GameRegistry.registerTileEntity(TileEntityFlagBig.class, "tileentity_hfr_flag_big");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
