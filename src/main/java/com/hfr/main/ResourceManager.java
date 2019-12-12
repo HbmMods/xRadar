@@ -151,4 +151,9 @@ public class ResourceManager {
 	
 	//FLAG CHONK
 	public static final IModelCustom flag_big = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/flag_big.obj"));
+	
+	//FLAREGUN
+	public static final IModelCustom flaregun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/flaregun.obj"));
+	public static final ResourceLocation flaregun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flaregun.png");
+	public static final ResourceLocation flaregun_barrel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flaregun_barrel.png");
 }

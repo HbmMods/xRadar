@@ -7,6 +7,7 @@ import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.CoordPair;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.ClowderData;
 import com.hfr.items.ModItems;
 
@@ -19,7 +20,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityFlag extends TileEntityMachineBase {
+public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryProvider {
 
 	public String tempown = "";
 	public Clowder owner;
@@ -49,11 +50,17 @@ public class TileEntityFlag extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(owner == null && !tempown.isEmpty())
-				owner = Clowder.getClowderFromName(tempown);
-			
-			if(Clowder.clowders.size() == 0)
+			if(Clowder.clowders.size() == 0) {
 				ClowderData.getData(worldObj);
+				return;
+			}
+			
+			if(owner == null && !tempown.isEmpty()) {
+				owner = Clowder.getClowderFromName(tempown);
+				return;
+			}
+			
+			//TODO: test returns
 			
 			//remove disbanded clowders
 			if(!Clowder.clowders.contains(owner))
@@ -168,12 +175,12 @@ public class TileEntityFlag extends TileEntityMachineBase {
 				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
 				double y = yCoord + 0.125 + worldObj.rand.nextDouble() * 0.5D;
 				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25D;
-	
-			    int r = ((color & 0xFF0000) >> 16) / 2;
-			    int g = ((color & 0xFF00) >> 8) / 2;
-			    int b = (color & 0xFF) / 2;
+
+			    float r = Math.max(((color & 0xFF0000) >> 16) / 256F, 0.01F);
+			    float g = Math.max(((color & 0xFF00) >> 8) / 256F, 0.01F);
+			    float b = Math.max((color & 0xFF) / 256F, 0.01F);
 				
-				worldObj.spawnParticle("reddust", x, y, z, r * 1F / 128D, g * 1F / 128D, b * 1F / 128D);
+				worldObj.spawnParticle("reddust", x, y, z, r, g, b);
 			}
 		}
 	}
@@ -211,6 +218,7 @@ public class TileEntityFlag extends TileEntityMachineBase {
 		}
 	}
 	
+	@Override
 	public int getRadius() {
 		
 		switch(mode) {
@@ -220,8 +228,27 @@ public class TileEntityFlag extends TileEntityMachineBase {
 		default: return 0;
 		}
 	}
+
+	@Override
+	public Clowder getOwner() {
+		return owner;
+	}
 	
 	public void generateClaim() {
+		
+		TerritoryMeta center = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(xCoord, zCoord));
+		boolean explode = false;
+		
+		if(center != null && center.owner.zone != Zone.FACTION)
+			explode = true;
+		if(center != null && center.owner.zone == Zone.FACTION && center.owner.owner != this.owner)
+			explode = true;
+		
+		if(explode) {
+			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+			worldObj.newExplosion(null, xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, 5.0F, true, true);
+			return;
+		}
 		
 		int rad = getRadius();
 		
@@ -236,7 +263,7 @@ public class TileEntityFlag extends TileEntityMachineBase {
 				
 				if(meta == null || !meta.checkPersistence(worldObj, loc))
 					if(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) < rad)
-						ClowderTerritory.setOwnerForCoord(loc, owner, xCoord, yCoord, zCoord);
+						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
 			}
 		}
 	}

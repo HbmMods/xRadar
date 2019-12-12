@@ -2,6 +2,9 @@ package com.hfr.command;
 
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.ClowderData;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderFlagPacket;
@@ -11,7 +14,6 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -138,10 +140,24 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
-		if(cmd.equals("admin")) {
+		/*if(cmd.equals("admin")) {
 
             MinecraftServer server = MinecraftServer.getServer();
             server.initiateShutdown();
+		}*/
+		
+		if(cmd.equals("retreat")) {
+			cmdRetreat(sender);
+		}
+		
+		if(cmd.equals("sethome")) {
+			cmdSethome(sender);
+			return;
+		}
+		
+		if(cmd.equals("home")) {
+			cmdHome(sender);
+			return;
 		}
 		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
@@ -185,12 +201,15 @@ public class CommandClowder extends CommandBase {
 		if(p == 3) {
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-flag <flag>" + TITLE + " - Changes faction flag"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-listflags" + TITLE + " - Lists availible flags"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "=== TODO ==="));
+			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-sethome" + TITLE + " - Sets the clowder's home point"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-home" + TITLE + " - Teleports to the clowder's home"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-retreat" + TITLE + " - Reatreats after 10 minutes"));
+			/*sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "=== TODO ==="));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcejoin <name>" + TITLE + " - Forcefully joins a faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcekick <name>" + TITLE + " - Forcefully kicks a player from his faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcedisband <name>" + TITLE + " - Forcefully disbands faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-hijack" + TITLE + " - Forcefully overrides leadership"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));*/
 		}
 	}
 	
@@ -245,7 +264,7 @@ public class CommandClowder extends CommandBase {
 
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.name));
 			
-			for(String s : clowder.members)
+			for(String s : clowder.members.keySet())
 				sender.addChatMessage(new ChatComponentText(LIST + s));
 			
 		} else {
@@ -370,7 +389,7 @@ public class CommandClowder extends CommandBase {
 
 			if(clowder.leader.equals(player.getDisplayName())) {
 
-				if(clowder.members.contains(owner)) {
+				if(clowder.members.get(owner) != null) {
 					EntityPlayer newLeader = player.worldObj.getPlayerEntityByName(owner);
 					
 					if(owner != null) {
@@ -542,7 +561,7 @@ public class CommandClowder extends CommandBase {
 
 			if(clowder.leader.equals(player.getDisplayName())) {
 
-				if(clowder.members.contains(kickee)) {
+				if(clowder.members.get(kickee) != null) {
 					
 					if(player.getDisplayName().equals(kickee)) {
 
@@ -598,6 +617,80 @@ public class CommandClowder extends CommandBase {
 				
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "You can not change the color of a faction you do not own!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdRetreat(ICommandSender sender) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			if(!Clowder.retreating.contains(player.getDisplayName())) {
+				
+				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Player " + player.getDisplayName() + "is retreating!"));
+				Clowder.retreating.add(player.getDisplayName());
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You are already retreating!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdSethome(ICommandSender sender) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			if(clowder.leader.equals(player.getDisplayName())) {
+				
+				Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ));
+				
+				if(owner != null && owner.zone == Zone.FACTION && owner.owner == clowder) {
+
+					clowder.setHome(player.posX, player.posY, player.posZ, player);
+					clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Home set!"));
+				} else {
+					sender.addChatMessage(new ChatComponentText(ERROR + "You can not set the home outside of your claimed land!"));
+				}
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You can not set the home of a faction you do not own!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdHome(ICommandSender sender) {
+
+		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+			
+			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ));
+			
+			if(owner != null && (owner.zone == Zone.WARZONE || (owner.zone == Zone.FACTION && owner.owner != clowder))) {
+
+				sender.addChatMessage(new ChatComponentText(ERROR + "You can not teleport home in foreign territory!"));
+				
+			} else {
+				
+				player.mountEntity(null);
+				player.playerNetServerHandler.setPlayerLocation(clowder.homeX + 0.5D, clowder.homeY, clowder.homeZ + 0.5D, player.rotationYaw, player.rotationPitch);
+				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Teleporting home..."));
 			}
 			
 		} else {

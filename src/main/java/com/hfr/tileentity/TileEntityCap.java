@@ -18,7 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityCap extends TileEntityMachineBase {
+public class TileEntityCap extends TileEntityMachineBase implements ITerritoryProvider {
 
 	public String tempown = "";
 	public Clowder owner;
@@ -43,11 +43,11 @@ public class TileEntityCap extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(owner == null && !tempown.isEmpty())
-				owner = Clowder.getClowderFromName(tempown);
-			
 			if(Clowder.clowders.size() == 0)
 				ClowderData.getData(worldObj);
+			
+			if(owner == null && !tempown.isEmpty())
+				owner = Clowder.getClowderFromName(tempown);
 
 			if(!Clowder.clowders.contains(owner))
 				owner = null;
@@ -114,11 +114,16 @@ public class TileEntityCap extends TileEntityMachineBase {
 				this.updateGauge(0xFFFFFF, 0, 100);
 		}
 	}
-	
+
+	@Override
 	public int getRadius() {
 		
 		return 20;
-		//return radius;
+	}
+
+	@Override
+	public Clowder getOwner() {
+		return owner;
 	}
 	
 	public void generateClaim() {
@@ -136,7 +141,7 @@ public class TileEntityCap extends TileEntityMachineBase {
 				
 				if(meta == null || !meta.checkPersistence(worldObj, loc))
 					if(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) < rad)
-						ClowderTerritory.setOwnerForCoord(loc, owner, xCoord, yCoord, zCoord);
+						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
 			}
 		}
 	}

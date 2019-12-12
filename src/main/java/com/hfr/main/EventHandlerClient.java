@@ -12,6 +12,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiChat;
@@ -133,5 +134,12 @@ public class EventHandlerClient {
 		
 		if(cloak != null)
 			player.func_152121_a(Type.CAPE, cloak);
+	}
+	
+	@SubscribeEvent
+	public void renderTick(TickEvent.RenderTickEvent event) {
+		
+		if(event.phase == TickEvent.Phase.START)
+			MainRegistry.smoothing = event.renderTickTime;
 	}
 }

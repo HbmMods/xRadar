@@ -3,6 +3,7 @@ package com.hfr.blocks;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
+import com.hfr.explosion.ExplosionController;
 import com.hfr.explosion.ExplosionNukeRay;
 import com.hfr.tileentity.TileEntityDebug;
 
@@ -39,14 +40,6 @@ public class BlockDebug extends BlockContainer {
 		return false;
 	}
 	
-	/*public Item getItemDropped(int i, Random rand, int j) {
-		return ModItems.uranium;
-	}
-	
-	public int quantityDropped(Random rand) {
-		return rand.nextInt(8) + 1;
-	}*/
-	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
@@ -54,11 +47,15 @@ public class BlockDebug extends BlockContainer {
 			
 			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
 			
+			System.out.println(owner.zone);
 			if(owner.zone == Zone.WILDERNESS) {
-				ClowderTerritory.setZoneForCoord(ClowderTerritory.getCoordPair(x, z), Zone.SAFEZONE);
+				ClowderTerritory.setZoneForCoord(world, ClowderTerritory.getCoordPair(x, z), Zone.SAFEZONE);
 				player.addChatMessage(new ChatComponentText("NOW SAFE ZONE"));
+			} else if(owner.zone == Zone.SAFEZONE) {
+				ClowderTerritory.setZoneForCoord(world, ClowderTerritory.getCoordPair(x, z), Zone.WARZONE);
+				player.addChatMessage(new ChatComponentText("NOW WAR ZONE"));
 			} else {
-				ClowderTerritory.setZoneForCoord(ClowderTerritory.getCoordPair(x, z), Zone.WILDERNESS);
+				ClowderTerritory.setZoneForCoord(world, ClowderTerritory.getCoordPair(x, z), Zone.WILDERNESS);
 				player.addChatMessage(new ChatComponentText("NOW WILDERNESS"));
 			}
 			
@@ -67,6 +64,12 @@ public class BlockDebug extends BlockContainer {
 			DemoThread thread = new DemoThread();
 			thread.explosion = new ExplosionNukeRay(world, x, y, z, 100, (int)(4 * Math.PI * Math.pow(100, 2) * 25));
 			thread.start();*/
+			
+			/*world.setBlockToAir(x, y, z);
+			
+			ExplosionController.registerExplosion(
+				new ExplosionNukeRay(world, x, y, z, 50, (int)(4 * Math.PI * Math.pow(50, 2) * 25))
+			);*/
 			
 			return true;
 		}

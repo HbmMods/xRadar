@@ -169,6 +169,8 @@ public class MainRegistry
 	
 	public static CreativeTabs tab = new CreativeTabHFR(CreativeTabs.getNextID(), "tabHFR");
 	
+	public static float smoothing = 0.0F;
+	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
 	{

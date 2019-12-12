@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hfr.tileentity.TileEntityCap;
-import com.hfr.tileentity.TileEntityFlag;
-import com.hfr.tileentity.TileEntityFlagBig;
+import com.hfr.data.ClowderData;
+import com.hfr.tileentity.ITerritoryProvider;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -19,6 +18,10 @@ public class ClowderTerritory {
 	public static final Ownership SAFEZONE = new Ownership(Zone.SAFEZONE);
 	public static final Ownership WARZONE = new Ownership(Zone.WARZONE);
 	public static final Ownership WILDERNESS = new Ownership(Zone.WILDERNESS);
+
+	public static final int SAFEZONE_COLOR = 0xFF8000;
+	public static final int WARZONE_COLOR = 0xFF0000;
+	public static final int WILDERNESS_COLOR = 0x008000;
 	
 	public static HashMap<Long, TerritoryMeta> territories = new HashMap();
 	
@@ -32,29 +35,43 @@ public class ClowderTerritory {
 	}
 	
 	//sets the owner of a chunk to a clowder
-	public static void setOwnerForCoord(CoordPair coords, Clowder owner, int fX, int fY, int fZ) {
+	public static void setOwnerForCoord(World world, CoordPair coords, Clowder owner, int fX, int fY, int fZ) {
 		
 		long code = coordsToCode(coords);
 		
-		territories.remove(coords);
+		territories.remove(code);
 		
 		Ownership o = new Ownership(Zone.FACTION, owner);
 		TerritoryMeta metadata = new TerritoryMeta(o, fX, fY, fZ);
 		
 		territories.put(code, metadata);
+		ClowderData.getData(world).markDirty();
 	}
 	
 	//sets the owner of a chunk to a special zone
-	public static void setZoneForCoord(CoordPair coords, Zone zone) {
+	public static void setZoneForCoord(World world, CoordPair coords, Zone zone) {
 		
 		long code = coordsToCode(coords);
 		
-		territories.remove(coords);
+		territories.remove(code);
 		
-		Ownership o = new Ownership(zone, null);
-		TerritoryMeta metadata = new TerritoryMeta(o);
+		//do not create wilderness k thx
+		if(zone != Zone.WILDERNESS) {
+			Ownership o = new Ownership(zone, null);
+			TerritoryMeta metadata = new TerritoryMeta(o);
+			
+			territories.put(code, metadata);
+		}
+		ClowderData.getData(world).markDirty();
+	}
+	
+	//sets the owner of a chunk to a special zone
+	public static void removeZoneForCoord(World world, CoordPair coords) {
+
+		long code = coordsToCode(coords);
+		territories.remove(code);
 		
-		territories.put(code, metadata);
+		ClowderData.getData(world).markDirty();
 	}
 	
 	//returns the ownership information of the chunk
@@ -69,7 +86,10 @@ public class ClowderTerritory {
 		
 		Ownership owner = meta.owner;
 		
-		return owner != null ? owner : WILDERNESS;
+		if(owner.zone == Zone.FACTION && owner.owner == null)
+			return WILDERNESS;
+		
+		return owner == null ? WILDERNESS : owner;
 	}
 	
 	//returns the ownership information of the chunk
@@ -78,6 +98,9 @@ public class ClowderTerritory {
 		long code = coordsToCode(coords);
 		
 		TerritoryMeta meta = territories.get(code);
+		
+		if(meta != null && meta.owner.zone == Zone.FACTION && meta.owner.owner == null)
+			meta.owner = WILDERNESS;
 		
 		return meta;
 	}
@@ -165,6 +188,23 @@ public class ClowderTerritory {
 			
 			return ownership;
 		}
+		
+		public int getColor() {
+				
+			switch(zone) {
+			case FACTION:
+				return owner.color;
+			case SAFEZONE:
+				return SAFEZONE_COLOR;
+			case WARZONE:
+				return WARZONE_COLOR;
+			case WILDERNESS:
+				return WILDERNESS_COLOR;
+			
+			}
+			
+			return 0x000000;
+		}
 	}
 	
 	public static enum Zone {
@@ -231,11 +271,23 @@ public class ClowderTerritory {
 			return meta;
 		}
 		
+		public int getColor() {
+			
+			if(owner != null) {
+				return owner.getColor();
+			}
+			
+			return 0x000000;
+		}
+		
 		//chunks will persist if there's an operational flag within its bounds or if the supposedly flag-bearing chunk is not loaded
 		public boolean checkPersistence(World world, CoordPair claim) {
 			
 			if(owner.zone != Zone.FACTION)
 				return true;
+			
+			if(flagY < 0)
+				return false;
 			
 			Clowder own = owner.owner;
 			CoordPair origin = getCoordPair(flagX, flagZ);
@@ -244,45 +296,15 @@ public class ClowderTerritory {
 				
 				TileEntity te = world.getTileEntity(flagX, flagY, flagZ);
 				
-				if(te instanceof TileEntityFlag) {
+				if(te instanceof ITerritoryProvider) {
 					
-					TileEntityFlag flag = (TileEntityFlag)te;
-					
-					int r = flag.getRadius();
-					
-					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
-					
-					if(flag.owner != own) {
-						return false;
-					} else if(dist >= r) {
-						return false;
-					} else {
-						return true;
-					}
-				} else if(te instanceof TileEntityFlagBig) {
-					
-					TileEntityFlagBig flag = (TileEntityFlagBig)te;
+					ITerritoryProvider flag = (ITerritoryProvider)te;
 					
 					int r = flag.getRadius();
 					
 					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
 					
-					if(flag.owner != own) {
-						return false;
-					} else if(dist >= r) {
-						return false;
-					} else {
-						return true;
-					}
-				} else if(te instanceof TileEntityCap) {
-					
-					TileEntityCap cap = (TileEntityCap)te;
-					
-					int r = cap.getRadius();
-					
-					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
-					
-					if(cap.owner != own) {
+					if(flag.getOwner() != own) {
 						return false;
 					} else if(dist >= r) {
 						return false;
@@ -361,8 +383,11 @@ public class ClowderTerritory {
 			
 			TerritoryMeta meta = territories.get(code);
 			
-			nbt.setLong("code_" + index, code);
-			meta.writeToNBT(nbt, "meta_" + index);
+			//do not save wilderness
+			if(meta.owner.zone != Zone.WILDERNESS) {
+				nbt.setLong("code_" + index, code);
+				meta.writeToNBT(nbt, "meta_" + index);
+			}
 			
 			index++;
 		}

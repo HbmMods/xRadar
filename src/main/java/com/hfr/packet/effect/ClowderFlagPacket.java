@@ -2,6 +2,7 @@ package com.hfr.packet.effect;
 
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
+import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.main.MainRegistry;
 
@@ -38,17 +39,17 @@ public class ClowderFlagPacket implements IMessage {
 
 		if(special.equals(Zone.WILDERNESS.toString())) {
 			this.flag = -1;
-			this.color = 0x008000;
+			this.color = ClowderTerritory.WILDERNESS_COLOR;
 			this.name = "Wilderness";
 		}
 		if(special.equals(Zone.SAFEZONE.toString())) {
 			this.flag = -2;
-			this.color = 0xFF8000;
+			this.color = ClowderTerritory.SAFEZONE_COLOR;
 			this.name = "Safe Zone";
 		}
 		if(special.equals(Zone.WARZONE.toString())) {
 			this.flag = -3;
-			this.color = 0xFF0000;
+			this.color = ClowderTerritory.WARZONE_COLOR;
 			this.name = "War Zone";
 		}
 	}

@@ -28,21 +28,22 @@ public class Clowder {
 	public int homeZ;
 	
 	public String leader;
-	public List<String> members = new ArrayList();
+	public HashMap<String, Long> members = new HashMap();
 	public Set<String> applications = new HashSet();
 	
 	public static List<Clowder> clowders = new ArrayList();
 	public static HashMap<String, Clowder> inverseMap = new HashMap();
+	public static HashSet<String> retreating = new HashSet();
 	
 	public boolean addMember(World world, String name) {
 		
 		if(world.getPlayerEntityByName(name) == null)
 			return false;
 		
-		if(inverseMap.containsKey(name) || members.contains(name))
+		if(inverseMap.containsKey(name) || members.get(name) != null)
 			return false;
 		
-		members.add(name);
+		members.put(name, time());
 		inverseMap.put(name, this);
 		
 		ClowderData.getData(world).markDirty();
@@ -52,7 +53,7 @@ public class Clowder {
 	
 	public boolean removeMember(World world, String name) {
 
-		if(!inverseMap.containsKey(name) && !members.contains(name))
+		if(!inverseMap.containsKey(name) && members.get(name) == null)
 			return false;
 		
 		members.remove(name);
@@ -67,7 +68,7 @@ public class Clowder {
 		
 		String key = player.getDisplayName();
 
-		if(!members.contains(key))
+		if(members.get(key) == null)
 			return false;
 		
 		leader = key;
@@ -132,6 +133,19 @@ public class Clowder {
 		return this.leader != "";
 	}
 	
+	public boolean isRaidable() {
+		
+		for(String s : this.members.keySet()) {
+			
+			Long l = this.members.get(s);
+			
+			if(l > System.currentTimeMillis())
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public void saveClowder(int i, NBTTagCompound nbt) {
 		nbt.setString(i + "_name", this.name);
 		nbt.setString(i + "_motd", this.motd);
@@ -144,9 +158,9 @@ public class Clowder {
 		nbt.setString(i + "_leader", this.leader);
 		nbt.setInteger(i + "_members", this.members.size());
 		
-		for(int j = 0; j < this.members.size(); j++) {
+		for(int j = 0; j < this.members.keySet().size(); j++) {
 
-			nbt.setString(i + "_" + j, this.members.get(j));
+			nbt.setString(i + "_" + j, (String) this.members.keySet().toArray()[j]);
 		}
 	}
 	
@@ -166,7 +180,7 @@ public class Clowder {
 		
 		for(int j = 0; j < count; j++) {
 			
-			c.members.add(nbt.getString(i + "_" + j));
+			c.members.put(nbt.getString(i + "_" + j), time());
 		}
 		
 		return c;
@@ -179,7 +193,7 @@ public class Clowder {
 	
 	public void notifyAll(World world, ChatComponentText message) {
 
-		for(String player : this.members) {
+		for(String player : this.members.keySet()) {
 			notifyPlayer(world, player, message);
 		}
 	}
@@ -204,7 +218,7 @@ public class Clowder {
 		inverseMap.clear();
 		
 		for(Clowder clowder : clowders) {
-			for(String member : clowder.members) {
+			for(String member : clowder.members.keySet()) {
 				inverseMap.put(member, clowder);
 			}
 		}
@@ -252,7 +266,7 @@ public class Clowder {
 		Clowder c = new Clowder();
 		c.name = name;
 		c.leader = leader;
-		c.members.add(leader);
+		c.members.put(leader, time());
 		c.color = player.getRNG().nextInt(0x1000000);
 		c.setHome(player.posX, player.posY, player.posZ, player);
 		
@@ -263,5 +277,9 @@ public class Clowder {
 		inverseMap.put(leader, c);
 		
 		ClowderData.getData(player.worldObj).markDirty();
+	}
+	
+	public static long time() {
+		return System.currentTimeMillis();
 	}
 }

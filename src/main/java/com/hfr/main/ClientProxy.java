@@ -10,6 +10,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
 import com.hfr.effect.ParticleContrail;
@@ -24,6 +25,7 @@ import com.hfr.render.*;
 import com.hfr.render.block.*;
 import com.hfr.render.hud.*;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
+import com.hfr.render.item.RenderFlaregun;
 import com.hfr.tileentity.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -108,6 +110,8 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBoxcar.class, new RenderBoxcar());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderFarmer());
+		
+		MinecraftForgeClient.registerItemRenderer(ModItems.flaregun, new RenderFlaregun());
 	}
 	
 	@Override
@@ -166,10 +170,13 @@ public class ClientProxy extends ServerProxy
 	//sfx stands for special effects, not sound effects
 	@Override
 	public void spawnSFX(World world, double posX, double posY, double posZ, int type, Object payload) {
+		
+		int part = Minecraft.getMinecraft().gameSettings.particleSetting;
 
 		switch(type) {
 		
-		case 0:
+		/// RAILGUN BLAST ///
+		case SFX_RAILGUN:
 			int pow = 250;
 			float angle = 25;
 			float base = 0.5F;
@@ -190,6 +197,50 @@ public class ClientProxy extends ServerProxy
 				
 				Minecraft.getMinecraft().effectRenderer.addEffect(blast);
 			}
+			break;
+			
+		/// CLOWDER BORDER ///
+		case SFX_BORDER:
+			if(!(payload instanceof int[]))
+				return;
+			
+			int[] pl = (int[]) payload;
+			
+			if(pl.length != 5)
+				return;
+
+			int x1 = pl[0];
+			int z1 = pl[1];
+			int x2 = pl[2];
+			int z2 = pl[3];
+			int color = pl[4];
+
+		    //float r = ((color & 0xFF0000) >> 16) / 256F;
+		    //float g = ((color & 0xFF00) >> 8) / 256F;
+		    //float b = (color & 0xFF) / 256F;
+
+		    float r = Math.max(((color & 0xFF0000) >> 16) / 256F, 0.01F);
+		    float g = Math.max(((color & 0xFF00) >> 8) / 256F, 0.01F);
+		    float b = Math.max((color & 0xFF) / 256F, 0.01F);
+			
+			int a = 5;
+			
+			if(part == 1)
+				a = 2;
+			
+			if(part == 2)
+				a = 1;
+			
+			for(int i = 0; i < a; i++) {
+				double xs = x1 + (x2 - x1) * world.rand.nextDouble();
+				double zs = z1 + (z2 - z1) * world.rand.nextDouble();
+				double ys = world.getHeightValue((int)xs, (int)zs - 1) + 0.25;// + 1.5D + world.rand.nextGaussian();
+				
+				EntityReddustFX fx = new EntityReddustFX(world, xs, ys, zs, r, g, b);
+				fx.motionY = 0.1;
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
+			
 			break;
 			
 		default: break;

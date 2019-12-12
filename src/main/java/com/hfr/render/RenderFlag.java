@@ -6,6 +6,7 @@ import com.hfr.clowder.ClowderFlag;
 import com.hfr.main.ResourceManager;
 import com.hfr.tileentity.TileEntityFlag;
 
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -59,13 +60,20 @@ public class RenderFlag extends TileEntitySpecialRenderer {
         GL11.glTranslatef(0, -4F, 0);
         GL11.glTranslatef(0, flagpole.height * 4, 0);
 
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        
         bindTexture(flag.getFlag());
         GL11.glColor3b((byte)r, (byte)g, (byte)b);
         ResourceManager.flag.renderOnly("Flag");
-        
+
 	    bindTexture(flag.getFlagOverlay());
 	    GL11.glColor3b((byte)127, (byte)127, (byte)127);
 	    ResourceManager.flag.renderOnly("Flag");
+	    
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glDisable(GL11.GL_BLEND);
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();

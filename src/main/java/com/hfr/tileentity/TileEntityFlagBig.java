@@ -19,7 +19,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityFlagBig extends TileEntityMachineBase {
+public class TileEntityFlagBig extends TileEntityMachineBase implements ITerritoryProvider {
 
 	public String tempown = "";
 	public Clowder owner;
@@ -47,11 +47,11 @@ public class TileEntityFlagBig extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(owner == null && !tempown.isEmpty())
-				owner = Clowder.getClowderFromName(tempown);
-			
 			if(Clowder.clowders.size() == 0)
 				ClowderData.getData(worldObj);
+			
+			if(owner == null && !tempown.isEmpty())
+				owner = Clowder.getClowderFromName(tempown);
 			
 			//remove disbanded clowders
 			if(!Clowder.clowders.contains(owner))
@@ -143,12 +143,12 @@ public class TileEntityFlagBig extends TileEntityMachineBase {
 				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
 				double y = yCoord + 0.125 + worldObj.rand.nextDouble() * 0.5D;
 				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
-	
-			    int r = ((color & 0xFF0000) >> 16) / 2;
-			    int g = ((color & 0xFF00) >> 8) / 2;
-			    int b = (color & 0xFF) / 2;
+
+			    float r = Math.max(((color & 0xFF0000) >> 16) / 256F, 0.01F);
+			    float g = Math.max(((color & 0xFF00) >> 8) / 256F, 0.01F);
+			    float b = Math.max((color & 0xFF) / 256F, 0.01F);
 				
-				worldObj.spawnParticle("reddust", x, y, z, r * 1F / 128D, g * 1F / 128D, b * 1F / 128D);
+				worldObj.spawnParticle("reddust", x, y, z, r, g, b);
 			}
 		}
 	}
@@ -174,10 +174,16 @@ public class TileEntityFlagBig extends TileEntityMachineBase {
 		case 3: height = val * 0.01F; break;
 		}
 	}
-	
+
+	@Override
 	public int getRadius() {
 		
 		return 20;
+	}
+
+	@Override
+	public Clowder getOwner() {
+		return owner;
 	}
 	
 	public void generateClaim() {
@@ -195,7 +201,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase {
 				
 				if(meta == null || !meta.checkPersistence(worldObj, loc))
 					if(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) < rad)
-						ClowderTerritory.setOwnerForCoord(loc, owner, xCoord, yCoord, zCoord);
+						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
 			}
 		}
 	}

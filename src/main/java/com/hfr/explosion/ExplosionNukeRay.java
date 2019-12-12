@@ -143,6 +143,69 @@ public class ExplosionNukeRay {
 		processed += count;
 	}
 	
+	public List<int[]> processTipCNB(int count) {
+		
+		int processedBlocks = 0;
+		int braker = 0;
+		
+		List<int[]> poss = new ArrayList();
+		
+		for(int l = 0; l < Integer.MAX_VALUE; l++) {
+			
+			System.out.println("lööp");
+
+			if(processedBlocks >= count)
+				return null;
+			
+			if(braker >= count * 50)
+				return null;
+
+			
+			System.out.println("aff -1");
+            if(l > affectedBlocks.size() - 1)
+            	break;
+    		
+    		System.out.println("post");
+            
+            if(affectedBlocks.isEmpty())
+            	return null;
+            
+            int in = affectedBlocks.size() - 1;
+            
+			float x = affectedBlocks.get(in).xCoord;
+			float y = affectedBlocks.get(in).yCoord;
+			float z = affectedBlocks.get(in).zCoord;
+			
+			poss.add(new int[] {(int)x, (int)y, (int)z, world.provider.dimensionId});
+			
+			Vec3 vec = Vec3.createVectorHelper(x - this.posX, y - this.posY, z - this.posZ);
+			double pX = vec.xCoord / vec.lengthVector();
+			double pY = vec.yCoord / vec.lengthVector();
+			double pZ = vec.zCoord / vec.lengthVector();
+			
+			for(int i = 0; i < vec.lengthVector(); i ++) {
+				int x0 = (int)(posX + pX * i);
+				int y0 = (int)(posY + pY * i);
+				int z0 = (int)(posZ + pZ * i);
+				
+				if(!world.isAirBlock(x0, y0, z0)) {
+					poss.add(new int[] {(int)x, (int)y, (int)z, world.provider.dimensionId});
+					processedBlocks++;
+				}
+				
+				braker++;
+			}
+			
+			affectedBlocks.remove(in);
+		}
+		
+		processed += count;
+		
+		System.out.println(poss.size() + " poss");
+		
+		return poss;
+	}
+	
 	public void collectTip(int count) {
 		
 		for(int k = 0; k < count; k++) {

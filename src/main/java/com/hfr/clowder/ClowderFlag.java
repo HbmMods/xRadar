@@ -16,7 +16,9 @@ public enum ClowderFlag {
 	BCROSS("bcross"),
 	WCROSS("wcross"),
 	USA("usa"),
+	JULIA("julia"),
 	VOLTZ("voltz", false),
+	USSR("ussr", false),
 	ASTERISK("asterisk", false),
 	PONYCUM("pc", false);
 

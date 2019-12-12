@@ -337,10 +337,8 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
     {
         if(!worldObj.isRemote && loaderTicket != null)
         {
-            for(ChunkCoordIntPair chunk : loadedChunks)
-            {
-                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-            }
+        	
+        	List<ChunkCoordIntPair> oldChunks = new ArrayList<ChunkCoordIntPair>(loadedChunks);
 
             loadedChunks.clear();
             loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
@@ -352,10 +350,34 @@ public abstract class EntityMissileBaseSimple extends Entity implements IChunkLo
             loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
             loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
             loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+            
+            //only unforce chunks that won't be forced again right away
+            oldChunks.removeAll(loadedChunks);
+        	
+            for(ChunkCoordIntPair chunk : oldChunks)
+            {
+                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+            }
 
+            //only force chunks that have not yet been forced
             for(ChunkCoordIntPair chunk : loadedChunks)
             {
-                ForgeChunkManager.forceChunk(loaderTicket, chunk);
+            	if(!loaderTicket.getChunkList().contains(chunk))
+            		ForgeChunkManager.forceChunk(loaderTicket, chunk);
+            }
+        }
+    }
+    
+    @Override
+    public void setDead() {
+    	super.setDead();
+
+        if(!worldObj.isRemote && loaderTicket != null) {
+        	
+        	//unforce all chunks for this entity when it dies
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
             }
         }
     }
