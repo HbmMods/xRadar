@@ -129,6 +129,18 @@ public class Clowder {
 		
 	}
 	
+	public boolean disbandClowder(World world) {
+		
+		clowders.remove(this);
+		recalculateIMap();
+		this.leader = "";
+		
+		ClowderData.getData(world).markDirty();
+		
+		return true;
+		
+	}
+	
 	public boolean valid() {
 		return this.leader != "";
 	}

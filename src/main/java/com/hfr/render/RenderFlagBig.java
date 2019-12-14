@@ -53,6 +53,7 @@ public class RenderFlagBig extends TileEntitySpecialRenderer {
 	    int g = ((color & 0xFF00) >> 8) / 2;
 	    int b = (color & 0xFF) / 2;
 
+	    //rainbow mode
 	    /*r = (int) (System.currentTimeMillis() / 10 % 0x100);
 	    g = (int) (System.currentTimeMillis() / 10 + 42 % 0x100);
 	    b = (int) (System.currentTimeMillis() / 10 + 85 % 0x100);*/

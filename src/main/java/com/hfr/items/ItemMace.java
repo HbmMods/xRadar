@@ -29,6 +29,8 @@ public class ItemMace extends ItemPickaxe {
 		add(ModBlocks.machine_uni);
 		add(ModBlocks.rbmk_element);
 		add(ModBlocks.rbmk_rods);
+
+		add(ModBlocks.clowder_flag);
 	}};
 
 	public static final List<Block> breakOverride = new ArrayList() {{

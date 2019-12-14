@@ -60,8 +60,6 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				return;
 			}
 			
-			//TODO: test returns
-			
 			//remove disbanded clowders
 			if(!Clowder.clowders.contains(owner))
 				owner = null;

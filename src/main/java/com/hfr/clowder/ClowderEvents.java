@@ -1,6 +1,5 @@
 package com.hfr.clowder;
 
-import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
@@ -128,7 +127,7 @@ public class ClowderEvents {
 		EntityPlayer player = event.entityPlayer;
 		Block b = event.world.getBlock(x, y, z);
 		
-		if(event.action == Action.RIGHT_CLICK_BLOCK && b != ModBlocks.clowder_flag) {
+		if(event.action == Action.RIGHT_CLICK_BLOCK) {
 			
 			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
 			
@@ -137,8 +136,15 @@ public class ClowderEvents {
 				
 				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 					
-					if(!(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b)))
+					System.out.println("e");
+					
+					if(!(
+							player.getHeldItem() != null &&
+							player.getHeldItem().getItem() == ModItems.mace &&
+							ItemMace.interactOverride.contains(b)
+						)) {
 						event.setCanceled(true);
+					}
 				}
 			}
 		}
@@ -182,79 +188,6 @@ public class ClowderEvents {
 		}
 		
 		player.getEntityData().setString(NBTKEY, name);
-	}
-	
-	/**
-	 * Creates a clientside particle border around territories (heavily WIP).
-	 * @param world
-	 * @param player
-	 */
-	private void particleBorder(World world, EntityPlayer player) {
-
-		int oX = (int)player.posX;
-		int oZ = (int)player.posZ - 1;
-
-		Ownership north = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.NORTH.offsetX * 16, oZ + ForgeDirection.NORTH.offsetZ * 16));
-		Ownership south = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.SOUTH.offsetX * 16, oZ + ForgeDirection.SOUTH.offsetZ * 16));
-		Ownership east = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.EAST.offsetX * 16, oZ + ForgeDirection.EAST.offsetZ * 16));
-		Ownership west = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(oX + ForgeDirection.WEST.offsetX * 16, oZ + ForgeDirection.WEST.offsetZ * 16));
-		Ownership center = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(oX, (int)player.posZ));
-
-		boolean n = isTerritoryDifferent(north, center);
-		boolean s = isTerritoryDifferent(south, center);
-		boolean e = isTerritoryDifferent(east, center);
-		boolean w = isTerritoryDifferent(west, center);
-
-		int x = (int)player.posX - ((int)player.posX % 16);
-		int z = (int)player.posZ - ((int)player.posZ % 16);
-		
-		if(n) {
-			for(int i = 0; i < 16; i++) {
-
-				double spanX = x + ForgeDirection.NORTH.offsetX * 16 + ForgeDirection.WEST.offsetX * world.rand.nextDouble() * 16 + 16;
-				double spanZ = z + ForgeDirection.NORTH.offsetZ * 16 + ForgeDirection.WEST.offsetZ * world.rand.nextDouble() * 16;
-				
-				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
-				
-				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
-			}
-		}
-		
-		if(s) {
-			for(int i = 0; i < 16; i++) {
-
-				double spanX = x + ForgeDirection.SOUTH.offsetX * 16 - ForgeDirection.WEST.offsetX * world.rand.nextDouble() * 16;
-				double spanZ = z + ForgeDirection.SOUTH.offsetZ * 16 - ForgeDirection.WEST.offsetZ * world.rand.nextDouble() * 16 - 16;
-				
-				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
-				
-				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
-			}
-		}
-		
-		if(e) {
-			for(int i = 0; i < 16; i++) {
-
-				double spanX = x + ForgeDirection.EAST.offsetX * 16 + ForgeDirection.NORTH.offsetX * world.rand.nextDouble() * 16;
-				double spanZ = z + ForgeDirection.EAST.offsetZ * 16 + ForgeDirection.NORTH.offsetZ * world.rand.nextDouble() * 16;
-				
-				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
-				
-				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
-			}
-		}
-		
-		if(w) {
-			for(int i = 0; i < 16; i++) {
-
-				double spanX = x + ForgeDirection.WEST.offsetX * 16 + ForgeDirection.NORTH.offsetX * world.rand.nextDouble() * 16 + 16;
-				double spanZ = z + ForgeDirection.WEST.offsetZ * 16 + ForgeDirection.NORTH.offsetZ * world.rand.nextDouble() * 16;
-				
-				double y = world.getHeightValue((int)spanX, (int)spanZ) + world.rand.nextGaussian();
-				
-				MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, spanX, y + 1.5, spanZ, 3);
-			}
-		}
 	}
 	
 	/**

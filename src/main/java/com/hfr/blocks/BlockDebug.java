@@ -3,7 +3,6 @@ package com.hfr.blocks;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
-import com.hfr.explosion.ExplosionController;
 import com.hfr.explosion.ExplosionNukeRay;
 import com.hfr.tileentity.TileEntityDebug;
 

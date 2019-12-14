@@ -102,6 +102,9 @@ public class ClowderTerritory {
 		if(meta != null && meta.owner.zone == Zone.FACTION && meta.owner.owner == null)
 			meta.owner = WILDERNESS;
 		
+		if(meta != null && meta.owner == WILDERNESS)
+			return null;
+		
 		return meta;
 	}
 
@@ -370,7 +373,8 @@ public class ClowderTerritory {
 			long code = nbt.getLong("code_" + i);
 			TerritoryMeta meta = TerritoryMeta.readFromNBT(nbt, "meta_" + i);
 			
-			territories.put(code, meta);
+			if(meta != null && meta.owner.zone != Zone.WILDERNESS)
+				territories.put(code, meta);
 		}
 	}
 	

@@ -55,6 +55,8 @@ public class RenderFlaregun implements IItemRenderer {
 			GL11.glRotatef(45, -1, 0, 0);
 			GL11.glScalef(-1, 1, 1);
 			break;
+		default:
+			break;
 		
 		}
 
