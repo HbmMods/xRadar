@@ -104,6 +104,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeMK3());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRailgunBlast.class, new RenderTom());
 		RenderingRegistry.registerEntityRenderingHandler(EntityShell.class, new RenderTom());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFlare.class, new RenderEmpty());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGas.class, new RenderSnowball(ModItems.grenade_gas));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
@@ -160,6 +161,10 @@ public class ClientProxy extends ServerProxy
 		case 5:
 			EntityCloudFX fx4 = new EntityCloudFX(world, posX, posY, posZ, 0, 0, 0);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx4);
+			break;
+		case 6:
+			EntityReddustFX fx5 = new EntityReddustFX(world, posX, posY, posZ, 0, 0, 0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx5);
 			break;
 			
 		default: break;

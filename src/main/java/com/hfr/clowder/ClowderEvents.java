@@ -5,7 +5,6 @@ import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
 import com.hfr.items.ItemMace;
 import com.hfr.items.ModItems;
-import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderBorderPacket;
 import com.hfr.packet.effect.ClowderFlagPacket;
@@ -135,8 +134,6 @@ public class ClowderEvents {
 				Clowder clowder = Clowder.getClowderFromPlayer(event.entityPlayer);
 				
 				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
-					
-					System.out.println("e");
 					
 					if(!(
 							player.getHeldItem() != null &&

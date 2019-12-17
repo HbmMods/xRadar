@@ -2,33 +2,38 @@ package com.hfr.blocks.machine;
 
 import java.util.Random;
 
+import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.handler.MultiblockHandler;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.TileEntityMachineUni;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineUni extends BlockContainer {
+public class MachineUni extends BlockDummyable {
 
 	public MachineUni(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineUni();
+	public TileEntity createNewTileEntity(World world, int meta) {
+		
+		//only cores with the "UNKNOWN" metadata can carry a tile entity
+		if(meta >= ForgeDirection.UNKNOWN.ordinal())
+			return new TileEntityMachineUni();
+		
+		return null;
 	}
 	
 	@Override
@@ -46,7 +51,7 @@ public class MachineUni extends BlockContainer {
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
@@ -62,7 +67,7 @@ public class MachineUni extends BlockContainer {
 		if (i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
-	}
+	}*/
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -71,7 +76,12 @@ public class MachineUni extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_uni, world, x, y, z);
+			int[] pos = this.findCore(world, x, y, z);
+			
+			if(pos == null)
+				return false;
+			
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_uni, world, pos[0], pos[1], pos[2]);
 			return true;
 		} else {
 			return true;
@@ -132,5 +142,15 @@ public class MachineUni extends BlockContainer {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+
+	@Override
+	public int[] getDimensions() {
+		return MultiblockHandler.uni;
+	}
+
+	@Override
+	public int getOffset() {
+		return 4;
+	}
 
 }

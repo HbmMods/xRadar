@@ -2,6 +2,7 @@ package com.hfr.render;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.blocks.BlockDummyable;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -16,12 +17,12 @@ public class RenderUni extends TileEntitySpecialRenderer {
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glRotatef(90, 0F, 1F, 0F);
+        //GL11.glRotatef(90, 0F, 1F, 0F);
         
-        float scale = 9F;
+        float scale = 1F;
         GL11.glScalef(scale, scale, scale);
 
-		switch(tile.getBlockMetadata())
+		switch(tile.getBlockMetadata() - BlockDummyable.offset)
 		{
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
 		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;

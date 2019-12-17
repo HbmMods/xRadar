@@ -100,6 +100,7 @@ public class ModItems {
 	public static Item mace;
 	public static Item clowder_map;
 	public static Item flaregun;
+	public static Item flare;
 
 	public static Item sexlol;
 	public static Item canned_spam;
@@ -192,7 +193,8 @@ public class ModItems {
 		
 		mace = new ItemMace().setUnlocalizedName("mace").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mace");
 		clowder_map = new ItemMap().setUnlocalizedName("clowder_map").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_map");
-		flaregun = new ItemLore().setUnlocalizedName("flaregun").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
+		flaregun = new ItemFlaregun().setUnlocalizedName("flaregun").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
+		flare = new ItemLore().setUnlocalizedName("flare").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":flare");
 		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
 		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
@@ -248,6 +250,7 @@ public class ModItems {
 		GameRegistry.registerItem(mace, mace.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_map, clowder_map.getUnlocalizedName());
 		GameRegistry.registerItem(flaregun, flaregun.getUnlocalizedName());
+		GameRegistry.registerItem(flare, flare.getUnlocalizedName());
 		
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());

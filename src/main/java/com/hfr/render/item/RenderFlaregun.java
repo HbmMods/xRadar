@@ -2,6 +2,7 @@ package com.hfr.render.item;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.items.ItemFlaregun;
 import com.hfr.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,8 @@ public class RenderFlaregun implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		
 		GL11.glPushMatrix();
+		
+		boolean open = ItemFlaregun.getState(item) == 1;
 		
 		switch(type) {
 		case ENTITY:
@@ -66,7 +69,9 @@ public class RenderFlaregun implements IItemRenderer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.flaregun_tex);
 		ResourceManager.flaregun.renderPart("Body");
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.flaregun_barrel_tex);
-		GL11.glRotatef(0, 1, 0, 0);
+		
+		if(open)
+			GL11.glRotatef(45, 1, 0, 0);
 		ResourceManager.flaregun.renderPart("Barrel");
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

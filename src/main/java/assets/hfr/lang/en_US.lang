@@ -53,7 +53,7 @@ tile.gas_duct.name=Gas Pipe
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
 tile.temp.name=Temporary Block
-tile.uni_foundation.name=University Foundation Block
+tile.uni_foundation.name=Foundation Block
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
 
@@ -124,6 +124,7 @@ item.detonator.name=Detonator
 item.mace.name=Hammer of Raiding
 item.clowder_map.name=Clowder Map
 item.flaregun.name=Flare Gun
+item.flare.name=Flare Cartridge
 
 item.missile_he_1.name=Tier 1 HE Missile
 item.missile_he_2.name=Tier 2 HE Missile
