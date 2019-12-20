@@ -1,14 +1,17 @@
 package com.hfr.blocks;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hfr.handler.MultiblockHandler;
+import com.hfr.util.ThreeInts;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -24,7 +27,7 @@ public abstract class BlockDummyable extends BlockContainer {
 	
 	//0-5 		dummy rotation 		(none unused)
 	//6-9 		extra 				(4 rotations with flag)
-	//10-15 	block rotation 		(2 unused)
+	//10-15 	block rotation 		(10 and 11 unused)
 	
 	public static final int offset = 10;
 	
@@ -48,19 +51,20 @@ public abstract class BlockDummyable extends BlockContainer {
     	return findCoreRec(world, x, y, z);
     }
     
-    Set<int[]> positions = new HashSet();
+    List<ThreeInts> positions = new ArrayList();
     public int[] findCoreRec(World world, int x, int y, int z) {
     	
-    	int[] pos = new int[] { x, y, z };
+    	ThreeInts pos = new ThreeInts(x, y, z);
     	
     	//if the block matches and the orientation is "UNKNOWN", it's the core
     	if(world.getBlock(x, y, z) == this && ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)) == ForgeDirection.UNKNOWN)
-    		return pos;
+    		return new int[] { x, y, z };
     	
     	if(positions.contains(pos))
     		return null;
 
     	ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+    	
     	Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
     	
     	if(b != this) {
@@ -74,6 +78,11 @@ public abstract class BlockDummyable extends BlockContainer {
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		
+		if(!(player instanceof EntityPlayer))
+			return;
+		
+		EntityPlayer pl = (EntityPlayer) player;
 		
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		int o = -getOffset();
@@ -102,7 +111,24 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 		
 		if(!MultiblockHandler.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir)) {
-			world.func_147480_a(x, y, z, true);
+			//world.func_147480_a(x, y, z, true);
+			world.setBlockToAir(x, y, z);
+			
+			if(!pl.capabilities.isCreativeMode) {
+				ItemStack stack = pl.inventory.mainInventory[pl.inventory.currentItem];
+				Item item = Item.getItemFromBlock(this);
+				
+				if(stack == null) {
+					pl.inventory.mainInventory[pl.inventory.currentItem] = new ItemStack(this);
+				} else {
+					if(stack.getItem() != item || stack.stackSize == stack.getMaxStackSize()) {
+						pl.inventory.addItemStackToInventory(new ItemStack(this));
+					} else {
+						pl.getHeldItem().stackSize++;
+					}
+				}
+			}
+			
 			return;
 		}
 		
@@ -115,12 +141,9 @@ public abstract class BlockDummyable extends BlockContainer {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i)
     {
-		System.out.println("" + i);
-		
 		if(i >= ForgeDirection.UNKNOWN.ordinal()) {
-			ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset);
-			MultiblockHandler.emptySpace(world, x, y, z, getDimensions(), this, d);
-			System.out.println("core!");
+			//ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset);
+			//MultiblockHandler.emptySpace(world, x, y, z, getDimensions(), this, d);
 		} else {
 
 	    	ForgeDirection dir = ForgeDirection.getOrientation(i).getOpposite();
@@ -129,15 +152,28 @@ public abstract class BlockDummyable extends BlockContainer {
 			if(pos != null) {
 
 				ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(pos[0], pos[1], pos[2]) - offset);
-				System.out.println("found core!");
 				world.setBlockToAir(pos[0], pos[1], pos[2]);
-				//MultiblockHandler.emptySpace(world, pos[0], pos[1], pos[2], getDimensions(), this, d);
 			}
 		}
 		
 		
 		super.breakBlock(world, x, y, z, b, i);
     }
+	
+	@Override
+	public int getRenderType(){
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
 	public abstract int[] getDimensions();
 	public abstract int getOffset();

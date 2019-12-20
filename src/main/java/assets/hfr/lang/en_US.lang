@@ -4,6 +4,7 @@ potion.hfr_emp=EMP
 
 death.attack.blast=%1$s was obliterated.
 death.attack.zyklon=%1$s died from natural causes.
+death.attack.wire=%1$s got tangled in barbed wire.
 
 hfr_steam.name=Steam
 
@@ -53,9 +54,11 @@ tile.gas_duct.name=Gas Pipe
 tile.concrete.name=Concrete
 tile.concrete_bricks.name=Concrete Bricks
 tile.temp.name=Temporary Block
-tile.uni_foundation.name=Foundation Block
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
+
+tile.uni_foundation.name=Foundation Block
+tile.asphalt.name=Asphalt Road
 
 tile.seal_controller.name=Silo Hatch Controller
 tile.seal_frame.name=Silo Hatch Frame
@@ -69,6 +72,13 @@ tile.chlorine_gas.name=Mustard Gas
 
 tile.hydro_wall.name=Hydroelectric Dam Wall
 tile.hydro_turbine.name=Hydroelectric Dam Turbine
+
+tile.hesco_block.name=HESCO Terrablock
+tile.palisade.name=Palisade
+tile.stone_wall.name=Stone Wall
+tile.brick_wall.name=Brick Wall
+tile.great_wall.name=Great Wall
+tile.berlin_wall.name=Berlin Wall
 
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad

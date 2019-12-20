@@ -1,4 +1,4 @@
-package com.hfr.blocks.machine;
+package com.hfr.blocks.props;
 
 import java.util.Random;
 

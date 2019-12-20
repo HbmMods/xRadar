@@ -41,11 +41,6 @@ public class EntityFlare extends Entity {
 			if (!this.worldObj.isRemote) {
 	        	this.setLocationAndAngles(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ, 0, 0);
 
-	    		//EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
-	        	//worldObj.newExplosion(scapegoat, posX, posY, posZ, 8F, false, true);
-	        	//worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, 45, MainRegistry.navalDamage, 5, 3, false));
-	        	//System.out.println(posX + " " + posY + " " + posZ);
-
 	        	for(int i = 0; i < 10; i++) {
 	        		PacketDispatcher.wrapper.sendToAllAround(new ClowderBorderPacket((int)posX, (int)posZ + 16, (int)posX, (int)posZ - 16, 0xFF0000), new TargetPoint(dimension, posX, posY, posZ, 100));
 	        		PacketDispatcher.wrapper.sendToAllAround(new ClowderBorderPacket((int)posX - 16, (int)posZ, (int)posX + 16, (int)posZ, 0xFF0000), new TargetPoint(dimension, posX, posY, posZ, 100));

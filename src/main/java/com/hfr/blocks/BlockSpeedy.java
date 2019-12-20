@@ -8,8 +8,11 @@ import net.minecraft.world.World;
 
 public class BlockSpeedy extends Block {
 	
-	protected BlockSpeedy(Material p_i45394_1_) {
+	double speed = 0D;
+	
+	protected BlockSpeedy(Material p_i45394_1_, double speed) {
 		super(p_i45394_1_);
+		this.speed = speed;
 	}
 
 	@Override
@@ -19,8 +22,8 @@ public class BlockSpeedy extends Block {
 
 			double tan = Math.atan2(e.motionX, e.motionZ);
 			
-			e.motionX += Math.sin(tan) * 0.15;
-			e.motionZ += Math.cos(tan) * 0.15;
+			e.motionX += Math.sin(tan) * speed;
+			e.motionZ += Math.cos(tan) * speed;
 		}
 	}
 

@@ -156,4 +156,17 @@ public class ResourceManager {
 	public static final IModelCustom flaregun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/flaregun.obj"));
 	public static final ResourceLocation flaregun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flaregun.png");
 	public static final ResourceLocation flaregun_barrel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flaregun_barrel.png");
+	
+	//TMT
+	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
+	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));
+	public static final ResourceLocation tmt_berliner = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_berliner.png");
+	public static final ResourceLocation tmt_brickwall = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_brickwall.png");
+	public static final ResourceLocation tmt_greatwall = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_greatwall.png");
+	public static final ResourceLocation tmt_hescoblock = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_hescoblock.png");
+	public static final ResourceLocation tmt_medtent = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_medtent.png");
+	public static final ResourceLocation tmt_palisade = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_palisade.png");
+	public static final ResourceLocation tmt_stonewall = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_stonewall.png");
+	public static final ResourceLocation tmt_tptent = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_tptent.png");
+	public static final ResourceLocation tmt_statue = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/SkinSamothrace.png");
 }

@@ -9,13 +9,11 @@ import com.hfr.render.hud.RenderFlagOverlay;
 import com.hfr.render.hud.RenderRadarScreen;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -54,7 +52,7 @@ public class EventHandlerClient {
 					Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
 			
 			/// START KEYBINDS ///
-			if(!FMLClientHandler.instance().isGUIOpen(GuiChat.class)) {
+			if(/*!FMLClientHandler.instance().isGUIOpen(GuiChat.class)*/ Minecraft.getMinecraft().currentScreen == null) {
 				
 				//flans radar zoom
 				if(Keyboard.isKeyDown(ClientProxy.toggleZoom.getKeyCode())) {

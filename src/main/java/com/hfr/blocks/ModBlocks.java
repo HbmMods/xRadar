@@ -2,6 +2,7 @@ package com.hfr.blocks;
 
 import com.hfr.blocks.door.*;
 import com.hfr.blocks.machine.*;
+import com.hfr.blocks.props.*;
 import com.hfr.blocks.weapon.*;
 import com.hfr.items.*;
 import com.hfr.lib.RefStrings;
@@ -23,6 +24,7 @@ public class ModBlocks {
 	public static Block concrete_bricks;
 	public static Block temp;
 	public static Block uni_foundation;
+	public static Block asphalt;
 
 	public static Block ore_oil;
 	public static Block ore_oil_empty;
@@ -78,6 +80,13 @@ public class ModBlocks {
 	public static Block clowder_flag_big;
 	public static final int guiID_flag_big = 19;
 
+	public static Block hesco_block;
+	public static Block palisade;
+	public static Block stone_wall;
+	public static Block brick_wall;
+	public static Block great_wall;
+	public static Block berlin_wall;
+
 	public static Block block_graphite;
 	public static Block block_boron;
 
@@ -113,7 +122,8 @@ public class ModBlocks {
 		concrete = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete").setHardness(5.0F).setResistance(1000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete");
 		concrete_bricks = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_bricks").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_bricks");
 		temp = new BlockTemporary(Material.ground).setStepSound(Block.soundTypeGravel).setBlockName("temp").setHardness(1.0F).setResistance(1.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":dirt_alt");
-		uni_foundation = new BlockSpeedy(Material.rock).setStepSound(soundTypeConcrete).setBlockName("uni_foundation").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":uni_foundation");
+		uni_foundation = new BlockSpeedy(Material.rock, 0.15D).setStepSound(soundTypeConcrete).setBlockName("uni_foundation").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":uni_foundation");
+		asphalt = new BlockSpeedy(Material.rock, 0.25D).setStepSound(soundTypeConcrete).setBlockName("asphalt").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":asphalt");
 
 		ore_oil = new BlockGeneric(Material.rock).setBlockName("ore_oil").setHardness(1.0F).setResistance(5.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_oil");
 		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setHardness(1.0F).setResistance(5.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
@@ -164,6 +174,13 @@ public class ModBlocks {
 		clowder_flag = new Flag(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_flag").setHardness(5.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":clowder_flag");
 		clowder_cap = new Cap(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_cap").setHardness(5.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":clowder_cap");
 		clowder_flag_big = new FlagBig(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_flag_big").setHardness(5.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":clowder_flag_big");
+		
+		hesco_block = new PropHesco(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("hesco_block").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hesco_block");
+		palisade = new PropPalisade(Material.wood).setStepSound(Block.soundTypeWood).setBlockName("palisade").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":palisade");
+		stone_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("stone_wall").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":stone_wall");
+		brick_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("brick_wall").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":brick_wall");
+		great_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("great_wall").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":great_wall");
+		berlin_wall = new PropBerlin(Material.rock).setStepSound(soundTypeConcrete).setBlockName("berlin_wall").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":berlin_wall");
 
 		debug = new BlockDebug(Material.cloth).setStepSound(soundTypeMetal).setBlockName("debug").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":debug");
 	}
@@ -173,7 +190,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(concrete, concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_bricks, concrete_bricks.getUnlocalizedName());
 		GameRegistry.registerBlock(temp, temp.getUnlocalizedName());
-		GameRegistry.registerBlock(uni_foundation, uni_foundation.getUnlocalizedName());
+		GameRegistry.registerBlock(uni_foundation, ItemBlockLore.class, uni_foundation.getUnlocalizedName());
+		GameRegistry.registerBlock(asphalt, ItemBlockLore.class, asphalt.getUnlocalizedName());
 
 		GameRegistry.registerBlock(ore_oil, ore_oil.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil_empty, ore_oil_empty.getUnlocalizedName());
@@ -183,7 +201,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
 		GameRegistry.registerBlock(seal_hatch, seal_hatch.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(vault_door, ItemRadarBlock.class, vault_door.getUnlocalizedName());
+		GameRegistry.registerBlock(vault_door, ItemBlockUnstackable.class, vault_door.getUnlocalizedName());
 		GameRegistry.registerBlock(vault_door_dummy, vault_door_dummy.getUnlocalizedName());
 
 		GameRegistry.registerBlock(hydro_wall, hydro_wall.getUnlocalizedName());
@@ -196,15 +214,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(machine_radar, ItemRadarBlock.class, machine_radar.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_radar, ItemBlockUnstackable.class, machine_radar.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_forcefield, ItemRadarBlock.class, machine_forcefield.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_emp, ItemRadarBlock.class, machine_emp.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_derrick, ItemRadarBlock.class, machine_derrick.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_refinery, ItemRadarBlock.class, machine_refinery.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_forcefield, ItemBlockUnstackable.class, machine_forcefield.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_emp, ItemBlockUnstackable.class, machine_emp.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_derrick, ItemBlockUnstackable.class, machine_derrick.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_refinery, ItemBlockUnstackable.class, machine_refinery.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_tank, ItemTankBlock.class, machine_tank.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_market, ItemRadarBlock.class, machine_market.getUnlocalizedName());
-		GameRegistry.registerBlock(builder, ItemRadarBlock.class, builder.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_market, ItemBlockUnstackable.class, machine_market.getUnlocalizedName());
+		GameRegistry.registerBlock(builder, ItemBlockUnstackable.class, builder.getUnlocalizedName());
 
 		GameRegistry.registerBlock(rbmk_element, rbmk_element.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_rods, rbmk_rods.getUnlocalizedName());
@@ -217,14 +235,21 @@ public class ModBlocks {
 		GameRegistry.registerBlock(oil_duct, oil_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
 
-		GameRegistry.registerBlock(launch_pad, ItemRadarBlock.class, launch_pad.getUnlocalizedName());
-		GameRegistry.registerBlock(railgun_plasma, ItemRadarBlock.class, railgun_plasma.getUnlocalizedName());
-		GameRegistry.registerBlock(cannon_naval, ItemRadarBlock.class, cannon_naval.getUnlocalizedName());
+		GameRegistry.registerBlock(launch_pad, ItemBlockUnstackable.class, launch_pad.getUnlocalizedName());
+		GameRegistry.registerBlock(railgun_plasma, ItemBlockUnstackable.class, railgun_plasma.getUnlocalizedName());
+		GameRegistry.registerBlock(cannon_naval, ItemBlockUnstackable.class, cannon_naval.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(clowder_flag, ItemRadarBlock.class, clowder_flag.getUnlocalizedName());
-		GameRegistry.registerBlock(clowder_flag_big, ItemRadarBlock.class, clowder_flag_big.getUnlocalizedName());
-		GameRegistry.registerBlock(clowder_cap, ItemRadarBlock.class, clowder_cap.getUnlocalizedName());
+		GameRegistry.registerBlock(clowder_flag, ItemBlockUnstackable.class, clowder_flag.getUnlocalizedName());
+		GameRegistry.registerBlock(clowder_flag_big, ItemBlockUnstackable.class, clowder_flag_big.getUnlocalizedName());
+		GameRegistry.registerBlock(clowder_cap, ItemBlockUnstackable.class, clowder_cap.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(hesco_block, ItemBlockLore.class, hesco_block.getUnlocalizedName());
+		GameRegistry.registerBlock(palisade, ItemBlockLore.class, palisade.getUnlocalizedName());
+		GameRegistry.registerBlock(stone_wall, ItemBlockLore.class, stone_wall.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_wall, ItemBlockLore.class, brick_wall.getUnlocalizedName());
+		GameRegistry.registerBlock(great_wall, ItemBlockLore.class, great_wall.getUnlocalizedName());
+		GameRegistry.registerBlock(berlin_wall, ItemBlockLore.class, berlin_wall.getUnlocalizedName());
 
-		GameRegistry.registerBlock(debug, ItemRadarBlock.class, debug.getUnlocalizedName());
+		GameRegistry.registerBlock(debug, ItemBlockUnstackable.class, debug.getUnlocalizedName());
 	}
 }

@@ -30,7 +30,25 @@ public class RenderUni extends TileEntitySpecialRenderer {
 		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 		
+        //bindTexture(ResourceManager.tmt_palisade);
+        //bindTexture(ResourceManager.tmt_stonewall);
+        //bindTexture(ResourceManager.tmt_brickwall);
+        //bindTexture(ResourceManager.tmt_greatwall);
+        //bindTexture(ResourceManager.tmt_berliner);
+        //bindTexture(ResourceManager.tmt_hescoblock);
+        //bindTexture(ResourceManager.tmt_medtent);
+        //bindTexture(ResourceManager.tmt_tptent);
+
         bindTexture(ResourceManager.uni_tex);
+
+        //ModelPalisade.instance.render();
+        //ModelStoneWall.instance.render();
+        //ModelBrickWall.instance.render();
+        //ModelGreatWall.instance.render();
+        //ModelBerliner.instance.render();
+        //ModelHescoBlock.instance.render();
+        //ModelMedTent.instance.render();
+        //ModelTpTent.instance.render();
         
         ResourceManager.uni.renderAll();
 

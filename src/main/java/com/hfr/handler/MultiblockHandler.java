@@ -7,8 +7,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class MultiblockHandler {
 	
 	//when looking north
-	//                                    U  D  N  S  W  E
-	public static int[] uni = new int[] { 3, 0, 4, 4, 4, 4 };
+	//											U  D  N  S  W  E
+	public static int[] uni = 		new int[] { 3, 0, 4, 4, 4, 4 };
+	public static int[] hesco = 	new int[] { 2, 0, 1, 0, 1, 0 };
+	public static int[] palisade = 	new int[] { 3, 0, 0, 0, 1, 1 };
+	public static int[] berlin = 	new int[] { 5, 0, 0, 0, 1, 1 };
 	
 	public static boolean checkSpace(World world, int x, int y, int z, int[] dim, int ox, int oy, int oz, ForgeDirection dir) {
 		

@@ -81,9 +81,7 @@ public class TileEntityMachineUni extends TileEntityMachineBase {
 		
 		for(int i = 0; i < 4; i++) {
 			
-			if((slots[i] == null ||
-					(slots[i] != null && slots[i].getItem() == Items.fish && slots[i].stackSize < slots[i].getMaxStackSize())) ||
-					(slots[i] != null && slots[i].getItem() == ModItems.whale_meat && slots[i].stackSize < slots[i].getMaxStackSize()))
+			if((slots[i] == null || (slots[i] != null && slots[i].getItem() == ModItems.science && slots[i].stackSize < slots[i].getMaxStackSize())))
 				return true;
 		}
 		

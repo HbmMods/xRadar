@@ -166,6 +166,7 @@ public class MainRegistry
 
 	public static DamageSource blast = (new DamageSource("blast")).setExplosion();
 	public static DamageSource zyklon = (new DamageSource("zyklon")).setDamageBypassesArmor().setDamageIsAbsolute();
+	public static DamageSource wire = (new DamageSource("wire"));
 	
 	public static CreativeTabs tab = new CreativeTabHFR(CreativeTabs.getNextID(), "tabHFR");
 	
@@ -213,6 +214,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityFlag.class, "tileentity_hfr_flag");
 		GameRegistry.registerTileEntity(TileEntityCap.class, "tileentity_hfr_cap");
 		GameRegistry.registerTileEntity(TileEntityFlagBig.class, "tileentity_hfr_flag_big");
+		GameRegistry.registerTileEntity(TileEntityProp.class, "tileentity_hfr_prop");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
