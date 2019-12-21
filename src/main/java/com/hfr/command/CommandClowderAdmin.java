@@ -1,5 +1,8 @@
 package com.hfr.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.CoordPair;
@@ -18,6 +21,12 @@ public class CommandClowderAdmin extends CommandBase {
 	public String getCommandName() {
 		return "xclowder";
 	}
+
+	@Override
+    public List getCommandAliases()
+    {
+        return new ArrayList() {{ add("xclowder"); add("xc"); }};
+    }
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
@@ -95,7 +104,6 @@ public class CommandClowderAdmin extends CommandBase {
 		sender.addChatMessage(new ChatComponentText(INFO + "Commands [" + p + "/" + pages + "]:"));
 		
 		if(p == 1) {
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "=== TODO ==="));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcejoin <name>" + TITLE + " - Forcefully joins a faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcekick <name>" + TITLE + " - Forcefully kicks a player from his faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcedisband <name>" + TITLE + " - Forcefully disbands faction"));
@@ -220,7 +228,7 @@ public class CommandClowderAdmin extends CommandBase {
 				if(shape == 0)
 					radius--;
 				
-				if(radius <= 0 || radius > 25) {
+				if(radius < 0 || radius > 25) {
 					sender.addChatMessage(new ChatComponentText(ERROR + "Invalid radius! Must be between 1 and 25"));
 				} else {
 					

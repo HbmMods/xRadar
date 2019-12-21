@@ -13,6 +13,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.common.util.EnumHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -29,6 +30,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.hfr.blocks.*;
 import com.hfr.clowder.ClowderEvents;
+import com.hfr.clowder.ClowderFlag;
 import com.hfr.command.*;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
@@ -764,6 +766,22 @@ public class MainRegistry
         		this.d2.add(val);
         	else
         		logger.error("Invalid config entry '" + val + "'");
+        }
+        
+        String[] flags = createConfigStringList(config, "CLOWDER", "flags", "[name of the flag]:[whether it's shown in the listing]",
+        		new String[] { "usa:true" } );
+        
+        for(String val : flags) {
+        	
+        	try {
+	        	String fname = val.split(":")[0];
+	        	boolean vis = Boolean.parseBoolean(val.split(":")[1]);
+	        	
+	        	EnumHelper.addEnum(ClowderFlag.class, fname, new Class[] { String.class, boolean.class, boolean.class }, new Object[] {fname, vis, true} );
+	        	System.out.println("Successfully added flag " + fname);
+        	} catch(Exception ex) {
+        		logger.error("Invalid config entry '" + val + "'");
+        	}
         }
 
         u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);

@@ -26,10 +26,11 @@ public class ItemMace extends ItemPickaxe {
 		add(ModBlocks.machine_tank);
 		add(ModBlocks.machine_radar);
 		add(ModBlocks.machine_emp);
-		add(ModBlocks.machine_uni);
 		add(ModBlocks.rbmk_element);
 		add(ModBlocks.rbmk_rods);
 
+		//props
+		add(ModBlocks.machine_uni);
 		add(ModBlocks.clowder_flag);
 	}};
 
@@ -44,9 +45,13 @@ public class ItemMace extends ItemPickaxe {
 		add(ModBlocks.machine_tank);
 		add(ModBlocks.machine_radar);
 		add(ModBlocks.machine_emp);
-		add(ModBlocks.machine_uni);
 		add(ModBlocks.rbmk_element);
 		add(ModBlocks.rbmk_rods);
+		
+		//props
+		add(ModBlocks.machine_uni);
+		add(ModBlocks.med_tent);
+		add(ModBlocks.tp_tent);
 	}};
 
 }

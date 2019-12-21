@@ -1,5 +1,8 @@
 package com.hfr.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
@@ -23,6 +26,12 @@ public class CommandClowder extends CommandBase {
 	public String getCommandName() {
 		return "clowder";
 	}
+
+	@Override
+    public List getCommandAliases()
+    {
+        return new ArrayList() {{ add("clowder"); add("c"); }};
+    }
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
@@ -148,6 +157,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(cmd.equals("retreat")) {
 			cmdRetreat(sender);
+			return;
 		}
 		
 		if(cmd.equals("sethome")) {
@@ -633,7 +643,7 @@ public class CommandClowder extends CommandBase {
 
 			if(!Clowder.retreating.contains(player.getDisplayName())) {
 				
-				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Player " + player.getDisplayName() + "is retreating!"));
+				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Player " + player.getDisplayName() + " is retreating!"));
 				Clowder.retreating.add(player.getDisplayName());
 				
 			} else {

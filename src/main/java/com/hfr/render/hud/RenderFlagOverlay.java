@@ -16,7 +16,7 @@ public class RenderFlagOverlay {
 	public static String title = "";
 	public static int color = 0xFF0000;
 	public static long startingTime;
-	public static int ttl = 7000;
+	public static int ttl = 5000;
     private static ScaledResolution res = null;
 	
 	public static void drawFlag() {

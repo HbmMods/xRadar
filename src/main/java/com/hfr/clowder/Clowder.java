@@ -147,15 +147,19 @@ public class Clowder {
 	
 	public boolean isRaidable() {
 		
+		int online = 0;
+		
 		for(String s : this.members.keySet()) {
 			
 			Long l = this.members.get(s);
 			
 			if(l > System.currentTimeMillis())
-				return true;
+				online++;
 		}
 		
-		return false;
+		int percent = online * 100 / this.members.size();
+		
+		return percent > 33;
 	}
 	
 	public void saveClowder(int i, NBTTagCompound nbt) {

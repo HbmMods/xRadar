@@ -59,22 +59,6 @@ public class Cap extends BlockContainer {
 			
 			TileEntityCap cap = (TileEntityCap)world.getTileEntity(x, y, z);
 			
-			if(player.capabilities.isCreativeMode && player.getHeldItem() != null && player.getHeldItem().hasTagCompound()) {
-
-				int xCoord = player.getHeldItem().stackTagCompound.getInteger("xCoord");
-				int zCoord = player.getHeldItem().stackTagCompound.getInteger("zCoord");
-				
-				if(xCoord != 0 || zCoord != 0) {
-					
-					double dist = Math.sqrt(Math.pow(xCoord - x, 2) + Math.pow(zCoord - z, 2));
-					
-					dist /= 16D; //because we want chunk-distance
-					
-					cap.radius = (int)dist;
-					return true;
-				}
-			}
-			
 			for(int i = 0; i < cap.slots.length; i++) {
 				
 				if(cap.slots[i] != null) {

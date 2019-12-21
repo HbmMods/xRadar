@@ -21,7 +21,6 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityFlagBig extends TileEntityMachineBase implements ITerritoryProvider {
 
-	public String tempown = "";
 	public Clowder owner;
 	public boolean isClaimed = true;
 	public float height = 1.0F;
@@ -33,7 +32,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 	public int color;
 
 	public TileEntityFlagBig() {
-		super(9);
+		super(5);
 		height = 0.0F;
 	}
 
@@ -49,9 +48,6 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 			
 			if(Clowder.clowders.size() == 0)
 				ClowderData.getData(worldObj);
-			
-			if(owner == null && !tempown.isEmpty())
-				owner = Clowder.getClowderFromName(tempown);
 			
 			//remove disbanded clowders
 			if(!Clowder.clowders.contains(owner))
@@ -128,6 +124,23 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 			
 			/// CAPTURE END ///
 			
+			if(height == 1F && owner != null) {
+				
+				if(worldObj.rand.nextInt(100) == 0) {
+					
+					for(int i = 0; i < slots.length; i++) {
+						
+						if(slots[i] == null) {
+							slots[i] = new ItemStack(ModItems.province_point);
+							break;
+						} else if(slots[i].getItem() == ModItems.province_point && slots[i].stackSize < 64) {
+							slots[i].stackSize++;
+							break;
+						}
+					}
+				}
+			}
+			
 			if(owner != null) {
 				this.updateGauge(owner.flag.ordinal(), 0, 100);
 				this.updateGauge(owner.color, 1, 100);
@@ -151,19 +164,6 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				worldObj.spawnParticle("reddust", x, y, z, r, g, b);
 			}
 		}
-	}
-	
-	private boolean consumeToken() {
-		
-		for(int i = 0; i < slots.length; i++) {
-			
-			if(slots[i] != null && slots[i].getItem() == ModItems.province_point) {
-				this.decrStackSize(i, 1);
-				return true;
-			}
-		}
-		
-		return false;
 	}
 	
 	public void processGauge(int val, int id) {
@@ -213,7 +213,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+		return new int[] { 0, 1, 2, 3, 4 };
 	}
 	
 	@Override
@@ -221,7 +221,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.tempown = nbt.getString("owner");
+		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
 		this.isClaimed = nbt.getBoolean("isClaimed");
 		this.height = nbt.getFloat("height");
 		

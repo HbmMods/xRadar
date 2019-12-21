@@ -26,6 +26,14 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Increases speed by 25%");
 		}
 
+		if(field_150939_a == ModBlocks.machine_net) {
+			list.add("Requires sky access and 3 block deep water");
+			list.add("Must be placed on the surface");
+		}
+		if(field_150939_a == ModBlocks.machine_uni) {
+			list.add("Requires sky access and foundation");
+		}
+
 		if(field_150939_a == ModBlocks.hesco_block) {
 			list.add("HESCO MIL brand collapsable gabion");
 			list.add("Filled with 100% fair-trade dirt");
@@ -43,6 +51,15 @@ public class ItemBlockLore extends ItemBlock {
 		if(field_150939_a == ModBlocks.great_wall) {
 			list.add("\"Great wall\"");
 			list.add("In every way identical to the stone wall");
+		}
+
+		if(field_150939_a == ModBlocks.med_tent) {
+			list.add("Requires sky access and foundation");
+			list.add("Generates healing aura");
+		}
+		if(field_150939_a == ModBlocks.tp_tent) {
+			list.add("Requires sky access and foundation");
+			list.add("Allows to create faction TP points nearby");
 		}
 	}
 

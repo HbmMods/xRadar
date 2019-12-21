@@ -28,7 +28,7 @@ public class PropPalisade extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return MultiblockHandler.palisade;
+		return MultiblockHandler.wall;
 	}
 
 	@Override

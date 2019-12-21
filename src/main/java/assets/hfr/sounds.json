@@ -42,9 +42,10 @@
     "alarm.incoming": {"category": "record", "sounds": [{"name": "alarm/incoming", "stream": false}]},
     
     "weapon.missileTakeOff": {"category": "block", "sounds": [{"name": "missile/missileTakeOff", "stream": false}]},
-    "item.techBleep": {"category": "record", "sounds": [{"name": "tool/beep", "stream": true}]},
-    "item.techBoop": {"category": "record", "sounds": [{"name": "tool/boop", "stream": true}]},
-    "item.toggle": {"category": "record", "sounds": [{"name": "tool/toggle", "stream": true}]},
+    "item.techBleep": {"category": "record", "sounds": [{"name": "tool/beep", "stream": false}]},
+    "item.techBoop": {"category": "record", "sounds": [{"name": "tool/boop", "stream": false}]},
+    "item.toggle": {"category": "record", "sounds": [{"name": "tool/toggle", "stream": false}]},
+    "item.doot": {"category": "record", "sounds": [{"name": "tool/doot", "stream": false}]},
     
     "grenade.gBounce": {"category": "block", "sounds": ["grenade/gBounce1", "grenade/gBounce2", "grenade/gBounce3"]}
 }

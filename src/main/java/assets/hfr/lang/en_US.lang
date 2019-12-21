@@ -79,6 +79,8 @@ tile.stone_wall.name=Stone Wall
 tile.brick_wall.name=Brick Wall
 tile.great_wall.name=Great Wall
 tile.berlin_wall.name=Berlin Wall
+tile.med_tent.name=Medical Tent
+tile.tp_tent.name=Warp Tent
 
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad
@@ -124,7 +126,7 @@ item.whale_meat.name=Whale Meat
 item.science.name=Research Point
 item.hfr_coin.name=Stock Market Coin
 item.hfr_wrench.name=Construction Materials
-item.province_point.name=province point (tm)
+item.province_point.name=Province Point
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

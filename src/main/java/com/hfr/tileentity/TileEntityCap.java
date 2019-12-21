@@ -20,17 +20,15 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityCap extends TileEntityMachineBase implements ITerritoryProvider {
 
-	public String tempown = "";
 	public Clowder owner;
 	public int progress;
-	public int radius = 3;
 	public static final int maxProgress = 200;
 	
 	@SideOnly(Side.CLIENT)
 	public int color;
 	
 	public TileEntityCap() {
-		super(3);
+		super(5);
 	}
 
 	@Override
@@ -45,9 +43,6 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 			
 			if(Clowder.clowders.size() == 0)
 				ClowderData.getData(worldObj);
-			
-			if(owner == null && !tempown.isEmpty())
-				owner = Clowder.getClowderFromName(tempown);
 
 			if(!Clowder.clowders.contains(owner))
 				owner = null;
@@ -151,15 +146,24 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 		if(id == 0)
 			color = val;
 	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] { 0, 1, 2, 3, 4 };
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
-		this.tempown = nbt.getString("owner");
+
+		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
 		this.progress = nbt.getInteger("progress");
-		this.radius = nbt.getInteger("radius");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -181,7 +185,6 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 		if(owner != null)
 			nbt.setString("owner", owner.name);
 		nbt.setInteger("progress", progress);
-		nbt.setInteger("radius", radius);
 		
 		NBTTagList list = new NBTTagList();
 		

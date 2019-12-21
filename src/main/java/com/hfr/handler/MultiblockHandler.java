@@ -10,8 +10,9 @@ public class MultiblockHandler {
 	//											U  D  N  S  W  E
 	public static int[] uni = 		new int[] { 3, 0, 4, 4, 4, 4 };
 	public static int[] hesco = 	new int[] { 2, 0, 1, 0, 1, 0 };
-	public static int[] palisade = 	new int[] { 3, 0, 0, 0, 1, 1 };
+	public static int[] wall = 		new int[] { 3, 0, 0, 0, 1, 1 };
 	public static int[] berlin = 	new int[] { 5, 0, 0, 0, 1, 1 };
+	public static int[] tent = 		new int[] { 2, 0, 2, 2, 2, 2 };
 	
 	public static boolean checkSpace(World world, int x, int y, int z, int[] dim, int ox, int oy, int oz, ForgeDirection dir) {
 		
@@ -91,12 +92,15 @@ public class MultiblockHandler {
 		}
 	}
 	
+	@Deprecated
 	public static void emptySpace(World world, int x, int y, int z, int[] dim, Block block, ForgeDirection dir) {
 		
 		if(dim == null || dim.length != 6)
 			return;
 
 		int count = 0;
+		
+		System.out.println("emptyspace is deprecated and shouldn't even be executed");
 		
 		int[] rot = rotate(dim, dir);
 
@@ -118,7 +122,7 @@ public class MultiblockHandler {
 		}
 	}
 	
-	private static int[] rotate(int[] dim, ForgeDirection dir) {
+	public static int[] rotate(int[] dim, ForgeDirection dir) {
 		
 		if(dim == null)
 			return null;

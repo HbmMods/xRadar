@@ -15,9 +15,7 @@ public enum ClowderFlag {
 	TRICOLOR_VERTICAL("vtri"),
 	BCROSS("bcross"),
 	WCROSS("wcross"),
-	USA("usa"),
 	JULIA("julia"),
-	VOLTZ("voltz", false),
 	USSR("ussr", false),
 	ASTERISK("asterisk", false),
 	PONYCUM("pc", false);
@@ -46,8 +44,20 @@ public enum ClowderFlag {
 		overlay = new ResourceLocation(getLoc() + "_overlay.png");
 	}
 	
+	private ClowderFlag(String name, boolean show, boolean extra) {
+		this.name = name;
+		this.show = show;
+
+		flag = new ResourceLocation(getCustomLoc() + ".png");
+		overlay = new ResourceLocation(getCustomLoc() + "_overlay.png");
+	}
+	
 	private String getLoc() {
 		return RefStrings.MODID + ":textures/flags/flag_" + name;
+	}
+	
+	private String getCustomLoc() {
+		return RefStrings.MODID + ":textures/customflags/flag_" + name;
 	}
 	
 	public ResourceLocation getFlag() {

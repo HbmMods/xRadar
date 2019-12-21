@@ -1,6 +1,6 @@
 package com.hfr.tileentity;
 
-import com.hfr.blocks.ModBlocks;
+import com.hfr.blocks.BlockSpeedy;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 
@@ -71,7 +71,7 @@ public class TileEntityMachineUni extends TileEntityMachineBase {
 
 		for(int x = -4; x <= 4; x++)
 			for(int z = -4; z <= 4; z++)
-				if(worldObj.getBlock(xCoord + x, yCoord - 1, zCoord + z) != ModBlocks.uni_foundation)
+				if(worldObj.getBlock(xCoord + x, yCoord - 1, zCoord + z) instanceof BlockSpeedy)
 					return false;
 		
 		return true;

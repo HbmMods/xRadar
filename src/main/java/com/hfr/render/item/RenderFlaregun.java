@@ -39,9 +39,9 @@ public class RenderFlaregun implements IItemRenderer {
 			GL11.glScalef(0.25F, 0.25F, 0.25F);
 			break;
 		case EQUIPPED:
-			GL11.glTranslatef(0.5F, 0.2F, 0.5F);
+			GL11.glTranslatef(0.5F, 0.2F, 0.45F);
 			GL11.glRotatef(15, 0, 1, 0);
-			GL11.glRotatef(15, 1, 0, 0);
+			GL11.glRotatef(15, 1, 0, 1);
 			GL11.glScalef(0.25F, 0.25F, 0.25F);
 			break;
 		case EQUIPPED_FIRST_PERSON:

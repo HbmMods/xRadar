@@ -3,6 +3,7 @@ package com.hfr.clowder;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
+import com.hfr.data.ClowderData;
 import com.hfr.items.ItemMace;
 import com.hfr.items.ModItems;
 import com.hfr.packet.PacketDispatcher;
@@ -24,11 +25,20 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.event.world.ExplosionEvent.Detonate;
 
 public class ClowderEvents {
+
+	@SubscribeEvent
+	public void clowderLoadEvent(WorldEvent.Load event) {
+		
+		if(event.world.provider.dimensionId == 0) {
+			ClowderData.getData(event.world);
+		}
+	}
 	
 	/**
 	 * Handles chat events related to clowders, mainly adding the clowder name to a chat message.
@@ -75,7 +85,7 @@ public class ClowderEvents {
 				
 				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 					
-					if(!(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b)))
+					if(!(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b) && clowder.isRaidable()))
 						event.setCanceled(true);
 				}
 			}
@@ -106,7 +116,7 @@ public class ClowderEvents {
 			
 			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
 			
-			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE) {
+			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE || (owner.zone == Zone.FACTION && !owner.owner.isRaidable())) {
 				event.getAffectedBlocks().remove(i);
 				i--;
 			}
@@ -138,7 +148,8 @@ public class ClowderEvents {
 					if(!(
 							player.getHeldItem() != null &&
 							player.getHeldItem().getItem() == ModItems.mace &&
-							ItemMace.interactOverride.contains(b)
+							ItemMace.interactOverride.contains(b) &&
+							clowder.isRaidable()
 						)) {
 						event.setCanceled(true);
 					}
@@ -172,7 +183,6 @@ public class ClowderEvents {
 		
 		if(!name.equals(past)) {
 
-			
 			if(owner.zone == Zone.FACTION) {
 				PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(owner.owner), (EntityPlayerMP) player);
 				
