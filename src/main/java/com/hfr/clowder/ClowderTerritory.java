@@ -7,6 +7,7 @@ import java.util.List;
 import com.hfr.data.ClowderData;
 import com.hfr.tileentity.ITerritoryProvider;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -90,6 +91,23 @@ public class ClowderTerritory {
 			return WILDERNESS;
 		
 		return owner == null ? WILDERNESS : owner;
+	}
+	
+	//returns true if a player is in a clowder and standing in his home territory
+	public static boolean isPlayerHome(EntityPlayer player) {
+		
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder == null)
+			return false;
+		
+		Ownership owner = getOwnerFromCoords(getCoordPair((int)player.posX, (int)player.posZ));
+		
+		if(owner != null && owner.zone == Zone.FACTION && owner.owner == clowder)
+			return true;
+		
+		return false;
+		
 	}
 	
 	//returns the ownership information of the chunk

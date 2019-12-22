@@ -61,6 +61,10 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Requires sky access and foundation");
 			list.add("Allows to create faction TP points nearby");
 		}
+		if(field_150939_a == ModBlocks.statue) {
+			list.add("Requires sky access and foundation");
+			list.add("Low-level prestige generator");
+		}
 	}
 
 }

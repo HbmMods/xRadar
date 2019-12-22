@@ -46,6 +46,7 @@
     "item.techBoop": {"category": "record", "sounds": [{"name": "tool/boop", "stream": false}]},
     "item.toggle": {"category": "record", "sounds": [{"name": "tool/toggle", "stream": false}]},
     "item.doot": {"category": "record", "sounds": [{"name": "tool/doot", "stream": false}]},
+    "item.launch": {"category": "record", "sounds": [{"name": "tool/launch", "stream": false}]},
     
     "grenade.gBounce": {"category": "block", "sounds": ["grenade/gBounce1", "grenade/gBounce2", "grenade/gBounce3"]}
 }

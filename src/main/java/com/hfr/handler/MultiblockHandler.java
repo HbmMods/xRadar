@@ -13,6 +13,7 @@ public class MultiblockHandler {
 	public static int[] wall = 		new int[] { 3, 0, 0, 0, 1, 1 };
 	public static int[] berlin = 	new int[] { 5, 0, 0, 0, 1, 1 };
 	public static int[] tent = 		new int[] { 2, 0, 2, 2, 2, 2 };
+	public static int[] statue = 	new int[] { 3, 0, 1, 1, 1, 1 };
 	
 	public static boolean checkSpace(World world, int x, int y, int z, int[] dim, int ox, int oy, int oz, ForgeDirection dir) {
 		

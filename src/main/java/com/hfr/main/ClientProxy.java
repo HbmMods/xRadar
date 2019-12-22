@@ -14,6 +14,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
 import com.hfr.effect.ParticleContrail;
+import com.hfr.effect.ParticleMush;
 import com.hfr.entity.*;
 import com.hfr.entity.grenade.*;
 import com.hfr.entity.logic.*;
@@ -26,6 +27,7 @@ import com.hfr.render.block.*;
 import com.hfr.render.hud.*;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.render.item.RenderFlaregun;
+import com.hfr.render.item.RenderPak;
 import com.hfr.tileentity.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -77,6 +79,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCap.class, new RenderCap());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFlagBig.class, new RenderFlagBig());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityProp.class, new RenderProp());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStatue.class, new RenderProp());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());
@@ -106,14 +109,16 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityRailgunBlast.class, new RenderTom());
 		RenderingRegistry.registerEntityRenderingHandler(EntityShell.class, new RenderTom());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlare.class, new RenderEmpty());
+		RenderingRegistry.registerEntityRenderingHandler(EntityPak.class, new RenderPakRocket());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGas.class, new RenderSnowball(ModItems.grenade_gas));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBoxcar.class, new RenderBoxcar());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderFarmer());
-		
+
 		MinecraftForgeClient.registerItemRenderer(ModItems.flaregun, new RenderFlaregun());
+		MinecraftForgeClient.registerItemRenderer(ModItems.pakker, new RenderPak());
 	}
 	
 	@Override
@@ -166,6 +171,10 @@ public class ClientProxy extends ServerProxy
 		case 6:
 			EntityReddustFX fx5 = new EntityReddustFX(world, posX, posY, posZ, 0, 0, 0);
 			Minecraft.getMinecraft().effectRenderer.addEffect(fx5);
+			break;
+		case 7:
+			ParticleMush mush = new ParticleMush(Minecraft.getMinecraft().getTextureManager(), world, posX, posY, posZ);
+			Minecraft.getMinecraft().effectRenderer.addEffect(mush);
 			break;
 			
 		default: break;

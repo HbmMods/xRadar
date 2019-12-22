@@ -12,6 +12,7 @@ import com.hfr.data.ClowderData;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -32,6 +33,11 @@ public class CommandClowderAdmin extends CommandBase {
 	public String getCommandUsage(ICommandSender sender) {
 		return "/xclowder help";
 	}
+	
+    public int getRequiredPermissionLevel()
+    {
+        return 3;
+    }
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
@@ -259,6 +265,11 @@ public class CommandClowderAdmin extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(ERROR + "Invalid zone! Applicable: wild, safe, war"));
 		}
 	}
+	
+	@Override
+    public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+    	return getListOfStringsMatchingLastWord(p_71516_2_, MinecraftServer.getServer().getAllUsernames());
+    }
 
 	public static final String ERROR = EnumChatFormatting.RED.toString();
 	public static final String CRITICAL = EnumChatFormatting.DARK_RED.toString();

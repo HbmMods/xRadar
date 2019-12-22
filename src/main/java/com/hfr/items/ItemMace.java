@@ -32,6 +32,7 @@ public class ItemMace extends ItemPickaxe {
 		//props
 		add(ModBlocks.machine_uni);
 		add(ModBlocks.clowder_flag);
+		add(ModBlocks.statue);
 	}};
 
 	public static final List<Block> breakOverride = new ArrayList() {{
@@ -52,6 +53,7 @@ public class ItemMace extends ItemPickaxe {
 		add(ModBlocks.machine_uni);
 		add(ModBlocks.med_tent);
 		add(ModBlocks.tp_tent);
+		add(ModBlocks.statue);
 	}};
 
 }

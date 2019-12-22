@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -132,6 +133,14 @@ public class EventHandlerClient {
 		
 		if(cloak != null)
 			player.func_152121_a(Type.CAPE, cloak);
+		
+		if(player.getHeldItem() != null) {
+			Item item = player.getHeldItem().getItem();
+			
+			if(item == ModItems.flaregun || item == ModItems.pakker) {
+				renderer.modelBipedMain.aimedBow = true;
+			}
+		}
 	}
 	
 	@SubscribeEvent

@@ -6,13 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.hfr.blocks.BlockDummyable;
+import com.hfr.blocks.ModBlocks;
 import com.hfr.data.ClowderData;
+import com.hfr.tileentity.TileEntityProp;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 //it's like a faction
 //but with cats!
@@ -26,6 +31,7 @@ public class Clowder {
 	public int homeX;
 	public int homeY;
 	public int homeZ;
+	public static HashMap<String, int[]> warps = new HashMap();
 	
 	public String leader;
 	public HashMap<String, Long> members = new HashMap();
@@ -34,6 +40,8 @@ public class Clowder {
 	public static List<Clowder> clowders = new ArrayList();
 	public static HashMap<String, Clowder> inverseMap = new HashMap();
 	public static HashSet<String> retreating = new HashSet();
+
+	public int prestige = 0;
 	
 	public boolean addMember(World world, String name) {
 		
@@ -107,6 +115,52 @@ public class Clowder {
 		ClowderData.getData(player.worldObj).markDirty();
 	}
 	
+	public void save(World world) {
+		ClowderData.getData(world).markDirty();
+	}
+	
+	//0 - created
+	//1 - not home
+	//2 - no tent
+	public int tryAddWarp(EntityPlayer player, int x, int y, int z, String name) {
+		
+		World world = player.worldObj;
+		
+		if(!ClowderTerritory.isPlayerHome(player))
+			return 1;
+		
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		for(int i = 2; i <= 5; i++) {
+			
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			
+			Block block = world.getBlock(x + dir.offsetX * 2, y, z + dir.offsetZ * 2);
+			
+			if(block == ModBlocks.tp_tent) {
+				
+				int[] pos = ((BlockDummyable)ModBlocks.tp_tent).findCore(world, x + dir.offsetX * 2, y, z + dir.offsetZ * 2);
+				
+				if(pos != null) {
+					
+					TileEntityProp tent = (TileEntityProp)world.getTileEntity(pos[0], pos[1], pos[2]);
+					
+					if(tent.warp.isEmpty() && tent.operational()) {
+
+						tent.warp = name;
+						
+						clowder.warps.put(name, new int[] {x, y, z});
+						
+						ClowderData.getData(world).markDirty();
+						return 0;
+					}
+				}
+			}
+		}
+		
+		return 2;
+	}
+	
 	public boolean isOwner(EntityPlayer player) {
 		
 		String key = player.getDisplayName();
@@ -170,13 +224,26 @@ public class Clowder {
 		nbt.setInteger(i + "_homeX", this.homeX);
 		nbt.setInteger(i + "_homeY", this.homeY);
 		nbt.setInteger(i + "_homeZ", this.homeZ);
+		nbt.setInteger(i + "_prestige", this.prestige);
 
 		nbt.setString(i + "_leader", this.leader);
 		nbt.setInteger(i + "_members", this.members.size());
+		nbt.setInteger(i + "_warps", this.warps.size());
 		
-		for(int j = 0; j < this.members.keySet().size(); j++) {
-
+		/// SAVE MEMBERS ///
+		for(int j = 0; j < this.members.keySet().size(); j++)
 			nbt.setString(i + "_" + j, (String) this.members.keySet().toArray()[j]);
+		
+		/// SAVE WARPS ///
+		for(int j = 0; j < this.warps.keySet().size(); j++) {
+
+			String name = (String) this.warps.keySet().toArray()[j];
+			int[] coords = this.warps.get(name);
+
+			nbt.setString(i + "_" + j + "_name", name);
+			nbt.setInteger(i + "_" + j + "_x", coords[0]);
+			nbt.setInteger(i + "_" + j + "_y", coords[1]);
+			nbt.setInteger(i + "_" + j + "_z", coords[2]);
 		}
 	}
 	
@@ -190,13 +257,23 @@ public class Clowder {
 		c.homeX = nbt.getInteger(i + "_homeX");
 		c.homeY = nbt.getInteger(i + "_homeY");
 		c.homeZ = nbt.getInteger(i + "_homeZ");
+		c.prestige = nbt.getInteger(i + "_prestige");
 
 		c.leader = nbt.getString(i + "_leader");
 		int count = nbt.getInteger(i + "_members");
+		int cwarp = nbt.getInteger(i + "_warps");
 		
-		for(int j = 0; j < count; j++) {
-			
+		for(int j = 0; j < count; j++)
 			c.members.put(nbt.getString(i + "_" + j), time());
+		
+		for(int j = 0; j < cwarp; j++) {
+			String name = nbt.getString(i + "_" + j + "_name");
+			int[] coord = new int[] {
+					nbt.getInteger(i + "_" + j + "_x"),
+					nbt.getInteger(i + "_" + j + "_y"),
+					nbt.getInteger(i + "_" + j + "_z")
+			};
+			c.warps.put(name, coord);
 		}
 		
 		return c;

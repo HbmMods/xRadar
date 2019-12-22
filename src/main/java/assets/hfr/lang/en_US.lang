@@ -81,6 +81,7 @@ tile.great_wall.name=Great Wall
 tile.berlin_wall.name=Berlin Wall
 tile.med_tent.name=Medical Tent
 tile.tp_tent.name=Warp Tent
+tile.statue.name=Statue
 
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad
@@ -126,7 +127,7 @@ item.whale_meat.name=Whale Meat
 item.science.name=Research Point
 item.hfr_coin.name=Stock Market Coin
 item.hfr_wrench.name=Construction Materials
-item.province_point.name=Province Point
+item.province_point.name=Prestige Point
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder
@@ -137,6 +138,8 @@ item.mace.name=Hammer of Raiding
 item.clowder_map.name=Clowder Map
 item.flaregun.name=Flare Gun
 item.flare.name=Flare Cartridge
+item.pakker.name=Debug Launcher
+item.pak_rocket.name=Debug Cartridge
 
 item.missile_he_1.name=Tier 1 HE Missile
 item.missile_he_2.name=Tier 2 HE Missile

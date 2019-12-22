@@ -18,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -51,8 +52,12 @@ public class ClowderEvents {
 		
 		if(clowder != null) {
 			
-			event.setCanceled(true);
-			String message = String.format("%s <%s> %s", clowder.name.replace('_', ' '), event.username, event.message);
+			//event.setCanceled(true);
+
+			String message = EnumChatFormatting.DARK_GREEN + "[ " + clowder.name.replace('_', ' ') + " ]";
+			if(clowder.leader.equals(event.player.getDisplayName())) {
+				message = EnumChatFormatting.GOLD + "[ " + clowder.name.replace('_', ' ') + " ]";
+			}
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
 		}
 	}
@@ -85,7 +90,7 @@ public class ClowderEvents {
 				
 				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 					
-					if(!(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b) && clowder.isRaidable()))
+					if(!(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b) && !owner.owner.isRaidable()))
 						event.setCanceled(true);
 				}
 			}
@@ -149,7 +154,7 @@ public class ClowderEvents {
 							player.getHeldItem() != null &&
 							player.getHeldItem().getItem() == ModItems.mace &&
 							ItemMace.interactOverride.contains(b) &&
-							clowder.isRaidable()
+							owner.owner.isRaidable()
 						)) {
 						event.setCanceled(true);
 					}

@@ -5,6 +5,9 @@ import java.util.List;
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.BlockSpeedy;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
 import com.hfr.main.MainRegistry;
 
@@ -13,6 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -20,6 +24,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityProp extends TileEntity {
+	
+	public String warp = "";
 	
 	@Override
 	public void updateEntity() {
@@ -62,6 +68,15 @@ public class TileEntityProp extends TileEntity {
 					entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5 * 20, 2));
 				}
 			}
+			
+
+			if(!warp.isEmpty()) {
+				Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(xCoord, zCoord));
+				
+				if(!operational() || owner == null || owner.zone != Zone.FACTION || !owner.owner.warps.containsKey(warp)) {
+					warp = "";
+				}
+			}
 		}
 	}
 	
@@ -99,6 +114,19 @@ public class TileEntityProp extends TileEntity {
 					return false;
 		
 		return true;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		warp = nbt.getString("warp");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		if(warp.isEmpty())
+			nbt.setString("warp", warp);
 	}
 
 }

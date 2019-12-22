@@ -176,6 +176,7 @@ public class ItemLore extends Item {
 			list.add("Buy high, sell low");
 		}
 		if(this == ModItems.province_point) {
+			list.add("Province currency");
 			/*list.add("it's a literal bitcoin");
 			list.add("");
 			list.add("...");

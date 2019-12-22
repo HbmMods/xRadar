@@ -157,6 +157,11 @@ public class ResourceManager {
 	public static final ResourceLocation flaregun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flaregun.png");
 	public static final ResourceLocation flaregun_barrel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flaregun_barrel.png");
 	
+	//PAK
+	public static final IModelCustom pakker = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pakker.obj"));
+	public static final IModelCustom pak_rocket = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/pak_rocket.obj"));
+	public static final ResourceLocation pakker_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pakker.png");
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));

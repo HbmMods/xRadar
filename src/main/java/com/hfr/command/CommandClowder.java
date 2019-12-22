@@ -9,6 +9,8 @@ import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.ClowderData;
+import com.hfr.items.ModItems;
+import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderFlagPacket;
 import com.hfr.util.ParserUtil;
@@ -17,6 +19,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -37,6 +41,11 @@ public class CommandClowder extends CommandBase {
 	public String getCommandUsage(ICommandSender sender) {
 		return "/clowder help";
 	}
+	
+    public int getRequiredPermissionLevel()
+    {
+        return 0;
+    }
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
@@ -170,13 +179,48 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
+		if((cmd.equals("addwarp") || cmd.equals("setwarp")) && args.length > 1) {
+			cmdAddWarp(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("delwarp") && args.length > 1) {
+			cmdDelWarp(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("warp") && args.length > 1) {
+			cmdWarp(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("warps")) {
+			cmdWarps(sender);
+			return;
+		}
+		
+		if(cmd.equals("balance")) {
+			cmdBalance(sender);
+			return;
+		}
+		
+		if(cmd.equals("deposit") && args.length > 1) {
+			cmdDeposit(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("withdraw") && args.length > 1) {
+			cmdWithdraw(sender, args[1]);
+			return;
+		}
+		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
 	}
 	
 	private void cmdHelp(ICommandSender sender, String page) {
 		
 		int p = this.parseInt(sender, page);
-		int pages = 3;
+		int pages = 4;
 		
 		if(p < 1 || p > pages)
 			p = 1;
@@ -213,13 +257,18 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-listflags" + TITLE + " - Lists availible flags"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-sethome" + TITLE + " - Sets the clowder's home point"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-home" + TITLE + " - Teleports to the clowder's home"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-addwarp <name>" + TITLE + " - Creates a warp"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-delwarp <name>" + TITLE + " - Removes a warp"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-warp <name>" + TITLE + " - Teleports to a warp point"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-warps" + TITLE + " - Lists all warps"));
+			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 4"));
+		}
+
+		if(p == 4) {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-retreat" + TITLE + " - Reatreats after 10 minutes"));
-			/*sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "=== TODO ==="));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcejoin <name>" + TITLE + " - Forcefully joins a faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcekick <name>" + TITLE + " - Forcefully kicks a player from his faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-forcedisband <name>" + TITLE + " - Forcefully disbands faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-hijack" + TITLE + " - Forcefully overrides leadership"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));*/
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-balance" + TITLE + " - Displays how much prestige the faction has"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-deposit <amount>" + TITLE + " - Turns prestige items into digiprestige"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-withdraw <amount>" + TITLE + " - Withdraws digiprestige as prestige items"));
 		}
 	}
 	
@@ -707,6 +756,201 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
 		}
 	}
+	
+	private void cmdAddWarp(ICommandSender sender, String name) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+			
+			if(clowder.warps.containsKey(name)) {
+				sender.addChatMessage(new ChatComponentText(ERROR + "This warp already exists!"));
+				return;
+			}
+			
+			if(clowder.prestige < MainRegistry.warpCost) {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You need at least " + MainRegistry.warpCost + " prestige to create a warp!"));
+				return;
+			}
+			
+			int code = clowder.tryAddWarp(player, (int)player.posX, (int)player.posY, (int)player.posZ, name);
+			
+			if(code == 0) {
+				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Created warp " + name + "!"));
+				clowder.prestige -= MainRegistry.warpCost;
+				clowder.save(player.worldObj);
+			} else if(code == 1) {
+				sender.addChatMessage(new ChatComponentText(ERROR + "Cannot create warp outside of your territory!"));
+			} else if(code == 2) {
+				sender.addChatMessage(new ChatComponentText(ERROR + "No nearby warp tents!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdDelWarp(ICommandSender sender, String name) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+			
+			if(clowder.warps.containsKey(name)) {
+				clowder.warps.remove(name);
+				clowder.save(player.worldObj);
+				sender.addChatMessage(new ChatComponentText(INFO + "Deleted warp!"));
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "This warp does not exist!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdWarp(ICommandSender sender, String name) {
+
+		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+			
+			if(clowder.warps.containsKey(name)) {
+				
+				int[] warp = clowder.warps.get(name);
+				player.mountEntity(null);
+				player.playerNetServerHandler.setPlayerLocation(warp[0] + 0.5D, warp[1], warp[2] + 0.5D, player.rotationYaw, player.rotationPitch);
+				sender.addChatMessage(new ChatComponentText(INFO + "Warping..."));
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "This warp does not exist!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdWarps(ICommandSender sender) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			sender.addChatMessage(new ChatComponentText(TITLE + "Availible warps:"));
+			
+			for(String s : clowder.warps.keySet()) {
+				int[] pos = clowder.warps.get(s);
+				sender.addChatMessage(new ChatComponentText(LIST + s));
+				sender.addChatMessage(new ChatComponentText(LIST + " x:" + pos[0] + " y:" + pos[1] + " z:" + pos[2]));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdBalance(ICommandSender sender) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			if(clowder.prestige > 0)
+				sender.addChatMessage(new ChatComponentText(INFO + "Current prestige balance: " + LIST + clowder.prestige));
+			else
+				sender.addChatMessage(new ChatComponentText(INFO + "It seems like you're bankrupt."));
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdDeposit(ICommandSender sender, String a) {
+
+		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		int amount = parseInt(sender, a);
+		
+		if(clowder != null) {
+			
+			if(amount <= 0) {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You cannot deposit 0 or less prestige!"));
+				return;
+			}
+			
+			for(int i = 0; i < amount; i++) {
+				
+				if(player.inventory.hasItem(ModItems.province_point)) {
+					player.inventory.consumeInventoryItem(ModItems.province_point);
+					clowder.prestige++;
+				} else {
+					sender.addChatMessage(new ChatComponentText(INFO + "Deposited " + i + " prestige!"));
+					clowder.save(player.worldObj);
+					player.inventoryContainer.detectAndSendChanges();
+					return;
+				}
+			}
+
+			sender.addChatMessage(new ChatComponentText(INFO + "Deposited " + amount + " prestige!"));
+			clowder.save(player.worldObj);
+			player.inventoryContainer.detectAndSendChanges();
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdWithdraw(ICommandSender sender, String a) {
+
+		EntityPlayerMP player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		int amount = parseInt(sender, a);
+		
+		if(clowder != null) {
+			
+			if(amount <= 0) {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You cannot withdraw 0 or less prestige!"));
+				return;
+			}
+			
+			amount = Math.min(amount, clowder.prestige);
+			
+			if(clowder.prestige == 0) {
+				sender.addChatMessage(new ChatComponentText(INFO + "It seems like you're bankrupt."));
+				return;
+			}
+			
+			clowder.prestige -= amount;
+			
+			for(int i = 0; i < amount; i++) {
+				
+				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.province_point))) {
+					sender.addChatMessage(new ChatComponentText(INFO + "Withdrew " + i + " prestige!"));
+					clowder.save(player.worldObj);
+					player.inventoryContainer.detectAndSendChanges();
+					return;
+				}
+			}
+
+			sender.addChatMessage(new ChatComponentText(INFO + "Withdrew " + amount + " prestige!"));
+			clowder.save(player.worldObj);
+			player.inventoryContainer.detectAndSendChanges();
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	@Override
+    public List addTabCompletionOptions(ICommandSender p_71516_1_, String[] p_71516_2_) {
+    	return getListOfStringsMatchingLastWord(p_71516_2_, MinecraftServer.getServer().getAllUsernames());
+    }
 
 	public static final String ERROR = EnumChatFormatting.RED.toString();
 	public static final String CRITICAL = EnumChatFormatting.DARK_RED.toString();

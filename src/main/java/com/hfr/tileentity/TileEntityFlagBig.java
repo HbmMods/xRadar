@@ -12,6 +12,7 @@ import com.hfr.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -141,6 +142,14 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				}
 			}
 			
+			if(!canSeeSky()) {
+				isClaimed = false;
+				owner = null;
+				
+				if(height >= speed * 2)
+					height -= speed * 2;
+			}
+			
 			if(owner != null) {
 				this.updateGauge(owner.flag.ordinal(), 0, 100);
 				this.updateGauge(owner.color, 1, 100);
@@ -204,6 +213,17 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
 			}
 		}
+	}
+	
+	public boolean canSeeSky() {
+
+		for(int i = -2; i <= 2; i++)
+			for(int j = -2; j <= 2; j++)
+				if(worldObj.getBlock(xCoord + i, yCoord + 1, zCoord + j).getMaterial() != Material.air && !(i == 0 && j == 0) ||
+					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord + 1, zCoord + j))
+					return false;
+		
+		return true;
 	}
 
 	@Override

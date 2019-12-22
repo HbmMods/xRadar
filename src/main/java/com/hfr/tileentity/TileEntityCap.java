@@ -11,6 +11,7 @@ import com.hfr.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,7 +63,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				}
 			}
 			
-			if(capturer != null && capturer != owner) {
+			if(capturer != null && capturer != owner && canSeeSky()) {
 				
 				if(progress == 0) {
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagCapture", 100.0F, 1.0F);
@@ -99,6 +100,11 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 						}
 					}
 				}
+			}
+			
+			if(!canSeeSky()) {
+				progress = 0;
+				owner = null;
 			}
 			
 			/// CAPTURE END ///
@@ -139,6 +145,17 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
 			}
 		}
+	}
+	
+	public boolean canSeeSky() {
+
+		for(int i = -2; i <= 2; i++)
+			for(int j = -2; j <= 2; j++)
+				if(worldObj.getBlock(xCoord + i, yCoord + 1, zCoord + j).getMaterial() != Material.air && !(i == 0 && j == 0) ||
+					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord + 1, zCoord + j))
+					return false;
+		
+		return true;
 	}
 	
 	public void processGauge(int val, int id) {

@@ -155,8 +155,10 @@ public class MainRegistry
 	public static int mlpf = 100;
 
 	public static int caveCap = -10;
-	
+
 	public static int crafting = 0;
+	
+	public static int warpCost = 25;
 	
 	public static boolean freeRadar = false;
 	public static boolean sound = true;
@@ -217,6 +219,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCap.class, "tileentity_hfr_cap");
 		GameRegistry.registerTileEntity(TileEntityFlagBig.class, "tileentity_hfr_flag_big");
 		GameRegistry.registerTileEntity(TileEntityProp.class, "tileentity_hfr_prop");
+		GameRegistry.registerTileEntity(TileEntityStatue.class, "tileentity_hfr_statue");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -236,6 +239,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityRailgunBlast.class, "entity_railgun_pellet", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityShell.class, "entity_naval_pellet", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityFlare.class, "entity_flaregun_pellet", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityPak.class, "entity_pak_rocket", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeGas.class, "entity_hfr_gas_grenade", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_hfr_nuke_grenade", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeBoxcar.class, "entity_hfr_grb_grenade", id++, this, 1000, 1, true);
@@ -783,6 +787,8 @@ public class MainRegistry
         		logger.error("Invalid config entry '" + val + "'");
         	}
         }
+        
+        warpCost = createConfigInt(config, "CLOWDER", "warpCost", "How much prestige a warp point costs to create", 25);
 
         u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);
         u1en = createConfigBool(config, "STOCKMARKET", "u1enable", "Whether small econ boost messages should be broadcasted", true);
