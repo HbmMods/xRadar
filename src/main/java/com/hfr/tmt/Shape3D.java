@@ -1,4 +1,4 @@
-package tmt;
+package com.hfr.tmt;
 
 public class Shape3D
 {

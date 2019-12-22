@@ -9,8 +9,8 @@
 
 package com.hfr.render.tmt; //Path where the model is located
 
-import tmt.ModelItemHolder;
-import tmt.ModelRendererTurbo;
+import com.hfr.tmt.ModelItemHolder;
+import com.hfr.tmt.ModelRendererTurbo;
 
 public class ModelPalisade extends ModelItemHolder //Same as Filename
 {

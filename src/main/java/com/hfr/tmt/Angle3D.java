@@ -1,4 +1,4 @@
-package tmt;
+package com.hfr.tmt;
 
 /**
  * This class handles angles. Basically all it does it store angles. You can

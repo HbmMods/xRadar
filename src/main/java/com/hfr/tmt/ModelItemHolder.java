@@ -1,4 +1,4 @@
-package tmt;
+package com.hfr.tmt;
 
 import net.minecraft.client.model.ModelBase;
 

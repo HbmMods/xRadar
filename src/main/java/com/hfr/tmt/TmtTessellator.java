@@ -1,4 +1,4 @@
-package tmt;
+package com.hfr.tmt;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
