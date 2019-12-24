@@ -16,6 +16,8 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -170,9 +172,9 @@ public class ClowderEvents {
 	 * @param world
 	 * @param player
 	 */
-	private void flagPopup(World world, EntityPlayer player) {
+	private void flagPopup(World world, EntityPlayer player, Ownership owner) {
 
-		Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ - 1));
+		//Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ - 1));
 		
 		String name = owner.zone.toString();
 		
@@ -274,7 +276,8 @@ public class ClowderEvents {
 		
 		if(!player.worldObj.isRemote) {
 
-			flagPopup(player.worldObj, player);
+			Ownership owner = ClowderTerritory.getOwnerFromCoords((int)player.posX, (int)player.posZ - 1);
+			flagPopup(player.worldObj, player, owner);
 			
 			Clowder clowder = Clowder.getClowderFromPlayer(player);
 			
@@ -300,10 +303,18 @@ public class ClowderEvents {
 						mp.playerNetServerHandler.kickPlayerFromServer("You have just retreated!");
 					}
 				}
+				
+			//is not in any clowder
 			} else {
 				
 				if(Clowder.retreating.contains(name)) {
 					Clowder.retreating.remove(name);
+				}
+				
+				if(owner != null && owner.zone == Zone.FACTION) {
+					player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 20, 2));
+					player.addPotionEffect(new PotionEffect(Potion.weakness.id, 20, 2));
+					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 1));
 				}
 			}
 			

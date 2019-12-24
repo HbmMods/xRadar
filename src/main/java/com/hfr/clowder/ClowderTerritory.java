@@ -93,6 +93,24 @@ public class ClowderTerritory {
 		return owner == null ? WILDERNESS : owner;
 	}
 	
+	//returns the ownership information of the chunk
+	public static Ownership getOwnerFromCoords(int x, int z) {
+		
+		long code = intsToCode(x, z);
+		
+		TerritoryMeta meta = territories.get(code);
+		
+		if(meta == null)
+			return WILDERNESS;
+		
+		Ownership owner = meta.owner;
+		
+		if(owner.zone == Zone.FACTION && owner.owner == null)
+			return WILDERNESS;
+		
+		return owner == null ? WILDERNESS : owner;
+	}
+	
 	//returns true if a player is in a clowder and standing in his home territory
 	public static boolean isPlayerHome(EntityPlayer player) {
 		
@@ -162,6 +180,23 @@ public class ClowderTerritory {
 		if(coord.x < 0)
 			upper |= (0x1 << 31);
 		if(coord.z < 0)
+			lower |= (0x1 << 31);
+
+		long shift = (((long)upper) << 32);
+		long trunk = ((long)lower) & 0xFFFFFFFFL;
+		long code = shift | trunk;
+		
+		return code;
+	}
+
+	public static long intsToCode(int x, int z) {
+		
+		int upper = Math.abs(x);
+		int lower = Math.abs(z);
+		
+		if(x < 0)
+			upper |= (0x1 << 31);
+		if(z < 0)
 			lower |= (0x1 << 31);
 
 		long shift = (((long)upper) << 32);

@@ -78,7 +78,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				if(progress >= maxProgress) {
 					owner = capturer;
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagHoist", 3.0F, 1.0F);
-					generateClaim();
+					//generateClaim();
 				}
 				
 			} else {
@@ -105,6 +105,8 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 			if(!canSeeSky()) {
 				progress = 0;
 				owner = null;
+			} else if(owner != null) {
+				generateClaim();
 			}
 			
 			/// CAPTURE END ///

@@ -164,6 +164,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				
 				if(height >= speed * 2)
 					height -= speed * 2;
+			} else if(owner != null) {
+				generateClaim();
 			}
 			
 			if(owner != null) {

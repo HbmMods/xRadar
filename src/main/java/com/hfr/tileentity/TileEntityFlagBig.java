@@ -72,7 +72,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				}
 			}
 			
-			if(capturer != null) {
+			if(capturer != null && canSeeSky()) {
 				
 				//he who owns the flag now can raise it.
 				//if the flag reaches the end of the pole, the ownership will be locked
@@ -148,6 +148,8 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				
 				if(height >= speed * 2)
 					height -= speed * 2;
+			} else if(owner != null) {
+				generateClaim();
 			}
 			
 			if(owner != null) {

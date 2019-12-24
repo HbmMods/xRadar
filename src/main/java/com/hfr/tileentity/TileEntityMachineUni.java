@@ -71,7 +71,7 @@ public class TileEntityMachineUni extends TileEntityMachineBase {
 
 		for(int x = -4; x <= 4; x++)
 			for(int z = -4; z <= 4; z++)
-				if(worldObj.getBlock(xCoord + x, yCoord - 1, zCoord + z) instanceof BlockSpeedy)
+				if(!(worldObj.getBlock(xCoord + x, yCoord - 1, zCoord + z) instanceof BlockSpeedy))
 					return false;
 		
 		return true;
