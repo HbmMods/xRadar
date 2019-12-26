@@ -60,10 +60,28 @@ public class RenderPak implements IItemRenderer {
 
 		if(type == ItemRenderType.INVENTORY) GL11.glEnable(GL11.GL_LIGHTING);
 		
+		int color = 0;
+		
+		if(item.hasTagCompound())
+			color = item.getTagCompound().getInteger("color");
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pakker_tex);
+		
+		if(color == 0) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pakker_tex);
+		} else {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pakker_grey_tex);
+
+		    int r = ((color & 0xFF0000) >> 16) / 2;
+		    int g = ((color & 0xFF00) >> 8) / 2;
+		    int b = (color & 0xFF) / 2;
+	        GL11.glColor3b((byte)r, (byte)g, (byte)b);
+		}
+		
 		ResourceManager.pakker.renderAll();
+	    GL11.glColor3b((byte)127, (byte)127, (byte)127);
+	    
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

@@ -1,5 +1,6 @@
 package com.hfr.blocks;
 
+import com.hfr.blocks.clowder.*;
 import com.hfr.blocks.door.*;
 import com.hfr.blocks.machine.*;
 import com.hfr.blocks.props.*;

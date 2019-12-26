@@ -1,27 +1,28 @@
-package com.hfr.blocks;
+package com.hfr.blocks.clowder;
 
-import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityFlag;
+import java.util.Random;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import com.hfr.tileentity.TileEntityFlagBig;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class Flag extends BlockContainer {
+public class FlagBig extends BlockContainer {
 
-	public Flag(Material p_i45386_1_) {
+	public FlagBig(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityFlag();
+		return new TileEntityFlagBig();
 	}
 	
 	@Override
@@ -40,17 +41,8 @@ public class Flag extends BlockContainer {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_flag, world, x, y, z);
-			return true;
-		} else {
-			return true;
-		}
+	public Item getItemDropped(int i, Random r, int j) {
+		return null;
 	}
 	
 	@Override

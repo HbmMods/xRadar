@@ -66,13 +66,13 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				
 				Clowder clow = Clowder.getClowderFromPlayer(player);
 				
-				if(clow != null) {
+				if(clow != null && player.inventory.hasItem(ModItems.mace)) {
 					capturer = clow;
 					break;
 				}
 			}
 			
-			if(capturer != null && canSeeSky()) {
+			if(capturer != null && canSeeSky() && (owner == null || owner.isRaidable() || capturer == owner)) {
 				
 				//he who owns the flag now can raise it.
 				//if the flag reaches the end of the pole, the ownership will be locked
@@ -149,7 +149,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				if(height >= speed * 2)
 					height -= speed * 2;
 			} else if(owner != null) {
-				generateClaim();
+				//generateClaim();
 			}
 			
 			if(owner != null) {
@@ -163,7 +163,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 			
 		} else {
 
-			if(height == 1F) {
+			if(height == 1F && isClaimed) {
 				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
 				double y = yCoord + 0.125 + worldObj.rand.nextDouble() * 0.5D;
 				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
@@ -258,6 +258,9 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		//if(owner != null)
+		//	generateClaim();
 	}
 	
 	@Override

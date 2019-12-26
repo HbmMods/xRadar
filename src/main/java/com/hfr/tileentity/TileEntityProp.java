@@ -5,6 +5,7 @@ import java.util.List;
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.BlockSpeedy;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
@@ -26,10 +27,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityProp extends TileEntity {
 	
 	public String warp = "";
+	public Clowder owner = null;
 	
 	@Override
 	public void updateEntity() {
-			
+		
+		/// BARBED WIRE ///
 		if(this.getBlockType() == ModBlocks.berlin_wall) {
 			
 			boolean rot = this.getBlockMetadata() == 12 || this.getBlockMetadata() == 13;
@@ -51,6 +54,7 @@ public class TileEntityProp extends TileEntity {
 		
 		if(!worldObj.isRemote) {
 
+			/// HEALING AURA ///
 			if(this.getBlockType() == ModBlocks.med_tent && operational()) {
 				
 				int radius = 5;
@@ -69,12 +73,49 @@ public class TileEntityProp extends TileEntity {
 				}
 			}
 			
-
+			/// WARP UPDATE ///
 			if(!warp.isEmpty()) {
 				Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(xCoord, zCoord));
 				
 				if(!operational() || owner == null || owner.zone != Zone.FACTION || !owner.owner.warps.containsKey(warp)) {
 					warp = "";
+					this.markDirty();
+				}
+			}
+
+			/// PRESTIGE GEENERATOR ///
+			if(this.getBlockType() == ModBlocks.tp_tent || this.getBlockType() == ModBlocks.med_tent) {
+				
+				if(this.operational()) {
+					
+					Ownership o = ClowderTerritory.getOwnerFromInts(xCoord, zCoord);
+					
+					if(owner != o.owner) {
+						
+						if(o != null && o.zone == Zone.FACTION) {
+							if(owner != null)
+								owner.addPrestigeGen(-Clowder.tentRate, worldObj);
+							owner = o.owner;
+							owner.addPrestigeGen(Clowder.tentRate, worldObj);
+							
+						} else {
+							
+							if(owner != null)
+								owner.addPrestigeGen(-Clowder.tentRate, worldObj);
+							
+							owner = null;
+						}
+						
+						this.markDirty();
+					}
+				} else {
+					
+					if(owner != null) {
+						owner.addPrestigeGen(-Clowder.tentRate, worldObj);
+						owner = null;
+						
+						this.markDirty();
+					}
 				}
 			}
 		}
@@ -119,14 +160,16 @@ public class TileEntityProp extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		warp = nbt.getString("warp");
+		
+		owner = Clowder.getClowderFromName(nbt.getString("owner"));
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		if(warp.isEmpty())
-			nbt.setString("warp", warp);
+		
+		if(owner != null)
+			nbt.setString("owner", owner.name);
 	}
 
 }

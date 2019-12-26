@@ -17,7 +17,7 @@ public class ContainerFlag extends Container {
 		
 		diFurnace = tedf;
 
-		for(int i = 0; i < 3; i++)
+		/*for(int i = 0; i < 3; i++)
 			for(int j = 0; j < 3; j++)
 				this.addSlotToContainer(new Slot(tedf, i * 3 + j, 62 + 18 * j, 17 + 18 * i));
 		
@@ -32,10 +32,10 @@ public class ContainerFlag extends Container {
 		for(int i = 0; i < 9; i++)
 		{
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
-		}
+		}*/
 	}
 	
-	@Override
+	/*@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 	}
@@ -73,7 +73,7 @@ public class ContainerFlag extends Container {
 		}
 		
 		return var3;
-    }
+    }*/
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

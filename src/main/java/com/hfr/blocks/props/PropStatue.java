@@ -1,12 +1,15 @@
 package com.hfr.blocks.props;
 
 import com.hfr.blocks.BlockDummyable;
+import com.hfr.clowder.Clowder;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
 import com.hfr.tileentity.TileEntityStatue;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -37,41 +40,20 @@ public class PropStatue extends BlockDummyable {
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
-		if(!world.isRemote) {
+	public void breakBlock(World world, int x, int y, int z, Block b, int i)
+    {
+		if(i >= ForgeDirection.UNKNOWN.ordinal()) {
+			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
 			
-			int[] pos = this.findCore(world, x, y, z);
-			
-			if(pos == null)
-				return true;
-			
-			TileEntityStatue cap = (TileEntityStatue)world.getTileEntity(pos[0], pos[1], pos[2]);
-			
-			for(int i = 0; i < cap.slots.length; i++) {
+			if(owner != null && owner.zone == Zone.FACTION) {
+
+				TileEntityStatue statue = (TileEntityStatue)world.getTileEntity(x, y, z);
 				
-				if(cap.slots[i] != null) {
-					
-					int stack = cap.slots[i].stackSize;
-					
-					for(int j = 0; j < stack; j++) {
-						
-						if(!player.inventory.addItemStackToInventory(new ItemStack(cap.slots[i].getItem()))) {
-							player.dropPlayerItemWithRandomChoice(new ItemStack(cap.slots[i].getItem(), stack - j), false);
-							cap.decrStackSize(i, stack - j);
-							break;
-						}
-						
-						cap.decrStackSize(i, 1);
-					}
-				}
+				if(statue.operational())
+					owner.owner.addPrestigeGen(-Clowder.statueRate, world);
 			}
-			
-			player.inventoryContainer.detectAndSendChanges();
-			
-			return false;
 		}
 		
-		return true;
-	}
+		super.breakBlock(world, x, y, z, b, i);
+    }
 }

@@ -31,7 +31,7 @@ public class Clowder {
 	public int homeX;
 	public int homeY;
 	public int homeZ;
-	public static HashMap<String, int[]> warps = new HashMap();
+	public HashMap<String, int[]> warps = new HashMap();
 	
 	public String leader;
 	public HashMap<String, Long> members = new HashMap();
@@ -41,7 +41,15 @@ public class Clowder {
 	public static HashMap<String, Clowder> inverseMap = new HashMap();
 	public static HashSet<String> retreating = new HashSet();
 
-	public int prestige = 0;
+	//because we can't have ANYTHING nice
+	private float prestige = 0;
+	private float prestigeGen = 0;
+	private float prestigeReq = 0;
+
+	public static final float tentRate = 0.1F;
+	public static final float statueRate = 0.5F;
+	public static final float flagRate = 0.1F;
+	public static final float flagReq = 1.0F;
 	
 	public boolean addMember(World world, String name) {
 		
@@ -116,6 +124,9 @@ public class Clowder {
 	}
 	
 	public void save(World world) {
+		
+		if(world == null)
+			return;
 		ClowderData.getData(world).markDirty();
 	}
 	
@@ -216,6 +227,38 @@ public class Clowder {
 		return percent > 33;
 	}
 	
+	public String round(float f) {
+		
+		return "" + Math.floor(f * 10D) / 10D;
+	}
+	
+	public float getPrestige() {
+		return prestige;
+	}
+	
+	public float getPrestigeGen() {
+		return prestigeGen;
+	}
+	
+	public float getPrestigeReq() {
+		return prestigeReq;
+	}
+	
+	public void addPrestige(float f, World world) {
+		prestige += f;
+		this.save(world);
+	}
+	
+	public void addPrestigeGen(float f, World world) {
+		prestigeGen += f;
+		this.save(world);
+	}
+	
+	public void addPrestigeReq(float f, World world) {
+		prestigeReq += f;
+		this.save(world);
+	}
+	
 	public void saveClowder(int i, NBTTagCompound nbt) {
 		nbt.setString(i + "_name", this.name);
 		nbt.setString(i + "_motd", this.motd);
@@ -224,7 +267,9 @@ public class Clowder {
 		nbt.setInteger(i + "_homeX", this.homeX);
 		nbt.setInteger(i + "_homeY", this.homeY);
 		nbt.setInteger(i + "_homeZ", this.homeZ);
-		nbt.setInteger(i + "_prestige", this.prestige);
+		nbt.setFloat(i + "_prestige", this.prestige);
+		nbt.setFloat(i + "_prestigeGen", this.prestigeGen);
+		nbt.setFloat(i + "_prestigeReq", this.prestigeReq);
 
 		nbt.setString(i + "_leader", this.leader);
 		nbt.setInteger(i + "_members", this.members.size());
@@ -257,7 +302,9 @@ public class Clowder {
 		c.homeX = nbt.getInteger(i + "_homeX");
 		c.homeY = nbt.getInteger(i + "_homeY");
 		c.homeZ = nbt.getInteger(i + "_homeZ");
-		c.prestige = nbt.getInteger(i + "_prestige");
+		c.prestige = nbt.getFloat(i + "_prestige");
+		c.prestigeGen = nbt.getFloat(i + "_prestigeGen");
+		c.prestigeReq = nbt.getFloat(i + "_prestigeReq");
 
 		c.leader = nbt.getString(i + "_leader");
 		int count = nbt.getInteger(i + "_members");
@@ -267,12 +314,14 @@ public class Clowder {
 			c.members.put(nbt.getString(i + "_" + j), time());
 		
 		for(int j = 0; j < cwarp; j++) {
+			
 			String name = nbt.getString(i + "_" + j + "_name");
 			int[] coord = new int[] {
 					nbt.getInteger(i + "_" + j + "_x"),
 					nbt.getInteger(i + "_" + j + "_y"),
 					nbt.getInteger(i + "_" + j + "_z")
 			};
+			
 			c.warps.put(name, coord);
 		}
 		
@@ -319,6 +368,8 @@ public class Clowder {
 	
 	public static void readFromNBT(NBTTagCompound nbt) {
 		
+		clowders.clear();
+		
 		int count = nbt.getInteger("clowderCount");
 		
 		for(int i = 0; i < count; i++)
@@ -344,8 +395,10 @@ public class Clowder {
 	
 	public static Clowder getClowderFromName(String name) {
 
+		name = name.toLowerCase();
+		
 		for(Clowder clowder : clowders) {
-			if(clowder.name.equals(name))
+			if(clowder.name.toLowerCase().equals(name))
 				return clowder;
 		}
 		
@@ -365,6 +418,8 @@ public class Clowder {
 		
 		c.motd = "Message of the day!";
 		c.flag = ClowderFlag.TRICOLOR;
+		
+		c.prestige = 1;
 		
 		clowders.add(c);
 		inverseMap.put(leader, c);

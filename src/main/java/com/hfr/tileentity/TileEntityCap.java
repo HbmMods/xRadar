@@ -57,13 +57,13 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				
 				Clowder clow = Clowder.getClowderFromPlayer(player);
 				
-				if(clow != null) {
+				if(clow != null && player.inventory.hasItem(ModItems.mace)) {
 					capturer = clow;
 					break;
 				}
 			}
 			
-			if(capturer != null && capturer != owner && canSeeSky()) {
+			if(capturer != null && capturer != owner && canSeeSky() && (owner == null || owner.isRaidable())) {
 				
 				if(progress == 0) {
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagCapture", 100.0F, 1.0F);
@@ -78,7 +78,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				if(progress >= maxProgress) {
 					owner = capturer;
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagHoist", 3.0F, 1.0F);
-					//generateClaim();
+					generateClaim();
 				}
 				
 			} else {
@@ -106,7 +106,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				progress = 0;
 				owner = null;
 			} else if(owner != null) {
-				generateClaim();
+				//generateClaim();
 			}
 			
 			/// CAPTURE END ///
@@ -195,6 +195,9 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		if(owner != null)
+			generateClaim();
 	}
 	
 	@Override

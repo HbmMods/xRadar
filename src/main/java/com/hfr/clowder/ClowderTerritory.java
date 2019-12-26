@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 
 public class ClowderTerritory {
 
@@ -38,7 +39,13 @@ public class ClowderTerritory {
 	//sets the owner of a chunk to a clowder
 	public static void setOwnerForCoord(World world, CoordPair coords, Clowder owner, int fX, int fY, int fZ) {
 		
-		long code = coordsToCode(coords);
+		setOwnerForInts(world, coords.x, coords.z, owner, fX, fY, fZ);
+	}
+	
+	//sets the owner of a chunk to a clowder
+	public static void setOwnerForInts(World world, int x, int z, Clowder owner, int fX, int fY, int fZ) {
+		
+		long code = intsToCode(x, z);
 		
 		territories.remove(code);
 		
@@ -52,7 +59,13 @@ public class ClowderTerritory {
 	//sets the owner of a chunk to a special zone
 	public static void setZoneForCoord(World world, CoordPair coords, Zone zone) {
 		
-		long code = coordsToCode(coords);
+		setZoneForInts(world, coords.x, coords.z, zone);
+	}
+	
+	//sets the owner of a chunk to a special zone
+	public static void setZoneForInts(World world, int x, int z, Zone zone) {
+		
+		long code = intsToCode(x, z);
 		
 		territories.remove(code);
 		
@@ -66,10 +79,16 @@ public class ClowderTerritory {
 		ClowderData.getData(world).markDirty();
 	}
 	
-	//sets the owner of a chunk to a special zone
+	//removes territory metadata
 	public static void removeZoneForCoord(World world, CoordPair coords) {
 
-		long code = coordsToCode(coords);
+		removeZoneForInts(world, coords.x, coords.z);
+	}
+
+	//removes territory metadata
+	public static void removeZoneForInts(World world, int x, int z) {
+
+		long code = intsToCode(x, z);
 		territories.remove(code);
 		
 		ClowderData.getData(world).markDirty();
@@ -78,23 +97,19 @@ public class ClowderTerritory {
 	//returns the ownership information of the chunk
 	public static Ownership getOwnerFromCoords(CoordPair coords) {
 		
-		long code = coordsToCode(coords);
-		
-		TerritoryMeta meta = territories.get(code);
-		
-		if(meta == null)
-			return WILDERNESS;
-		
-		Ownership owner = meta.owner;
-		
-		if(owner.zone == Zone.FACTION && owner.owner == null)
-			return WILDERNESS;
-		
-		return owner == null ? WILDERNESS : owner;
+		return getOwner(coords.x, coords.z);
 	}
 	
 	//returns the ownership information of the chunk
-	public static Ownership getOwnerFromCoords(int x, int z) {
+	public static Ownership getOwnerFromInts(int x, int z) {
+
+		z += 1;
+		
+		return getOwner(x / 16, z / 16);
+	}
+	
+	//returns the ownership information of the chunk
+	public static Ownership getOwner(int x, int z) {
 		
 		long code = intsToCode(x, z);
 		
@@ -131,7 +146,13 @@ public class ClowderTerritory {
 	//returns the ownership information of the chunk
 	public static TerritoryMeta getMetaFromCoords(CoordPair coords) {
 		
-		long code = coordsToCode(coords);
+		return getMetaFromInts(coords.x, coords.z);
+	}
+	
+	//returns the ownership information of the chunk
+	public static TerritoryMeta getMetaFromInts(int x, int z) {
+		
+		long code = intsToCode(x, z);
 		
 		TerritoryMeta meta = territories.get(code);
 		
@@ -166,8 +187,13 @@ public class ClowderTerritory {
 	//converts a CoordPair instance into the UUID long code
 	public static long coordsToCode(CoordPair coord) {
 		
-		int upper = Math.abs(coord.x);
-		int lower = Math.abs(coord.z);
+		return intsToCode(coord.x, coord.z);
+	}
+
+	public static long intsToCode(int x, int z) {
+		
+		int upper = Math.abs(x);
+		int lower = Math.abs(z);
 		
 		//so basically
 		//instead of engaging in cock and ball torture to compensate for the fact that negative values
@@ -176,23 +202,6 @@ public class ClowderTerritory {
 		//cause issues with ridiculously large numbers, but in order for this to be an issue, there
 		//has to be a claimed chunk so far away from 0/0 that the distance from 0/0 to the claim would
 		//exceed the distance to the farlands by a factor of 16.
-		
-		if(coord.x < 0)
-			upper |= (0x1 << 31);
-		if(coord.z < 0)
-			lower |= (0x1 << 31);
-
-		long shift = (((long)upper) << 32);
-		long trunk = ((long)lower) & 0xFFFFFFFFL;
-		long code = shift | trunk;
-		
-		return code;
-	}
-
-	public static long intsToCode(int x, int z) {
-		
-		int upper = Math.abs(x);
-		int lower = Math.abs(z);
 		
 		if(x < 0)
 			upper |= (0x1 << 31);
@@ -224,6 +233,9 @@ public class ClowderTerritory {
 		
 		public void writeToNBT(NBTTagCompound nbt, String code) {
 			
+			if(zone == Zone.FACTION && owner == null)
+				return;
+			
 			nbt.setInteger("ownership_" + code + "_zone", zone.ordinal());
 			
 			if(zone == Zone.FACTION)
@@ -239,6 +251,9 @@ public class ClowderTerritory {
 			if(zone == Zone.FACTION) {
 				clowder = Clowder.getClowderFromName(nbt.getString("ownership_" + code + "_owner"));
 			}
+			
+			if(zone == Zone.FACTION && clowder == null)
+				return WILDERNESS;
 			
 			Ownership ownership = new Ownership (zone, clowder);
 			
@@ -348,7 +363,12 @@ public class ClowderTerritory {
 			Clowder own = owner.owner;
 			CoordPair origin = getCoordPair(flagX, flagZ);
 			
-			if(world.blockExists(flagX, flagY, flagZ)) {
+			if(world == null || world.getChunkProvider() == null)
+				return true;
+			
+			Chunk chunk = world.getChunkProvider().provideChunk(flagX >> 4, flagZ >> 4);
+			
+			if(chunk != null) {
 				
 				TileEntity te = world.getTileEntity(flagX, flagY, flagZ);
 				
@@ -356,13 +376,18 @@ public class ClowderTerritory {
 					
 					ITerritoryProvider flag = (ITerritoryProvider)te;
 					
+					if(flag.getOwner() == null)
+						return true;
+					
 					int r = flag.getRadius();
 					
 					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
 					
 					if(flag.getOwner() != own) {
+						System.out.println("CD: owner changed");
 						return false;
 					} else if(dist >= r) {
+						System.out.println("CD: OOB");
 						return false;
 					} else {
 						return true;

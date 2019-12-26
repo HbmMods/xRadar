@@ -135,7 +135,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 					if(e instanceof EntityShell)
 						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Shell"));
 					else if(e instanceof EntityRailgunBlast)
-						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Rilgun Charge"));
+						nearbyMissiles.add(new RadarEntry((int)e.posX, (int)e.posY, (int)e.posZ, "Railgun Charge"));
 				}
 			}
 		}

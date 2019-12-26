@@ -2,20 +2,22 @@ package com.hfr.tileentity;
 
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.BlockSpeedy;
+import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
-import com.hfr.items.ModItems;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityStatue extends TileEntityMachineBase {
+	
+	public Clowder owner = null;
 
 	public TileEntityStatue() {
-		super(5);
+		super(0);
 	}
 
 	@Override
@@ -28,21 +30,35 @@ public class TileEntityStatue extends TileEntityMachineBase {
 		
 		if(!worldObj.isRemote) {
 			
-			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(xCoord, zCoord));
-			if(operational() && owner != null && owner.zone == Zone.FACTION) {
+			if(this.operational()) {
 				
-				if(worldObj.rand.nextInt(500) == 0) {
+				Ownership o = ClowderTerritory.getOwnerFromInts(xCoord, zCoord);
+				
+				if(owner != o.owner) {
 					
-					for(int i = 0; i < slots.length; i++) {
+					if(o != null && o.zone == Zone.FACTION) {
+						if(owner != null)
+							owner.addPrestigeGen(-Clowder.statueRate, worldObj);
+						owner = o.owner;
+						owner.addPrestigeGen(Clowder.statueRate, worldObj);
 						
-						if(slots[i] == null) {
-							slots[i] = new ItemStack(ModItems.province_point);
-							break;
-						} else if(slots[i].getItem() == ModItems.province_point && slots[i].stackSize < 64) {
-							slots[i].stackSize++;
-							break;
-						}
+					} else {
+						
+						if(owner != null)
+							owner.addPrestigeGen(-Clowder.statueRate, worldObj);
+						
+						owner = null;
 					}
+					
+					this.markDirty();
+				}
+			} else {
+				
+				if(owner != null) {
+					owner.addPrestigeGen(-Clowder.statueRate, worldObj);
+					owner = null;
+					
+					this.markDirty();
 				}
 			}
 		}
@@ -70,6 +86,21 @@ public class TileEntityStatue extends TileEntityMachineBase {
 					return false;
 		
 		return true;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		owner = Clowder.getClowderFromName(nbt.getString("owner"));
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		if(owner != null)
+			nbt.setString("owner", owner.name);
 	}
 
 }

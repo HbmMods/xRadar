@@ -23,7 +23,6 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryProvider {
 
-	public String tempown = "";
 	public Clowder owner;
 	public boolean isClaimed = true;
 	public float height = 1.0F;
@@ -38,7 +37,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	public int color;
 
 	public TileEntityFlag() {
-		super(9);
+		super(0);
 	}
 
 	@Override
@@ -56,11 +55,6 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				return;
 			}
 			
-			if(owner == null && !tempown.isEmpty()) {
-				owner = Clowder.getClowderFromName(tempown);
-				return;
-			}
-			
 			//remove disbanded clowders
 			if(!Clowder.clowders.contains(owner))
 				owner = null;
@@ -70,7 +64,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			float prev = height;
 			Clowder prevC = owner;
 			
-			if(!isClaimed) {
+			if(!isClaimed && canSeeSky()) {
 				List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 4, yCoord - 1, zCoord - 4, xCoord + 5, yCoord + 2, zCoord + 5));
 				
 				Clowder capturer = null;
@@ -94,6 +88,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 						if(height >= 1) {
 							isClaimed = true;
 							height = 1;
+							this.markDirty();
 						}
 						
 					//he who does not own the flag can lower it
@@ -103,8 +98,10 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 						height -= speed;
 						
 						if(height <= 0) {
-							owner = capturer;
+							
+							setOwner(capturer);
 							height = 0;
+							this.markDirty();
 						}
 					}
 					
@@ -122,6 +119,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			if(!isClaimed || owner == null) {
 				mode = 0;
 				timer = 0;
+				this.markDirty();
 			} else {
 				
 				if(timer > 0)
@@ -137,6 +135,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 							mode = 0;
 							timer = 0;
 						}
+						
+						this.markDirty();
 					}
 				}
 			}
@@ -160,12 +160,12 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			
 			if(!canSeeSky()) {
 				isClaimed = false;
-				owner = null;
+				setOwner(null);
 				
 				if(height >= speed * 2)
 					height -= speed * 2;
 			} else if(owner != null) {
-				generateClaim();
+				//generateClaim();
 			}
 			
 			if(owner != null) {
@@ -194,6 +194,21 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		}
 	}
 	
+	public void setOwner(Clowder c) {
+		
+		if(owner != null) {
+			owner.addPrestigeGen(-Clowder.flagRate, worldObj);
+			owner.addPrestigeReq(-Clowder.flagReq, worldObj);
+		}
+		
+		owner = c;
+
+		if(owner != null) {
+			owner.addPrestigeGen(Clowder.flagRate, worldObj);
+			owner.addPrestigeReq(Clowder.flagReq, worldObj);
+		}
+	}
+	
 	private boolean consumeToken() {
 		
 		for(int i = 0; i < slots.length; i++) {
@@ -204,7 +219,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			}
 		}
 		
-		return false;
+		return true;
 	}
 	
 	private int getTime() {
@@ -302,8 +317,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
-		this.tempown = nbt.getString("owner");
+
+		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
 		this.isClaimed = nbt.getBoolean("isClaimed");
 		this.height = nbt.getFloat("height");
 		this.mode = nbt.getInteger("mode");
@@ -320,6 +335,9 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
+		if(owner != null)
+			generateClaim();
 	}
 	
 	@Override
@@ -328,6 +346,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 
 		if(owner != null)
 			nbt.setString("owner", owner.name);
+		
 		nbt.setBoolean("isClaimed", isClaimed);
 		nbt.setFloat("height", height);
 		nbt.setInteger("mode", mode);

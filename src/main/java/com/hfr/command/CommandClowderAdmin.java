@@ -65,31 +65,31 @@ public class CommandClowderAdmin extends CommandBase {
 			return;
 		}
 		
-		if(cmd.equals("forcejoin") && args.length > 1) {
+		if((cmd.equals("forcejoin") || cmd.equals("fj")) && args.length > 1) {
 			
 			cmdForcejoin(sender, args[1]);
 			return;
 		}
 		
-		if(cmd.equals("forcedisband") && args.length > 1) {
+		if((cmd.equals("forcedisband") || cmd.equals("fd")) && args.length > 1) {
 			
 			cmdForcedisband(sender, args[1]);
 			return;
 		}
 		
-		if(cmd.equals("hijack")) {
+		if(cmd.equals("hijack") || cmd.equals("hi")) {
 			
 			cmdHijack(sender);
 			return;
 		}
 		
-		if(cmd.equals("deletedata")) {
+		if(cmd.equals("deletedata") || cmd.equals("deldat")) {
 			
 			cmdDeletedata(sender);
 			return;
 		}
 		
-		if(cmd.equals("setclaim") && args.length > 3) {
+		if((cmd.equals("setclaim") || cmd.equals("sc")) && args.length > 3) {
 			
 			cmdSetclaim(sender, args[1], args[2], args[3]);
 			return;

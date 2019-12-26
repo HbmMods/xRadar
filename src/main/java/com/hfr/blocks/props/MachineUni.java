@@ -4,9 +4,14 @@ import java.util.Random;
 
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.Clowder;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.TileEntityMachineUni;
+import com.hfr.tileentity.TileEntityStatue;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -92,11 +97,11 @@ public class MachineUni extends BlockDummyable {
 	private static boolean keepInventory;
 	
 	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
+	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int i)
     {
         if (!keepInventory)
         {
-        	ISidedInventory tileentityfurnace = (ISidedInventory)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	ISidedInventory tileentityfurnace = (ISidedInventory)world.getTileEntity(x, y, z);
 
             if (tileentityfurnace != null)
             {
@@ -120,7 +125,7 @@ public class MachineUni extends BlockDummyable {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -131,16 +136,28 @@ public class MachineUni extends BlockDummyable {
                             entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
                             entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
                             entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
-                            p_149749_1_.spawnEntityInWorld(entityitem);
+                            world.spawnEntityInWorld(entityitem);
                         }
                     }
                 }
 
-                p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
+                world.func_147453_f(x, y, z, p_149749_5_);
             }
         }
+        
+		if(i >= ForgeDirection.UNKNOWN.ordinal()) {
+			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
+			
+			if(owner != null && owner.zone == Zone.FACTION) {
 
-        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+				TileEntityStatue statue = (TileEntityStatue)world.getTileEntity(x, y, z);
+				
+				if(statue.operational())
+					owner.owner.addPrestigeGen(-Clowder.tentRate, world);
+			}
+		}
+
+        super.breakBlock(world, x, y, z, p_149749_5_, i);
     }
 
 	@Override
