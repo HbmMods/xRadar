@@ -1,8 +1,11 @@
-package com.hfr.explosion;
+package com.hfr.pon4;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.hfr.util.FourInts;
+import com.hfr.util.ThreeInts;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
@@ -15,7 +18,7 @@ public class ExplosionNukeRay {
 	int posY;
 	int posZ;
 	Random rand = new Random();
-	World world;
+	CachedWorld world;
 	int strength;
 	int processed;
 	int length;
@@ -24,7 +27,7 @@ public class ExplosionNukeRay {
 	public boolean isAusf3Complete = false;
 	
 	public ExplosionNukeRay(World world, int x, int y, int z, int strength, int length) {
-		this.world = world;
+		this.world = WorldController.getWorld(world.provider.dimensionId);
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
@@ -92,7 +95,7 @@ public class ExplosionNukeRay {
 		}
 	}*/
 	
-	public void processTip(int count) {
+	/*public void processTip(int count) {
 		
 		int processedBlocks = 0;
 		int braker = 0;
@@ -141,34 +144,38 @@ public class ExplosionNukeRay {
 		}
 		
 		processed += count;
-	}
+	}*/
 	
-	public List<int[]> processTipCNB(int count) {
+	public List<FourInts> processTipCNB(int count) {
 		
 		int processedBlocks = 0;
 		int braker = 0;
 		
-		List<int[]> poss = new ArrayList();
+		List<FourInts> poss = new ArrayList();
 		
 		for(int l = 0; l < Integer.MAX_VALUE; l++) {
 			
-			System.out.println("lööp");
+			//System.out.println("lööp");
 
-			if(processedBlocks >= count)
-				return null;
+			if(processedBlocks >= count) {
+				return poss;
+			}
 			
-			if(braker >= count * 50)
-				return null;
+			if(braker >= count * 50) {
+				return poss;
+			}
 
 			
-			System.out.println("aff -1");
-            if(l > affectedBlocks.size() - 1)
+			//System.out.println("aff -1");
+            if(l > affectedBlocks.size() - 1) {
             	break;
+            }
     		
-    		System.out.println("post");
+    		//System.out.println("post");
             
-            if(affectedBlocks.isEmpty())
-            	return null;
+            if(affectedBlocks.isEmpty()) {
+            	return poss;
+            }
             
             int in = affectedBlocks.size() - 1;
             
@@ -176,7 +183,7 @@ public class ExplosionNukeRay {
 			float y = affectedBlocks.get(in).yCoord;
 			float z = affectedBlocks.get(in).zCoord;
 			
-			poss.add(new int[] {(int)x, (int)y, (int)z, world.provider.dimensionId});
+			poss.add(new FourInts((int)x, (int)y, (int)z, world.dimension));
 			
 			Vec3 vec = Vec3.createVectorHelper(x - this.posX, y - this.posY, z - this.posZ);
 			double pX = vec.xCoord / vec.lengthVector();
@@ -189,7 +196,7 @@ public class ExplosionNukeRay {
 				int z0 = (int)(posZ + pZ * i);
 				
 				if(!world.isAirBlock(x0, y0, z0)) {
-					poss.add(new int[] {(int)x, (int)y, (int)z, world.provider.dimensionId});
+					poss.add(new FourInts((int)x0, (int)y0, (int)z0, world.dimension));
 					processedBlocks++;
 				}
 				
@@ -201,7 +208,7 @@ public class ExplosionNukeRay {
 		
 		processed += count;
 		
-		System.out.println(poss.size() + " poss");
+		//System.out.println(poss.size() + " poss");
 		
 		return poss;
 	}

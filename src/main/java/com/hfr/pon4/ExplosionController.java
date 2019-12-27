@@ -1,4 +1,4 @@
-package com.hfr.explosion;
+package com.hfr.pon4;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,12 +7,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.hfr.util.FourInts;
+
 import net.minecraft.world.World;
 
 public class ExplosionController {
+
+	public static final int memCap = 10000;
+	public static final int collectCap = 1000;
+	public static final int convertCap = 500;
+	public static final int processCap = 1000;
 	
 	public static List<ExplosionNukeRay> explosions = Collections.synchronizedList(new ArrayList());
-	public static Set<int[]> affectedBlocks = Collections.synchronizedSet(new HashSet());
+	public static Set<FourInts> affectedBlocks = Collections.synchronizedSet(new HashSet());
 	
 	public static Thread demon = null;
 	
@@ -46,7 +53,7 @@ public class ExplosionController {
 		for(ExplosionNukeRay explosion : explosions) {
 
 			if(!explosion.isAusf3Complete) {
-				explosion.collectTipMk4_5(1000);
+				explosion.collectTipMk4_5(collectCap);
 			}
 		}
 	}
@@ -57,9 +64,9 @@ public class ExplosionController {
 
 		for(ExplosionNukeRay explosion : explosions) {
 
-			if(explosion.isAusf3Complete) {
+			if(explosion.isAusf3Complete && affectedBlocks.size() < memCap) {
 				
-				affectedBlocks.addAll(explosion.processTipCNB(500));
+				affectedBlocks.addAll(explosion.processTipCNB(convertCap));
 				
 				if(explosion.getStoredSize() == 0) {
 					del.add(explosion);
@@ -80,19 +87,25 @@ public class ExplosionController {
 	}
 	
 	public static void automaton(World world) {
-		int cap = 500;
+		int cap = 1000;
 		int count = 0;
-
-		Iterator<int[]> iterator = affectedBlocks.iterator();
-
-		while(iterator.hasNext() && count < cap) {
+		
+		if(affectedBlocks.size() == 0)
+			return;
+		
+		synchronized(affectedBlocks) {
 			
-			int[] entry = iterator.next();
+			Iterator<FourInts> iterator = affectedBlocks.iterator();
 			
-			if(entry[3] == world.provider.dimensionId) {
-				world.setBlockToAir(entry[0], entry[1], entry[2]);
-				iterator.remove();
-				count++;
+			while(iterator.hasNext() && count < cap) {
+				
+				FourInts entry = iterator.next();
+				
+				if(entry.w == world.provider.dimensionId) {
+					world.setBlockToAir(entry.x, entry.y, entry.z);
+					iterator.remove();
+					count++;
+				}
 			}
 		}
 	}

@@ -43,6 +43,7 @@ import com.hfr.handler.*;
 import com.hfr.items.*;
 import com.hfr.lib.*;
 import com.hfr.packet.*;
+import com.hfr.pon4.WorldController;
 import com.hfr.potion.HFRPotion;
 import com.hfr.schematic.*;
 import com.hfr.tileentity.*;
@@ -270,11 +271,14 @@ public class MainRegistry
 
 		CommonEventHandler handler = new CommonEventHandler();
 		ClowderEvents clowder = new ClowderEvents();
+		WorldController pon4 = new WorldController();
 		
 		FMLCommonHandler.instance().bus().register(handler);
 		FMLCommonHandler.instance().bus().register(clowder);
+		FMLCommonHandler.instance().bus().register(pon4);
 		MinecraftForge.EVENT_BUS.register(handler);
 		MinecraftForge.EVENT_BUS.register(clowder);
+		MinecraftForge.EVENT_BUS.register(pon4);
 	}
 
 	@EventHandler

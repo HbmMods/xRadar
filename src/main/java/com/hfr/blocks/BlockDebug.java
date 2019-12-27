@@ -3,7 +3,7 @@ package com.hfr.blocks;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
-import com.hfr.explosion.ExplosionNukeRay;
+import com.hfr.pon4.ExplosionNukeRay;
 import com.hfr.tileentity.TileEntityDebug;
 
 import net.minecraft.block.BlockContainer;
@@ -76,7 +76,7 @@ public class BlockDebug extends BlockContainer {
 		return true;
 	}
 	
-	class DemoThread extends Thread {
+	/*class DemoThread extends Thread {
 		
 		public ExplosionNukeRay explosion;
 		
@@ -101,6 +101,6 @@ public class BlockDebug extends BlockContainer {
 			
 			System.out.println("DT-Thread, over!");
 		}
-	}
+	}*/
 
 }
