@@ -150,7 +150,7 @@ public class MachineUni extends BlockDummyable {
 			
 			if(owner != null && owner.zone == Zone.FACTION) {
 
-				TileEntityStatue statue = (TileEntityStatue)world.getTileEntity(x, y, z);
+				TileEntityMachineUni statue = (TileEntityMachineUni)world.getTileEntity(x, y, z);
 				
 				if(statue.operational())
 					owner.owner.addPrestigeGen(-Clowder.tentRate, world);
