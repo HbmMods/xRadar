@@ -1032,7 +1032,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 2) {
 
 				if(clowder.members.get(promotee) != null) {
 					
@@ -1064,7 +1064,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 2) {
 
 				if(clowder.members.get(demotee) != null) {
 					

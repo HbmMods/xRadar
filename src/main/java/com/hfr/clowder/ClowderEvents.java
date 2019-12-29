@@ -80,14 +80,14 @@ public class ClowderEvents {
 
 			String name = clowder.getDecoratedName();
 			
-			String message = EnumChatFormatting.DARK_GREEN + "[ " + name + " ]";
+			String message = EnumChatFormatting.DARK_GREEN + "[ " + name + " Citizen ]";
 			
 			if(clowder.getPermLevel(event.player.getDisplayName()) > 1) {
-				message = EnumChatFormatting.DARK_BLUE + "[ " + clowder.name.replace('_', ' ') + " ]";
+				message = EnumChatFormatting.DARK_BLUE + "[ " + clowder.name.replace('_', ' ') + " Officer ]";
 			}
 			
 			if(clowder.getPermLevel(event.player.getDisplayName()) > 2) {
-				message = EnumChatFormatting.GOLD + "[ " + clowder.name.replace('_', ' ') + " ]";
+				message = EnumChatFormatting.GOLD + "[ " + clowder.name.replace('_', ' ') + " Leader ]";
 			}
 			
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
