@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.items.ItemFlaregun;
 import com.hfr.main.ResourceManager;
+import com.hfr.util.ParserUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -63,7 +64,7 @@ public class RenderPak implements IItemRenderer {
 		int color = 0;
 		
 		if(item.hasTagCompound())
-			color = item.getTagCompound().getInteger("color");
+			color = ParserUtil.parseColor(item.getTagCompound().getString("color"));
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDisable(GL11.GL_CULL_FACE);

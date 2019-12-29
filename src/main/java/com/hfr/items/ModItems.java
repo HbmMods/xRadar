@@ -7,6 +7,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemTool;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ModItems {
@@ -97,6 +98,11 @@ public class ModItems {
 	public static Item grenade_nuclear;
 	public static Item grenade_boxcar;
 	public static Item hatter;
+
+	public static Item mult_stoneage;
+	public static Item mult_roman;
+	public static Item mult_steel;
+	public static Item mult_alloy;
 	
 	public static Item mace;
 	public static Item clowder_map;
@@ -193,6 +199,11 @@ public class ModItems {
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
 		hatter = new ItemHatter().setUnlocalizedName("hatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hat");
+
+		mult_stoneage = new ItemMultitool().setUnlocalizedName("mult_stoneage").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_stoneage");
+		mult_roman = new ItemMultitool().setUnlocalizedName("mult_roman").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_roman");
+		mult_steel = new ItemMultitool().setUnlocalizedName("mult_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_steel");
+		mult_alloy = new ItemMultitool().setUnlocalizedName("mult_alloy").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_alloy");
 		
 		mace = new ItemMace().setUnlocalizedName("mace").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mace");
 		clowder_map = new ItemMap().setUnlocalizedName("clowder_map").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_map");
@@ -258,6 +269,11 @@ public class ModItems {
 		GameRegistry.registerItem(flare, flare.getUnlocalizedName());
 		GameRegistry.registerItem(pakker, pakker.getUnlocalizedName());
 		GameRegistry.registerItem(pak_rocket, pak_rocket.getUnlocalizedName());
+
+		GameRegistry.registerItem(mult_stoneage, mult_stoneage.getUnlocalizedName());
+		GameRegistry.registerItem(mult_roman, mult_roman.getUnlocalizedName());
+		GameRegistry.registerItem(mult_steel, mult_steel.getUnlocalizedName());
+		GameRegistry.registerItem(mult_alloy, mult_alloy.getUnlocalizedName());
 		
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());

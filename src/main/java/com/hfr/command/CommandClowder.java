@@ -96,7 +96,12 @@ public class CommandClowder extends CommandBase {
 		}
 		
 		if(cmd.equals("info")) {
-			cmdInfo(sender);
+			
+			if(args.length > 1)
+				cmdInfo(sender, args[1]);
+			else
+				cmdInfo(sender, null);
+			
 			return;
 		}
 		
@@ -250,7 +255,7 @@ public class CommandClowder extends CommandBase {
 		}
 
 		if(p == 2) {
-			sender.addChatMessage(new ChatComponentText(COMMAND + "-info" + TITLE + " - Shows info on your faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND + "-info {page}" + TITLE + " - Shows info on a faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-list" + TITLE + " - Lists all factions (page functin pending)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-apply <name>" + TITLE + " - Sends an application to a faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-leave" + TITLE + " - Leaves the faction"));
@@ -332,7 +337,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			sender.addChatMessage(new ChatComponentText(TITLE + clowder.name));
+			sender.addChatMessage(new ChatComponentText(TITLE + clowder.getDecoratedName()));
 			
 			for(String s : clowder.members.keySet())
 				sender.addChatMessage(new ChatComponentText(LIST + s));
@@ -368,14 +373,15 @@ public class CommandClowder extends CommandBase {
 		}
 	}
 	
-	private void cmdInfo(ICommandSender sender) {
+	private void cmdInfo(ICommandSender sender, String name) {
 
 		EntityPlayer player = getCommandSenderAsPlayer(sender);
-		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		Clowder clowder = name == null ? Clowder.getClowderFromPlayer(player) : Clowder.getClowderFromName(name);
 		
 		if(clowder != null) {
 
-			sender.addChatMessage(new ChatComponentText(TITLE + clowder.name));
+			sender.addChatMessage(new ChatComponentText(TITLE + clowder.getDecoratedName()));
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Owner: " + clowder.leader));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));
@@ -396,7 +402,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			sender.addChatMessage(new ChatComponentText(TITLE + clowder.name));
+			sender.addChatMessage(new ChatComponentText(TITLE + clowder.getDecoratedName()));
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Owner: " + clowder.leader));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));
@@ -440,7 +446,7 @@ public class CommandClowder extends CommandBase {
 		
 		for(Clowder c : Clowder.clowders) {
 
-			sender.addChatMessage(new ChatComponentText(TITLE + c.name + " - " + c.motd));
+			sender.addChatMessage(new ChatComponentText(TITLE + c.getDecoratedName() + " - " + c.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + c.members.size() + " members"));
 		}
 		
@@ -515,7 +521,7 @@ public class CommandClowder extends CommandBase {
 				
 			if(toApply != null) {
 
-				sender.addChatMessage(new ChatComponentText(INFO + "Sent application to " + toApply.name + "!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "Sent application to " + toApply.getDecoratedName() + "!"));
 				toApply.applications.add(player.getDisplayName());
 				toApply.notifyLeader(player.worldObj, new ChatComponentText(INFO + "Player " + sender.getCommandSenderName() + " would like to join your faction!"));
 				
@@ -563,7 +569,7 @@ public class CommandClowder extends CommandBase {
 					if(Clowder.getClowderFromName(name) == null) {
 						clowder.addMember(player.worldObj, name);
 						sender.addChatMessage(new ChatComponentText(INFO + "Added player " + name + " to your faction!"));
-						clowder.notifyPlayer(player.worldObj, name, new ChatComponentText(INFO + "You have been accepted into " + clowder.name + "!"));
+						clowder.notifyPlayer(player.worldObj, name, new ChatComponentText(INFO + "You have been accepted into " + clowder.getDecoratedName() + "!"));
 					} else {
 						sender.addChatMessage(new ChatComponentText(ERROR + "This player is already in another faction!"));
 					}
@@ -726,6 +732,7 @@ public class CommandClowder extends CommandBase {
 			if(!Clowder.retreating.contains(player.getDisplayName())) {
 				
 				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Player " + player.getDisplayName() + " is retreating!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "You will be automatically kicked in 10 minutes!"));
 				Clowder.retreating.add(player.getDisplayName());
 				
 			} else {

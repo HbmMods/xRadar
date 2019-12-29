@@ -27,7 +27,7 @@ public class ClowderFlagPacket implements IMessage {
 	public ClowderFlagPacket(Clowder clowder) {
 		this.flag = clowder.flag.ordinal();
 		this.color = clowder.color;
-		this.name = clowder.name;
+		this.name = clowder.getDecoratedName();
 	}
 
 	public ClowderFlagPacket(ClowderFlag flag, int color, String name) {

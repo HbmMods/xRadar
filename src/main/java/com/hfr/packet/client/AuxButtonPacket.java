@@ -199,12 +199,29 @@ public class AuxButtonPacket implements IMessage {
 
 					if(flag.isClaimed) {
 
-						if(m.id == 0)
-							flag.mode = 1;
-						if(m.id == 1)
-							flag.mode = 2;
-						if(m.id == 2)
-							flag.mode = 3;
+						if(m.id == 0) {
+							
+							if(flag.mode != 1)
+								flag.setMode(1);
+							else
+								flag.setMode(0);
+						}
+
+						if(m.id == 1) {
+							
+							if(flag.mode != 2)
+								flag.setMode(2);
+							else
+								flag.setMode(0);
+						}
+
+						if(m.id == 2) {
+							
+							if(flag.mode != 3)
+								flag.setMode(3);
+							else
+								flag.setMode(0);
+						}
 						
 						if(flag.mode > 0)
 							flag.generateClaim();

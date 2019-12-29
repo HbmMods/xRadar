@@ -1,19 +1,26 @@
 package com.hfr.clowder;
 
+import com.hfr.blocks.BlockDummyable;
+import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
 import com.hfr.data.ClowderData;
 import com.hfr.items.ItemMace;
 import com.hfr.items.ModItems;
+import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderBorderPacket;
 import com.hfr.packet.effect.ClowderFlagPacket;
 import com.hfr.render.RenderAccessoryUtility;
+import com.hfr.tileentity.TileEntityProp;
+import com.hfr.tileentity.TileEntityStatue;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -71,7 +78,9 @@ public class ClowderEvents {
 			
 			//event.setCanceled(true);
 
-			String message = EnumChatFormatting.DARK_GREEN + "[ " + clowder.name.replace('_', ' ') + " ]";
+			String name = clowder.getDecoratedName();
+			
+			String message = EnumChatFormatting.DARK_GREEN + "[ " + name + " ]";
 			if(clowder.leader.equals(event.player.getDisplayName())) {
 				message = EnumChatFormatting.GOLD + "[ " + clowder.name.replace('_', ' ') + " ]";
 			}
@@ -95,11 +104,6 @@ public class ClowderEvents {
 			
 			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
 			
-			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE) {
-				event.setCanceled(true);
-				return;
-			}
-			
 			if(event instanceof BreakEvent) {
 				
 				EntityPlayer player = ((BreakEvent)event).getPlayer();
@@ -110,8 +114,13 @@ public class ClowderEvents {
 				
 				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 					
-					if(!(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b) && owner.owner.isRaidable()))
+					if(canBreak(player, clowder, owner, b)) {
+						
+						onBreak(event.world, b, x, y, z, owner);
+						
+					} else {
 						event.setCanceled(true);
+					}
 				}
 			}
 			
@@ -124,6 +133,61 @@ public class ClowderEvents {
 					event.setCanceled(true);
 			}
 		}
+	}
+	
+	private void onBreak(World world, Block b, int x, int y, int z, Ownership owner) {
+		
+		if(owner != null && owner.zone == Zone.FACTION && owner.owner != null) {
+			
+			if(b == ModBlocks.med_tent || b == ModBlocks.med_tent) {
+				
+				int[] loc = ((BlockDummyable)b).findCoreRec(world, x, y, z);
+				
+				if(loc != null) {
+					TileEntityProp prop = (TileEntityProp)world.getTileEntity(loc[0], loc[1], loc[2]);
+					
+					if(prop != null && prop.operational())
+						owner.owner.multPrestige(0.97F, world);
+				}
+			}
+			
+			if(b == ModBlocks.statue) {
+				
+				int[] loc = ((BlockDummyable)b).findCoreRec(world, x, y, z);
+				
+				if(loc != null) {
+					TileEntityStatue prop = (TileEntityStatue)world.getTileEntity(loc[0], loc[1], loc[2]);
+					
+					if(prop != null && prop.operational())
+						owner.owner.multPrestige(0.97F, world);
+				}
+			}
+		}
+	}
+	
+	private boolean canBreak(EntityPlayer player, Clowder clowder, Ownership owner, Block b) {
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.debug)
+			return true;
+
+		if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE)
+			return false;
+		
+		if(owner.zone == Zone.FACTION && clowder != owner.owner) {
+			
+			if(!owner.owner.isRaidable())
+				return false;
+			
+			if(player.getHeldItem() == null)
+				return false;
+			
+			if(player.getHeldItem().getItem() == ModItems.mace && ItemMace.breakOverride.contains(b))
+				return true;
+			
+			return false;
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -163,6 +227,9 @@ public class ClowderEvents {
 		
 		if(event.action == Action.RIGHT_CLICK_BLOCK) {
 			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.debug)
+				return;
+			
 			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
 			
 			if(owner != null) {
@@ -170,13 +237,10 @@ public class ClowderEvents {
 				
 				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 					
-					if(!(
-							player.getHeldItem() != null &&
-							player.getHeldItem().getItem() == ModItems.mace &&
-							ItemMace.interactOverride.contains(b) &&
-							owner.owner.isRaidable()
-						)) {
-						event.setCanceled(true);
+					event.useBlock = Result.DENY;
+					
+					if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.interactOverride.contains(b) && owner.owner.isRaidable()) {
+						event.useBlock = Result.DEFAULT;
 					}
 				}
 			}
@@ -341,8 +405,9 @@ public class ClowderEvents {
 			particleBorder2(player.worldObj, player);
 		}
 	}
-	
-	int delay = 10;
+
+	int delay = 0;
+	int hour = 0;
 	/**
 	 * Handles world ticks for clowders, mainly the claim decay automaton.
 	 * @param event
@@ -352,15 +417,22 @@ public class ClowderEvents {
 		
 		World world = event.world;
 		
-		if(world.isRemote)
+		if(world.isRemote || world.provider.dimensionId != 0 || event.phase == Phase.END)
 			return;
 		
-		if(world.provider.dimensionId != 0)
-			return;
+		if(hour > 0) {
+			hour--;
+		} else {
+			hour = MainRegistry.prestigeDelay;
+			Clowder.updatePrestige(world);
+			MainRegistry.logger.info("Updated clowder prestige levels!");
+		}
 		
 		if(delay > 0) {
 			delay--;
 			return;
+		} else {
+			delay = MainRegistry.territoryDelay;
 		}
 		
 		/// CLOWDER TERRITORYY ADMINISTRATIVE STUFF START ///

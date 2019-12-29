@@ -16,8 +16,8 @@ public enum ClowderFlag {
 	BCROSS("bcross"),
 	WCROSS("wcross"),
 	JULIA("julia"),
-	USSR("ussr", false),
-	ASTERISK("asterisk", false),
+	USSR("ussr"),
+	ASTERISK("asterisk"),
 	PONYCUM("pc", false);
 
 	private String name = "";

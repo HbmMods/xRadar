@@ -43,7 +43,7 @@ public class EntityPak extends Entity {
 			if (!this.worldObj.isRemote) {
 	        	this.setLocationAndAngles(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ, 0, 0);
 	        	
-	        	/*int rad = 25;
+	        	int rad = 25;
 	        	List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(posX - rad, posY - rad, posZ - rad, posX + rad, posY + rad, posZ + rad));
 	        	
 	        	for(Entity e : entities) {
@@ -58,9 +58,9 @@ public class EntityPak extends Entity {
 		        		e.motionZ -= vector.zCoord * 3;
 	        			e.attackEntityFrom(DamageSource.setExplosionSource(null), 100);
 	        		}
-	        	}*/
+	        	}
 	        	
-	        	ExplosionController.registerExplosion(new ExplosionNukeRay(worldObj, (int)posX, (int)posY, (int)posZ, 500, 250));
+	        	//ExplosionController.registerExplosion(new ExplosionNukeRay(worldObj, (int)posX, (int)posY, (int)posZ, 50, 25));
 	        	
 				PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX - motionX * 2, posY - motionY * 2, posZ - motionZ * 2, 7),  new TargetPoint(this.dimension, posX, posY, posZ, 250));
 				worldObj.playSoundEffect(posX, posY, posZ, "hfr:block.railgunFire", 100.0F, 0.5F);

@@ -88,7 +88,7 @@ public class Flag extends BlockContainer {
 			
 			if(clowder != null) {
 				flag.setOwner(clowder);
-				flag.mode = 3;
+				flag.setMode(3);
 				flag.isClaimed = true;
 				flag.generateClaim();
 				flag.markDirty();

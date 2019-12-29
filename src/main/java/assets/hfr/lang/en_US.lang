@@ -38,8 +38,8 @@ tile.machine_emp.name=EM-Jammer
 container.machineEMP=EM-Jammer
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
-tile.clowder_flag_big.name=Clowder Territory Flag
-tile.clowder_cap.name=Clowder Cap Point
+tile.clowder_flag_big.name=Clowder Territory Flag (DON'T USE THIS ONE)
+tile.clowder_cap.name=Clowder Cap Point (ALSO DON'T USE THIS ONE AS WELL)
 
 tile.rbmk_element.name=RBMK Fuel Rod
 tile.rbmk_rods.name=RBMK Control Rods
@@ -140,6 +140,11 @@ item.flaregun.name=Flare Gun
 item.flare.name=Flare Cartridge
 item.pakker.name=Debug Launcher
 item.pak_rocket.name=Debug Cartridge
+
+item.mult_stoneage.name=Stone Multitool
+item.mult_roman.name=Bronze Multitool
+item.mult_steel.name=Steel Multitool
+item.mult_alloy.name=Alloy Multitool
 
 item.missile_he_1.name=Tier 1 HE Missile
 item.missile_he_2.name=Tier 2 HE Missile

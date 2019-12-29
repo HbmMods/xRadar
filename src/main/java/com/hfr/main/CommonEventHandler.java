@@ -237,7 +237,7 @@ public class CommonEventHandler {
 				}
 			}*/
 			
-			if(timer % (MainRegistry.updateInterval * 20) == 0) {
+			if(MainRegistry.enableStocks && timer % (MainRegistry.updateInterval * 20) == 0) {
 				
 				StockData data = StockData.getData(world);
 				

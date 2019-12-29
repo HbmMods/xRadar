@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hfr.data.ClowderData;
+import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.ITerritoryProvider;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -376,8 +377,8 @@ public class ClowderTerritory {
 					
 					ITerritoryProvider flag = (ITerritoryProvider)te;
 					
-					if(flag.getOwner() == null)
-						return true;
+					//if(flag.getOwner() == null)
+					//	return true;
 					
 					int r = flag.getRadius();
 					
@@ -429,7 +430,7 @@ public class ClowderTerritory {
 		}
 	}
 	
-	private static final int cycle = 100;
+	private static final int cycle = MainRegistry.territoryAmount;
 	private static int ptr = 0;
 	
 	//i called it an automaton because it mindlessly iterates through the persistence checks without the common handler having to do anything in addition

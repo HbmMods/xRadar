@@ -130,6 +130,38 @@ public class Clowder {
 		ClowderData.getData(world).markDirty();
 	}
 	
+	public String getDecoratedName() {
+		
+		String n = this.name.replace("_", " ").trim();
+
+		if(getPrestige() < 25)
+			n += "";
+		else if(getPrestige() < 50)
+			n += " ★";
+		else if(getPrestige() < 75)
+			n += " ★★";
+		else if(getPrestige() < 100)
+			n += " ★★★";
+		else if(getPrestige() < 150)
+			n += " ☆";
+		else if(getPrestige() < 200)
+			n += " ☆☆";
+		else if(getPrestige() < 250)
+			n += " ☆☆☆";
+		else if(getPrestige() < 500)
+			n += " ✪";
+		else if(getPrestige() < 750)
+			n += " ✪✪";
+		else if(getPrestige() < 1000)
+			n += " ✪✪✪";
+		else if(getPrestige() < 10000)
+			n += " [⚛]";
+		else
+			n += " [✶]";
+		
+		return n;
+	}
+	
 	//0 - created
 	//1 - not home
 	//2 - no tent
@@ -199,6 +231,7 @@ public class Clowder {
 		clowders.remove(this);
 		recalculateIMap();
 		this.leader = "";
+		this.members.clear();
 		
 		ClowderData.getData(world).markDirty();
 		
@@ -207,7 +240,7 @@ public class Clowder {
 	}
 	
 	public boolean valid() {
-		return this.leader != "";
+		return this.leader != "" && clowders.contains(this);
 	}
 	
 	public boolean isRaidable() {
@@ -227,7 +260,7 @@ public class Clowder {
 		return percent > 33;
 	}
 	
-	public String round(float f) {
+	public static String round(float f) {
 		
 		return "" + Math.floor(f * 10D) / 10D;
 	}
@@ -256,6 +289,12 @@ public class Clowder {
 	
 	public void addPrestigeReq(float f, World world) {
 		prestigeReq += f;
+		this.save(world);
+	}
+	
+	public void multPrestige(float f, World world) {
+		prestige *= f;
+		prestige = (float)(Math.floor(prestige * 10D) / 10D);
 		this.save(world);
 	}
 	
@@ -425,6 +464,17 @@ public class Clowder {
 		inverseMap.put(leader, c);
 		
 		ClowderData.getData(player.worldObj).markDirty();
+	}
+	
+	public static void updatePrestige(World world) {
+
+		for(Clowder clowder : clowders) {
+			
+			if(clowder.valid()) {
+				
+				clowder.addPrestige(clowder.getPrestigeGen(), world);
+			}
+		}
 	}
 	
 	public static long time() {

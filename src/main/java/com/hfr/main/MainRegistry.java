@@ -159,7 +159,12 @@ public class MainRegistry
 
 	public static int crafting = 0;
 	
+	public static boolean enableStocks = true;
+
 	public static int warpCost = 25;
+	public static int territoryDelay = 5;
+	public static int territoryAmount = 50;
+	public static int prestigeDelay = 60 * 60 * 20;
 	
 	public static boolean freeRadar = false;
 	public static boolean sound = true;
@@ -275,10 +280,10 @@ public class MainRegistry
 		
 		FMLCommonHandler.instance().bus().register(handler);
 		FMLCommonHandler.instance().bus().register(clowder);
-		FMLCommonHandler.instance().bus().register(pon4);
+		//FMLCommonHandler.instance().bus().register(pon4);
 		MinecraftForge.EVENT_BUS.register(handler);
 		MinecraftForge.EVENT_BUS.register(clowder);
-		MinecraftForge.EVENT_BUS.register(pon4);
+		//MinecraftForge.EVENT_BUS.register(pon4);
 	}
 
 	@EventHandler
@@ -791,8 +796,11 @@ public class MainRegistry
         		logger.error("Invalid config entry '" + val + "'");
         	}
         }
-        
+
         warpCost = createConfigInt(config, "CLOWDER", "warpCost", "How much prestige a warp point costs to create", 25);
+        territoryDelay = createConfigInt(config, "CLOWDER", "territoryDelay", "How many ticks inbetween territory validation operations", 5);
+        territoryAmount = createConfigInt(config, "CLOWDER", "territoryAmount", "How many chunks are checked eaach operation", 50);
+        prestigeDelay = createConfigInt(config, "CLOWDER", "prestigeDelay", "How many ticks inbetween prestige updates (1h per default)", 60 * 60 * 20);
 
         u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);
         u1en = createConfigBool(config, "STOCKMARKET", "u1enable", "Whether small econ boost messages should be broadcasted", true);
@@ -800,6 +808,8 @@ public class MainRegistry
         d2en = createConfigBool(config, "STOCKMARKET", "d2enable", "Whether econ fall messages should be broadcasted", true);
         updateInterval = createConfigInt(config, "STOCKMARKET", "updateInterval", "Time in seconds between market updates", 10 * 60);
         stockCap = createConfigInt(config, "STOCKMARKET", "stockCap", "How many shares a player can own per stock", 50);
+        
+        enableStocks = createConfigBool(config, "STOCKMARKET", "enableStocks", "Enables the stock market", true);
         
         /////////////////////////////////////////////////////////////////////////
         

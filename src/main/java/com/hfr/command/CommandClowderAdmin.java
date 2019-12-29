@@ -95,6 +95,12 @@ public class CommandClowderAdmin extends CommandBase {
 			return;
 		}
 		
+		if((cmd.equals("addprestige") || cmd.equals("ap")) && args.length > 2) {
+			
+			cmdAddPrestige(sender, args[1], args[2]);
+			return;
+		}
+		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
 	}
 	
@@ -116,6 +122,7 @@ public class CommandClowderAdmin extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-hijack" + TITLE + " - Forcefully overrides leadership"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-setclaim <wild/safe/war> <s/c> <radius>" + TITLE + " - Claims chunks in a radius (square or circular)"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-addprestige <name> <amount>" + TITLE + " - Adds prestige (neg values to subtract)"));
 			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
 		}
 
@@ -136,7 +143,7 @@ public class CommandClowderAdmin extends CommandBase {
 			if(tojoin != null) {
 
 				tojoin.addMember(player.worldObj, player.getDisplayName());
-				sender.addChatMessage(new ChatComponentText(INFO + "You have joined " + tojoin.name + "!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "You have joined " + tojoin.getDecoratedName() + "!"));
 				
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "There is no faction with this name!"));
@@ -158,7 +165,7 @@ public class CommandClowderAdmin extends CommandBase {
 			if(!clowder.leader.equals(kickee.getDisplayName())) {
 				
 				clowder.removeMember(player.worldObj, kickee.getDisplayName());
-				sender.addChatMessage(new ChatComponentText(INFO + "You have kicked " + kickee.getDisplayName() + " from the faction " + clowder.name + "!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "You have kicked " + kickee.getDisplayName() + " from the faction " + clowder.getDecoratedName() + "!"));
 				
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "You cannot kick a leader from his faction!"));
@@ -177,7 +184,7 @@ public class CommandClowderAdmin extends CommandBase {
 		if(clowder != null) {
 			
 			clowder.disbandClowder(player.worldObj);
-			sender.addChatMessage(new ChatComponentText(INFO + "Faction " + clowder.name + " has been disbanded!"));
+			sender.addChatMessage(new ChatComponentText(INFO + "Faction " + clowder.getDecoratedName() + " has been disbanded!"));
 			
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "There is no faction with this name!"));
@@ -210,7 +217,10 @@ public class CommandClowderAdmin extends CommandBase {
 		EntityPlayer player = getCommandSenderAsPlayer(sender);
 
 		ClowderTerritory.territories.clear();
-		Clowder.clowders.clear();
+		
+		while(Clowder.clowders.size() > 0)
+			Clowder.clowders.get(0).disbandClowder(player.worldObj);
+		
 		Clowder.inverseMap.clear();
 		Clowder.retreating.clear();
 		ClowderData.getData(player.worldObj).markDirty();
@@ -263,6 +273,22 @@ public class CommandClowderAdmin extends CommandBase {
 			
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "Invalid zone! Applicable: wild, safe, war"));
+		}
+	}
+	
+	private void cmdAddPrestige(ICommandSender sender, String name, String amount) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromName(name);
+		int am = this.parseInt(sender, amount);
+		
+		if(clowder != null) {
+			
+			clowder.addPrestige(am, player.worldObj);
+			sender.addChatMessage(new ChatComponentText(INFO + "Added " + am + " prestige to faction " + clowder.getDecoratedName() + "!"));
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "There is no faction with this name!"));
 		}
 	}
 	

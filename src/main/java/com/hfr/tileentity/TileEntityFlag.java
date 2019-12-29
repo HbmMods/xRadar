@@ -26,7 +26,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	public Clowder owner;
 	public boolean isClaimed = true;
 	public float height = 1.0F;
-	public float speed = 0.005F;
+	public float speed = 0.005F * 0.5F;
 	public int mode = 0;
 	
 	private int timer = 0;
@@ -35,6 +35,10 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	public ClowderFlag flag;
 	@SideOnly(Side.CLIENT)
 	public int color;
+	@SideOnly(Side.CLIENT)
+	public float prestige;
+	@SideOnly(Side.CLIENT)
+	public float prestigeReq;
 
 	public TileEntityFlag() {
 		super(0);
@@ -50,14 +54,14 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		
 		if(!worldObj.isRemote) {
 			
-			if(Clowder.clowders.size() == 0) {
-				ClowderData.getData(worldObj);
-				return;
-			}
-			
 			//remove disbanded clowders
 			if(!Clowder.clowders.contains(owner))
 				owner = null;
+			
+			/*if(Clowder.clowders.size() == 0) {
+				ClowderData.getData(worldObj);
+				return;
+			}*/
 			
 			/// CAPTURE START ///
 
@@ -171,9 +175,13 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			if(owner != null) {
 				this.updateGauge(owner.flag.ordinal(), 0, 100);
 				this.updateGauge(owner.color, 1, 100);
+				this.updateGauge(Float.floatToIntBits(owner.getPrestige()), 4, 20);
+				this.updateGauge(Float.floatToIntBits(owner.getPrestigeReq()), 5, 20);
 			} else {
 				this.updateGauge(ClowderFlag.NONE.ordinal(), 0, 100);
 				this.updateGauge(0xFFFFFF, 1, 100);
+				this.updateGauge(0, 4, 20);
+				this.updateGauge(0, 5, 20);
 			}
 			this.updateGauge(mode, 2, 25);
 			this.updateGauge((int) (height * 100F), 3, 100);
@@ -194,19 +202,99 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		}
 	}
 	
+	public void processGauge(int val, int id) {
+		
+		switch(id) {
+		case 0: flag = ClowderFlag.values()[val]; break;
+		case 1: color = val; break;
+		case 2: mode = val; break;
+		case 3: height = val * 0.01F; break;
+		case 4: prestige = Float.intBitsToFloat(val); break;
+		case 5: prestigeReq = Float.intBitsToFloat(val); break;
+		}
+	}
+	
+	public float getGenRate() {
+		
+		return getGenRateFromMode(mode);
+	}
+	
+	public static float getGenRateFromMode(int mode) {
+
+		/*if(mode == 1)
+			return Clowder.flagRate * 3;
+		if(mode == 2)
+			return Clowder.flagRate * 2;
+		if(mode == 3)
+			return Clowder.flagRate * 1;*/
+		
+		if(mode != 0)
+			return Clowder.flagRate;
+		
+		return 0;
+	}
+	
+	public float getCost() {
+		
+		return getCostFromMode(mode);
+	}
+	
+	public static float getCostFromMode(int mode) {
+
+		if(mode == 1)
+			return Clowder.flagReq * 3;
+		if(mode == 2)
+			return Clowder.flagReq * 2;
+		if(mode == 3)
+			return Clowder.flagReq * 1;
+		
+		return 0;
+	}
+	
 	public void setOwner(Clowder c) {
 		
 		if(owner != null) {
-			owner.addPrestigeGen(-Clowder.flagRate, worldObj);
-			owner.addPrestigeReq(-Clowder.flagReq, worldObj);
+			owner.addPrestigeGen(-getGenRate(), worldObj);
+			owner.addPrestigeReq(-getCost(), worldObj);
+
+			owner.multPrestige(0.95F, worldObj);
 		}
 		
 		owner = c;
 
 		if(owner != null) {
-			owner.addPrestigeGen(Clowder.flagRate, worldObj);
-			owner.addPrestigeReq(Clowder.flagReq, worldObj);
+			owner.addPrestigeGen(getGenRate(), worldObj);
+			owner.addPrestigeReq(getCost(), worldObj);
 		}
+	}
+	
+	public void setMode(int mode) {
+		
+		//if there's no owner, the mode cannot be set
+		if(owner == null) {
+			this.mode = 0;
+			return;
+		}
+
+		float beforeGen = getGenRateFromMode(this.mode);
+		float afterGen = getGenRateFromMode(mode);
+
+		float beforeCost = getCostFromMode(this.mode);
+		float afterCost = getCostFromMode(mode);
+		
+		//if the new requirement is above the prestige level, the mode will not change
+		if(owner.getPrestigeReq() - beforeCost + afterCost > owner.getPrestige())
+			return;
+
+		//subtract old amounts
+		owner.addPrestigeGen(-beforeGen, worldObj);
+		owner.addPrestigeReq(-beforeCost, worldObj);
+		
+		this.mode = mode;
+		
+		//...and add the new ones
+		owner.addPrestigeGen(afterGen, worldObj);
+		owner.addPrestigeReq(afterCost, worldObj);
 	}
 	
 	private boolean consumeToken() {
@@ -229,16 +317,6 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		case 2: return 500;
 		case 3: return 1000;
 		default: return 0;
-		}
-	}
-	
-	public void processGauge(int val, int id) {
-		
-		switch(id) {
-		case 0: flag = ClowderFlag.values()[val]; break;
-		case 1: color = val; break;
-		case 2: mode = val; break;
-		case 3: height = val * 0.01F; break;
 		}
 	}
 	
