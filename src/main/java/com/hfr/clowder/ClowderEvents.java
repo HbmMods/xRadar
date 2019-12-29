@@ -81,9 +81,15 @@ public class ClowderEvents {
 			String name = clowder.getDecoratedName();
 			
 			String message = EnumChatFormatting.DARK_GREEN + "[ " + name + " ]";
-			if(clowder.leader.equals(event.player.getDisplayName())) {
+			
+			if(clowder.getPermLevel(event.player.getDisplayName()) > 1) {
+				message = EnumChatFormatting.DARK_BLUE + "[ " + clowder.name.replace('_', ' ') + " ]";
+			}
+			
+			if(clowder.getPermLevel(event.player.getDisplayName()) > 2) {
 				message = EnumChatFormatting.GOLD + "[ " + clowder.name.replace('_', ' ') + " ]";
 			}
+			
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
 		}
 	}

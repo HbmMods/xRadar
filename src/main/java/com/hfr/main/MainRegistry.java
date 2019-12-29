@@ -306,6 +306,7 @@ public class MainRegistry
 		event.registerServerCommand(new CommandXDebug());
 		event.registerServerCommand(new CommandXMarket());
 		event.registerServerCommand(new CommandClowder());
+		event.registerServerCommand(new CommandClowderChat());
 		event.registerServerCommand(new CommandClowderAdmin());
 	}
 
@@ -781,16 +782,18 @@ public class MainRegistry
         		logger.error("Invalid config entry '" + val + "'");
         }
         
-        String[] flags = createConfigStringList(config, "CLOWDER", "flags", "[name of the flag]:[whether it's shown in the listing]",
-        		new String[] { "usa:true" } );
+        String[] flags = createConfigStringList(config, "CLOWDER", "flags", "[name of the flag]:[whether it's shown in the listing]:[whether it has a tintable base]:[whether it has a static overlay]",
+        		new String[] { "usa:true:true:true" } );
         
         for(String val : flags) {
         	
         	try {
 	        	String fname = val.split(":")[0];
 	        	boolean vis = Boolean.parseBoolean(val.split(":")[1]);
+	        	boolean base = Boolean.parseBoolean(val.split(":")[2]);
+	        	boolean over = Boolean.parseBoolean(val.split(":")[3]);
 	        	
-	        	EnumHelper.addEnum(ClowderFlag.class, fname, new Class[] { String.class, boolean.class, boolean.class }, new Object[] {fname, vis, true} );
+	        	EnumHelper.addEnum(ClowderFlag.class, fname, new Class[] { String.class, boolean.class, boolean.class, boolean.class }, new Object[] {fname, vis, base, over} );
 	        	System.out.println("Successfully added flag " + fname);
         	} catch(Exception ex) {
         		logger.error("Invalid config entry '" + val + "'");

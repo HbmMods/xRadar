@@ -194,7 +194,7 @@ public class CommandClowderAdmin extends CommandBase {
 	private void cmdHijack(ICommandSender sender) {
 
 		EntityPlayer player = getCommandSenderAsPlayer(sender);
-		Clowder clowder = Clowder.getClowderFromName(player.getDisplayName());
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
 		
 		if(clowder != null) {
 			

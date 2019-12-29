@@ -230,30 +230,32 @@ public class ClientProxy extends ServerProxy
 			int z2 = pl[3];
 			int color = pl[4];
 
-		    //float r = ((color & 0xFF0000) >> 16) / 256F;
-		    //float g = ((color & 0xFF00) >> 8) / 256F;
-		    //float b = (color & 0xFF) / 256F;
-
-		    float r = Math.max(((color & 0xFF0000) >> 16) / 256F, 0.01F);
+		    /*float r = Math.max(((color & 0xFF0000) >> 16) / 256F, 0.01F);
 		    float g = Math.max(((color & 0xFF00) >> 8) / 256F, 0.01F);
-		    float b = Math.max((color & 0xFF) / 256F, 0.01F);
+		    float b = Math.max((color & 0xFF) / 256F, 0.01F);*/
 			
-			int a = 5;
+			/*int a = 5;
 			
 			if(part == 1)
 				a = 2;
 			
 			if(part == 2)
-				a = 1;
+				a = 1;*/
+			
+			int a = 1;
 			
 			for(int i = 0; i < a; i++) {
 				double xs = x1 + (x2 - x1) * world.rand.nextDouble();
 				double zs = z1 + (z2 - z1) * world.rand.nextDouble();
 				double ys = world.getHeightValue((int)xs, (int)zs - 1) + 0.25;// + 1.5D + world.rand.nextGaussian();
 				
-				EntityReddustFX fx = new EntityReddustFX(world, xs, ys, zs, r, g, b);
+				/*EntityReddustFX fx = new EntityReddustFX(world, xs, ys, zs, r, g, b);
 				fx.motionY = 0.1;
-				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);*/
+				
+				EntityFireworkSparkFX blast = new EntityFireworkSparkFX(world, xs, ys, zs, 0.0, 0.4 * world.rand.nextGaussian() + 0.6, 0.0, Minecraft.getMinecraft().effectRenderer);
+				blast.setColour(color);
+				Minecraft.getMinecraft().effectRenderer.addEffect(blast);
 			}
 			
 			break;

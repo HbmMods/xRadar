@@ -44,12 +44,12 @@ public enum ClowderFlag {
 		overlay = new ResourceLocation(getLoc() + "_overlay.png");
 	}
 	
-	private ClowderFlag(String name, boolean show, boolean extra) {
+	private ClowderFlag(String name, boolean show, boolean base, boolean over) {
 		this.name = name;
 		this.show = show;
 
-		flag = new ResourceLocation(getCustomLoc() + ".png");
-		overlay = new ResourceLocation(getCustomLoc() + "_overlay.png");
+		flag = base ? new ResourceLocation(getCustomLoc() + ".png") : new ResourceLocation(RefStrings.MODID + ":textures/flags/flag_blank.png");
+		overlay = over ? new ResourceLocation(getCustomLoc() + "_overlay.png") : new ResourceLocation(RefStrings.MODID + ":textures/flags/flag_blank.png");
 	}
 	
 	private String getLoc() {

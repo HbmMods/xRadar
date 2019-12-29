@@ -228,6 +228,16 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
+		if(cmd.equals("promote") && args.length > 1) {
+			cmdPromote(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("deemote") && args.length > 1) {
+			cmdDemote(sender, args[1]);
+			return;
+		}
+		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
 	}
 	
@@ -245,11 +255,11 @@ public class CommandClowder extends CommandBase {
 		if(p == 1) {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-help {page}" + TITLE + " - The thing you just used"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-create <name>" + TITLE + " - Creates a faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-disband <name>" + TITLE + " - Disbands a faction, name parameter for confirmation"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-owner <player>" + TITLE + " - Transfers faction ownership"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-disband <name>" + TITLE + " - Disbands a faction, name parameter for confirmation"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-owner <player>" + TITLE + " - Transfers faction ownership"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-comrades" + TITLE + " - Shows all members of your faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-color <hexadecimal>" + TITLE + " - Sets the faction's color"));
-			sender.addChatMessage(new ChatComponentText(COMMAND + "-motd <MotD>" + TITLE + " - Sets the faction's MotD"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-motd <MotD>" + TITLE + " - Sets the faction's MotD"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-rename <name>" + TITLE + " - Renames your faction"));
 			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
 		}
@@ -284,6 +294,8 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-balance" + TITLE + " - Displays how much prestige the faction has"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-deposit <amount>" + TITLE + " - Turns prestige items into digiprestige"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-withdraw <amount>" + TITLE + " - Withdraws digiprestige as prestige items"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-promote <amount>" + TITLE + " - Promotes a member to officer"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-demote <amount>" + TITLE + " - Demotes an officer to member"));
 		}
 	}
 	
@@ -354,7 +366,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 				int c = ParserUtil.parseColor(color);
 				
 				if(c < 0) {
@@ -365,7 +377,7 @@ public class CommandClowder extends CommandBase {
 					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
 				}
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "Can not change the color of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to change this factiion's color!"));
 			}
 			
 		} else {
@@ -423,12 +435,12 @@ public class CommandClowder extends CommandBase {
 				
 			if(Clowder.getClowderFromName(name) == null) {
 
-				if(clowder.leader.equals(player.getDisplayName())) {
+				if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 					clowder.rename(name, player);
 					sender.addChatMessage(new ChatComponentText(TITLE + "Renamed faction to " + name + "!"));
 					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
 				} else {
-					sender.addChatMessage(new ChatComponentText(ERROR + "Can not rename a faction you do not own!"));
+					sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to rename this faction!"));
 				}
 				
 			} else {
@@ -463,15 +475,20 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 			
-			String stitched = "";
-			
-			for(int i = 1; i < motd.length; i++)
-				stitched += motd[i] + " ";
-			
-			stitched = stitched.trim();
-			
-			clowder.setMotd(stitched, player);
-			sender.addChatMessage(new ChatComponentText(TITLE + "Set faction MotD to " + stitched + "!"));
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+				
+				String stitched = "";
+				
+				for(int i = 1; i < motd.length; i++)
+					stitched += motd[i] + " ";
+				
+				stitched = stitched.trim();
+				
+				clowder.setMotd(stitched, player);
+				sender.addChatMessage(new ChatComponentText(TITLE + "Set faction MotD to " + stitched + "!"));
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to change this faction's MOTD!"));
+			}
 			
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
@@ -485,7 +502,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 2) {
 
 				if(clowder.members.get(owner) != null) {
 					EntityPlayer newLeader = player.worldObj.getPlayerEntityByName(owner);
@@ -541,7 +558,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 			
-			if(!clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) < 3) {
 				
 				clowder.removeMember(player.worldObj, player.getDisplayName());
 				sender.addChatMessage(new ChatComponentText(CRITICAL + "You left this faction!"));
@@ -562,7 +579,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 				
 				if(clowder.applications.contains(name)) {
 					
@@ -581,7 +598,7 @@ public class CommandClowder extends CommandBase {
 				}
 				
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "You can not manage invites of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to manage applications!"));
 			}
 			
 		} else {
@@ -596,7 +613,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 				
 				if(clowder.applications.contains(name)) {
 					
@@ -613,7 +630,7 @@ public class CommandClowder extends CommandBase {
 				}
 				
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "You can not manage invites of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to manage applications!"));
 			}
 			
 		} else {
@@ -628,7 +645,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 				
 				sender.addChatMessage(new ChatComponentText(TITLE + "Applicants:"));
 				int cnt = 0;
@@ -642,7 +659,7 @@ public class CommandClowder extends CommandBase {
 					sender.addChatMessage(new ChatComponentText(LIST + "None!"));
 				
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "You can not view the applicants of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to manage applications!"));
 			}
 			
 		} else {
@@ -657,7 +674,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 
 				if(clowder.members.get(kickee) != null) {
 					
@@ -675,7 +692,7 @@ public class CommandClowder extends CommandBase {
 				}
 				
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "You can not change the color of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to kick members!"));
 			}
 			
 		} else {
@@ -699,7 +716,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 
 				ClowderFlag f = ClowderFlag.getFromName(flag.toLowerCase());
 				
@@ -714,7 +731,7 @@ public class CommandClowder extends CommandBase {
 				}
 				
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "You can not change the color of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to change this faction's flag!"));
 			}
 			
 		} else {
@@ -751,7 +768,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 
-			if(clowder.leader.equals(player.getDisplayName())) {
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 				
 				Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ));
 				
@@ -764,7 +781,7 @@ public class CommandClowder extends CommandBase {
 				}
 				
 			} else {
-				sender.addChatMessage(new ChatComponentText(ERROR + "You can not set the home of a faction you do not own!"));
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to set this faction's home point!"));
 			}
 			
 		} else {
@@ -1002,6 +1019,77 @@ public class CommandClowder extends CommandBase {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.clowder_flag));
 			player.inventoryContainer.detectAndSendChanges();
 			sender.addChatMessage(new ChatComponentText(INFO + "Place the flag to claim new territory!"));
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdPromote(ICommandSender sender, String promotee) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+
+				if(clowder.members.get(promotee) != null) {
+					
+					if(clowder.getPermLevel(promotee) == 1) {
+						
+						clowder.promote(player.worldObj, promotee);
+						
+					} else {
+						sender.addChatMessage(new ChatComponentText(ERROR + "This player is already promoted!"));
+					}
+					
+				} else {
+					sender.addChatMessage(new ChatComponentText(ERROR + "This player is not in your faction!"));
+				}
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to promote members!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdDemote(ICommandSender sender, String demotee) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+
+			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+
+				if(clowder.members.get(demotee) != null) {
+					
+					if(demotee.equals(player.getDisplayName())) {
+						sender.addChatMessage(new ChatComponentText(ERROR + "You can't demote yourself!"));
+						return;
+					}
+					
+					if(clowder.getPermLevel(demotee) == 2) {
+						
+						clowder.demote(player.worldObj, demotee);
+						
+					} else if(clowder.getPermLevel(demotee) != 3) {
+						sender.addChatMessage(new ChatComponentText(ERROR + "This player is already demoted!"));
+					} else {
+						sender.addChatMessage(new ChatComponentText(ERROR + "Are you seriously trying to demote the faction's leader?"));
+					}
+					
+				} else {
+					sender.addChatMessage(new ChatComponentText(ERROR + "This player is not in your faction!"));
+				}
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to demote members!"));
+			}
 			
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));

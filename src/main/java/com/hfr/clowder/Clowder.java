@@ -34,6 +34,7 @@ public class Clowder {
 	public HashMap<String, int[]> warps = new HashMap();
 	
 	public String leader;
+	public Set<String> officers = new HashSet();
 	public HashMap<String, Long> members = new HashMap();
 	public Set<String> applications = new HashSet();
 	
@@ -73,6 +74,7 @@ public class Clowder {
 			return false;
 		
 		members.remove(name);
+		officers.remove(name);
 		inverseMap.remove(name);
 
 		ClowderData.getData(world).markDirty();
@@ -87,10 +89,44 @@ public class Clowder {
 		if(members.get(key) == null)
 			return false;
 		
+		officers.remove(key);
 		leader = key;
 		ClowderData.getData(player.worldObj).markDirty();
 		
 		return true;
+	}
+	
+	public void promote(World world, String name) {
+		
+		if(!members.containsKey(name))
+			return;
+		
+		officers.add(name);
+		this.save(world);
+	}
+	
+	public void demote(World world, String name) {
+		
+		if(!members.containsKey(name))
+			return;
+		
+		officers.remove(name);
+		this.save(world);
+	}
+	
+	public int getPermLevel(String name) {
+		
+		if(this.leader.equals(name))
+			return 3;
+		
+		if(this.officers.contains(name))
+			return 2;
+		
+		if(this.members.get(name) != null)
+			return 1;
+		
+		return 0;
+		
 	}
 	
 	public void setHome(double x, double y, double z, EntityPlayer player) {
@@ -312,11 +348,16 @@ public class Clowder {
 
 		nbt.setString(i + "_leader", this.leader);
 		nbt.setInteger(i + "_members", this.members.size());
+		nbt.setInteger(i + "_officers", this.officers.size());
 		nbt.setInteger(i + "_warps", this.warps.size());
 		
 		/// SAVE MEMBERS ///
 		for(int j = 0; j < this.members.keySet().size(); j++)
 			nbt.setString(i + "_" + j, (String) this.members.keySet().toArray()[j]);
+		
+		/// SAVE OFFICERS ///
+		for(int j = 0; j < this.officers.size(); j++)
+			nbt.setString(i + "_" + j + "_off", (String) this.officers.toArray()[j]);
 		
 		/// SAVE WARPS ///
 		for(int j = 0; j < this.warps.keySet().size(); j++) {
@@ -347,10 +388,14 @@ public class Clowder {
 
 		c.leader = nbt.getString(i + "_leader");
 		int count = nbt.getInteger(i + "_members");
+		int co = nbt.getInteger(i + "_officers");
 		int cwarp = nbt.getInteger(i + "_warps");
 		
 		for(int j = 0; j < count; j++)
 			c.members.put(nbt.getString(i + "_" + j), time());
+		
+		for(int j = 0; j < co; j++)
+			c.officers.add(nbt.getString(i + "_" + j + "_off"));
 		
 		for(int j = 0; j < cwarp; j++) {
 			
