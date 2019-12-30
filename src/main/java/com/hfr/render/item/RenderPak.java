@@ -69,7 +69,7 @@ public class RenderPak implements IItemRenderer {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
-		if(color == 0) {
+		if(color <= 0) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pakker_tex);
 		} else {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pakker_grey_tex);

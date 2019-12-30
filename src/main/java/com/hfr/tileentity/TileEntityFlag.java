@@ -121,7 +121,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			}
 			
 			if(!isClaimed || owner == null) {
-				mode = 0;
+				this.setMode(0);
 				timer = 0;
 				this.markDirty();
 			} else {
@@ -136,7 +136,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 						if(consumeToken()) {
 							timer = getTime();
 						} else {
-							mode = 0;
+							this.setMode(0);
 							timer = 0;
 						}
 						
@@ -252,6 +252,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	}
 	
 	public void setOwner(Clowder c) {
+		
+		//more of a failsafe since in all natural cases, the mode is 0 during this happening
 		
 		if(owner != null) {
 			owner.addPrestigeGen(-getGenRate(), worldObj);

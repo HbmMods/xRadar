@@ -178,20 +178,20 @@ public class Clowder {
 			n += " ★★";
 		else if(getPrestige() < 100)
 			n += " ★★★";
+		else if(getPrestige() < 125)
+			n += " ★★★★";
 		else if(getPrestige() < 150)
-			n += " ☆";
-		else if(getPrestige() < 200)
-			n += " ☆☆";
+			n += " ★★★★★";
 		else if(getPrestige() < 250)
-			n += " ☆☆☆";
-		else if(getPrestige() < 500)
 			n += " ✪";
-		else if(getPrestige() < 750)
+		else if(getPrestige() < 500)
 			n += " ✪✪";
-		else if(getPrestige() < 1000)
+		else if(getPrestige() < 750)
 			n += " ✪✪✪";
+		else if(getPrestige() < 1000)
+			n += " ✪✪✪✪";
 		else if(getPrestige() < 10000)
-			n += " [⚛]";
+			n += " ✪✪✪✪✪";
 		else
 			n += " [✶]";
 		

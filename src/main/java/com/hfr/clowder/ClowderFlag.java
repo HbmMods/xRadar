@@ -71,7 +71,7 @@ public enum ClowderFlag {
 	public static ClowderFlag getFromName(String name) {
 		
 		for(ClowderFlag flag : ClowderFlag.values()) {
-			if(flag.name.equals(name))
+			if(flag.name.toLowerCase().equals(name.toLowerCase()))
 				return flag;
 		}
 		
