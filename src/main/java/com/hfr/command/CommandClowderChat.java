@@ -51,7 +51,21 @@ public class CommandClowderChat extends CommandBase {
 			message += args[i];
 		}
 		
-		clowder.notifyAll(player.worldObj, new ChatComponentText(HELP + "[" + player.getDisplayName() + "] " + message));
+		String name = "";
+
+		if(clowder.getPermLevel(player.getDisplayName()) > 2) {
+			name += "<Leader> ";
+		}
+		if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+			name += "<Officer> ";
+		}
+		if(clowder.getPermLevel(player.getDisplayName()) > 0) {
+			name += "<Citizen> ";
+		}
+		
+		name += "[" + player.getDisplayName() + "]";
+		
+		clowder.notifyAll(player.worldObj, new ChatComponentText(HELP + name + " " + message));
 	}
 
 	public static final String ERROR = EnumChatFormatting.RED.toString();

@@ -3,7 +3,6 @@ package com.hfr.blocks;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
-import com.hfr.pon4.ExplosionNukeRay;
 import com.hfr.tileentity.TileEntityDebug;
 
 import net.minecraft.block.BlockContainer;
@@ -44,7 +43,7 @@ public class BlockDebug extends BlockContainer {
 		
 		if(!world.isRemote) {
 			
-			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
+			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
 			
 			System.out.println(owner.zone);
 			if(owner.zone == Zone.WILDERNESS) {

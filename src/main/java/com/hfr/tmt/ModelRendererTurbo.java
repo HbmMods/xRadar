@@ -2233,7 +2233,7 @@ public class ModelRendererTurbo extends ModelRenderer
 				curTexGroup.loadTexture();
 				GL11.glCallList(displayListArray[i]);
 				if(!defaultTexture.equals(""))
-					renderEngine.bindTexture(new ResourceLocation("", defaultTexture)); //TODO : Check. Not sure about this one
+					renderEngine.bindTexture(new ResourceLocation("", defaultTexture));
 			}
 		}
 	}

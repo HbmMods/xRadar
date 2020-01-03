@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hfr.util.FourInts;
-import com.hfr.util.ThreeInts;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;

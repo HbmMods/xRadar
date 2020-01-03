@@ -231,8 +231,9 @@ public class AuxButtonPacket implements IMessage {
 						
 						Clowder clow = Clowder.getClowderFromPlayer(p);
 						
-						if(clow != flag.owner && clow != null)
+						if(clow != flag.owner && clow != null) {
 							flag.isClaimed = false;
+						}
 					}
 				}
 				

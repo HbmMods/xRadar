@@ -29,7 +29,7 @@ public class TextureGroup
 		if(!texture.equals(""))
 		{
 			TextureManager renderengine = RenderManager.instance.renderEngine;
-			renderengine.bindTexture(new ResourceLocation("", texture)); //TODO : Check. Not sure about this one
+			renderengine.bindTexture(new ResourceLocation("", texture));
 		}
 		else if(defaultTexture > -1)
 		{

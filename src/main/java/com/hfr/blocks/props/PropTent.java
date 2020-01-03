@@ -52,8 +52,10 @@ public class PropTent extends BlockDummyable {
 				
 				if(this == ModBlocks.tp_tent) {
 					
-					if(tent != null)
+					if(tent != null) {
 						owner.owner.warps.remove(tent.warp);
+						owner.owner.save(world);
+					}
 				}
 				
 				if(tent.operational())

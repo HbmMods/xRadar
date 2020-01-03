@@ -4,10 +4,8 @@ import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemTool;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ModItems {

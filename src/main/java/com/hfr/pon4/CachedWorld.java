@@ -116,7 +116,6 @@ public class CachedWorld implements IBlockAccess
 	@Override
 	public BiomeGenBase getBiomeGenForCoords(int x, int z)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

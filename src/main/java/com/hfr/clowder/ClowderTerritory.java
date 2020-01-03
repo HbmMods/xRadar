@@ -32,6 +32,7 @@ public class ClowderTerritory {
 	public static CoordPair getCoordPair(int x, int z) {
 		
 		//why is this necessary? idk but it is
+		x += 1;
 		z += 1;
 		
 		return new CoordPair(x / 16, z / 16);
@@ -135,7 +136,7 @@ public class ClowderTerritory {
 		if(clowder == null)
 			return false;
 		
-		Ownership owner = getOwnerFromCoords(getCoordPair((int)player.posX, (int)player.posZ));
+		Ownership owner = getOwnerFromInts((int)player.posX, (int)player.posZ);
 		
 		if(owner != null && owner.zone == Zone.FACTION && owner.owner == clowder)
 			return true;
@@ -169,20 +170,7 @@ public class ClowderTerritory {
 	//converts the UUID long code into a CoordPair instance
 	public static CoordPair codeToCoords(long code) {
 
-		int x = (int) ((code & 0xFFFFFFFF00000000L) >> 32);
-		int z = (int) (code & 0xFFFFFFFFL);
-
-		if((x & (0x1 << 31)) != 0) {
-			x &= ~(0x1 << 31);
-			x *= -1;
-		}
-		
-		if((z & (0x1 << 31)) != 0) {
-			z &= ~(0x1 << 31);
-			z *= -1;
-		}
-		
-		return new CoordPair(x, z);
+		return new CoordPair((int)(code >> 32), (int)code);
 	}
 
 	//converts a CoordPair instance into the UUID long code
@@ -193,27 +181,7 @@ public class ClowderTerritory {
 
 	public static long intsToCode(int x, int z) {
 		
-		int upper = Math.abs(x);
-		int lower = Math.abs(z);
-		
-		//so basically
-		//instead of engaging in cock and ball torture to compensate for the fact that negative values
-		//of int and long datatypes have different bits, the coord code only stores positive values,
-		//indicating whether the original is negative by adding a 1 on the very first bit. this could
-		//cause issues with ridiculously large numbers, but in order for this to be an issue, there
-		//has to be a claimed chunk so far away from 0/0 that the distance from 0/0 to the claim would
-		//exceed the distance to the farlands by a factor of 16.
-		
-		if(x < 0)
-			upper |= (0x1 << 31);
-		if(z < 0)
-			lower |= (0x1 << 31);
-
-		long shift = (((long)upper) << 32);
-		long trunk = ((long)lower) & 0xFFFFFFFFL;
-		long code = shift | trunk;
-		
-		return code;
+        return ((long)x & 0xFFFFFFFFL) << 32 | ((long)z & 0xFFFFFFFFL);
 	}
 	
 	public static class Ownership {
@@ -377,18 +345,13 @@ public class ClowderTerritory {
 					
 					ITerritoryProvider flag = (ITerritoryProvider)te;
 					
-					//if(flag.getOwner() == null)
-					//	return true;
-					
 					int r = flag.getRadius();
 					
 					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
 					
 					if(flag.getOwner() != own) {
-						System.out.println("CD: owner changed");
 						return false;
 					} else if(dist >= r) {
-						System.out.println("CD: OOB");
 						return false;
 					} else {
 						return true;

@@ -73,11 +73,16 @@ public class TileEntityProp extends TileEntity {
 				}
 			}
 			
+			Ownership o = ClowderTerritory.getOwnerFromInts(xCoord, zCoord);
+			
 			/// WARP UPDATE ///
 			if(!warp.isEmpty()) {
-				Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(xCoord, zCoord));
 				
-				if(!operational() || owner == null || owner.zone != Zone.FACTION || !owner.owner.warps.containsKey(warp)) {
+				if(!operational() || o == null || o.zone != Zone.FACTION || !o.owner.warps.containsKey(warp)) {
+					
+					if(owner != null)
+						owner.warps.remove(warp);
+					
 					warp = "";
 					this.markDirty();
 				}
@@ -88,9 +93,14 @@ public class TileEntityProp extends TileEntity {
 				
 				if(this.operational()) {
 					
-					Ownership o = ClowderTerritory.getOwnerFromInts(xCoord, zCoord);
-					
 					if(owner != o.owner) {
+						
+						if(owner != null) {
+							
+							//doesn't need a call of the save method because it will always save in the statements below
+							owner.warps.remove(warp);
+							warp = "";
+						}
 						
 						if(o != null && o.zone == Zone.FACTION) {
 							if(owner != null)

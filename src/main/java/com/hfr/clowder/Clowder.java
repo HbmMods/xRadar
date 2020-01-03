@@ -41,6 +41,7 @@ public class Clowder {
 	public static List<Clowder> clowders = new ArrayList();
 	public static HashMap<String, Clowder> inverseMap = new HashMap();
 	public static HashSet<String> retreating = new HashSet();
+	public static HashMap<Long, ScheduledTeleport> teleports = new HashMap();
 
 	//because we can't have ANYTHING nice
 	private float prestige = 0;
@@ -282,6 +283,7 @@ public class Clowder {
 	public boolean isRaidable() {
 		
 		int online = 0;
+		int members = this.members.size();
 		
 		for(String s : this.members.keySet()) {
 			
@@ -290,10 +292,14 @@ public class Clowder {
 			if(l > System.currentTimeMillis())
 				online++;
 		}
-		
-		int percent = online * 100 / this.members.size();
-		
-		return percent > 33;
+
+		if(members >= 6)
+			return online >= 3;
+			
+		if(members >= 3)
+			return online >= 2;
+			
+		return online >= 1;
 	}
 	
 	public static String round(float f) {
@@ -435,7 +441,7 @@ public class Clowder {
 	
 	public void notifyCapture(World world, int x, int z, String type) {
 
-		notifyAll(world, new ChatComponentText(EnumChatFormatting.RED + "One of your " + type + " at X:" + x + "/Z:" + z + " is under attack!"));
+		notifyAll(world, new ChatComponentText(EnumChatFormatting.RED + "One of your " + type + " at X:" + x + " / Z:" + z + " is under attack!"));
 	}
 	
 	/// GLOBAL METHODS ///
@@ -524,5 +530,20 @@ public class Clowder {
 	
 	public static long time() {
 		return System.currentTimeMillis();
+	}
+	
+	public static class ScheduledTeleport {
+		
+		int posX;
+		int posY;
+		int posZ;
+		String player;
+		
+		public ScheduledTeleport(int posX, int posY, int posZ, String player) {
+			this.posX = posX;
+			this.posY = posY;
+			this.posZ = posZ;
+			this.player = player;
+		}
 	}
 }

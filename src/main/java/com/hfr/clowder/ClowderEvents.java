@@ -1,7 +1,11 @@
 package com.hfr.clowder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.Clowder.ScheduledTeleport;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
@@ -12,31 +16,33 @@ import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderBorderPacket;
 import com.hfr.packet.effect.ClowderFlagPacket;
-import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.tileentity.TileEntityProp;
 import com.hfr.tileentity.TileEntityStatue;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.block.BlockAnvil;
+import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockButton;
+import net.minecraft.block.BlockCake;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockLever;
+import net.minecraft.block.BlockRedstoneDiode;
+import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -83,11 +89,11 @@ public class ClowderEvents {
 			String message = EnumChatFormatting.DARK_GREEN + "[ " + name + " Citizen ]";
 			
 			if(clowder.getPermLevel(event.player.getDisplayName()) > 1) {
-				message = EnumChatFormatting.DARK_BLUE + "[ " + clowder.name.replace('_', ' ') + " Officer ]";
+				message = EnumChatFormatting.BLUE + "[ " + name + " Officer ]";
 			}
 			
 			if(clowder.getPermLevel(event.player.getDisplayName()) > 2) {
-				message = EnumChatFormatting.GOLD + "[ " + clowder.name.replace('_', ' ') + " Leader ]";
+				message = EnumChatFormatting.GOLD + "[ " + name + " Leader ]";
 			}
 			
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(message));
@@ -114,19 +120,13 @@ public class ClowderEvents {
 				
 				EntityPlayer player = ((BreakEvent)event).getPlayer();
 				Clowder clowder = Clowder.getClowderFromPlayer(player);
-
-				//System.out.println(owner.zone == Zone.WILDERNESS ? "none" : owner.owner.name);
-				//System.out.println(clowder == null ? "none" : clowder.name);
 				
-				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
+				if(canBreak(player, clowder, owner, b)) {
 					
-					if(canBreak(player, clowder, owner, b)) {
-						
-						onBreak(event.world, b, x, y, z, owner);
-						
-					} else {
-						event.setCanceled(true);
-					}
+					onBreak(event.world, b, x, y, z, owner);
+					
+				} else {
+					event.setCanceled(true);
 				}
 			}
 			
@@ -135,7 +135,7 @@ public class ClowderEvents {
 				EntityPlayer player = ((PlaceEvent)event).player;
 				Clowder clowder = Clowder.getClowderFromPlayer(player);
 				
-				if(owner.zone == Zone.FACTION && clowder != owner.owner)
+				if(!canPlace(player, clowder, owner))
 					event.setCanceled(true);
 			}
 		}
@@ -173,7 +173,7 @@ public class ClowderEvents {
 	
 	private boolean canBreak(EntityPlayer player, Clowder clowder, Ownership owner, Block b) {
 		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.debug)
+		if(player.inventory.hasItem(ModItems.debug))
 			return true;
 
 		if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE)
@@ -196,6 +196,21 @@ public class ClowderEvents {
 		return true;
 	}
 	
+	private boolean canPlace(EntityPlayer player, Clowder clowder, Ownership owner) {
+		
+		if(player.inventory.hasItem(ModItems.debug))
+			return true;
+
+		if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE)
+			return false;
+		
+		if(owner.zone == Zone.FACTION && clowder != owner.owner) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Prevents explosive damage on clowder territory under certain conditions.
 	 * @param event
@@ -209,7 +224,7 @@ public class ClowderEvents {
 			int x = pos.chunkPosX;
 			int z = pos.chunkPosZ;
 			
-			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
+			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
 			
 			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE || (owner.zone == Zone.FACTION && !owner.owner.isRaidable())) {
 				event.getAffectedBlocks().remove(i);
@@ -236,21 +251,36 @@ public class ClowderEvents {
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.debug)
 				return;
 			
-			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(x, z));
+			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
 			
 			if(owner != null) {
 				Clowder clowder = Clowder.getClowderFromPlayer(event.entityPlayer);
 				
-				if(owner.zone == Zone.FACTION && clowder != owner.owner) {
-					
-					event.useBlock = Result.DENY;
-					
-					if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.interactOverride.contains(b) && owner.owner.isRaidable()) {
-						event.useBlock = Result.DEFAULT;
-					}
+				if(!canInteract(player, clowder, owner, b)) {
+					event.setCanceled(true);
 				}
 			}
 		}
+	}
+	
+	private boolean canInteract(EntityPlayer player, Clowder clowder, Ownership owner, Block b) {
+		
+		if(player.inventory.hasItem(ModItems.debug))
+			return true;
+		
+		if(owner.zone == Zone.FACTION && clowder != owner.owner) {
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.interactOverride.contains(b) && owner.owner.isRaidable()) {
+				return true;
+			}
+			
+			if(b instanceof BlockContainer || b instanceof BlockButton || b instanceof BlockDoor || b instanceof BlockAnvil ||
+					b instanceof BlockBed || b instanceof BlockCake || b instanceof BlockFenceGate || b instanceof BlockLever ||
+					b instanceof BlockRedstoneDiode || b instanceof BlockTNT)
+				return false;
+		}
+		
+		return true;
 	}
 	
 	public static final String NBTKEY = "lastClowder";
@@ -262,7 +292,7 @@ public class ClowderEvents {
 	 */
 	private void flagPopup(World world, EntityPlayer player) {
 
-		Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ - 1));
+		Ownership owner = ClowderTerritory.getOwnerFromInts((int)player.posX, (int)player.posZ - 1);
 		
 		String name = owner.zone.toString();
 		
@@ -301,17 +331,17 @@ public class ClowderEvents {
 	 */
 	private static void particleBorder2(World world, EntityPlayer player) {
 
-		int ox = (int)player.posX - ((int)player.posX % 16);
-		int oz = (int)player.posZ - ((int)player.posZ % 16);
+		int ox = ((int)player.posX / 16) * 16;
+		int oz = ((int)player.posZ / 16) * 16;
 		
 		int range = 4;
 
 		for(int x = -range; x < range; x++) {
 			for(int z = -range; z < range; z++) {
 
-				Ownership center = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(ox + x * 16, oz + z * 16));
-				Ownership north = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(ox + (x + ForgeDirection.NORTH.offsetX) * 16, oz + (z + ForgeDirection.NORTH.offsetZ) * 16));
-				Ownership west = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair(ox + (x + ForgeDirection.WEST.offsetX) * 16, oz + (z + ForgeDirection.WEST.offsetZ) * 16));
+				Ownership center = ClowderTerritory.getOwnerFromInts(ox + x * 16, oz + z * 16);
+				Ownership north = ClowderTerritory.getOwnerFromInts(ox + (x + ForgeDirection.NORTH.offsetX) * 16, oz + (z + ForgeDirection.NORTH.offsetZ) * 16);
+				Ownership west = ClowderTerritory.getOwnerFromInts(ox + (x + ForgeDirection.WEST.offsetX) * 16, oz + (z + ForgeDirection.WEST.offsetZ) * 16);
 
 				Ownership none = ClowderTerritory.WILDERNESS;
 				boolean n = isTerritoryDifferent(north, center);
@@ -439,6 +469,40 @@ public class ClowderEvents {
 			return;
 		} else {
 			delay = MainRegistry.territoryDelay;
+		}
+		
+		List<Long> rem = new ArrayList();
+		for(Long time : Clowder.teleports.keySet()) {
+			
+			ScheduledTeleport tp = Clowder.teleports.get(time);
+			EntityPlayer player = world.getPlayerEntityByName(tp.player);
+			
+			if(player == null)
+				continue;
+			
+			if(time < System.currentTimeMillis()) {
+				
+				if(player instanceof EntityPlayerMP) {
+					
+					EntityPlayerMP playermp = (EntityPlayerMP)player;
+					playermp.mountEntity(null);
+					playermp.playerNetServerHandler.setPlayerLocation(tp.posX + 0.5D, tp.posY, tp.posZ + 0.5D, player.rotationYaw, player.rotationPitch);
+					playermp.addChatMessage(new ChatComponentText(CommandClowder.INFO + "Warping..."));
+					
+				}
+				rem.add(time);
+				
+			} else {
+				
+				if(player.posX != player.lastTickPosX || player.posZ != player.lastTickPosZ) {
+					rem.add(time);
+					player.addChatMessage(new ChatComponentText(CommandClowder.ERROR + "Warp aborted!"));
+				}
+			}
+		}
+		
+		for(Long time : rem) {
+			Clowder.teleports.remove(time);
 		}
 		
 		/// CLOWDER TERRITORYY ADMINISTRATIVE STUFF START ///

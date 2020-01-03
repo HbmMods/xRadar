@@ -3,8 +3,10 @@ package com.hfr.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
+import com.hfr.clowder.Clowder.ScheduledTeleport;
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
@@ -14,8 +16,10 @@ import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderFlagPacket;
+import com.hfr.tileentity.TileEntityProp;
 import com.hfr.util.ParserUtil;
 
+import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +29,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class CommandClowder extends CommandBase {
 
@@ -770,7 +776,7 @@ public class CommandClowder extends CommandBase {
 
 			if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 				
-				Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ));
+				Ownership owner = ClowderTerritory.getOwnerFromInts((int)player.posX, (int)player.posZ);
 				
 				if(owner != null && owner.zone == Zone.FACTION && owner.owner == clowder) {
 
@@ -796,7 +802,7 @@ public class CommandClowder extends CommandBase {
 		
 		if(clowder != null) {
 			
-			Ownership owner = ClowderTerritory.getOwnerFromCoords(ClowderTerritory.getCoordPair((int)player.posX, (int)player.posZ));
+			Ownership owner = ClowderTerritory.getOwnerFromInts((int)player.posX, (int)player.posZ);
 			
 			if(owner != null && (owner.zone == Zone.WARZONE || (owner.zone == Zone.FACTION && owner.owner != clowder))) {
 
@@ -804,9 +810,13 @@ public class CommandClowder extends CommandBase {
 				
 			} else {
 				
-				player.mountEntity(null);
+				/*player.mountEntity(null);
 				player.playerNetServerHandler.setPlayerLocation(clowder.homeX + 0.5D, clowder.homeY, clowder.homeZ + 0.5D, player.rotationYaw, player.rotationPitch);
-				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Teleporting home..."));
+				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Teleporting home..."));*/
+				
+				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
+				clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(clowder.homeX, clowder.homeY, clowder.homeZ, player.getDisplayName()));
+				
 			}
 			
 		} else {
@@ -877,10 +887,57 @@ public class CommandClowder extends CommandBase {
 			
 			if(clowder.warps.containsKey(name)) {
 				
+				Ownership owner = ClowderTerritory.getOwnerFromInts((int)player.posX, (int)player.posZ);
+				
+				if(owner != null && (owner.zone == Zone.WARZONE || (owner.zone == Zone.FACTION && owner.owner != clowder))) {
+
+					sender.addChatMessage(new ChatComponentText(ERROR + "You can not warp in foreign territory!"));
+					return;
+				}
+				
 				int[] warp = clowder.warps.get(name);
-				player.mountEntity(null);
-				player.playerNetServerHandler.setPlayerLocation(warp[0] + 0.5D, warp[1], warp[2] + 0.5D, player.rotationYaw, player.rotationPitch);
-				sender.addChatMessage(new ChatComponentText(INFO + "Warping..."));
+				
+				if(warp == null) {
+					return;
+				}
+				
+				IChunkProvider provider = player.worldObj.getChunkProvider();
+				
+				for(int i = 2; i <= 5; i++) {
+					
+					ForgeDirection dir = ForgeDirection.getOrientation(i);
+					
+					provider.loadChunk((warp[0] + dir.offsetX * 2) >> 4, (warp[2] + dir.offsetZ * 2) >> 4);
+
+					int tentX = warp[0] + dir.offsetX * 2;
+					int tentZ = warp[2] + dir.offsetZ * 2;
+							
+					Block block = player.worldObj.getBlock(tentX, warp[1], tentZ);
+					
+					if(block == ModBlocks.tp_tent) {
+						
+						int[] pos = ((BlockDummyable)ModBlocks.tp_tent).findCore(player.worldObj, tentX, warp[1], tentZ);
+						
+						if(pos != null) {
+
+							provider.loadChunk(pos[0] >> 4, pos[2] >> 4);
+							TileEntityProp tent = (TileEntityProp)player.worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+							
+							if(tent.warp.equals(name) && tent.operational()) {
+								/*player.mountEntity(null);
+								player.playerNetServerHandler.setPlayerLocation(warp[0] + 0.5D, warp[1], warp[2] + 0.5D, player.rotationYaw, player.rotationPitch);
+								sender.addChatMessage(new ChatComponentText(INFO + "Warping..."));*/
+								
+								clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
+								clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(clowder.homeX, clowder.homeY, clowder.homeZ, player.getDisplayName()));
+								
+								return;
+							}
+						}
+					}
+				}
+				
+				sender.addChatMessage(new ChatComponentText(ERROR + "Warp tent not found! Make sure it still exists or remove this warp!"));
 				
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "This warp does not exist!"));

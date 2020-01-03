@@ -5,8 +5,6 @@ import java.util.List;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ParticleControlPacket;
-import com.hfr.pon4.ExplosionController;
-import com.hfr.pon4.ExplosionNukeRay;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

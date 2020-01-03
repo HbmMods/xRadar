@@ -1,5 +1,7 @@
 package com.hfr.tileentity;
 
+import static net.minecraftforge.common.util.ForgeDirection.UP;
+
 import java.util.List;
 
 import com.hfr.clowder.Clowder;
@@ -8,7 +10,6 @@ import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.CoordPair;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
-import com.hfr.data.ClowderData;
 import com.hfr.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +27,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	public Clowder owner;
 	public boolean isClaimed = true;
 	public float height = 1.0F;
-	public float speed = 0.005F * 0.5F;
+	public float speed = 1F / (20F * 30F);
 	public int mode = 0;
 	
 	private int timer = 0;
@@ -376,8 +377,10 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 
 		for(int i = -2; i <= 2; i++)
 			for(int j = -2; j <= 2; j++)
-				if(worldObj.getBlock(xCoord + i, yCoord + 1, zCoord + j).getMaterial() != Material.air && !(i == 0 && j == 0) ||
-					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord + 1, zCoord + j))
+				
+				if(worldObj.getBlock(xCoord + i, yCoord, zCoord + j).getMaterial() != Material.air && !(i == 0 && j == 0) ||
+					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord, zCoord + j) ||
+					!worldObj.getBlock(xCoord + i, yCoord - 1, zCoord + j).isSideSolid(worldObj, xCoord + i, yCoord - 1, zCoord + j, UP))
 					return false;
 		
 		return true;
