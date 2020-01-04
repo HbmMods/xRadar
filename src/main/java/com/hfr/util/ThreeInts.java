@@ -15,15 +15,31 @@ public class ThreeInts implements Comparable {
 	}
 	
 	@Override
-	public boolean equals(Object o) {
-		
-		if(o instanceof ThreeInts) {
-			ThreeInts ints = (ThreeInts)o;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		result = prime * result + z;
+		return result;
+	}
 
-			return x == ints.x && y == ints.y && z == ints.z;
-		}
-		
-		return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ThreeInts other = (ThreeInts) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		if (z != other.z)
+			return false;
+		return true;
 	}
 
 	@Override

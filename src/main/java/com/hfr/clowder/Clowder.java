@@ -228,6 +228,7 @@ public class Clowder {
 					if(tent.warp.isEmpty() && tent.operational()) {
 
 						tent.warp = name;
+						tent.markDirty();
 						
 						clowder.warps.put(name, new int[] {x, y, z});
 						

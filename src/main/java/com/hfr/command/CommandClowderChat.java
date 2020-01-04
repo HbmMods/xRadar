@@ -55,11 +55,9 @@ public class CommandClowderChat extends CommandBase {
 
 		if(clowder.getPermLevel(player.getDisplayName()) > 2) {
 			name += "<Leader> ";
-		}
-		if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+		} else if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 			name += "<Officer> ";
-		}
-		if(clowder.getPermLevel(player.getDisplayName()) > 0) {
+		} else if(clowder.getPermLevel(player.getDisplayName()) > 0) {
 			name += "<Citizen> ";
 		}
 		

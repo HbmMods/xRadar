@@ -10,6 +10,7 @@ import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
 import com.hfr.data.ClowderData;
+import com.hfr.handler.BobbyBreaker;
 import com.hfr.items.ItemMace;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
@@ -36,6 +37,8 @@ import net.minecraft.block.BlockRedstoneDiode;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -231,6 +234,8 @@ public class ClowderEvents {
 				i--;
 			}
 		}
+		
+		//BobbyBreaker.handleExplosionEvent(event);
 	}
 	
 	/**
@@ -274,10 +279,12 @@ public class ClowderEvents {
 				return true;
 			}
 			
-			if(b instanceof BlockContainer || b instanceof BlockButton || b instanceof BlockDoor || b instanceof BlockAnvil ||
+			return false;
+			
+			/*if(b instanceof BlockContainer || b instanceof BlockButton || b instanceof BlockDoor || b instanceof BlockAnvil ||
 					b instanceof BlockBed || b instanceof BlockCake || b instanceof BlockFenceGate || b instanceof BlockLever ||
 					b instanceof BlockRedstoneDiode || b instanceof BlockTNT)
-				return false;
+				return false;*/
 		}
 		
 		return true;
@@ -339,9 +346,9 @@ public class ClowderEvents {
 		for(int x = -range; x < range; x++) {
 			for(int z = -range; z < range; z++) {
 
-				Ownership center = ClowderTerritory.getOwnerFromInts(ox + x * 16, oz + z * 16);
-				Ownership north = ClowderTerritory.getOwnerFromInts(ox + (x + ForgeDirection.NORTH.offsetX) * 16, oz + (z + ForgeDirection.NORTH.offsetZ) * 16);
-				Ownership west = ClowderTerritory.getOwnerFromInts(ox + (x + ForgeDirection.WEST.offsetX) * 16, oz + (z + ForgeDirection.WEST.offsetZ) * 16);
+				Ownership center = ClowderTerritory.getOwnerFromInts(ox + x * 16 + 1, oz + z * 16);
+				Ownership north = ClowderTerritory.getOwnerFromInts(ox + (x + ForgeDirection.NORTH.offsetX) * 16 + 1, oz + (z + ForgeDirection.NORTH.offsetZ) * 16);
+				Ownership west = ClowderTerritory.getOwnerFromInts(ox + (x + ForgeDirection.WEST.offsetX) * 16 + 1, oz + (z + ForgeDirection.WEST.offsetZ) * 16);
 
 				Ownership none = ClowderTerritory.WILDERNESS;
 				boolean n = isTerritoryDifferent(north, center);
@@ -439,6 +446,19 @@ public class ClowderEvents {
 			}
 			
 			particleBorder2(player.worldObj, player);
+			
+			/*if(player.inventory.armorInventory[0] != null && player.inventory.armorInventory[0].getItem() == ModItems.clowder_banner) {
+				ItemStack banner = player.inventory.armorInventory[0];
+			    
+				if(clowder != null) {
+					
+					if(!banner.hasTagCompound())
+						banner.stackTagCompound = new NBTTagCompound();
+
+					banner.stackTagCompound.setInteger("flag", clowder.flag.ordinal());
+					banner.stackTagCompound.setInteger("color", clowder.color);
+				}
+			}*/
 		}
 	}
 

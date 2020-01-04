@@ -11,6 +11,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class ItemGasMask extends ItemArmor {
+	
 	@SideOnly(Side.CLIENT)
 	private ModelM65 modelM65;
 

@@ -170,8 +170,9 @@ public class TileEntityProp extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		owner = Clowder.getClowderFromName(nbt.getString("owner"));
+		warp = nbt.getString("warp");
 	}
 	
 	@Override
@@ -180,6 +181,9 @@ public class TileEntityProp extends TileEntity {
 		
 		if(owner != null)
 			nbt.setString("owner", owner.name);
+		
+		if(!warp.isEmpty())
+			nbt.setString("warp", warp);
 	}
 
 }

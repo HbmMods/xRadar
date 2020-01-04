@@ -92,6 +92,7 @@ public class ModItems {
 	public static Item battery;
 	public static Item oil_detector;
 	public static Item gas_mask;
+	//public static Item clowder_banner;
 	public static Item grenade_gas;
 	public static Item grenade_nuclear;
 	public static Item grenade_boxcar;
@@ -193,6 +194,7 @@ public class ModItems {
 		battery = new ItemLore().setUnlocalizedName("battery").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":oil_detector");
 		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask");
+		//clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
 		grenade_gas = new ItemGrenade(4).setUnlocalizedName("grenade_gas").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_gas");
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
@@ -223,6 +225,7 @@ public class ModItems {
 		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
+		//GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
 		
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
