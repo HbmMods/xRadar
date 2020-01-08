@@ -5,8 +5,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
+import com.hfr.inventory.container.ContainerGrainMill;
 import com.hfr.inventory.container.ContainerHydro;
 import com.hfr.inventory.container.ContainerLaunchPad;
 import com.hfr.inventory.container.ContainerMachineBuilder;
@@ -22,8 +24,10 @@ import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
+import com.hfr.inventory.gui.GUIBlastFurnace;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
+import com.hfr.inventory.gui.GUIGrainmill;
 import com.hfr.inventory.gui.GUIHydro;
 import com.hfr.inventory.gui.GUILaunchPad;
 import com.hfr.inventory.gui.GUIMachineBuilder;
@@ -205,6 +209,24 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_grainmill:
+			{
+				if(entity instanceof TileEntityMachineGrainmill)
+				{
+					return new ContainerGrainMill(player.inventory, (TileEntityMachineGrainmill) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_blastfurnace:
+			{
+				if(entity instanceof TileEntityMachineBlastFurnace)
+				{
+					return new ContainerBlastFurnace(player.inventory, (TileEntityMachineBlastFurnace) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -365,6 +387,24 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityFlag)
 					{
 						return new GUIFlag(player.inventory, (TileEntityFlag) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_grainmill:
+				{
+					if(entity instanceof TileEntityMachineGrainmill)
+					{
+						return new GUIGrainmill(player.inventory, (TileEntityMachineGrainmill) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_blastfurnace:
+				{
+					if(entity instanceof TileEntityMachineBlastFurnace)
+					{
+						return new GUIBlastFurnace(player.inventory, (TileEntityMachineBlastFurnace) entity);
 					}
 					return null;
 				}

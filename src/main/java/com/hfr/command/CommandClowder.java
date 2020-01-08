@@ -810,10 +810,6 @@ public class CommandClowder extends CommandBase {
 				
 			} else {
 				
-				/*player.mountEntity(null);
-				player.playerNetServerHandler.setPlayerLocation(clowder.homeX + 0.5D, clowder.homeY, clowder.homeZ + 0.5D, player.rotationYaw, player.rotationPitch);
-				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Teleporting home..."));*/
-				
 				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
 				clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(clowder.homeX, clowder.homeY, clowder.homeZ, player.getDisplayName()));
 				
@@ -924,12 +920,6 @@ public class CommandClowder extends CommandBase {
 							TileEntityProp tent = (TileEntityProp)player.worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 							
 							if(tent.warp.equals(name) && tent.operational()) {
-
-								System.out.println(tent.warp);
-								System.out.println("e");
-								/*player.mountEntity(null);
-								player.playerNetServerHandler.setPlayerLocation(warp[0] + 0.5D, warp[1], warp[2] + 0.5D, player.rotationYaw, player.rotationPitch);
-								sender.addChatMessage(new ChatComponentText(INFO + "Warping..."));*/
 								
 								clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
 								clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(warp[0], warp[1], warp[2], player.getDisplayName()));

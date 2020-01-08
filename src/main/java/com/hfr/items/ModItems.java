@@ -80,19 +80,26 @@ public class ModItems {
 	public static Item charge_railgun;
 	public static Item charge_bfg;
 
+	public static Item components_wood;
+	public static Item components_scaffold;
+	public static Item components_mechanical;
+	public static Item components_electronics;
+	
 	public static Item tidal_energy;
 	public static Item whale_meat;
 	public static Item science;
 	public static Item coin;
 	public static Item wrench;
 	public static Item province_point;
+	public static Item flour;
+	public static Item ingot_steel;
 
 	public static Item hammer;
 	public static Item wand;
 	public static Item battery;
 	public static Item oil_detector;
 	public static Item gas_mask;
-	//public static Item clowder_banner;
+	public static Item clowder_banner;
 	public static Item grenade_gas;
 	public static Item grenade_nuclear;
 	public static Item grenade_boxcar;
@@ -142,6 +149,11 @@ public class ModItems {
 		gas_natural = new ItemLore().setUnlocalizedName("gas_natural").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_natural");
 		gas_petroleum = new ItemLore().setUnlocalizedName("gas_petroleum").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_petroleum");
 
+		components_wood = new ItemLore().setUnlocalizedName("components_wood").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_wood");
+		components_scaffold = new ItemLore().setUnlocalizedName("components_scaffold").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_scaffold");
+		components_mechanical = new ItemLore().setUnlocalizedName("components_mechanical").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_mechanical");
+		components_electronics = new ItemLore().setUnlocalizedName("components_electronics").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_electronics");
+		
 		farmer = new ItemContract().setUnlocalizedName("farmer").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":farmer");
 		
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator");
@@ -188,13 +200,15 @@ public class ModItems {
 		coin = new ItemLore().setUnlocalizedName("hfr_coin").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":coin");
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
 		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":prestige");
+		flour = new ItemLore().setUnlocalizedName("flour").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":flour");
+		ingot_steel = new ItemLore().setUnlocalizedName("ingot_steel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_steel");
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
 		battery = new ItemLore().setUnlocalizedName("battery").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":oil_detector");
 		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask");
-		//clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
+		clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
 		grenade_gas = new ItemGrenade(4).setUnlocalizedName("grenade_gas").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_gas");
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
@@ -225,7 +239,7 @@ public class ModItems {
 		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
-		//GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
+		GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
 		
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
@@ -255,12 +269,19 @@ public class ModItems {
 		GameRegistry.registerItem(gas_natural, gas_natural.getUnlocalizedName());
 		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
 
+		GameRegistry.registerItem(components_wood, components_wood.getUnlocalizedName());
+		GameRegistry.registerItem(components_scaffold, components_scaffold.getUnlocalizedName());
+		GameRegistry.registerItem(components_mechanical, components_mechanical.getUnlocalizedName());
+		GameRegistry.registerItem(components_electronics, components_electronics.getUnlocalizedName());
+
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
 		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());
 		GameRegistry.registerItem(science, science.getUnlocalizedName());
 		GameRegistry.registerItem(coin, coin.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());
+		GameRegistry.registerItem(flour, flour.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
 
 		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
 

@@ -163,6 +163,18 @@ public class ResourceManager {
 	public static final ResourceLocation pakker_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pakker.png");
 	public static final ResourceLocation pakker_grey_tex = new ResourceLocation(RefStrings.MODID, "textures/models/pakker_grey.png");
 	
+	//BLAST FURNACE
+	public static final IModelCustom blast_furnace = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_furnace.obj"));
+	public static final ResourceLocation furn_wall = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_wall.png");
+	public static final ResourceLocation furn_wall_inner = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_wall_inner.png");
+	public static final ResourceLocation furn_furnace = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_furnace.png");
+	public static final ResourceLocation furn_furnace_on = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_furnace_on.png");
+	public static final ResourceLocation furn_furnace_off = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_furnace_off.png");
+	public static final ResourceLocation furn_roof = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_slab.png");
+	public static final ResourceLocation furn_tower = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_tower.png");
+	public static final ResourceLocation furn_tower_inner = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_tower_inner.png");
+	public static final ResourceLocation furn_lava = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/lava.png");
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));
@@ -175,4 +187,5 @@ public class ResourceManager {
 	public static final ResourceLocation tmt_stonewall = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_stonewall.png");
 	public static final ResourceLocation tmt_tptent = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_tptent.png");
 	public static final ResourceLocation tmt_statue = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/SkinSamothrace.png");
+	public static final ResourceLocation tmt_mill = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Grainmill.png");
 }

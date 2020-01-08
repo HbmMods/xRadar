@@ -36,6 +36,11 @@ tile.machine_uni.name=University
 container.machineUni=University
 tile.machine_emp.name=EM-Jammer
 container.machineEMP=EM-Jammer
+tile.machine_grainmill.name=Grain Mill
+container.grainmill=Grain Mill
+tile.machine_blastfurnace.name=Blast Furnace
+container.blastFurnace=Blast Furnace
+
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
 tile.clowder_flag_big.name=Clowder Territory Flag (DON'T USE THIS ONE)
@@ -91,6 +96,7 @@ item.wand.name=ThotBeGone Anti Mob Wand
 item.battery.name=HFR Infinite Battery
 item.oil_detector.name=Oil Detector
 item.gas_mask.name=Dräger M65 Gas Mask
+item.clowder_banner.name=Wearable Clowder Banner
 
 item.farmer.name=Farming Contract
 
@@ -122,12 +128,19 @@ item.gas_empty.name=Empty Gas Tank
 item.gas_natural.name=Natural Gas Tank
 item.gas_petroleum.name=Petroleum Gas Tank
 
+item.components_wood.name=Wooden Beams
+item.components_scaffold.name=Sturdy Scaffolding
+item.components_mechanical.name=Mechanical Components
+item.components_electronics.name=Circuitry
+
 item.tidal_energy.name=Tidal Energy
 item.whale_meat.name=Whale Meat
 item.science.name=Research Point
 item.hfr_coin.name=Stock Market Coin
 item.hfr_wrench.name=Construction Materials
 item.province_point.name=Prestige Point
+item.flour.name=Flour
+item.ingot_steel.name=Steel Ingot
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

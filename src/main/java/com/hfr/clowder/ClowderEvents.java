@@ -10,7 +10,6 @@ import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
 import com.hfr.data.ClowderData;
-import com.hfr.handler.BobbyBreaker;
 import com.hfr.items.ItemMace;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
@@ -25,16 +24,6 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAnvil;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockButton;
-import net.minecraft.block.BlockCake;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockLever;
-import net.minecraft.block.BlockRedstoneDiode;
-import net.minecraft.block.BlockTNT;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -447,7 +436,7 @@ public class ClowderEvents {
 			
 			particleBorder2(player.worldObj, player);
 			
-			/*if(player.inventory.armorInventory[0] != null && player.inventory.armorInventory[0].getItem() == ModItems.clowder_banner) {
+			if(player.inventory.armorInventory[0] != null && player.inventory.armorInventory[0].getItem() == ModItems.clowder_banner) {
 				ItemStack banner = player.inventory.armorInventory[0];
 			    
 				if(clowder != null) {
@@ -458,7 +447,7 @@ public class ClowderEvents {
 					banner.stackTagCompound.setInteger("flag", clowder.flag.ordinal());
 					banner.stackTagCompound.setInteger("color", clowder.color);
 				}
-			}*/
+			}
 		}
 	}
 

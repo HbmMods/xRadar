@@ -1,19 +1,8 @@
-//This File was created with the Minecraft-SMP Modelling Toolbox 2.3.0.0
-// Copyright (C) 2019 Minecraft-SMP.de
-// This file is for Flan's Flying Mod Version 4.0.x+
-
-// Model: Sashimono
-// Model Creator: 
-// Created on: 07.07.2015 - 15:16:48
-// Last changed on: 07.07.2015 - 15:16:48
-
 package com.hfr.render.model; //Path where the model is located
 
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.clowder.ClowderFlag;
-import com.hfr.items.ModItems;
-import com.hfr.main.ResourceManager;
 import com.hfr.tmt.ModelCustomArmor;
 import com.hfr.tmt.ModelRendererTurbo;
 
@@ -31,7 +20,7 @@ public class ModelSashimono extends ModelCustomArmor //Same as Filename
 
 	public ModelSashimono() //Same as Filename
 	{
-		bodyModel = new ModelRendererTurbo[3];
+		bodyModel = new ModelRendererTurbo[4];
 
 		initbodyModel_1();
 	}
@@ -41,7 +30,7 @@ public class ModelSashimono extends ModelCustomArmor //Same as Filename
 		bodyModel[0] = new ModelRendererTurbo(this, 1, 1, textureX, textureY); // Box 87
 		bodyModel[1] = new ModelRendererTurbo(this, 9, 1, textureX, textureY); // Box 88
 		bodyModel[2] = new ModelRendererTurbo(this, 9, 1, textureX, textureY); // Box 89
-		//bodyModel[3] = new ModelRendererTurbo(this, 9, 17, textureX, textureY); // Box 90
+		bodyModel[3] = new ModelRendererTurbo(this, 0, 8, 16, 12); // Box 90
 
 		bodyModel[0].addShapeBox(-0.5F, -31.5F, 4.5F, 1, 40, 1, 0F,0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F, 0F); // Box 87
 		bodyModel[0].setRotationPoint(0F, 0F, 0F);
@@ -52,8 +41,8 @@ public class ModelSashimono extends ModelCustomArmor //Same as Filename
 		bodyModel[2].addShapeBox(-0.5F, 0F, 1.5F, 1, 1, 4, 0F,3.3F, 0F, 0.3F, 3.3F, 0F, 0.3F, 0.3F, 0F, 0.3F, 0.3F, 0F, 0.3F, 3.3F, 0F, 0.3F, 3.3F, 0F, 0.3F, 0.3F, 0F, 0.3F, 0.3F, 0F, 0.3F); // Box 89
 		bodyModel[2].setRotationPoint(0F, 0F, 0F);
 
-		//bodyModel[3].addShapeBox(-0.5F, -30.5F, 5.5F, 1, 64, 24, 0F,-0.3F, 0F, 0F, -0.3F, 0F, 0F, -0.3F, 0F, -12F, -0.3F, 0F, -12F, -0.3F, -34F, 0F, -0.3F, -34F, 0F, -0.3F, -34F, -12F, -0.3F, -34F, -12F); // Box 90
-		//bodyModel[3].setRotationPoint(0F, 0F, 0F);
+		bodyModel[3].addBox(0F, -17.5F, -30.5F, 0, 12, 16);
+		bodyModel[3].setRotationPoint(0F, 0F, 0F);
 	}
 	
 	EntityPlayer ref;
@@ -72,7 +61,21 @@ public class ModelSashimono extends ModelCustomArmor //Same as Filename
 	@Override
 	public void render(ModelRendererTurbo[] models, ModelRenderer bodyPart, float f5, float scale) {
 		
-		super.render(models, bodyPart, f5, scale);
+		if(models.length == 0)
+			return;
+		
+		//initbodyModel_1();
+		
+		setBodyPart(models, bodyPart, scale);
+		for(int i = 0; i < models.length; i++)
+		{
+			models[i].rotateAngleX = bodyPart.rotateAngleX;
+			models[i].rotateAngleY = bodyPart.rotateAngleY;
+			models[i].rotateAngleZ = bodyPart.rotateAngleZ;
+			
+			if(i != 3)
+				models[i].render(f5);
+		}
 		
 		if(ref == null)
 			return;
@@ -93,22 +96,21 @@ public class ModelSashimono extends ModelCustomArmor //Same as Filename
 	    int g = ((color & 0xFF00) >> 8) / 2;
 	    int b = (color & 0xFF) / 2;
 
-	    GL11.glPushMatrix();
-	    GL11.glRotatef(180, 0, 1, 0);
-	    GL11.glTranslatef(0F, -1.975F, -5.325F);
-	    GL11.glRotatef(90, 1, 0, 0);
-	    
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_CULL_FACE);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         
         Minecraft.getMinecraft().renderEngine.bindTexture(flag.getFlag());
         GL11.glColor3b((byte)r, (byte)g, (byte)b);
-        ResourceManager.flag.renderOnly("Flag");
+		models[3].rotateAngleX += (-Math.PI / 2D);
+        models[3].render(f5);
+		models[3].rotateAngleX -= (-Math.PI / 2D);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(flag.getFlagOverlay());
 	    GL11.glColor3b((byte)127, (byte)127, (byte)127);
-	    ResourceManager.flag.renderOnly("Flag");
-	    GL11.glPopMatrix();
+		models[3].rotateAngleX += (-Math.PI / 2D);
+        models[3].render(f5);
+		models[3].rotateAngleX -= (-Math.PI / 2D);
 	}
 }

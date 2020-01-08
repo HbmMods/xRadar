@@ -28,21 +28,24 @@ public class ExplosionController {
 		@Override
 		public void run() {
 			
-			System.out.println("DEMON THREAD - STARTUP");
+			this.setPriority(3);
+			this.setName("PON4_EXPLOSION_THREAD");
+			
+			System.out.println("PON4 THREAD - STARTUP");
 
 			while(explosions.size() > 0) {
 				collectTips();
 				processTips();
 			}
 			
-			System.out.println("DEMON THREAD - SHUTTING DOWN");
+			System.out.println("PON4 THREAD - SHUTTING DOWN");
 		}
 		
 	};
 	
 	public static void start() {
 		
-		System.out.println("DEMON THREAD - INVOKE ATTEMPT TAKEN");
+		System.out.println("PON4 THREAD - INVOKE ATTEMPT TAKEN");
 		
 		demon = new Thread(demonTemplate);
 		demon.start();
@@ -80,7 +83,7 @@ public class ExplosionController {
 	public static void registerExplosion(ExplosionNukeRay explosion) {
 
 		explosions.add(explosion);
-		System.out.println("DEMON THREAD - EXPLOSION REGISTERED");
+		System.out.println("PON4 THREAD - EXPLOSION REGISTERED");
 		
 		if(demon == null || !demon.isAlive())
 			start();

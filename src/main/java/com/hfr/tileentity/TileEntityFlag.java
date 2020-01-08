@@ -221,13 +221,6 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	}
 	
 	public static float getGenRateFromMode(int mode) {
-
-		/*if(mode == 1)
-			return Clowder.flagRate * 3;
-		if(mode == 2)
-			return Clowder.flagRate * 2;
-		if(mode == 3)
-			return Clowder.flagRate * 1;*/
 		
 		if(mode != 0)
 			return Clowder.flagRate;
@@ -254,9 +247,9 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	
 	public void setOwner(Clowder c) {
 		
-		//more of a failsafe since in all natural cases, the mode is 0 during this happening
-		
 		if(owner != null) {
+			
+			//more of a failsafe since in all natural cases, the mode is 0 during this happening
 			owner.addPrestigeGen(-getGenRate(), worldObj);
 			owner.addPrestigeReq(-getCost(), worldObj);
 

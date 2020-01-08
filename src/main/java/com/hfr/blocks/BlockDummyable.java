@@ -2,6 +2,7 @@ package com.hfr.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hfr.handler.MultiblockHandler;
 import com.hfr.util.ThreeInts;
@@ -25,11 +26,14 @@ public abstract class BlockDummyable extends BlockContainer {
 	
 	/// BLOCK METADATA ///
 	
-	//0-5 		dummy rotation 		(none unused)
-	//6-9 		extra 				(4 rotations with flag)
-	//10-15 	block rotation 		(10 and 11 unused)
-	
+	//0-5 		dummy rotation 		(for dummy neighbor checks)
+	//6-11 		extra 				(6 rotations with flag, for pipe connectors and the like)
+	//12-15 	block rotation 		(for rendering the TE)
+
+	//meta offset from dummy to TE rotation
 	public static final int offset = 10;
+	//meta offset from dummy to extra rotation
+	public static final int extra = 6;
 	
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
     	
@@ -38,12 +42,40 @@ public abstract class BlockDummyable extends BlockContainer {
     	if(world.isRemote)
     		return;
     	
-    	ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+    	int metadata = world.getBlockMetadata(x, y, z);
+    	
+    	//if it's an extra, remove the extra-ness
+    	if(metadata > 5)
+    		metadata -= 5;
+    	
+    	ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
     	Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
     	
     	if(b != this) {
     		world.setBlockToAir(x, y, z);
     	}
+    }
+    
+    public void updateTick(World world, int x, int y, int z, Random rand) {
+    	
+    	super.updateTick(world, x, y, z, rand);
+    	
+    	if(world.isRemote)
+    		return;
+    	
+    	int metadata = world.getBlockMetadata(x, y, z);
+    	
+    	//if it's an extra, remove the extra-ness
+    	if(metadata > 5)
+    		metadata -= 5;
+    	
+    	ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
+    	Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+    	
+    	if(b != this) {
+    		world.setBlockToAir(x, y, z);
+    	}
+    	
     }
     
     public int[] findCore(World world, int x, int y, int z) {
@@ -56,14 +88,20 @@ public abstract class BlockDummyable extends BlockContainer {
     	
     	ThreeInts pos = new ThreeInts(x, y, z);
     	
+    	int metadata = world.getBlockMetadata(x, y, z);
+    	
+    	//if it's an extra, remove the extra-ness
+    	if(metadata > 5)
+    		metadata -= 5;
+    	
     	//if the block matches and the orientation is "UNKNOWN", it's the core
-    	if(world.getBlock(x, y, z) == this && ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)) == ForgeDirection.UNKNOWN)
+    	if(world.getBlock(x, y, z) == this && ForgeDirection.getOrientation(metadata) == ForgeDirection.UNKNOWN)
     		return new int[] { x, y, z };
     	
     	if(positions.contains(pos))
     		return null;
 
-    	ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+    	ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
     	
     	Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
     	
@@ -134,8 +172,30 @@ public abstract class BlockDummyable extends BlockContainer {
 		
 		world.setBlock(x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
 		MultiblockHandler.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
+		world.scheduleBlockUpdate(x, y, z, this, 1);
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+	}
+	
+	//"upgrades" regular dummy blocks to ones with the extra flag
+	public void makeExtra(World world, int x, int y, int z) {
+		
+		if(world.getBlock(x, y, z) != this)
+			return;
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		if(meta > 5)
+			return;
+		
+		world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
+		
+	}
+	
+	//checks if the dummy metadata is within the extra range
+	public boolean hasExtra(int meta) {
+		
+		return meta > 5 && meta < 12;
 	}
 	
 	@Override
@@ -150,6 +210,8 @@ public abstract class BlockDummyable extends BlockContainer {
 			int[] pos = findCore(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 			
 			if(pos != null) {
+				
+				//this metadata doesn't need a check for extra-ness since the core can not be an extra (duh)
 
 				ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(pos[0], pos[1], pos[2]) - offset);
 				world.setBlockToAir(pos[0], pos[1], pos[2]);

@@ -55,6 +55,23 @@ public class ItemLore extends Item {
 		
 		
 
+		if(this == ModItems.components_wood) {
+			list.add("Wood, but long");
+		}
+		if(this == ModItems.components_scaffold) {
+			list.add("If only my self-worth were");
+			list.add("as stable as this scaffold");
+		}
+		if(this == ModItems.components_mechanical) {
+			list.add("Stainless steel cogs and");
+			list.add("stained steel hinges");
+		}
+		if(this == ModItems.components_electronics) {
+			list.add("Now with 20% more random transistors");
+		}
+		
+		
+
 		if(this == ModItems.drum) {
 			list.add("Contains 30 stacks of gunpowder");
 		}

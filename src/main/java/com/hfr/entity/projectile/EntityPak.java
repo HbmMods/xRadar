@@ -5,6 +5,8 @@ import java.util.List;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ParticleControlPacket;
+import com.hfr.pon4.ExplosionController;
+import com.hfr.pon4.ExplosionNukeRay;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -58,7 +60,7 @@ public class EntityPak extends Entity {
 	        		}
 	        	}
 	        	
-	        	//ExplosionController.registerExplosion(new ExplosionNukeRay(worldObj, (int)posX, (int)posY, (int)posZ, 50, 25));
+	        	ExplosionController.registerExplosion(new ExplosionNukeRay(worldObj, (int)posX, (int)posY, (int)posZ, 100, 50));
 	        	
 				PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX - motionX * 2, posY - motionY * 2, posZ - motionZ * 2, 7),  new TargetPoint(this.dimension, posX, posY, posZ, 250));
 				worldObj.playSoundEffect(posX, posY, posZ, "hfr:block.railgunFire", 100.0F, 0.5F);

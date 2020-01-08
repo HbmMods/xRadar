@@ -1,12 +1,10 @@
 package com.hfr.inventory.gui;
 
-import java.util.Arrays;
-
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.inventory.container.ContainerMachineUni;
+import com.hfr.inventory.container.ContainerGrainMill;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityMachineUni;
+import com.hfr.tileentity.TileEntityMachineGrainmill;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,13 +12,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineUni extends GuiContainer {
+public class GUIGrainmill extends GuiContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_uni.png");
-	private TileEntityMachineUni diFurnace;
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_mill.png");
+	private TileEntityMachineGrainmill diFurnace;
 	
-	public GUIMachineUni(InventoryPlayer invPlayer, TileEntityMachineUni tedf) {
-		super(new ContainerMachineUni(invPlayer, tedf));
+	public GUIGrainmill(InventoryPlayer invPlayer, TileEntityMachineGrainmill tedf) {
+		super(new ContainerGrainMill(invPlayer, tedf));
 		diFurnace = tedf;
 
 		this.xSize = 176;
@@ -28,17 +26,11 @@ public class GUIMachineUni extends GuiContainer {
 	}
 	
 	@Override
-	protected void drawGuiContainerForegroundLayer(int x, int y) {
+	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-
-		if(!diFurnace.operational()) {
-			if(guiLeft + 99 <= x && guiLeft + 99 + 10 > x && guiTop + 38 < y && guiTop + 38 + 10 >= y) {
-				this.func_146283_a(Arrays.asList(new String[] {"-Uni needs to be placed on top of foundation", "-Uni requires Uni access"}), x - guiLeft, y - guiTop);
-			}
-		}
 	}
 	
 	@Override
@@ -47,10 +39,7 @@ public class GUIMachineUni extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(!diFurnace.operational() || !diFurnace.hasSpace())
-			drawTexturedModalRect(guiLeft + 99, guiTop + 38, 176, 0, 10, 10);
-		
-		if(diFurnace.slots[4] != null)
-			drawTexturedModalRect(guiLeft + 121, guiTop + 38, 176, 0, 10, 10);
+		if(!diFurnace.operational() || !diFurnace.hasWheat() || !diFurnace.hasSpace())
+			drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 0, 18, 18);
 	}
 }

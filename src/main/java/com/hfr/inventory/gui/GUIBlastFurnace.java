@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.inventory.container.ContainerMachineNet;
+import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityMachineNet;
+import com.hfr.tileentity.TileEntityMachineBlastFurnace;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,13 +14,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineNet extends GuiContainer {
+public class GUIBlastFurnace extends GuiContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_net.png");
-	private TileEntityMachineNet diFurnace;
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_blastfurnace.png");
+	private TileEntityMachineBlastFurnace diFurnace;
 	
-	public GUIMachineNet(InventoryPlayer invPlayer, TileEntityMachineNet tedf) {
-		super(new ContainerMachineNet(invPlayer, tedf));
+	public GUIBlastFurnace(InventoryPlayer invPlayer, TileEntityMachineBlastFurnace tedf) {
+		super(new ContainerBlastFurnace(invPlayer, tedf));
 		diFurnace = tedf;
 
 		this.xSize = 176;
@@ -33,12 +33,10 @@ public class GUIMachineNet extends GuiContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-
-		if(!diFurnace.operational()) {
-			if(guiLeft + 99 <= x && guiLeft + 99 + 10 > x && guiTop + 38 < y && guiTop + 38 + 10 >= y) {
-				this.func_146283_a(Arrays.asList(new String[] {"-Net needs to be placed on top of water", "-Net requires sky access and at least 3 blocks"," of water underneath every block covered"}), x - guiLeft, y - guiTop);
-			}
-		}
+		
+    	if(guiLeft + 26 <= x && guiLeft + 26 + 52 > x && guiTop + 37 < y && guiTop + 37 + 12 >= y) {
+    		this.func_146283_a(Arrays.asList(new String[] {diFurnace.fuel + " operations left"}), x - guiLeft, y - guiTop);
+    	}
 	}
 	
 	@Override
@@ -47,10 +45,10 @@ public class GUIMachineNet extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(!diFurnace.operational() || !diFurnace.hasSpace())
-			drawTexturedModalRect(guiLeft + 99, guiTop + 38, 176, 0, 10, 10);
+		int i = (int)diFurnace.getProgressScaled(49);
+		drawTexturedModalRect(guiLeft + 80, guiTop + 22, 176, 12, i, 11);
 		
-		if(diFurnace.slots[4] != null)
-			drawTexturedModalRect(guiLeft + 121, guiTop + 38, 176, 0, 10, 10);
+		int j = (int)diFurnace.getFuelScaled(53);
+		drawTexturedModalRect(guiLeft + 26, guiTop + 37, 176, 0, j, 12);
 	}
 }

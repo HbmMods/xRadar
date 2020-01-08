@@ -226,6 +226,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityFlagBig.class, "tileentity_hfr_flag_big");
 		GameRegistry.registerTileEntity(TileEntityProp.class, "tileentity_hfr_prop");
 		GameRegistry.registerTileEntity(TileEntityStatue.class, "tileentity_hfr_statue");
+		GameRegistry.registerTileEntity(TileEntityMachineGrainmill.class, "tileentity_hfr_mill");
+		GameRegistry.registerTileEntity(TileEntityMachineBlastFurnace.class, "tileentity_hfr_furnace");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -280,10 +282,10 @@ public class MainRegistry
 		
 		FMLCommonHandler.instance().bus().register(handler);
 		FMLCommonHandler.instance().bus().register(clowder);
-		//FMLCommonHandler.instance().bus().register(pon4);
+		FMLCommonHandler.instance().bus().register(pon4);
 		MinecraftForge.EVENT_BUS.register(handler);
 		MinecraftForge.EVENT_BUS.register(clowder);
-		//MinecraftForge.EVENT_BUS.register(pon4);
+		MinecraftForge.EVENT_BUS.register(pon4);
 	}
 
 	@EventHandler

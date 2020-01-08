@@ -322,22 +322,38 @@ public class Clowder {
 	
 	public void addPrestige(float f, World world) {
 		prestige += f;
+		
+		if(prestige < 1)
+			prestige = 1F;
+		
 		this.save(world);
 	}
 	
 	public void addPrestigeGen(float f, World world) {
 		prestigeGen += f;
+		
+		if(prestigeGen < 0)
+			prestigeGen = 0F;
+		
 		this.save(world);
 	}
 	
 	public void addPrestigeReq(float f, World world) {
 		prestigeReq += f;
+		
+		if(prestigeReq < 0)
+			prestigeReq = 0F;
+		
 		this.save(world);
 	}
 	
 	public void multPrestige(float f, World world) {
 		prestige *= f;
 		prestige = (float)(Math.floor(prestige * 10D) / 10D);
+		
+		if(prestige < 1)
+			prestige = 1F;
+		
 		this.save(world);
 	}
 	
