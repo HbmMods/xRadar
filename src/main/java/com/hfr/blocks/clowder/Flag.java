@@ -6,7 +6,7 @@ import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityFlag;
+import com.hfr.tileentity.clowder.TileEntityFlag;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

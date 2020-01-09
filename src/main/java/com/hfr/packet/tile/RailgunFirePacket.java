@@ -1,6 +1,6 @@
 package com.hfr.packet.tile;
 
-import com.hfr.tileentity.TileEntityRailgun;
+import com.hfr.tileentity.weapon.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

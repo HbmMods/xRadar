@@ -16,8 +16,8 @@ import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderBorderPacket;
 import com.hfr.packet.effect.ClowderFlagPacket;
-import com.hfr.tileentity.TileEntityProp;
-import com.hfr.tileentity.TileEntityStatue;
+import com.hfr.tileentity.prop.TileEntityProp;
+import com.hfr.tileentity.prop.TileEntityStatue;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -491,12 +491,23 @@ public class ClowderEvents {
 			
 			if(time < System.currentTimeMillis()) {
 				
-				if(player instanceof EntityPlayerMP) {
+				Ownership owner = ClowderTerritory.getOwnerFromInts(tp.posX, tp.posZ);
+				Clowder me = Clowder.getClowderFromPlayer(player);
+				
+				if(owner == null || owner.zone != Zone.FACTION || owner.owner != me) {
+
+					player.addChatMessage(new ChatComponentText(CommandClowder.ERROR + "Warp destination appears to be outside of your territory."));
+					player.addChatMessage(new ChatComponentText(CommandClowder.ERROR + "Warp aborted."));
+					
+				} else if(player instanceof EntityPlayerMP) {
 					
 					EntityPlayerMP playermp = (EntityPlayerMP)player;
 					playermp.mountEntity(null);
 					playermp.playerNetServerHandler.setPlayerLocation(tp.posX + 0.5D, tp.posY, tp.posZ + 0.5D, player.rotationYaw, player.rotationPitch);
 					playermp.addChatMessage(new ChatComponentText(CommandClowder.INFO + "Warping..."));
+					
+					if(tp.home)
+						playermp.addPotionEffect(new PotionEffect(Potion.resistance.id, 200, 9));
 					
 				}
 				rem.add(time);

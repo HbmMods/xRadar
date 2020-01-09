@@ -16,7 +16,7 @@ import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderFlagPacket;
-import com.hfr.tileentity.TileEntityProp;
+import com.hfr.tileentity.prop.TileEntityProp;
 import com.hfr.util.ParserUtil;
 
 import net.minecraft.block.Block;
@@ -162,7 +162,12 @@ public class CommandClowder extends CommandBase {
 		}
 		
 		if(cmd.equals("listflags")) {
-			cmdListflags(sender);
+			
+			if(args.length > 1)
+				cmdListflags(sender, args[1]);
+			else
+				cmdListflags(sender, "1");
+			
 			return;
 		}
 		
@@ -706,12 +711,22 @@ public class CommandClowder extends CommandBase {
 		}
 	}
 	
-	private void cmdListflags(ICommandSender sender) {
-
-		sender.addChatMessage(new ChatComponentText(TITLE + "List of availible flags:"));
+	private void cmdListflags(ICommandSender sender, String page) {
 		
-		for(String flag : ClowderFlag.getFlags())
-			sender.addChatMessage(new ChatComponentText(LIST + "-" + flag));
+		int fpp = 20;
+		
+		int p = this.parseInt(sender, page);
+		int pages = (int) Math.ceil(((double)ClowderFlag.getFlags().size()) / fpp);
+		
+		if(p < 1 || p > pages)
+			p = 1;
+
+		sender.addChatMessage(new ChatComponentText(TITLE + "[" + p + "/" + pages + "] List of availible flags:"));
+		
+		//TODO: test this part
+		for(int i = (p - 1) * fpp; (i < p * fpp) && (i < ClowderFlag.values().length); i++) {
+			sender.addChatMessage(new ChatComponentText(LIST + "-" + ClowderFlag.values()[i]));
+		}
 		
 	}
 	
@@ -811,7 +826,7 @@ public class CommandClowder extends CommandBase {
 			} else {
 				
 				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
-				clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(clowder.homeX, clowder.homeY, clowder.homeZ, player.getDisplayName()));
+				clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(clowder.homeX, clowder.homeY, clowder.homeZ, player.getDisplayName(), true));
 				
 			}
 			

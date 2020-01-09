@@ -3,7 +3,7 @@ package com.hfr.packet.tile;
 import com.hfr.items.ItemCassette.SoundType;
 import com.hfr.items.ItemCassette.TrackType;
 import com.hfr.sound.SoundLoopSiren;
-import com.hfr.tileentity.TileEntityMachineSiren;
+import com.hfr.tileentity.machine.TileEntityMachineSiren;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

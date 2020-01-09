@@ -2,7 +2,7 @@ package com.hfr.blocks.props;
 
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.handler.MultiblockHandler;
-import com.hfr.tileentity.TileEntityProp;
+import com.hfr.tileentity.prop.TileEntityProp;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

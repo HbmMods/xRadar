@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hfr.inventory.container.ContainerMachineSiren;
 import com.hfr.items.ItemCassette.TrackType;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityMachineSiren;
+import com.hfr.tileentity.machine.TileEntityMachineSiren;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

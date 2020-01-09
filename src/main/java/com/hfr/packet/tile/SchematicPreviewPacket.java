@@ -2,7 +2,7 @@ package com.hfr.packet.tile;
 
 import com.hfr.schematic.Schematic;
 import com.hfr.schematic.SchematicPayload;
-import com.hfr.tileentity.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

@@ -6,7 +6,7 @@ import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityNaval;
+import com.hfr.tileentity.weapon.TileEntityNaval;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

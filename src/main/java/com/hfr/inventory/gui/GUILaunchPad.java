@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerLaunchPad;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityLaunchPad;
+import com.hfr.tileentity.weapon.TileEntityLaunchPad;
 
 public class GUILaunchPad extends GuiContainer {
 	

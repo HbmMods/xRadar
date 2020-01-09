@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityMachineNet;
+import com.hfr.tileentity.machine.TileEntityMachineNet;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

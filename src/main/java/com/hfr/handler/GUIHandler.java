@@ -46,7 +46,9 @@ import com.hfr.inventory.gui.GUIScreenDesignator;
 import com.hfr.inventory.gui.GUIScreenSLBM;
 import com.hfr.inventory.gui.GUITank;
 import com.hfr.items.ModItems;
-import com.hfr.tileentity.*;
+import com.hfr.tileentity.clowder.*;
+import com.hfr.tileentity.machine.*;
+import com.hfr.tileentity.weapon.*;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 

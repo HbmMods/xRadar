@@ -6,7 +6,7 @@ import com.hfr.blocks.ModBlocks;
 import com.hfr.entity.missile.*;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityLaunchPad;
+import com.hfr.tileentity.weapon.TileEntityLaunchPad;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

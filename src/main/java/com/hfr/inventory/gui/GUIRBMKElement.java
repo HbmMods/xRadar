@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityRBMKElement;
+import com.hfr.tileentity.machine.TileEntityRBMKElement;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

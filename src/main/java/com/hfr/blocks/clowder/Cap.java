@@ -2,7 +2,7 @@ package com.hfr.blocks.clowder;
 
 import java.util.Random;
 
-import com.hfr.tileentity.TileEntityCap;
+import com.hfr.tileentity.clowder.TileEntityCap;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

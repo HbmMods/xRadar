@@ -1,12 +1,12 @@
 package com.hfr.packet.tile;
 
-import com.hfr.tileentity.TileEntityHydro;
-import com.hfr.tileentity.TileEntityLaunchPad;
-import com.hfr.tileentity.TileEntityMachineDerrick;
-import com.hfr.tileentity.TileEntityMachineEMP;
-import com.hfr.tileentity.TileEntityMachineRadar;
-import com.hfr.tileentity.TileEntityMachineRefinery;
-import com.hfr.tileentity.TileEntityRailgun;
+import com.hfr.tileentity.machine.TileEntityHydro;
+import com.hfr.tileentity.machine.TileEntityMachineDerrick;
+import com.hfr.tileentity.machine.TileEntityMachineEMP;
+import com.hfr.tileentity.machine.TileEntityMachineRadar;
+import com.hfr.tileentity.machine.TileEntityMachineRefinery;
+import com.hfr.tileentity.weapon.TileEntityLaunchPad;
+import com.hfr.tileentity.weapon.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

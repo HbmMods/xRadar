@@ -9,7 +9,7 @@ import java.util.Set;
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.data.ClowderData;
-import com.hfr.tileentity.TileEntityProp;
+import com.hfr.tileentity.prop.TileEntityProp;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -555,12 +555,21 @@ public class Clowder {
 		int posY;
 		int posZ;
 		String player;
+		boolean home;
 		
 		public ScheduledTeleport(int posX, int posY, int posZ, String player) {
 			this.posX = posX;
 			this.posY = posY;
 			this.posZ = posZ;
 			this.player = player;
+		}
+		
+		public ScheduledTeleport(int posX, int posY, int posZ, String player, boolean home) {
+			this.posX = posX;
+			this.posY = posY;
+			this.posZ = posZ;
+			this.player = player;
+			this.home = home;
 		}
 	}
 }

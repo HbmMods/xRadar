@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityHatch;
+import com.hfr.tileentity.machine.TileEntityHatch;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

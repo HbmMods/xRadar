@@ -1,6 +1,6 @@
 package com.hfr.packet.tile;
 
-import com.hfr.tileentity.TileEntityForceField;
+import com.hfr.tileentity.machine.TileEntityForceField;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

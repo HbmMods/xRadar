@@ -5,7 +5,7 @@ import java.util.Random;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityHydro;
+import com.hfr.tileentity.machine.TileEntityHydro;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

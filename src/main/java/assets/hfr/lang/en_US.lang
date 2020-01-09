@@ -51,6 +51,8 @@ tile.rbmk_rods.name=RBMK Control Rods
 tile.block_graphite.name=Block of Graphite
 tile.block_boron.name=Block of Boron
 
+tile.barbed_wire.name=Barbed Wire
+
 tile.display.name=Stock Market Display
 
 tile.oil_duct.name=Oil Pipe

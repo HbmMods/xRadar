@@ -41,6 +41,7 @@ public class ModBlocks {
 
 	public static Block vent_chlorine_seal;
 	public static Block chlorine_gas;
+	public static Block barbed_wire;
 
 	public static Block hydro_wall;
 	public static Block hydro_turbine;
@@ -169,6 +170,7 @@ public class ModBlocks {
 		
 		vent_chlorine_seal = new BlockClorineSeal(Material.iron).setStepSound(soundTypeMetal).setBlockName("vent_chlorine_seal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab);
 		chlorine_gas = new BlockClorine(Material.cloth).setBlockName("chlorine_gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":chlorine_gas");
+		barbed_wire = new BlockBarbedWire(Material.iron).setBlockName("barbed_wire").setHardness(1.0F).setResistance(5.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":barbed_wire");
 		
 		hydro_wall = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("hydro_wall").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hydro_wall");
 		hydro_turbine = new BlockTurbine(Material.rock).setStepSound(soundTypeMetal).setBlockName("hydro_turbine").setHardness(5.0F).setResistance(2.5F).setCreativeTab(MainRegistry.tab);
@@ -231,6 +233,7 @@ public class ModBlocks {
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
+		GameRegistry.registerBlock(barbed_wire, barbed_wire.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(machine_radar, ItemBlockUnstackable.class, machine_radar.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());

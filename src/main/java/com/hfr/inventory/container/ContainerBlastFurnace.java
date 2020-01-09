@@ -1,6 +1,6 @@
 package com.hfr.inventory.container;
 
-import com.hfr.tileentity.TileEntityMachineBlastFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineBlastFurnace;
 import com.hfr.util.LockedSlot;
 
 import net.minecraft.entity.player.EntityPlayer;

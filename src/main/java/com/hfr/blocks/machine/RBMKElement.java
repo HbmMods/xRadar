@@ -2,7 +2,7 @@ package com.hfr.blocks.machine;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityRBMKElement;
+import com.hfr.tileentity.machine.TileEntityRBMKElement;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;

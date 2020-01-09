@@ -6,7 +6,7 @@ import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
-import com.hfr.tileentity.TileEntityStatue;
+import com.hfr.tileentity.prop.TileEntityStatue;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

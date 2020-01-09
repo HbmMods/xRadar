@@ -4,9 +4,9 @@ import org.lwjgl.input.Keyboard;
 
 import com.hfr.handler.SLBMHandler;
 import com.hfr.items.ModItems;
-import com.hfr.render.RenderAccessoryUtility;
 import com.hfr.render.hud.RenderFlagOverlay;
 import com.hfr.render.hud.RenderRadarScreen;
+import com.hfr.render.util.RenderAccessoryUtility;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import cpw.mods.fml.common.FMLCommonHandler;

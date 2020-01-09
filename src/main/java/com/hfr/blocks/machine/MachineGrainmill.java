@@ -10,7 +10,7 @@ import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityMachineGrainmill;
+import com.hfr.tileentity.machine.TileEntityMachineGrainmill;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

@@ -6,7 +6,7 @@ import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityRailgun;
+import com.hfr.tileentity.weapon.TileEntityRailgun;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

@@ -1,7 +1,7 @@
 package com.hfr.packet.tile;
 
-import com.hfr.tileentity.TileEntityMachineRadar;
-import com.hfr.tileentity.TileEntityMachineRadar.RadarEntry;
+import com.hfr.tileentity.machine.TileEntityMachineRadar;
+import com.hfr.tileentity.machine.TileEntityMachineRadar.RadarEntry;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

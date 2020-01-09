@@ -3,8 +3,8 @@ package com.hfr.blocks.door;
 import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
-import com.hfr.tileentity.TileEntityDummy;
-import com.hfr.tileentity.TileEntityVaultDoor;
+import com.hfr.tileentity.machine.TileEntityDummy;
+import com.hfr.tileentity.machine.TileEntityVaultDoor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

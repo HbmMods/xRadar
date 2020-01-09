@@ -7,13 +7,8 @@ import com.hfr.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemPickaxe;
 
-public class ItemMace extends ItemPickaxe {
-	
-	protected ItemMace() {
-		super(ToolMaterial.IRON);
-	}
+public class ItemMace extends ItemMultitool {
 
 	public static final List<Block> interactOverride = new ArrayList() {{
 		add(Blocks.chest);
@@ -33,6 +28,8 @@ public class ItemMace extends ItemPickaxe {
 		add(ModBlocks.machine_uni);
 		add(ModBlocks.clowder_flag);
 		add(ModBlocks.statue);
+		add(ModBlocks.machine_grainmill);
+		add(ModBlocks.machine_blastfurnace);
 	}};
 
 	public static final List<Block> breakOverride = new ArrayList() {{
@@ -54,6 +51,8 @@ public class ItemMace extends ItemPickaxe {
 		add(ModBlocks.med_tent);
 		add(ModBlocks.tp_tent);
 		add(ModBlocks.statue);
+		add(ModBlocks.machine_grainmill);
+		add(ModBlocks.machine_blastfurnace);
 	}};
 
 }

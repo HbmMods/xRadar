@@ -3,7 +3,7 @@ package com.hfr.blocks.machine;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

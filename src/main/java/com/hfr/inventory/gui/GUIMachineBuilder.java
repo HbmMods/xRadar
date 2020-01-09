@@ -7,8 +7,8 @@ import com.hfr.items.ModItems;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityMachineBuilder;
-import com.hfr.tileentity.TileEntityMachineBuilder.SchemOffer;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder.SchemOffer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

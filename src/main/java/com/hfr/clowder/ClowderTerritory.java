@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.hfr.data.ClowderData;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.ITerritoryProvider;
+import com.hfr.tileentity.clowder.ITerritoryProvider;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

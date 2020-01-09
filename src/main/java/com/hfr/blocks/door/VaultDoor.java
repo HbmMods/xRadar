@@ -1,6 +1,6 @@
 package com.hfr.blocks.door;
 
-import com.hfr.tileentity.TileEntityVaultDoor;
+import com.hfr.tileentity.machine.TileEntityVaultDoor;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

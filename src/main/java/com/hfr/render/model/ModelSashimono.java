@@ -67,6 +67,7 @@ public class ModelSashimono extends ModelCustomArmor //Same as Filename
 		//initbodyModel_1();
 		
 		setBodyPart(models, bodyPart, scale);
+		//rotate everything and render all parts except the flag
 		for(int i = 0; i < models.length; i++)
 		{
 			models[i].rotateAngleX = bodyPart.rotateAngleX;

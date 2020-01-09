@@ -1,7 +1,7 @@
 package com.hfr.packet.tile;
 
 import com.hfr.items.ModItems;
-import com.hfr.tileentity.TileEntityLaunchPad;
+import com.hfr.tileentity.weapon.TileEntityLaunchPad;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

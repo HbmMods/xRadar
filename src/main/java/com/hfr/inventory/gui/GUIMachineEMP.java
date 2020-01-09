@@ -6,7 +6,7 @@ import com.hfr.inventory.container.ContainerMachineEMP;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityMachineEMP;
+import com.hfr.tileentity.machine.TileEntityMachineEMP;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerHydro;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityHydro;
+import com.hfr.tileentity.machine.TileEntityHydro;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

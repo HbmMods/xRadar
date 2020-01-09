@@ -1,7 +1,7 @@
 package com.hfr.inventory.container;
 
 import com.hfr.items.ModItems;
-import com.hfr.tileentity.TileEntityMachineRefinery;
+import com.hfr.tileentity.machine.TileEntityMachineRefinery;
 import com.hfr.util.LockedSlot;
 
 import net.minecraft.entity.player.EntityPlayer;

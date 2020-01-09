@@ -1,7 +1,7 @@
 package com.hfr.packet.tile;
 
 import com.hfr.data.StockData.Stock;
-import com.hfr.tileentity.TileEntityMachineMarket;
+import com.hfr.tileentity.machine.TileEntityMachineMarket;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

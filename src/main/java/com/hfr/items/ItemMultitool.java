@@ -12,7 +12,7 @@ public class ItemMultitool extends Item {
     public float getDigSpeed(ItemStack stack, Block block, int meta)
     {
     	try {
-            return block.getBlockHardness(null, 0, 0, 0) * 5F;
+            return Math.max(block.getBlockHardness(null, 0, 0, 0) * 10F, 5F);
     	} catch(NullPointerException ex) { }
     	
         return 5F;
@@ -21,13 +21,17 @@ public class ItemMultitool extends Item {
     @Override
     public int getHarvestLevel(ItemStack stack, String toolClass)
     {
-        return 100;
+        return 1000;
     }
     
     @SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {
         return true;
+    }
+
+    public boolean func_150897_b(Block block) {
+    	return true;
     }
 
 }

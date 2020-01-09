@@ -10,17 +10,20 @@ import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.handler.MultiblockHandler;
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.TileEntityMachineBlastFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineBlastFurnace;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -149,5 +152,39 @@ public class MachineBlastFurnace extends BlockDummyable {
 
         super.breakBlock(world, x, y, z, p_149749_5_, i);
     }
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		
+		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		ForgeDirection dir = ForgeDirection.NORTH;
+		
+		if(i == 0)
+			dir = ForgeDirection.getOrientation(2);
+		if(i == 1)
+			dir = ForgeDirection.getOrientation(5);
+		if(i == 2)
+			dir = ForgeDirection.getOrientation(3);
+		if(i == 3)
+			dir = ForgeDirection.getOrientation(4);
+
+		int xc = x - dir.offsetX;
+		int zc = z - dir.offsetZ;
+		
+		if(world.getBlock(xc, y, zc) == this && world.getBlockMetadata(xc, y, zc) > 11) {
+			this.safeRem = true;
+			if(world.getBlock(xc, y + 1, zc) == this)
+				world.setBlock(xc, y + 1, zc, Blocks.air);
+			if(world.getBlock(xc, y + 2, zc) == this)
+				world.setBlock(xc, y + 2, zc, Blocks.air);
+			if(world.getBlock(xc, y + 3, zc) == this)
+				world.setBlock(xc, y + 3, zc, Blocks.air);
+			if(world.getBlock(xc, y + 4, zc) == this)
+				world.setBlock(xc, y + 4, zc, Blocks.air);
+			this.safeRem = false;
+		}
+	}
 
 }

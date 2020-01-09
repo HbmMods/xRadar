@@ -9,7 +9,7 @@ import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityFlag;
+import com.hfr.tileentity.clowder.TileEntityFlag;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

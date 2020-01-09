@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerMachineUni;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityMachineUni;
+import com.hfr.tileentity.machine.TileEntityMachineUni;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

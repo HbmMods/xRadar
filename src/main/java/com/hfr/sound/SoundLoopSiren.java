@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.items.ItemCassette.SoundType;
-import com.hfr.tileentity.TileEntityMachineSiren;
+import com.hfr.tileentity.machine.TileEntityMachineSiren;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;

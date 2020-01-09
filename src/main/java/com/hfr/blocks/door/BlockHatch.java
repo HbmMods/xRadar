@@ -2,7 +2,7 @@ package com.hfr.blocks.door;
 
 import java.util.Random;
 
-import com.hfr.tileentity.TileEntityHatch;
+import com.hfr.tileentity.machine.TileEntityHatch;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

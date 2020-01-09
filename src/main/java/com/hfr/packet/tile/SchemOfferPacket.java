@@ -1,7 +1,7 @@
 package com.hfr.packet.tile;
 
-import com.hfr.tileentity.TileEntityMachineBuilder;
-import com.hfr.tileentity.TileEntityMachineBuilder.SchemOffer;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder.SchemOffer;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

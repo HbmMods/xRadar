@@ -10,8 +10,8 @@ import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityMachineRadar;
-import com.hfr.tileentity.TileEntityMachineRadar.RadarEntry;
+import com.hfr.tileentity.machine.TileEntityMachineRadar;
+import com.hfr.tileentity.machine.TileEntityMachineRadar.RadarEntry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

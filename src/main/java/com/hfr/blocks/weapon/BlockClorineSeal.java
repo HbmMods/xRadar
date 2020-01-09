@@ -1,6 +1,6 @@
 package com.hfr.blocks.weapon;
 
-import com.hfr.tileentity.TileEntityChlorineSeal;
+import com.hfr.tileentity.machine.TileEntityChlorineSeal;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

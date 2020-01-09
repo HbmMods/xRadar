@@ -1,7 +1,8 @@
 package com.hfr.packet.tile;
 
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.*;
+import com.hfr.tileentity.machine.*;
+import com.hfr.tileentity.weapon.*;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

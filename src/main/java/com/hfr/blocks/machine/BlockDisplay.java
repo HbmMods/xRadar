@@ -1,6 +1,6 @@
 package com.hfr.blocks.machine;
 
-import com.hfr.tileentity.TileEntityDisplay;
+import com.hfr.tileentity.machine.TileEntityDisplay;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

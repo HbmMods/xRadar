@@ -6,7 +6,7 @@ import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityForceField;
+import com.hfr.tileentity.machine.TileEntityForceField;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

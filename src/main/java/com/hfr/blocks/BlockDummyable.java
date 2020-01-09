@@ -35,6 +35,8 @@ public abstract class BlockDummyable extends BlockContainer {
 	//meta offset from dummy to extra rotation
 	public static final int extra = 6;
 	
+	public static boolean safeRem = false;
+	
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
     	
     	super.onNeighborBlockChange(world, x, y, z, block);
@@ -204,7 +206,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(i >= ForgeDirection.UNKNOWN.ordinal()) {
 			//ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset);
 			//MultiblockHandler.emptySpace(world, x, y, z, getDimensions(), this, d);
-		} else {
+		} else if(!safeRem) {
 
 	    	ForgeDirection dir = ForgeDirection.getOrientation(i).getOpposite();
 			int[] pos = findCore(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);

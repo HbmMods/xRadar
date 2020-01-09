@@ -12,7 +12,7 @@ import com.hfr.inventory.container.ContainerMachineMarket;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.TileEntityMachineMarket;
+import com.hfr.tileentity.machine.TileEntityMachineMarket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

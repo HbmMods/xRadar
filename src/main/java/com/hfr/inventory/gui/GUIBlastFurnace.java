@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.TileEntityMachineBlastFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineBlastFurnace;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
