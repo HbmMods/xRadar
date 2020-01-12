@@ -86,6 +86,8 @@ public class ModBlocks {
 	public static final int guiID_grainmill = 20;
 	public static Block machine_blastfurnace;
 	public static final int guiID_blastfurnace = 21;
+	public static Block box;
+	public static final int guiID_box = 22;
 
 	public static Block hesco_block;
 	public static Block palisade;
@@ -156,6 +158,7 @@ public class ModBlocks {
 		machine_tank = new MachineTank(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":tank");
 		machine_market = new MachineMarket(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_market").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":market_side");
 		builder = new MachineBuilder(Material.iron).setStepSound(soundTypeMetal).setBlockName("builder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":builder_side");
+		box = new Box(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab);
 		
 		rbmk_element = new RBMKElement(Material.iron).setStepSound(soundTypeMetal).setBlockName("rbmk_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":rbmk_element");
 		rbmk_rods = new RBMKRods(Material.iron).setStepSound(soundTypeMetal).setBlockName("rbmk_rods").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":rbmk_rods");
@@ -189,11 +192,11 @@ public class ModBlocks {
 		clowder_flag_big = new FlagBig(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_flag_big").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":clowder_flag_big");
 		
 		hesco_block = new PropHesco(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("hesco_block").setHardness(1F).setResistance(200F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hesco_block");
-		palisade = new PropPalisade(Material.wood).setStepSound(Block.soundTypeWood).setBlockName("palisade").setHardness(2F).setResistance(5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":palisade");
-		stone_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("stone_wall").setHardness(2.5F).setResistance(10F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":stone_wall");
-		brick_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("brick_wall").setHardness(2.5F).setResistance(25F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":brick_wall");
-		great_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("great_wall").setHardness(2.5F).setResistance(10F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":great_wall");
-		berlin_wall = new PropBerlin(Material.rock).setStepSound(soundTypeConcrete).setBlockName("berlin_wall").setHardness(10.0F).setResistance(100F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":berlin_wall");
+		palisade = new PropPalisade(Material.wood).setStepSound(Block.soundTypeWood).setBlockName("palisade").setHardness(2F).setResistance(5F).setCreativeTab(MainRegistry.tab);
+		stone_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("stone_wall").setHardness(2.5F).setResistance(10F).setCreativeTab(MainRegistry.tab);
+		brick_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("brick_wall").setHardness(2.5F).setResistance(25F).setCreativeTab(MainRegistry.tab);
+		great_wall = new PropWall(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("great_wall").setHardness(2.5F).setResistance(10F).setCreativeTab(MainRegistry.tab);
+		berlin_wall = new PropBerlin(Material.rock).setStepSound(soundTypeConcrete).setBlockName("berlin_wall").setHardness(10.0F).setResistance(100F).setCreativeTab(MainRegistry.tab);
 		med_tent = new PropTent(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("med_tent").setHardness(1F).setResistance(1.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":med_tent");
 		tp_tent = new PropTent(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("tp_tent").setHardness(1F).setResistance(1.5F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":tp_tent");
 		statue = new PropStatue(Material.cloth).setStepSound(soundTypeConcrete).setBlockName("statue").setHardness(2.5F).setResistance(10F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":statue");
@@ -244,6 +247,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_tank, ItemTankBlock.class, machine_tank.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_market, ItemBlockUnstackable.class, machine_market.getUnlocalizedName());
 		GameRegistry.registerBlock(builder, ItemBlockUnstackable.class, builder.getUnlocalizedName());
+		GameRegistry.registerBlock(box, ItemBlockLore.class, box.getUnlocalizedName());
 
 		GameRegistry.registerBlock(rbmk_element, rbmk_element.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_rods, rbmk_rods.getUnlocalizedName());

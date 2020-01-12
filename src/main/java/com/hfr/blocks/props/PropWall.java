@@ -1,12 +1,18 @@
 package com.hfr.blocks.props;
 
 import com.hfr.blocks.BlockDummyable;
+import com.hfr.blocks.ModBlocks;
 import com.hfr.handler.MultiblockHandler;
-import com.hfr.tileentity.prop.TileEntityProp;
+import com.hfr.lib.RefStrings;
+import com.hfr.main.ResourceManager;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -15,15 +21,47 @@ public class PropWall extends BlockDummyable {
 
 	public PropWall(Material mat) {
 		super(mat);
+        this.isBlockContainer = false;
 	}
+	
+	@SideOnly(Side.CLIENT)
+	protected IIcon iconModel;
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 
-		if(meta >= ForgeDirection.UNKNOWN.ordinal())
-			return new TileEntityProp();
+		/*if(meta >= ForgeDirection.UNKNOWN.ordinal())
+			return new TileEntityProp();*/
 		
 		return null;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister) {
+
+		if(this == ModBlocks.stone_wall) {
+			this.iconModel = iconRegister.registerIcon(RefStrings.MODID + ":stone_wall");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":stone_wall_icon");
+		}
+		if(this == ModBlocks.brick_wall) {
+			this.iconModel = iconRegister.registerIcon(RefStrings.MODID + ":brick_wall");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":brick_wall_icon");
+		}
+		if(this == ModBlocks.great_wall) {
+			this.iconModel = iconRegister.registerIcon(RefStrings.MODID + ":great_wall");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":great_wall_icon");
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		
+		if(side == 0)
+			return iconModel;
+		
+		return blockIcon;
 	}
 
 	@Override
@@ -57,5 +95,10 @@ public class PropWall extends BlockDummyable {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     	}
     }
+	
+	@Override
+	public int getRenderType(){
+		return ResourceManager.id_wall;
+	}
 
 }

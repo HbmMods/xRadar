@@ -34,7 +34,6 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase {
 	public static final int coalValue = 4;
 	public static final int maxFuel = 64 * coalValue;
 	
-	@SideOnly(Side.CLIENT)
 	public float meter;
 
 	public TileEntityMachineBlastFurnace() {
@@ -129,14 +128,20 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase {
                 worldObj.spawnParticle("smoke", xCoord + 0.5D + this.worldObj.rand.nextGaussian() * 0.25D, yCoord + y, zCoord + 0.5D + this.worldObj.rand.nextGaussian() * 0.25D, 0.0D, 0.0D, 0.0D);
 			}
 		}
-
-		float meter = getMeter();
-		List<Entity> mobs = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 0.5 + meter * 4, zCoord + 1));
 		
-		for(Entity e : mobs) {
-			e.setInWeb();
-			e.setFire(5);
-			e.attackEntityFrom(DamageSource.lava, 2.0F);
+		if(operational()) {
+			float meter = getMeter();
+			
+			if(worldObj.isRemote)
+				meter = this.meter;
+			
+			List<Entity> mobs = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 0.5 + meter * 4, zCoord + 1));
+			
+			for(Entity e : mobs) {
+				e.setInWeb();
+				e.setFire(5);
+				e.attackEntityFrom(DamageSource.lava, 2.0F);
+			}
 		}
 	}
 	

@@ -10,6 +10,10 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class ResourceManager {
 
+	public static final int id_palisade = 10002;
+	public static final int id_wall = 10003;
+	public static final int id_berliner = 10004;
+
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/deb.png");
 	public static final IModelCustom cylinder = new S_WavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cylinder.obj"));
 	
@@ -188,4 +192,7 @@ public class ResourceManager {
 	public static final ResourceLocation tmt_tptent = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Block_tptent.png");
 	public static final ResourceLocation tmt_statue = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/SkinSamothrace.png");
 	public static final ResourceLocation tmt_mill = new ResourceLocation(RefStrings.MODID, "textures/models/tmt/Skin_Grainmill.png");
+	public static final IModelCustom palisade = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/palisade.obj"));
+	public static final IModelCustom wall = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/wall.obj"));
+	public static final IModelCustom berliner = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/berliner.obj"));
 }

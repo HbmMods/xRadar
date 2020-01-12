@@ -88,6 +88,11 @@ public class ModItems {
 	public static Item tidal_energy;
 	public static Item whale_meat;
 	public static Item science;
+	public static Item science_2;
+	public static Item science_3;
+	public static Item science_4;
+	public static Item science_5;
+	public static Item science_6;
 	public static Item coin;
 	public static Item wrench;
 	public static Item province_point;
@@ -197,6 +202,11 @@ public class ModItems {
 		tidal_energy = new ItemLore().setUnlocalizedName("tidal_energy").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":tidal_energy");
 		whale_meat = new ItemMeat().setUnlocalizedName("whale_meat").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":whale_meat");
 		science = new ItemLore().setUnlocalizedName("science").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science");
+		science_2 = new ItemLore().setUnlocalizedName("science_2").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_2");
+		science_3 = new ItemLore().setUnlocalizedName("science_3").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_3");
+		science_4 = new ItemLore().setUnlocalizedName("science_4").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_4");
+		science_5 = new ItemLore().setUnlocalizedName("science_5").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_5");
+		science_6 = new ItemLore().setUnlocalizedName("science_6").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_6");
 		coin = new ItemLore().setUnlocalizedName("hfr_coin").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":coin");
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
 		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":prestige");
@@ -227,8 +237,8 @@ public class ModItems {
 		pak_rocket = new ItemLore().setUnlocalizedName("pak_rocket").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":pak_rocket");
 		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
-		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
-		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
+		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
+		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
 		
 		debug = new ItemDebug().setUnlocalizedName("debug").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
 	}
@@ -277,6 +287,11 @@ public class ModItems {
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
 		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());
 		GameRegistry.registerItem(science, science.getUnlocalizedName());
+		GameRegistry.registerItem(science_2, science_2.getUnlocalizedName());
+		GameRegistry.registerItem(science_3, science_3.getUnlocalizedName());
+		GameRegistry.registerItem(science_4, science_4.getUnlocalizedName());
+		GameRegistry.registerItem(science_5, science_5.getUnlocalizedName());
+		GameRegistry.registerItem(science_6, science_6.getUnlocalizedName());
 		GameRegistry.registerItem(coin, coin.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());

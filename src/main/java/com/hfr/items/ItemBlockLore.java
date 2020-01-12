@@ -25,6 +25,10 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Foundation block");
 			list.add("Increases speed by 25%");
 		}
+		if(field_150939_a == ModBlocks.box) {
+			list.add("Crappy storage block");
+			list.add("Rots after a while");
+		}
 
 		if(field_150939_a == ModBlocks.machine_net) {
 			list.add("Requires sky access and 3 block deep water");

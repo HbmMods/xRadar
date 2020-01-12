@@ -36,16 +36,16 @@ public class ObjUtil {
                     Vec3 vec = Vec3.createVectorHelper(v.x, v.y, v.z);
                     vec.rotateAroundY(rot);
 
-                    float x = (float)vec.xCoord;
-                    float y = (float)vec.yCoord;
-                    float z = (float)vec.zCoord;
+                    double x = vec.xCoord;
+                    double y = vec.yCoord;
+                    double z = vec.zCoord;
                     
                     TextureCoordinate t = f.textureCoordinates[i];
-                    tes.addVertexWithUV(x, y, z, icon.getInterpolatedU(t.u * 16), icon.getInterpolatedV(t.v * 16));
+                    tes.addVertexWithUV(x, y, z, icon.getInterpolatedU(t.u * 16D), icon.getInterpolatedV(t.v * 16D));
                     
                     //The shoddy way of rendering a tringulated model with a quad tessellator
                     if(i % 3 == 2)
-                        tes.addVertexWithUV(x, y, z, icon.getInterpolatedU(t.u * 16), icon.getInterpolatedV(t.v * 16));
+                        tes.addVertexWithUV(x, y, z, icon.getInterpolatedU(t.u * 16D), icon.getInterpolatedV(t.v * 16D));
                 }
             }
         }

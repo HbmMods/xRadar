@@ -57,6 +57,9 @@ public class ClientProxy extends ServerProxy
 
 		RenderingRegistry.registerBlockHandler(new RenderRBMK());
 		RenderingRegistry.registerBlockHandler(new RenderControlRods());
+		RenderingRegistry.registerBlockHandler(new RenderPalisade());
+		RenderingRegistry.registerBlockHandler(new RenderWall());
+		RenderingRegistry.registerBlockHandler(new RenderBerliner());
 
 		ClientRegistry.registerKeyBinding(toggleZoom);
 		ClientRegistry.registerKeyBinding(incScale);

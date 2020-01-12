@@ -52,30 +52,34 @@ public class RenderProp extends TileEntitySpecialRenderer {
             ModelHescoBlock.instance.render();
         }
 		
-        if(b == ModBlocks.palisade) {
+        /*if(b == ModBlocks.palisade) {
             bindTexture(ResourceManager.tmt_palisade);
             ModelPalisade.instance.render();
+            ResourceManager.palisade.renderAll();
         }
 		
         if(b == ModBlocks.stone_wall) {
             bindTexture(ResourceManager.tmt_stonewall);
             ModelStoneWall.instance.render();
+            ResourceManager.stonewall.renderAll();
         }
 		
         if(b == ModBlocks.brick_wall) {
             bindTexture(ResourceManager.tmt_brickwall);
             ModelBrickWall.instance.render();
+            ResourceManager.brickwall.renderAll();
         }
 		
         if(b == ModBlocks.great_wall) {
             bindTexture(ResourceManager.tmt_greatwall);
             ModelGreatWall.instance.render();
+            ResourceManager.stonewall.renderAll();
         }
 		
         if(b == ModBlocks.berlin_wall) {
             bindTexture(ResourceManager.tmt_berliner);
             ModelBerliner.instance.render();
-        }
+        }*/
 		
         if(b == ModBlocks.med_tent) {
             bindTexture(ResourceManager.tmt_medtent);
