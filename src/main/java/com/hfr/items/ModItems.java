@@ -121,6 +121,10 @@ public class ModItems {
 	public static Item flare;
 	public static Item pakker;
 	public static Item pak_rocket;
+	public static Item scanner;
+	public static Item repair_1;
+	public static Item repair_2;
+	public static Item repair_3;
 
 	public static Item sexlol;
 	public static Item canned_spam;
@@ -235,6 +239,10 @@ public class ModItems {
 		flare = new ItemLore().setUnlocalizedName("flare").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":flare");
 		pakker = new ItemPakker().setUnlocalizedName("pakker").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
 		pak_rocket = new ItemLore().setUnlocalizedName("pak_rocket").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":pak_rocket");
+		scanner = new ItemScanner().setUnlocalizedName("scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":scanner");
+		repair_1 = new ItemRepair(10).setUnlocalizedName("repair_1").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":repair_1");
+		repair_2 = new ItemRepair(25).setUnlocalizedName("repair_2").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":repair_2");
+		repair_3 = new ItemRepair(100).setUnlocalizedName("repair_3").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":repair_3");
 		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
 		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
@@ -302,6 +310,10 @@ public class ModItems {
 
 		GameRegistry.registerItem(mace, mace.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_map, clowder_map.getUnlocalizedName());
+		GameRegistry.registerItem(scanner, scanner.getUnlocalizedName());
+		GameRegistry.registerItem(repair_1, repair_1.getUnlocalizedName());
+		GameRegistry.registerItem(repair_2, repair_2.getUnlocalizedName());
+		GameRegistry.registerItem(repair_3, repair_3.getUnlocalizedName());
 		GameRegistry.registerItem(flaregun, flaregun.getUnlocalizedName());
 		GameRegistry.registerItem(flare, flare.getUnlocalizedName());
 		GameRegistry.registerItem(pakker, pakker.getUnlocalizedName());

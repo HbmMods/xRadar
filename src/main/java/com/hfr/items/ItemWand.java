@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ItemWand extends Item {
 	
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int meta, float hitX, float hitY, float hitZ)
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
 		if(world.getBlock(x, y, z) == Blocks.redstone_block) {
 			

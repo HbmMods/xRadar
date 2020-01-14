@@ -223,8 +223,8 @@ public class CommandClowder extends CommandBase {
 		}
 		
 		if(cmd.equals("deposit") && args.length > 1) {
-			sender.addChatMessage(new ChatComponentText(CRITICAL + "This command is currently disabled!"));
-			//cmdDeposit(sender, args[1]);
+			//sender.addChatMessage(new ChatComponentText(CRITICAL + "This command is currently disabled!"));
+			cmdDeposit(sender, args[1]);
 			return;
 		}
 		

@@ -31,7 +31,44 @@ public class CommandClowderChat extends CommandBase {
 		EntityPlayer player = getCommandSenderAsPlayer(sender);
 		Clowder clowder = Clowder.getClowderFromPlayer(player);
 		
-		if(args.length == 0) {
+		if(clowder == null) {
+			player.getEntityData().setInteger(CHAT_KEY, 0);
+			sender.addChatMessage(new ChatComponentText(CRITICAL + "You are not in any faction, chat settings have been reset!"));
+			return;
+		}
+		
+		if(args.length > 0) {
+			
+			if(args[0].equals("public") || args[0].equals("p")) {
+				player.getEntityData().setInteger(CHAT_KEY, 0);
+				sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to public!"));
+				return;
+			} else if(args[0].equals("faction") || args[0].equals("f")) {
+				player.getEntityData().setInteger(CHAT_KEY, 1);
+				sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to faction!"));
+				return;
+			} else {
+				sender.addChatMessage(new ChatComponentText(CRITICAL + "Invalid arguments!"));
+				sender.addChatMessage(new ChatComponentText(CRITICAL + "Try: 'public', 'faction' or none"));
+				return;
+			}
+		}
+		
+		int mode = player.getEntityData().getInteger(CHAT_KEY);
+		
+		if(mode == 0) {
+			player.getEntityData().setInteger(CHAT_KEY, 1);
+			sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to faction!"));
+			return;
+		}
+		
+		if(mode == 1) {
+			player.getEntityData().setInteger(CHAT_KEY, 0);
+			sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to public!"));
+			return;
+		}
+		
+		/*if(args.length == 0) {
 			sender.addChatMessage(new ChatComponentText(ERROR + "You can't message your faction without a message! (duh)"));
 			return;
 		}
@@ -51,20 +88,10 @@ public class CommandClowderChat extends CommandBase {
 			message += args[i];
 		}
 		
-		String name = "";
-
-		if(clowder.getPermLevel(player.getDisplayName()) > 2) {
-			name += "<Leader> ";
-		} else if(clowder.getPermLevel(player.getDisplayName()) > 1) {
-			name += "<Officer> ";
-		} else if(clowder.getPermLevel(player.getDisplayName()) > 0) {
-			name += "<Citizen> ";
-		}
-		
-		name += "[" + player.getDisplayName() + "]";
-		
-		clowder.notifyAll(player.worldObj, new ChatComponentText(HELP + name + " " + message));
+		String name = "";*/
 	}
+	
+	public static final String CHAT_KEY = "clowderChat";
 
 	public static final String ERROR = EnumChatFormatting.RED.toString();
 	public static final String CRITICAL = EnumChatFormatting.DARK_RED.toString();

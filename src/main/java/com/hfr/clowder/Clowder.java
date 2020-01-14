@@ -230,7 +230,7 @@ public class Clowder {
 						tent.warp = name;
 						tent.markDirty();
 						
-						clowder.warps.put(name, new int[] {x, y, z});
+						clowder.warps.put(name, new int[] {x, y + 1, z});
 						
 						ClowderData.getData(world).markDirty();
 						return 0;
@@ -405,9 +405,9 @@ public class Clowder {
 		c.homeX = nbt.getInteger(i + "_homeX");
 		c.homeY = nbt.getInteger(i + "_homeY");
 		c.homeZ = nbt.getInteger(i + "_homeZ");
-		c.prestige = nbt.getFloat(i + "_prestige");
-		c.prestigeGen = nbt.getFloat(i + "_prestigeGen");
-		c.prestigeReq = nbt.getFloat(i + "_prestigeReq");
+		c.prestige = Math.max(nbt.getFloat(i + "_prestige"), 1F);
+		c.prestigeGen = Math.max(nbt.getFloat(i + "_prestigeGen"), 0F);
+		c.prestigeReq = Math.max(nbt.getFloat(i + "_prestigeReq"), 0F);
 
 		c.leader = nbt.getString(i + "_leader");
 		int count = nbt.getInteger(i + "_members");
@@ -459,6 +459,29 @@ public class Clowder {
 	public void notifyCapture(World world, int x, int z, String type) {
 
 		notifyAll(world, new ChatComponentText(EnumChatFormatting.RED + "One of your " + type + " at X:" + x + " / Z:" + z + " is under attack!"));
+		
+		if(!warps.isEmpty()) {
+			
+			double dist = Double.POSITIVE_INFINITY;
+			String closest = "";
+			
+			for(String key : warps.keySet()) {
+				
+				int[] pos = warps.get(key);
+				
+				if(pos != null) {
+					
+					double d = Math.sqrt(Math.pow(x - pos[0], 2) + Math.pow(z - pos[2], 2));
+					
+					if(d < dist) {
+						d = dist;
+						closest = key;
+					}
+				}
+			}
+
+			notifyAll(world, new ChatComponentText(EnumChatFormatting.RED + "Your closest warp is " + closest + " (" + ((int)dist) + "m)"));
+		}
 	}
 	
 	/// GLOBAL METHODS ///

@@ -22,12 +22,15 @@ import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.hfr.blocks.*;
 import com.hfr.clowder.ClowderEvents;
 import com.hfr.clowder.ClowderFlag;
@@ -169,6 +172,8 @@ public class MainRegistry
 	public static int territoryDelay = 5;
 	public static int territoryAmount = 50;
 	public static int prestigeDelay = 60 * 60 * 20;
+	public static boolean disableChests = true;
+	public static int mold = 5 * 60 * 60 * 20;
 	
 	public static boolean freeRadar = false;
 	public static boolean sound = true;
@@ -233,6 +238,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineGrainmill.class, "tileentity_hfr_mill");
 		GameRegistry.registerTileEntity(TileEntityMachineBlastFurnace.class, "tileentity_hfr_furnace");
 		GameRegistry.registerTileEntity(TileEntityBerlin.class, "tileentity_hfr_berlin");
+		GameRegistry.registerTileEntity(TileEntityBox.class, "tileentity_hfr_smelly_box");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -304,6 +310,16 @@ public class MainRegistry
 	{
 		//in postload, long after all blocks have been registered, the buffered config is being evaluated and processed.
 		processBuffer();
+		
+		try {
+			BobbyBreaker.loadConfiguration(jsonDir);
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@EventHandler
@@ -340,6 +356,8 @@ public class MainRegistry
 	public static int updateInterval = 10 * 60;
 	public static int stockCap = 50;
 	
+	public static String jsonDir;
+	
 	public void loadConfig(FMLPreInitializationEvent event)
 	{
 		if(logger == null)
@@ -348,6 +366,7 @@ public class MainRegistry
 		PacketDispatcher.registerPackets();
 
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		jsonDir = config.getConfigFile().getAbsolutePath().replace("cfg", "json");
 		
 		config.load();Property propRadarRange = config.get("RADAR", "radarRange", 1000);
         propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";
@@ -811,6 +830,8 @@ public class MainRegistry
         territoryDelay = createConfigInt(config, "CLOWDER", "territoryDelay", "How many ticks inbetween territory validation operations", 5);
         territoryAmount = createConfigInt(config, "CLOWDER", "territoryAmount", "How many chunks are checked eaach operation", 50);
         prestigeDelay = createConfigInt(config, "CLOWDER", "prestigeDelay", "How many ticks inbetween prestige updates (1h per default)", 60 * 60 * 20);
+        disableChests = createConfigBool(config, "CLOWDER", "disableChests", "Whether chests should not be placable outside of claims", true);
+        mold = createConfigInt(config, "CLOWDER", "mold", "How many ticks cardboard boxes can remain loaded until rotting (5h by default)", 5 * 60 * 60 * 20);
 
         u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);
         u1en = createConfigBool(config, "STOCKMARKET", "u1enable", "Whether small econ boost messages should be broadcasted", true);

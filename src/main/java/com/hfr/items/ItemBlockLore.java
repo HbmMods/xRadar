@@ -18,6 +18,42 @@ public class ItemBlockLore extends ItemBlock {
 	@Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
+		if(field_150939_a == ModBlocks.hard_stone) {
+			list.add("[Tier 1 Hard Wall]");
+			list.add("Solid stone block");
+			list.add("Great for castles!");
+		}
+		if(field_150939_a == ModBlocks.concrete) {
+			list.add("[Tier 2 Hard Wall]");
+			list.add("Hardened clay and sand \"concrete\"");
+		}
+		if(field_150939_a == ModBlocks.concrete_bricks) {
+			list.add("[Tier 3 Hard Wall]");
+			list.add("Hollow concrete-based bricks");
+			list.add("Cheap and fancy");
+		}
+		if(field_150939_a == ModBlocks.concrete_flat) {
+			list.add("[Tier 4 Hard Wall]");
+			list.add("20th century concrete");
+			list.add("Soviets love it!");
+		}
+		if(field_150939_a == ModBlocks.concrete_bolted) {
+			list.add("[Tier 5 Hard Wall]");
+			list.add("Concrete with rebar");
+		}
+		if(field_150939_a == ModBlocks.hard_mesh) {
+			list.add("[Tier 6 Hard Wall]");
+			list.add("Ultra-durable alloy mesh");
+		}
+		if(field_150939_a == ModBlocks.concrete_hazard) {
+			list.add("[Bonus Hard Wall]");
+			list.add("Modern concrete with industrial aesthetic");
+		}
+		if(field_150939_a == ModBlocks.concrete_rocks) {
+			list.add("[Bonus Hard Wall]");
+			list.add("Decorative concrete chunks");
+		}
+
 		if(field_150939_a == ModBlocks.uni_foundation) {
 			list.add("Increases speed by 15%");
 		}

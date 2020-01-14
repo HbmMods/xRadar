@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
 import com.hfr.inventory.container.ContainerBlastFurnace;
+import com.hfr.inventory.container.ContainerBox;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerGrainMill;
@@ -25,6 +26,7 @@ import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
 import com.hfr.inventory.gui.GUIBlastFurnace;
+import com.hfr.inventory.gui.GUIBox;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
 import com.hfr.inventory.gui.GUIGrainmill;
@@ -229,6 +231,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_box:
+			{
+				if(entity instanceof TileEntityBox)
+				{
+					return new ContainerBox(player.inventory, (TileEntityBox) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -407,6 +418,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineBlastFurnace)
 					{
 						return new GUIBlastFurnace(player.inventory, (TileEntityMachineBlastFurnace) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_box:
+				{
+					if(entity instanceof TileEntityBox)
+					{
+						return new GUIBox(player.inventory, (TileEntityBox) entity);
 					}
 					return null;
 				}

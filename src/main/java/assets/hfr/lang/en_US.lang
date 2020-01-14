@@ -40,6 +40,8 @@ tile.machine_grainmill.name=Grain Mill
 container.grainmill=Grain Mill
 tile.machine_blastfurnace.name=Blast Furnace
 container.blastFurnace=Blast Furnace
+tile.box.name=Moldy Cardboard Box
+container.box=Moldy Cardboard Box
 
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
@@ -58,8 +60,15 @@ tile.display.name=Stock Market Display
 tile.oil_duct.name=Oil Pipe
 tile.gas_duct.name=Gas Pipe
 
-tile.concrete.name=Concrete
-tile.concrete_bricks.name=Concrete Bricks
+tile.concrete.name=Early Concrete
+tile.concrete_bricks.name=Cinder Blocks
+tile.concrete_flat.name=Modern Concrete
+tile.concrete_bolted.name=Ferro-Concrete
+tile.hard_stone.name=Hardened Rock
+tile.hard_mesh.name=Reinforced Mesh
+tile.concrete_hazard.name=Hazard Concrete
+tile.concrete_rocks.name=Broken Concrete
+
 tile.temp.name=Temporary Block
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
@@ -99,6 +108,10 @@ item.battery.name=HFR Infinite Battery
 item.oil_detector.name=Oil Detector
 item.gas_mask.name=Dräger M65 Gas Mask
 item.clowder_banner.name=Wearable Clowder Banner
+item.scanner.name=Block Damage Scanner
+item.repair_1.name=Duct Tape
+item.repair_2.name=Trowel and Mortar
+item.repair_3.name=Replacement Wall
 
 item.farmer.name=Farming Contract
 

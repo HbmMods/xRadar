@@ -86,7 +86,7 @@ public class Flag extends BlockContainer {
 			
 			Clowder clowder = Clowder.getClowderFromPlayer((EntityPlayer)player);
 			
-			if(clowder != null) {
+			if(clowder != null && flag.canSeeSky()) {
 				flag.setOwner(clowder);
 				flag.setMode(3);
 				flag.isClaimed = true;
