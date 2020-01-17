@@ -80,7 +80,7 @@ public class BobbyBreaker {
 		
 		World world = event.world;
 		
-		if(!world.isRemote) {
+		if(!world.isRemote && event.explosion.isSmoking) {
 			
 			List<ChunkPosition> rem = new ArrayList();
 			

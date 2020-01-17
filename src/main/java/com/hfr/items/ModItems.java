@@ -39,6 +39,9 @@ public class ModItems {
 	public static Item gas_petroleum;
 
 	public static Item farmer;
+	public static Item miner;
+	public static Item miner_supplies;
+	public static Item canary;
 
 	public static Item designator;
 	public static Item designator_range;
@@ -82,6 +85,7 @@ public class ModItems {
 
 	public static Item components_wood;
 	public static Item components_scaffold;
+	public static Item components_steel;
 	public static Item components_mechanical;
 	public static Item components_electronics;
 	
@@ -127,6 +131,7 @@ public class ModItems {
 	public static Item repair_3;
 
 	public static Item sexlol;
+	public static Item can;
 	public static Item canned_spam;
 	public static Item canned_jizz;
 
@@ -160,10 +165,14 @@ public class ModItems {
 
 		components_wood = new ItemLore().setUnlocalizedName("components_wood").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_wood");
 		components_scaffold = new ItemLore().setUnlocalizedName("components_scaffold").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_scaffold");
+		components_steel = new ItemLore().setUnlocalizedName("components_steel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_steel");
 		components_mechanical = new ItemLore().setUnlocalizedName("components_mechanical").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_mechanical");
 		components_electronics = new ItemLore().setUnlocalizedName("components_electronics").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_electronics");
 		
 		farmer = new ItemContract().setUnlocalizedName("farmer").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":farmer");
+		miner = new ItemLore().setUnlocalizedName("miner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":miner");
+		miner_supplies = new ItemLore().setUnlocalizedName("miner_supplies").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":miner_supplies");
+		canary = new ItemLore().setUnlocalizedName("canary").setMaxStackSize(4).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canary");
 		
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_range");
@@ -245,6 +254,7 @@ public class ModItems {
 		repair_3 = new ItemRepair(100).setUnlocalizedName("repair_3").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":repair_3");
 		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
+		can = new ItemLore().setUnlocalizedName("can").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":can");
 		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
 		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
 		
@@ -289,6 +299,7 @@ public class ModItems {
 
 		GameRegistry.registerItem(components_wood, components_wood.getUnlocalizedName());
 		GameRegistry.registerItem(components_scaffold, components_scaffold.getUnlocalizedName());
+		GameRegistry.registerItem(components_steel, components_steel.getUnlocalizedName());
 		GameRegistry.registerItem(components_mechanical, components_mechanical.getUnlocalizedName());
 		GameRegistry.registerItem(components_electronics, components_electronics.getUnlocalizedName());
 
@@ -307,6 +318,9 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
 
 		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
+		GameRegistry.registerItem(miner, miner.getUnlocalizedName());
+		GameRegistry.registerItem(miner_supplies, miner_supplies.getUnlocalizedName());
+		GameRegistry.registerItem(canary, canary.getUnlocalizedName());
 
 		GameRegistry.registerItem(mace, mace.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_map, clowder_map.getUnlocalizedName());
@@ -363,6 +377,7 @@ public class ModItems {
 		GameRegistry.registerItem(charge_bfg, charge_bfg.getUnlocalizedName());
 
 		GameRegistry.registerItem(sexlol, sexlol.getUnlocalizedName());
+		GameRegistry.registerItem(can, can.getUnlocalizedName());
 		GameRegistry.registerItem(canned_spam, canned_spam.getUnlocalizedName());
 		GameRegistry.registerItem(canned_jizz, canned_jizz.getUnlocalizedName());
 		

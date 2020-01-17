@@ -55,6 +55,19 @@ public class ItemLore extends Item {
 		
 		
 
+		if(this == ModItems.miner) {
+			list.add("For use in coal mines");
+		}
+		if(this == ModItems.miner_supplies) {
+			list.add("For use in coal mines");
+		}
+		if(this == ModItems.canary) {
+			list.add("For use in coal mines");
+			list.add("Dies easily, but prevents accidents");
+		}
+		
+		
+
 		if(this == ModItems.components_wood) {
 			list.add("Wood, but long");
 		}

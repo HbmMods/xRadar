@@ -3,6 +3,8 @@ package com.hfr.handler;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import com.hfr.main.MainRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -131,10 +133,22 @@ public class BobbyExplosion extends Explosion {
 			if(health == -1) {
 				health = res;
 			}
+
+			double x = explosionX;
+			double y = explosionY;
+			double z = explosionZ;
+			
+			if(!MainRegistry.bb_rng) {
+				x = (int)x;
+				y = (int)y;
+				z = (int)z;
+			}
 			
 			//damage is based on explosion strength / distance
 			Vec3 vec = Vec3.createVectorHelper(this.explosionX - (posX + 0.5), this.explosionY - (posY + 0.5), this.explosionZ - (posZ + 0.5));
 			float damage = (float) (explosionSize / vec.lengthVector());
+			
+			damage = Math.min(damage, explosionSize * 2);
 			
 			//this is where the magic happens
 			health -= damage;

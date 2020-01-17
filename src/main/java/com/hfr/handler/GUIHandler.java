@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.inventory.container.ContainerBox;
+import com.hfr.inventory.container.ContainerCoalMine;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerGrainMill;
@@ -27,6 +28,7 @@ import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
 import com.hfr.inventory.gui.GUIBlastFurnace;
 import com.hfr.inventory.gui.GUIBox;
+import com.hfr.inventory.gui.GUICoalMine;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
 import com.hfr.inventory.gui.GUIGrainmill;
@@ -240,6 +242,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_coalmine:
+			{
+				if(entity instanceof TileEntityMachineCoalMine)
+				{
+					return new ContainerCoalMine(player.inventory, (TileEntityMachineCoalMine) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -427,6 +438,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityBox)
 					{
 						return new GUIBox(player.inventory, (TileEntityBox) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_coalmine:
+				{
+					if(entity instanceof TileEntityMachineCoalMine)
+					{
+						return new GUICoalMine(player.inventory, (TileEntityMachineCoalMine) entity);
 					}
 					return null;
 				}

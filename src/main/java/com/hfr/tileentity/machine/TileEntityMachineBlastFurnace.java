@@ -291,5 +291,4 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase {
 	{
 		return 65536.0D;
 	}
-
 }

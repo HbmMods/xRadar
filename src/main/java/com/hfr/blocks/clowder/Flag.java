@@ -16,6 +16,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -91,8 +93,15 @@ public class Flag extends BlockContainer {
 				flag.setMode(3);
 				flag.isClaimed = true;
 				flag.generateClaim();
-				flag.markDirty();
+			} else {
+				flag.height = 0.0F;
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You won't be able to raise this flag. This maay be due to:"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag lacking a solid 5x5 block foundation"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag's foundation not having sky access"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-You not being in any faction"));
 			}
+			
+			flag.markDirty();
 		}
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);

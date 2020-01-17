@@ -179,6 +179,15 @@ public class ResourceManager {
 	public static final ResourceLocation furn_tower_inner = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/text_tower_inner.png");
 	public static final ResourceLocation furn_lava = new ResourceLocation(RefStrings.MODID, "textures/models/blast_furnace/lava.png");
 	
+	//COAL MINE
+	public static final IModelCustom coal_mine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/coal_mine.obj"));
+	public static final ResourceLocation mine_foundation = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/foundation.png");
+	public static final ResourceLocation mine_steel = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/steel.png");
+	public static final ResourceLocation mine_steel_dark = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/steel_dark.png");
+	public static final ResourceLocation mine_hole = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/hole.png");
+	public static final ResourceLocation mine_hut = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/hut.png");
+	public static final ResourceLocation mine_roof = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/roof.png");
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));

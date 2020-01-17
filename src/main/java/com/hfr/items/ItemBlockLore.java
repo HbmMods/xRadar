@@ -85,6 +85,10 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Smelts iron ingots and ore into steel");
 			list.add("+0.1 prestige gen / hour");
 		}
+		if(field_150939_a == ModBlocks.machine_coalmine) {
+			list.add("Requires sky access and foundation");
+			list.add("Uses miners and supplies to generate coal");
+		}
 
 		if(field_150939_a == ModBlocks.hesco_block) {
 			list.add("HESCO MIL brand collapsable gabion");

@@ -154,6 +154,9 @@ public class MainRegistry
 
 	public static int uniRate = 60 * 3;
 	public static int uniJamRate = 60 * 15;
+
+	public static int coalRate = 60;
+	public static int coalJamRate = 60 * 30;
 	
 	public static int navalDamage = 100;
 	public static int railgunDamage = 100;
@@ -174,6 +177,8 @@ public class MainRegistry
 	public static int prestigeDelay = 60 * 60 * 20;
 	public static boolean disableChests = true;
 	public static int mold = 5 * 60 * 60 * 20;
+
+	public static boolean bb_rng = false;
 	
 	public static boolean freeRadar = false;
 	public static boolean sound = true;
@@ -239,6 +244,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineBlastFurnace.class, "tileentity_hfr_furnace");
 		GameRegistry.registerTileEntity(TileEntityBerlin.class, "tileentity_hfr_berlin");
 		GameRegistry.registerTileEntity(TileEntityBox.class, "tileentity_hfr_smelly_box");
+		GameRegistry.registerTileEntity(TileEntityMachineCoalMine.class, "tileentity_hfr_coalmine");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -625,6 +631,9 @@ public class MainRegistry
 
         uniRate = createConfigInt(config, "UNIVERSITY", "uniRate", "Average amount of seconds for uni to generate research", 60 * 3);
         uniJamRate = createConfigInt(config, "UNIVERSITY", "uniJamRate", "Average amount of seconds for uni to get jammed", 60 * 15);
+
+        coalRate = createConfigInt(config, "COALMINE", "coalRate", "Average amount of seconds for mine to generate coal", 60);
+        coalJamRate = createConfigInt(config, "COALMINE", "accidentRate", "Average amount of seconds for mine to have an accident", 60 * 30);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";
@@ -833,6 +842,8 @@ public class MainRegistry
         disableChests = createConfigBool(config, "CLOWDER", "disableChests", "Whether chests should not be placable outside of claims", true);
         mold = createConfigInt(config, "CLOWDER", "mold", "How many ticks cardboard boxes can remain loaded until rotting (5h by default)", 5 * 60 * 60 * 20);
 
+        bb_rng = createConfigBool(config, "BOBBYBREAKER", "enableFineCalc", "Whether or not BB uses exact position values or rounded ones, exact values simulate RNG due to bomb spread and highly varying damage", false);
+        
         u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);
         u1en = createConfigBool(config, "STOCKMARKET", "u1enable", "Whether small econ boost messages should be broadcasted", true);
         d1en = createConfigBool(config, "STOCKMARKET", "d1enable", "Whether small econ fall messages should be broadcasted", true);

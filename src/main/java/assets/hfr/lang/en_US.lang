@@ -42,6 +42,8 @@ tile.machine_blastfurnace.name=Blast Furnace
 container.blastFurnace=Blast Furnace
 tile.box.name=Moldy Cardboard Box
 container.box=Moldy Cardboard Box
+tile.machine_coalmine.name=Coal Mine
+container.coalMine=Coal Mine
 
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
@@ -114,6 +116,9 @@ item.repair_2.name=Trowel and Mortar
 item.repair_3.name=Replacement Wall
 
 item.farmer.name=Farming Contract
+item.miner.name=Mining Contract
+item.miner_supplies.name=Mining Supplies
+item.canary.name=Canary
 
 item.grenade_gas.name=Gas Grenade
 item.grenade_nuclear.name=Atomic Grenade
@@ -145,6 +150,7 @@ item.gas_petroleum.name=Petroleum Gas Tank
 
 item.components_wood.name=Wooden Beams
 item.components_scaffold.name=Sturdy Scaffolding
+item.components_steel.name=Steel Scaffolding
 item.components_mechanical.name=Mechanical Components
 item.components_electronics.name=Circuitry
 
@@ -213,6 +219,7 @@ item.charge_railgun.name=Deuterium Plasma Capsule
 item.charge_bfg.name=Argent Plasma Capsule
 
 item.sexlol.name=the sex
+item.can.name=Tin Can
 item.canned_jizz.name=Canned Horse Milk
 item.canned_spam.name=Canned Coochie
 

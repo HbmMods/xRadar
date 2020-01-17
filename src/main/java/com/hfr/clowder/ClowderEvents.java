@@ -228,9 +228,12 @@ public class ClowderEvents {
 
 			if(player.worldObj.getBlock(x, y, z) != ModBlocks.clowder_flag) {
 				for(int i = x - 2; i <= x + 2; i++)
-					for(int j = x - 2; j <= x + 2; j++)
-						if(player.worldObj.getBlock(i, y + 1, j) == ModBlocks.clowder_flag)
+					for(int j = z - 2; j <= z + 2; j++)
+						if(player.worldObj.getBlock(i, y + 1, j) == ModBlocks.clowder_flag) {
+
+							player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Please refrain from breaking the flag's foundation."));
 							return false;
+						}
 			}
 		}
 		

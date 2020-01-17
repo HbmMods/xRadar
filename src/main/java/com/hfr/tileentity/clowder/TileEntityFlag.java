@@ -174,13 +174,13 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			}
 			
 			if(owner != null) {
-				this.updateGauge(owner.flag.ordinal(), 0, 100);
-				this.updateGauge(owner.color, 1, 100);
+				this.updateGauge(owner.flag.ordinal(), 0, 250);
+				this.updateGauge(owner.color, 1, 250);
 				this.updateGauge(Float.floatToIntBits(owner.getPrestige()), 4, 20);
 				this.updateGauge(Float.floatToIntBits(owner.getPrestigeReq()), 5, 20);
 			} else {
-				this.updateGauge(ClowderFlag.NONE.ordinal(), 0, 100);
-				this.updateGauge(0xFFFFFF, 1, 100);
+				this.updateGauge(ClowderFlag.NONE.ordinal(), 0, 250);
+				this.updateGauge(0xFFFFFF, 1, 250);
 				this.updateGauge(0, 4, 20);
 				this.updateGauge(0, 5, 20);
 			}

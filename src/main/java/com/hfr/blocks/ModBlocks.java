@@ -95,6 +95,8 @@ public class ModBlocks {
 	public static final int guiID_blastfurnace = 21;
 	public static Block box;
 	public static final int guiID_box = 22;
+	public static Block machine_coalmine;
+	public static final int guiID_coalmine = 23;
 
 	public static Block hesco_block;
 	public static Block palisade;
@@ -197,6 +199,7 @@ public class ModBlocks {
 		machine_uni = new MachineUni(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("machine_uni").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_uni");
 		machine_grainmill = new MachineGrainmill(Material.wood).setStepSound(Block.soundTypeWood).setBlockName("machine_grainmill").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_grainmill");
 		machine_blastfurnace = new MachineBlastFurnace(Material.rock).setStepSound(soundTypeConcrete).setBlockName("machine_blastfurnace").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_blastfurnace");
+		machine_coalmine = new MachineCoalMine(Material.rock).setStepSound(soundTypeMetal).setBlockName("machine_coalmine").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_coalmine");
 		
 		railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal).setBlockName("railgun_plasma").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":railgun_plasma");
 		cannon_naval = new CannonNaval(Material.iron).setStepSound(soundTypeMetal).setBlockName("cannon_naval").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":cannon_naval");
@@ -254,6 +257,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_uni, ItemBlockLore.class, machine_uni.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_grainmill, ItemBlockLore.class, machine_grainmill.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_blastfurnace, ItemBlockLore.class, machine_blastfurnace.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_coalmine, ItemBlockLore.class, machine_coalmine.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
