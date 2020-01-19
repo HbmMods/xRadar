@@ -20,6 +20,7 @@ import com.hfr.entity.grenade.*;
 import com.hfr.entity.logic.*;
 import com.hfr.entity.missile.*;
 import com.hfr.entity.projectile.*;
+import com.hfr.handler.ExplosionSound;
 import com.hfr.items.ModItems;
 import com.hfr.loader.HmfModelLoader;
 import com.hfr.render.block.*;
@@ -274,6 +275,10 @@ public class ClientProxy extends ServerProxy
 		default: break;
 		
 		}
+	}
+	
+	public void spawnEFX(double posX, double posY, double posZ, float pow) {
+		ExplosionSound.handleClient(Minecraft.getMinecraft().thePlayer, (int)posX, (int)posY, (int)posZ, pow);
 	}
 	
 	@Override

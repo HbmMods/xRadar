@@ -64,7 +64,7 @@ public class EntityPak extends Entity {
 	        	
 				PacketDispatcher.wrapper.sendToAllAround(new ParticleControlPacket(posX - motionX * 2, posY - motionY * 2, posZ - motionZ * 2, 7),  new TargetPoint(this.dimension, posX, posY, posZ, 250));
 				//worldObj.playSoundEffect(posX, posY, posZ, "hfr:block.railgunFire", 100.0F, 0.5F);
-				worldObj.createExplosion(this, posX, posY, posZ, 10F, true);
+				worldObj.newExplosion(this, posX, posY, posZ, 10F, false, false);
 	        }
 			this.setDead();
 			
