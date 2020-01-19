@@ -12,6 +12,7 @@ import com.hfr.command.CommandClowder;
 import com.hfr.command.CommandClowderChat;
 import com.hfr.data.ClowderData;
 import com.hfr.handler.BobbyBreaker;
+import com.hfr.handler.ExplosionSound;
 import com.hfr.items.ItemMace;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
@@ -294,6 +295,7 @@ public class ClowderEvents {
 		}
 		
 		BobbyBreaker.handleExplosionEvent(event);
+		ExplosionSound.handleExplosion(event.world, event.explosion);
 	}
 	
 	public boolean canExplode(Ownership owner, World world, int x, int y, int z) {
@@ -354,7 +356,7 @@ public class ClowderEvents {
 		
 		if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 			
-			if(clowder != null && !clowder.isRaidable())
+			if(clowder == null || !clowder.isRaidable())
 				return false;
 			
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.interactOverride.contains(b) && owner.owner.isRaidable()) {

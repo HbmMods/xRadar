@@ -47,6 +47,7 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SLBMOfferPacket.Handler.class, SLBMOfferPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(ClowderFlagPacket.Handler.class, ClowderFlagPacket.class, i++, Side.CLIENT);
 		wrapper.registerMessage(ClowderBorderPacket.Handler.class, ClowderBorderPacket.class, i++, Side.CLIENT);
+		wrapper.registerMessage(ExplosionSoundPacket.Handler.class, ExplosionSoundPacket.class, i++, Side.CLIENT);
 
 	}
 	

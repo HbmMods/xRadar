@@ -407,6 +407,8 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.getDecoratedName()));
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Owner: " + clowder.leader));
+			sender.addChatMessage(new ChatComponentText(LIST + "MotD: " + clowder.motd));
+			sender.addChatMessage(new ChatComponentText(LIST + "Raidable? " + clowder.isRaidable()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Prestige: " + clowder.round(clowder.getPrestige())));
 			sender.addChatMessage(new ChatComponentText(LIST + " -generating: " + clowder.round(clowder.getPrestigeGen()) + " per hour"));
@@ -825,7 +827,7 @@ public class CommandClowder extends CommandBase {
 				
 			} else {
 				
-				clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
 				clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(clowder.homeX, clowder.homeY, clowder.homeZ, player.getDisplayName(), true));
 				
 			}
@@ -935,8 +937,8 @@ public class CommandClowder extends CommandBase {
 							TileEntityProp tent = (TileEntityProp)player.worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 							
 							if(tent.warp.equals(name) && tent.operational()) {
-								
-								clowder.notifyAll(player.worldObj, new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
+
+								sender.addChatMessage(new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
 								clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(warp[0], warp[1], warp[2], player.getDisplayName()));
 								
 								return;

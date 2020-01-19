@@ -73,6 +73,9 @@ public class GUIMachineRadar extends GuiContainer {
 					} else if(m.name.equals("Explosive Shell")) {
 
 						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
+					} else if(m.name.equals("Railgun Charge")) {
+
+						text = new String[] { m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
 					} else {
 
 						text = new String[] { "Player " + m.name +": ", m.posX + " / " + m.posZ, "Alt.: " + m.posY };
@@ -164,6 +167,9 @@ public class GUIMachineRadar extends GuiContainer {
 
 					t = 4;
 				} else if(m.name.equals("Explosive Shell")) {
+
+					t = 9;
+				} else if(m.name.equals("Railgun Charge")) {
 
 					t = 9;
 				} else {

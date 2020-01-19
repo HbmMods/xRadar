@@ -295,14 +295,14 @@ public class MainRegistry
 
 		CommonEventHandler handler = new CommonEventHandler();
 		ClowderEvents clowder = new ClowderEvents();
-		WorldController pon4 = new WorldController();
+		//WorldController pon4 = new WorldController();
 		
 		FMLCommonHandler.instance().bus().register(handler);
 		FMLCommonHandler.instance().bus().register(clowder);
-		FMLCommonHandler.instance().bus().register(pon4);
+		//FMLCommonHandler.instance().bus().register(pon4);
 		MinecraftForge.EVENT_BUS.register(handler);
 		MinecraftForge.EVENT_BUS.register(clowder);
-		MinecraftForge.EVENT_BUS.register(pon4);
+		//MinecraftForge.EVENT_BUS.register(pon4);
 	}
 
 	@EventHandler

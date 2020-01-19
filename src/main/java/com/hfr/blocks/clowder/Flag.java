@@ -89,13 +89,13 @@ public class Flag extends BlockContainer {
 			Clowder clowder = Clowder.getClowderFromPlayer((EntityPlayer)player);
 			
 			if(clowder != null && flag.canSeeSky()) {
-				flag.setOwner(clowder);
+				/*flag.setOwner(clowder);
 				flag.setMode(3);
 				flag.isClaimed = true;
-				flag.generateClaim();
+				flag.generateClaim();*/
 			} else {
 				flag.height = 0.0F;
-				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You won't be able to raise this flag. This maay be due to:"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You won't be able to raise this flag. This may be due to:"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag lacking a solid 5x5 block foundation"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag's foundation not having sky access"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-You not being in any faction"));

@@ -48,5 +48,9 @@
     "item.doot": {"category": "record", "sounds": [{"name": "tool/doot", "stream": false}]},
     "item.launch": {"category": "record", "sounds": [{"name": "tool/launch", "stream": false}]},
     
+    "explosion.close": {"category": "block", "sounds": [{"name": "explosion/explosion_close", "stream": false}]},
+    "explosion.medium": {"category": "block", "sounds": [{"name": "explosion/explosion_medium", "stream": false}]},
+    "explosion.rumble": {"category": "block", "sounds": [{"name": "explosion/explosion_rumble", "stream": false}]},
+    
     "grenade.gBounce": {"category": "block", "sounds": ["grenade/gBounce1", "grenade/gBounce2", "grenade/gBounce3"]}
 }
