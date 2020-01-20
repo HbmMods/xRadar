@@ -407,6 +407,7 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.getDecoratedName()));
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Owner: " + clowder.leader));
+			sender.addChatMessage(new ChatComponentText(LIST + "Players considered online: " + clowder.getPlayersOnline() + "/" + clowder.members.keySet().size()));
 			sender.addChatMessage(new ChatComponentText(LIST + "MotD: " + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Raidable? " + clowder.isRaidable()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));

@@ -46,7 +46,6 @@ import com.hfr.handler.*;
 import com.hfr.items.*;
 import com.hfr.lib.*;
 import com.hfr.packet.*;
-import com.hfr.pon4.*;
 import com.hfr.potion.HFRPotion;
 import com.hfr.schematic.*;
 import com.hfr.tileentity.*;
@@ -188,7 +187,7 @@ public class MainRegistry
 	
 	Random rand = new Random();
 
-	public static DamageSource blast = (new DamageSource("blast")).setExplosion();
+	public static DamageSource blast = (new DamageSource("blast")).setExplosion().setDamageBypassesArmor().setDamageIsAbsolute();
 	public static DamageSource zyklon = (new DamageSource("zyklon")).setDamageBypassesArmor().setDamageIsAbsolute();
 	public static DamageSource wire = (new DamageSource("wire"));
 	

@@ -303,6 +303,24 @@ public class Clowder {
 		return online >= 1;
 	}
 	
+	public int getPlayersOnline() {
+		
+		int online = 0;
+		int members = this.members.size();
+		
+		for(String s : this.members.keySet()) {
+			
+			Long l = this.members.get(s);
+			
+			if(l > System.currentTimeMillis())
+				online++;
+		}
+
+		return online;
+	}
+	
+	//cohesion my fucking balls
+	//if i want a math utility in my clowder class i'll fucking have one
 	public static String round(float f) {
 		
 		return "" + Math.floor(f * 10D) / 10D;
@@ -518,7 +536,10 @@ public class Clowder {
 	
 	public static Clowder getClowderFromPlayer(EntityPlayer player) {
 		
-		String key = player.getDisplayName();
+		return getClowderFromPlayerName(player.getDisplayName());
+	}
+	
+	public static Clowder getClowderFromPlayerName(String key) {
 		
 		return inverseMap.get(key);
 	}

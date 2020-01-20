@@ -3,6 +3,9 @@ package com.hfr.handler;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import com.hfr.clowder.ClowderEvents;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.main.MainRegistry;
 
 import net.minecraft.block.Block;
@@ -107,13 +110,17 @@ public class BobbyExplosion extends Explosion {
 			x = chunkposition.chunkPosX;
 			y = chunkposition.chunkPosY;
 			z = chunkposition.chunkPosZ;
-			block = this.worldObj.getBlock(x, y, z);
-			int meta = this.worldObj.getBlockMetadata(x, y, z);
 
-			boolean result = handle(worldObj, block, meta, x, y, z);
-
-			if (block.getMaterial() != Material.air && !result) {
-				block.onBlockExploded(this.worldObj, x, y, z, this);
+			Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
+			if(ClowderEvents.canExplode(owner, worldObj, x, y, z)) {
+				block = this.worldObj.getBlock(x, y, z);
+				int meta = this.worldObj.getBlockMetadata(x, y, z);
+	
+				boolean result = handle(worldObj, block, meta, x, y, z);
+	
+				if (block.getMaterial() != Material.air && !result) {
+					block.onBlockExploded(this.worldObj, x, y, z, this);
+				}
 			}
 		}
     }

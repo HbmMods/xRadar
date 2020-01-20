@@ -89,10 +89,10 @@ public class Flag extends BlockContainer {
 			Clowder clowder = Clowder.getClowderFromPlayer((EntityPlayer)player);
 			
 			if(clowder != null && flag.canSeeSky()) {
-				/*flag.setOwner(clowder);
+				flag.setOwner(clowder);
 				flag.setMode(3);
 				flag.isClaimed = true;
-				flag.generateClaim();*/
+				flag.generateClaim();
 			} else {
 				flag.height = 0.0F;
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You won't be able to raise this flag. This may be due to:"));

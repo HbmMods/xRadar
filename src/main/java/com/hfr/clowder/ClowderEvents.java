@@ -23,6 +23,7 @@ import com.hfr.tileentity.prop.TileEntityProp;
 import com.hfr.tileentity.prop.TileEntityStatue;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -298,7 +299,7 @@ public class ClowderEvents {
 		ExplosionSound.handleExplosion(event.world, event.explosion);
 	}
 	
-	public boolean canExplode(Ownership owner, World world, int x, int y, int z) {
+	public static boolean canExplode(Ownership owner, World world, int x, int y, int z) {
 		
 		if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE ) {
 			return false;
@@ -311,7 +312,7 @@ public class ClowderEvents {
 			}
 
 			for(int i = x - 2; i <= x + 2; i++)
-				for(int j = x - 2; j <= x + 2; j++)
+				for(int j = z - 2; j <= z + 2; j++)
 					if(world.getBlock(i, y + 1, j) == ModBlocks.clowder_flag)
 						return false;
 		}
@@ -506,6 +507,13 @@ public class ClowderEvents {
 			
 			if(clowder != null && clowder.members.get(name) != null) {
 				
+				EntityPlayerMP mp = (EntityPlayerMP)player;
+				
+				if(!mp.playerNetServerHandler.netManager.isChannelOpen()) {
+					System.out.println("Player " + player.getDisplayName() + " has been ticked, even though they are disconnected!");
+					return;
+				}
+				
 				if(!Clowder.retreating.contains(name)) {
 					
 					//10 minutes
@@ -519,10 +527,6 @@ public class ClowderEvents {
 					
 					//retreats if the time is up
 					if(l < System.currentTimeMillis()) {
-						
-						EntityPlayerMP mp = (EntityPlayerMP)player;
-						clowder.notifyAll(player.worldObj, new ChatComponentText(CommandClowder.INFO + "Player " + name + " has just retreated!"));
-						Clowder.retreating.remove(name);
 						mp.playerNetServerHandler.kickPlayerFromServer("You have just retreated!");
 					}
 				}
@@ -555,6 +559,19 @@ public class ClowderEvents {
 					banner.stackTagCompound.setInteger("color", clowder.color);
 				}
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void myBonesHurtEvent(PlayerLoggedOutEvent event) {
+		
+		EntityPlayer player = event.player;
+		String name = player.getDisplayName();
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+			clowder.notifyAll(player.worldObj, new ChatComponentText(CommandClowder.INFO + "Player " + name + " has just retreated!"));
+			clowder.retreating.remove(name);
 		}
 	}
 

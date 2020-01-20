@@ -25,7 +25,7 @@ public class TileEntityMachineGrainmill extends TileEntityMachineBase {
 	public int progress = 0;
 	
 	@SideOnly(Side.CLIENT)
-	public float rotation = 0.0F;
+	public float rotation;
 
 	public TileEntityMachineGrainmill() {
 		super(6);
