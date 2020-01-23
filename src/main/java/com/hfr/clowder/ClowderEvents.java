@@ -115,6 +115,7 @@ public class ClowderEvents {
 		name += "[" + player.getDisplayName() + "]";
 		
 		clowder.notifyAll(player.worldObj, new ChatComponentText(CommandClowderChat.HELP + name + " " + message));
+		System.out.println(name + " " + message);
 		
 	}
 	
@@ -572,6 +573,7 @@ public class ClowderEvents {
 		if(clowder != null) {
 			clowder.notifyAll(player.worldObj, new ChatComponentText(CommandClowder.INFO + "Player " + name + " has just retreated!"));
 			clowder.retreating.remove(name);
+			clowder.members.put(name, System.currentTimeMillis());
 		}
 	}
 
@@ -628,10 +630,11 @@ public class ClowderEvents {
 					EntityPlayerMP playermp = (EntityPlayerMP)player;
 					playermp.mountEntity(null);
 					playermp.playerNetServerHandler.setPlayerLocation(tp.posX + 0.5D, tp.posY, tp.posZ + 0.5D, player.rotationYaw, player.rotationPitch);
-					playermp.addChatMessage(new ChatComponentText(CommandClowder.INFO + "Warping..."));
 					
-					if(tp.home)
-						playermp.addPotionEffect(new PotionEffect(Potion.resistance.id, 200, 9));
+					if(!tp.home)
+						me.notifyAll(world, new ChatComponentText(CommandClowder.INFO + "Player " + player.getDisplayName() + " is warping to " + tp.warp + "!"));
+					else
+						me.notifyAll(world, new ChatComponentText(CommandClowder.INFO + "Player " + player.getDisplayName() + " is warping home!"));
 					
 				}
 				rem.add(time);

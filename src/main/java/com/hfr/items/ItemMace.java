@@ -30,6 +30,7 @@ public class ItemMace extends ItemMultitool {
 		add(ModBlocks.statue);
 		add(ModBlocks.machine_grainmill);
 		add(ModBlocks.machine_blastfurnace);
+		add(ModBlocks.machine_coalmine);
 	}};
 
 	public static final List<Block> breakOverride = new ArrayList() {{
@@ -49,10 +50,10 @@ public class ItemMace extends ItemMultitool {
 		//props
 		add(ModBlocks.machine_uni);
 		add(ModBlocks.med_tent);
-		add(ModBlocks.tp_tent);
 		add(ModBlocks.statue);
 		add(ModBlocks.machine_grainmill);
 		add(ModBlocks.machine_blastfurnace);
+		add(ModBlocks.machine_coalmine);
 	}};
 
 }

@@ -76,7 +76,6 @@ public class BobbyExplosion extends Explosion {
 
                             if (/*f1 > 0.0F &&*/ health > 0)
                             {
-                            	System.out.println("aye");
                                 hashset.add(new ChunkPosition(j1, k1, l1));
                                 continue;
                             }

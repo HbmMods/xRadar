@@ -7,6 +7,7 @@ import java.util.List;
 import com.hfr.data.ClowderData;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.clowder.ITerritoryProvider;
+import com.hfr.tileentity.clowder.TileEntityFlag;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -352,6 +353,10 @@ public class ClowderTerritory {
 					if(flag.getOwner() != own) {
 						return false;
 					} else if(dist >= r) {
+						
+						if(flag instanceof TileEntityFlag && ((TileEntityFlag)flag).height > 0 && ((TileEntityFlag)flag).height < 1.0F)
+							return true;
+						
 						return false;
 					} else {
 						return true;

@@ -408,7 +408,6 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(TITLE + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Owner: " + clowder.leader));
 			sender.addChatMessage(new ChatComponentText(LIST + "Players considered online: " + clowder.getPlayersOnline() + "/" + clowder.members.keySet().size()));
-			sender.addChatMessage(new ChatComponentText(LIST + "MotD: " + clowder.motd));
 			sender.addChatMessage(new ChatComponentText(LIST + "Raidable? " + clowder.isRaidable()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Prestige: " + clowder.round(clowder.getPrestige())));
@@ -421,7 +420,7 @@ public class CommandClowder extends CommandBase {
 		}
 	}
 	
-	private void cmdInfo2(ICommandSender sender, String name) {
+	/*private void cmdInfo2(ICommandSender sender, String name) {
 
 		EntityPlayer player = getCommandSenderAsPlayer(sender);
 		Clowder clowder = Clowder.getClowderFromName(name);
@@ -438,7 +437,7 @@ public class CommandClowder extends CommandBase {
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "This faction does not exist!"));
 		}
-	}
+	}*/
 	
 	private void cmdRename(ICommandSender sender, String name) {
 
@@ -726,7 +725,6 @@ public class CommandClowder extends CommandBase {
 
 		sender.addChatMessage(new ChatComponentText(TITLE + "[" + p + "/" + pages + "] List of availible flags:"));
 		
-		//TODO: test this part
 		for(int i = (p - 1) * fpp; (i < p * fpp) && (i < ClowderFlag.values().length); i++) {
 			sender.addChatMessage(new ChatComponentText(LIST + "-" + ClowderFlag.values()[i]));
 		}
@@ -940,7 +938,7 @@ public class CommandClowder extends CommandBase {
 							if(tent.warp.equals(name) && tent.operational()) {
 
 								sender.addChatMessage(new ChatComponentText(INFO + "Please stand still for 10 seconds!"));
-								clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(warp[0], warp[1], warp[2], player.getDisplayName()));
+								clowder.teleports.put(System.currentTimeMillis() + 10000L, new ScheduledTeleport(warp[0], warp[1], warp[2], player.getDisplayName(), name));
 								
 								return;
 							}

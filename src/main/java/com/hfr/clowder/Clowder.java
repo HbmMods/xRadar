@@ -492,7 +492,7 @@ public class Clowder {
 					double d = Math.sqrt(Math.pow(x - pos[0], 2) + Math.pow(z - pos[2], 2));
 					
 					if(d < dist) {
-						d = dist;
+						dist = d;
 						closest = key;
 					}
 				}
@@ -599,13 +599,15 @@ public class Clowder {
 		int posY;
 		int posZ;
 		String player;
+		String warp;
 		boolean home;
 		
-		public ScheduledTeleport(int posX, int posY, int posZ, String player) {
+		public ScheduledTeleport(int posX, int posY, int posZ, String player, String warp) {
 			this.posX = posX;
 			this.posY = posY;
 			this.posZ = posZ;
 			this.player = player;
+			this.warp = warp;
 		}
 		
 		public ScheduledTeleport(int posX, int posY, int posZ, String player, boolean home) {

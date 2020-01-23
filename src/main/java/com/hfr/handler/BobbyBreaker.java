@@ -3,6 +3,8 @@ package com.hfr.handler;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,6 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ExplosionEvent.Detonate;
 
@@ -90,56 +93,6 @@ public class BobbyBreaker {
 			int dim = event.world.provider.dimensionId;
 			float strength = event.explosion.explosionSize * 10F;
 			
-			//iterate through all affected blocks
-			//for(ChunkPosition pos : event.getAffectedBlocks()) {
-				//// using BobbyExplosion, this part becomes useless too ^
-				
-				
-				//// this part gets handled by BobbyExplosion.hanle() ////
-				/*Block b = world.getBlock(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ);
-				int meta = world.getBlockMetadata(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ);
-				
-				int res = getResistanceValue(b, meta);
-				
-				//does the block have a resistance entry?
-				if(res > 0) {
-					
-					float health = getValue(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ, dim);
-					
-					//if the health value has not been set yet, it'll be assumed to be full
-					if(health == -1) {
-						health = res;
-					}
-					
-					//damage is based on explosion strength / distance
-					Vec3 vec = Vec3.createVectorHelper(x - (pos.chunkPosX + 0.5), y - (pos.chunkPosY + 0.5), z - (pos.chunkPosZ + 0.5));
-					float damage = (float) (strength / vec.lengthVector());
-
-					//scale from 1-10 how damaged a block is
-					int dmg = (int)(Math.ceil(damage / ((float)health)) * 10);
-					
-					//this is where the magic happens
-					health -= damage;
-					
-					//if the health is still above 0, it'll add a new entry and prevent the block from breaking
-					if(health > 0) {
-						setValue(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ, dim, health);
-						rem.add(pos);
-						
-						world.destroyBlockInWorldPartially(world.rand.nextInt(10000) + 1000, pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ, dmg);
-						
-					//if not, the entry is deleted
-					} else {
-						removeEntry(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ, dim);
-					}
-				}*/
-				
-				
-			//}
-			
-			//removes all affected blocks that were protected by bobbybreaker
-			
-			/// INSERT /// removes blocks that would otherwise explode but which hold bobbybreaker(tm) resistance values
 			Block b;
 			int meta;
 			int res;
@@ -152,13 +105,34 @@ public class BobbyBreaker {
 					rem.add(pos);
 			}
 			
-			//handles the actual bobbybreaker stuff
+			//remove all vanilla explosion entries of blocks with BB values
+			event.getAffectedBlocks().removeAll(rem);
+			
+			List<ForgeDirection> offsets = Arrays.asList(ForgeDirection.VALID_DIRECTIONS);
+			Collections.shuffle(offsets);
+			offsets.add(0, ForgeDirection.UNKNOWN);
+			
+			//randomly offset the proposed explosion location to find space, starting with no offset (best-case scenario)
+			for(int i = 0; i < offsets.size(); i++) {
+				
+				ForgeDirection dir = offsets.get(i);
+
+				int ix = (int)x + dir.offsetX;
+				int iy = (int)y + dir.offsetY;
+				int iz = (int)z + dir.offsetZ;
+				
+				if(world.getBlock(ix, iy, iz) == Blocks.air) {
+					BobbyExplosion explosion = new BobbyExplosion(world, event.explosion.exploder, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, strength);
+					explosion.doExplosionA();
+					explosion.doExplosionB(false);
+					return;
+				}
+			}
+			
+			//if no space is found, just do it anyway
 			BobbyExplosion explosion = new BobbyExplosion(world, event.explosion.exploder, x, y, z, strength);
 			explosion.doExplosionA();
 			explosion.doExplosionB(false);
-			/// INSERT ///
-			
-			event.getAffectedBlocks().removeAll(rem);
 		}
 	}
 	
