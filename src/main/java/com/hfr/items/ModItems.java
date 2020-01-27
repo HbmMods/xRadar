@@ -97,6 +97,9 @@ public class ModItems {
 	public static Item science_4;
 	public static Item science_5;
 	public static Item science_6;
+	public static Item cog;
+	public static Item cog_2;
+	public static Item cog_3;
 	public static Item coin;
 	public static Item wrench;
 	public static Item province_point;
@@ -220,6 +223,9 @@ public class ModItems {
 		science_4 = new ItemLore().setUnlocalizedName("science_4").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_4");
 		science_5 = new ItemLore().setUnlocalizedName("science_5").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_5");
 		science_6 = new ItemLore().setUnlocalizedName("science_6").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":science_6");
+		cog = new ItemLore().setUnlocalizedName("cog").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":cog");
+		cog_2 = new ItemLore().setUnlocalizedName("cog_2").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":cog_brass");
+		cog_3 = new ItemLore().setUnlocalizedName("cog_3").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":cog_steel");
 		coin = new ItemLore().setUnlocalizedName("hfr_coin").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":coin");
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
 		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":prestige");
@@ -311,6 +317,9 @@ public class ModItems {
 		GameRegistry.registerItem(science_4, science_4.getUnlocalizedName());
 		GameRegistry.registerItem(science_5, science_5.getUnlocalizedName());
 		GameRegistry.registerItem(science_6, science_6.getUnlocalizedName());
+		GameRegistry.registerItem(cog, cog.getUnlocalizedName());
+		GameRegistry.registerItem(cog_2, cog_2.getUnlocalizedName());
+		GameRegistry.registerItem(cog_3, cog_3.getUnlocalizedName());
 		GameRegistry.registerItem(coin, coin.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());

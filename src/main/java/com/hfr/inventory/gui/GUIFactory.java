@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.inventory.container.ContainerMachineUni;
+import com.hfr.inventory.container.ContainerFactory;
 import com.hfr.lib.RefStrings;
-import com.hfr.tileentity.machine.TileEntityMachineUni;
+import com.hfr.tileentity.machine.TileEntityMachineFactory;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,13 +14,13 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineUni extends GuiContainer {
+public class GUIFactory extends GuiContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_uni.png");
-	private TileEntityMachineUni diFurnace;
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_factory_new.png");
+	private TileEntityMachineFactory diFurnace;
 	
-	public GUIMachineUni(InventoryPlayer invPlayer, TileEntityMachineUni tedf) {
-		super(new ContainerMachineUni(invPlayer, tedf));
+	public GUIFactory(InventoryPlayer invPlayer, TileEntityMachineFactory tedf) {
+		super(new ContainerFactory(invPlayer, tedf));
 		diFurnace = tedf;
 
 		this.xSize = 176;
@@ -36,7 +36,7 @@ public class GUIMachineUni extends GuiContainer {
 
 		if(!diFurnace.operational()) {
 			if(guiLeft + 99 <= x && guiLeft + 99 + 10 > x && guiTop + 38 < y && guiTop + 38 + 10 >= y) {
-				this.func_146283_a(Arrays.asList(new String[] {"-Uni needs to be placed on top of foundation", "-Uni requires sky access"}), x - guiLeft, y - guiTop);
+				this.func_146283_a(Arrays.asList(new String[] {"-Factory needs to be placed on top of foundation", "-Factory requires sky access", "-Factory requires electricity"}), x - guiLeft, y - guiTop);
 			}
 		}
 	}
@@ -50,7 +50,7 @@ public class GUIMachineUni extends GuiContainer {
 		if(!diFurnace.operational() || !diFurnace.hasSpace())
 			drawTexturedModalRect(guiLeft + 99, guiTop + 38, 176, 0, 10, 10);
 		
-		if(diFurnace.slots[4] != null)
-			drawTexturedModalRect(guiLeft + 121, guiTop + 38, 176, 0, 10, 10);
+		int i = diFurnace.getPowerScaled(34);
+		drawTexturedModalRect(guiLeft + 134, guiTop + 35, 176, 10, i, 16);
 	}
 }

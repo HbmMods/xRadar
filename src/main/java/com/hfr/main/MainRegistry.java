@@ -156,6 +156,9 @@ public class MainRegistry
 	public static int uniRate = 60 * 3;
 	public static int uniJamRate = 60 * 15;
 
+	public static int factoryRate = 60 * 3;
+	public static int factoryConsumption = 300;
+
 	public static int coalRate = 60;
 	public static int coalJamRate = 60 * 30;
 	
@@ -247,6 +250,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityBox.class, "tileentity_hfr_smelly_box");
 		GameRegistry.registerTileEntity(TileEntityMachineCoalMine.class, "tileentity_hfr_coalmine");
 		GameRegistry.registerTileEntity(TileEntityCoalGen.class, "tileentity_hfr_coalgenerator");
+		GameRegistry.registerTileEntity(TileEntityMachineFactory.class, "tileentity_hfr_factory");
+		GameRegistry.registerTileEntity(TileEntityProxy.class, "tileentity_hfr_energy_proxy");
+		GameRegistry.registerTileEntity(TileEntityBattery.class, "tileentity_hfr_battery");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -633,6 +639,9 @@ public class MainRegistry
 
         uniRate = createConfigInt(config, "UNIVERSITY", "uniRate", "Average amount of seconds for uni to generate research", 60 * 3);
         uniJamRate = createConfigInt(config, "UNIVERSITY", "uniJamRate", "Average amount of seconds for uni to get jammed", 60 * 15);
+        
+        factoryRate = createConfigInt(config, "FACTORY", "factoryRate", "Average amount of seconds for factory to generate cogs", 60 * 3);
+        factoryConsumption = createConfigInt(config, "FACTORY", "factoryConsumption", "How much RF a factory needs per tick to operate", 300);
 
         coalRate = createConfigInt(config, "COALMINE", "coalRate", "Average amount of seconds for mine to generate coal", 60);
         coalJamRate = createConfigInt(config, "COALMINE", "accidentRate", "Average amount of seconds for mine to have an accident", 60 * 30);

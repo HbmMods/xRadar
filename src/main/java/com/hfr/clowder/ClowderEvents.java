@@ -635,7 +635,7 @@ public class ClowderEvents {
 						me.notifyAll(world, new ChatComponentText(CommandClowder.INFO + "Player " + player.getDisplayName() + " is warping to " + tp.warp + "!"));
 					} else {
 						me.notifyAll(world, new ChatComponentText(CommandClowder.INFO + "Player " + player.getDisplayName() + " is warping home!"));
-						playermp.addPotionEffect(new PotionEffect(Potion.resistance.id, 100, 9)); 
+						playermp.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 9)); 
 					}
 					
 				}

@@ -7,10 +7,13 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCoalGen extends TileEntityMachineBase implements IEnergyProvider {
@@ -51,7 +54,7 @@ public class TileEntityCoalGen extends TileEntityMachineBase implements IEnergyP
 				
 				IEnergyContainerItem item = (IEnergyContainerItem) slots[1].getItem();
 				
-				int receive = (int) Math.min(storage.getEnergyStored(), item.getMaxEnergyStored(slots[0]) - item.getEnergyStored(slots[1]));
+				int receive = (int) Math.min(storage.getEnergyStored(), item.getMaxEnergyStored(slots[1]) - item.getEnergyStored(slots[1]));
 
 				item.receiveEnergy(slots[1], receive, false);
 				storage.setEnergyStored(storage.getEnergyStored() - receive);
@@ -172,5 +175,17 @@ public class TileEntityCoalGen extends TileEntityMachineBase implements IEnergyP
 		
 		storage.writeToNBT(nbt);
 		nbt.setInteger("burnTime", burnTime);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

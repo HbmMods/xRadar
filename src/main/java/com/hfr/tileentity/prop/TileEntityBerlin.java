@@ -24,7 +24,7 @@ public class TileEntityBerlin extends TileEntity {
 					yCoord + 6,
 					zCoord - (rot ? 0 : 1),
 					xCoord + (rot ? 2 : 1),
-					yCoord + 7,
+					yCoord + 7.5,
 					zCoord + (rot ? 1 : 2)
 			));
 			

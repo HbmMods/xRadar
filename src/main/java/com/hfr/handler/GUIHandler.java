@@ -5,10 +5,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.inventory.container.ContainerBattery;
 import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.inventory.container.ContainerBox;
 import com.hfr.inventory.container.ContainerCoalGen;
 import com.hfr.inventory.container.ContainerCoalMine;
+import com.hfr.inventory.container.ContainerFactory;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerGrainMill;
@@ -27,10 +29,12 @@ import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
+import com.hfr.inventory.gui.GUIBattery;
 import com.hfr.inventory.gui.GUIBlastFurnace;
 import com.hfr.inventory.gui.GUIBox;
 import com.hfr.inventory.gui.GUICoalGen;
 import com.hfr.inventory.gui.GUICoalMine;
+import com.hfr.inventory.gui.GUIFactory;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
 import com.hfr.inventory.gui.GUIGrainmill;
@@ -262,6 +266,24 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_factory:
+			{
+				if(entity instanceof TileEntityMachineFactory)
+				{
+					return new ContainerFactory(player.inventory, (TileEntityMachineFactory) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_battery:
+			{
+				if(entity instanceof TileEntityBattery)
+				{
+					return new ContainerBattery(player.inventory, (TileEntityBattery) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -467,6 +489,24 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityCoalGen)
 					{
 						return new GUICoalGen(player.inventory, (TileEntityCoalGen) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_factory:
+				{
+					if(entity instanceof TileEntityMachineFactory)
+					{
+						return new GUIFactory(player.inventory, (TileEntityMachineFactory) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_battery:
+				{
+					if(entity instanceof TileEntityBattery)
+					{
+						return new GUIBattery(player.inventory, (TileEntityBattery) entity);
 					}
 					return null;
 				}

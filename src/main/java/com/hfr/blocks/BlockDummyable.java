@@ -47,8 +47,8 @@ public abstract class BlockDummyable extends BlockContainer {
     	int metadata = world.getBlockMetadata(x, y, z);
     	
     	//if it's an extra, remove the extra-ness
-    	if(metadata > 5)
-    		metadata -= 5;
+    	if(metadata >= extra)
+    		metadata -= extra;
     	
     	ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
     	Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
@@ -68,8 +68,8 @@ public abstract class BlockDummyable extends BlockContainer {
     	int metadata = world.getBlockMetadata(x, y, z);
     	
     	//if it's an extra, remove the extra-ness
-    	if(metadata > 5)
-    		metadata -= 5;
+    	if(metadata >= extra)
+    		metadata -= extra;
     	
     	ForgeDirection dir = ForgeDirection.getOrientation(metadata).getOpposite();
     	Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
@@ -93,8 +93,8 @@ public abstract class BlockDummyable extends BlockContainer {
     	int metadata = world.getBlockMetadata(x, y, z);
     	
     	//if it's an extra, remove the extra-ness
-    	if(metadata > 5)
-    		metadata -= 5;
+    	if(metadata >= extra)
+    		metadata -= extra;
     	
     	//if the block matches and the orientation is "UNKNOWN", it's the core
     	if(world.getBlock(x, y, z) == this && ForgeDirection.getOrientation(metadata) == ForgeDirection.UNKNOWN)
@@ -190,7 +190,10 @@ public abstract class BlockDummyable extends BlockContainer {
 		if(meta > 5)
 			return;
 		
-		world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
+		//world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
+		this.safeRem = true;
+		world.setBlock(x, y, z, this, meta + extra, 3);
+		this.safeRem = false;
 		
 	}
 	
@@ -203,19 +206,20 @@ public abstract class BlockDummyable extends BlockContainer {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int i)
     {
-		if(i >= ForgeDirection.UNKNOWN.ordinal()) {
+		if(i >= 12) {
 			//ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset);
 			//MultiblockHandler.emptySpace(world, x, y, z, getDimensions(), this, d);
 		} else if(!safeRem) {
+			
+	    	if(i >= extra)
+	    		i -= extra;
 
 	    	ForgeDirection dir = ForgeDirection.getOrientation(i).getOpposite();
 			int[] pos = findCore(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 			
 			if(pos != null) {
-				
-				//this metadata doesn't need a check for extra-ness since the core can not be an extra (duh)
 
-				ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(pos[0], pos[1], pos[2]) - offset);
+				//ForgeDirection d = ForgeDirection.getOrientation(world.getBlockMetadata(pos[0], pos[1], pos[2]) - offset);
 				world.setBlockToAir(pos[0], pos[1], pos[2]);
 			}
 		}

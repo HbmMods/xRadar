@@ -135,6 +135,21 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Connection speed: 2000 RF/t");
 			list.add("Connectors: all sides and bottom");
 		}
+
+		if(field_150939_a == ModBlocks.machine_factory) {
+			list.add("Requires: 300 RF/t");
+			list.add("Buffer: 30000 RF");
+			list.add("Connection speed: 3000 RF/t");
+			list.add("Connectors: lowest blocks on all sides");
+		}
+
+		if(field_150939_a == ModBlocks.machine_battery) {
+			list.add("Collects energy, releases it when redstone is applied");
+			list.add("Energy does not persist when broken");
+			list.add("Buffer: 200000 RF");
+			list.add("Connection speed: 2000 RF/t");
+			list.add("Connectors: all sides");
+		}
 	}
 
 }

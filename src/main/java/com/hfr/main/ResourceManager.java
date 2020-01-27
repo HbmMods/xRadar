@@ -122,6 +122,10 @@ public class ResourceManager {
 	//UNI
 	public static final IModelCustom uni = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/uni.obj"));
 	public static final ResourceLocation uni_tex = new ResourceLocation(RefStrings.MODID, "textures/models/uni.png");
+	
+	//FACTORY
+	public static final IModelCustom factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/factory.obj"));
+	public static final ResourceLocation factory_tex = new ResourceLocation(RefStrings.MODID, "textures/models/factory.png");
 
 	//BOXCAR
 	public static final IModelCustom boxcar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/boxcar.obj"));
@@ -190,6 +194,7 @@ public class ResourceManager {
 	
 	//COAL GENERATOR
 	public static final IModelCustom coal_gen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/coalgen.obj"));
+	public static final ResourceLocation coalgen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/coalgen.png");
 	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));

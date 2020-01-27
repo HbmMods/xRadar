@@ -108,7 +108,7 @@ public class BobbyBreaker {
 			//remove all vanilla explosion entries of blocks with BB values
 			event.getAffectedBlocks().removeAll(rem);
 			
-			List<ForgeDirection> offsets = Arrays.asList(ForgeDirection.VALID_DIRECTIONS);
+			List<ForgeDirection> offsets = new ArrayList() {{ addAll(Arrays.asList(ForgeDirection.VALID_DIRECTIONS)); }};
 			Collections.shuffle(offsets);
 			offsets.add(0, ForgeDirection.UNKNOWN);
 			
