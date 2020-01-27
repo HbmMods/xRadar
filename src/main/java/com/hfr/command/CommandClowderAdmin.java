@@ -200,7 +200,7 @@ public class CommandClowderAdmin extends CommandBase {
 			
 			if(!clowder.leader.equals(player.getDisplayName())) {
 				
-				clowder.transferOwnership(player);
+				clowder.transferOwnership(player.worldObj, player.getDisplayName());
 				sender.addChatMessage(new ChatComponentText(INFO + "You have assumed ownership of this faction!"));
 				
 			} else {

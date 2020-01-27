@@ -83,6 +83,8 @@ public class MainRegistry
 	public static int radarAltitude = 55;
 	public static int radarConsumption = 50;
 
+	public static int coalgenProduction = 200;
+
 	public static int fPlaneAltitude = 40;
 	public static int fTankAltitude = 30;
 	public static int fOffset = 2;
@@ -244,6 +246,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityBerlin.class, "tileentity_hfr_berlin");
 		GameRegistry.registerTileEntity(TileEntityBox.class, "tileentity_hfr_smelly_box");
 		GameRegistry.registerTileEntity(TileEntityMachineCoalMine.class, "tileentity_hfr_coalmine");
+		GameRegistry.registerTileEntity(TileEntityCoalGen.class, "tileentity_hfr_coalgenerator");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -633,6 +636,8 @@ public class MainRegistry
 
         coalRate = createConfigInt(config, "COALMINE", "coalRate", "Average amount of seconds for mine to generate coal", 60);
         coalJamRate = createConfigInt(config, "COALMINE", "accidentRate", "Average amount of seconds for mine to have an accident", 60 * 30);
+        
+        coalgenProduction = createConfigInt(config, "COALGEN", "coalgenProduction", "How much RF the coal generator produces per tick", 200);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";

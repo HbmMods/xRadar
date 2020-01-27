@@ -518,15 +518,11 @@ public class CommandClowder extends CommandBase {
 			if(clowder.getPermLevel(player.getDisplayName()) > 2) {
 
 				if(clowder.members.get(owner) != null) {
-					EntityPlayer newLeader = player.worldObj.getPlayerEntityByName(owner);
 					
-					if(owner != null) {
-						clowder.transferOwnership(newLeader);
-						sender.addChatMessage(new ChatComponentText(INFO + "Transfered leadership to player " + owner + "!"));
-						clowder.notifyLeader(player.worldObj, new ChatComponentText(INFO + "You are now this faction's new leader!"));
-					} else {
-						sender.addChatMessage(new ChatComponentText(ERROR + "This player is not online right now!"));
-					}
+					clowder.transferOwnership(player.worldObj, owner);
+					sender.addChatMessage(new ChatComponentText(INFO + "Transfered leadership to player " + owner + "!"));
+					clowder.notifyLeader(player.worldObj, new ChatComponentText(INFO + "You are now this faction's new leader!"));
+					
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "This player is not in your faction!"));
 				}

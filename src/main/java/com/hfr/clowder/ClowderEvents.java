@@ -631,10 +631,12 @@ public class ClowderEvents {
 					playermp.mountEntity(null);
 					playermp.playerNetServerHandler.setPlayerLocation(tp.posX + 0.5D, tp.posY, tp.posZ + 0.5D, player.rotationYaw, player.rotationPitch);
 					
-					if(!tp.home)
+					if(!tp.home) {
 						me.notifyAll(world, new ChatComponentText(CommandClowder.INFO + "Player " + player.getDisplayName() + " is warping to " + tp.warp + "!"));
-					else
+					} else {
 						me.notifyAll(world, new ChatComponentText(CommandClowder.INFO + "Player " + player.getDisplayName() + " is warping home!"));
+						playermp.addPotionEffect(new PotionEffect(Potion.resistance.id, 100, 9)); 
+					}
 					
 				}
 				rem.add(time);

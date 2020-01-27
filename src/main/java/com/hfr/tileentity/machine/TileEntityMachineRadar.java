@@ -34,7 +34,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 	int scanTimer = 0;
 	int maxScan = 5;
 	
-	public EnergyStorage storage = new EnergyStorage(MainRegistry.radarConsumption * 1000, MainRegistry.radarConsumption * 10, MainRegistry.radarConsumption * 10);
+	public EnergyStorage storage = new EnergyStorage(MainRegistry.coalgenProduction * 1200, MainRegistry.coalgenProduction * 10, MainRegistry.coalgenProduction * 10);
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

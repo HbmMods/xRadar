@@ -127,6 +127,14 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Low-level prestige generator");
 			list.add("+0.5 prestige gen / hour");
 		}
+
+		if(field_150939_a == ModBlocks.machine_coalgen) {
+			list.add("Basic combusion generator");
+			list.add("Production: 200 RF/t");
+			list.add("Buffer: 240000 RF");
+			list.add("Connection speed: 2000 RF/t");
+			list.add("Connectors: all sides and bottom");
+		}
 	}
 
 }

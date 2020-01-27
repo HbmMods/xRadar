@@ -188,6 +188,9 @@ public class ResourceManager {
 	public static final ResourceLocation mine_hut = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/hut.png");
 	public static final ResourceLocation mine_roof = new ResourceLocation(RefStrings.MODID, "textures/models/coal_mine/roof.png");
 	
+	//COAL GENERATOR
+	public static final IModelCustom coal_gen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/coalgen.obj"));
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));

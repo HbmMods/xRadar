@@ -44,6 +44,8 @@ tile.box.name=Moldy Cardboard Box
 container.box=Moldy Cardboard Box
 tile.machine_coalmine.name=Coal Mine
 container.coalMine=Coal Mine
+tile.machine_coalgen.name=Stirling Engine
+container.coalGen=Stirling Engine
 
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag

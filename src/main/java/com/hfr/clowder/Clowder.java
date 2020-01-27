@@ -83,16 +83,14 @@ public class Clowder {
 		return true;
 	}
 	
-	public boolean transferOwnership(EntityPlayer player) {
-		
-		String key = player.getDisplayName();
+	public boolean transferOwnership(World world, String key) {
 
 		if(members.get(key) == null)
 			return false;
 		
 		officers.remove(key);
 		leader = key;
-		ClowderData.getData(player.worldObj).markDirty();
+		ClowderData.getData(world).markDirty();
 		
 		return true;
 	}

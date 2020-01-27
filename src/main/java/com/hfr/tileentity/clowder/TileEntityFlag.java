@@ -14,7 +14,6 @@ import com.hfr.tileentity.machine.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -371,7 +370,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		for(int i = -2; i <= 2; i++)
 			for(int j = -2; j <= 2; j++)
 				
-				if(worldObj.getBlock(xCoord + i, yCoord, zCoord + j).getMaterial() != Material.air && !(i == 0 && j == 0) ||
+				if(worldObj.getBlock(xCoord + i, yCoord, zCoord + j).isNormalCube() && !(i == 0 && j == 0) ||
 					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord, zCoord + j) ||
 					!worldObj.getBlock(xCoord + i, yCoord - 1, zCoord + j).isSideSolid(worldObj, xCoord + i, yCoord - 1, zCoord + j, UP))
 					return false;
@@ -412,7 +411,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			}
 		}
 		
-		if(owner != null)
+		if(owner != null && mode > 0)
 			generateClaim();
 	}
 	
