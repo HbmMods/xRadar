@@ -56,8 +56,8 @@ public class TileEntityCoalGen extends TileEntityMachineBase implements IEnergyP
 				
 				int receive = (int) Math.min(storage.getEnergyStored(), item.getMaxEnergyStored(slots[1]) - item.getEnergyStored(slots[1]));
 
-				item.receiveEnergy(slots[1], receive, false);
-				storage.setEnergyStored(storage.getEnergyStored() - receive);
+				int r = item.receiveEnergy(slots[1], receive, false);
+				storage.setEnergyStored(storage.getEnergyStored() - r);
 			}
 			
 			for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {

@@ -192,8 +192,8 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 				IEnergyContainerItem item = (IEnergyContainerItem)slots[2].getItem();
 				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), item.getEnergyStored(slots[2]));
 				
-				item.extractEnergy(slots[2], extract, false);
-				storage.setEnergyStored(storage.getEnergyStored() + extract);
+				int e = item.extractEnergy(slots[2], extract, false);
+				storage.setEnergyStored(storage.getEnergyStored() + e);
 			}
 			
 			if(slots[2] != null && slots[2].getItem() == ModItems.battery)

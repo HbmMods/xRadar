@@ -84,6 +84,9 @@ public class MainRegistry
 	public static int radarConsumption = 50;
 
 	public static int coalgenProduction = 200;
+	public static int windmillProduction = 500;
+	public static int waterwheelProduction = 100;
+	public static int dieselProduction = 1000;
 
 	public static int fPlaneAltitude = 40;
 	public static int fTankAltitude = 30;
@@ -253,6 +256,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineFactory.class, "tileentity_hfr_factory");
 		GameRegistry.registerTileEntity(TileEntityProxy.class, "tileentity_hfr_energy_proxy");
 		GameRegistry.registerTileEntity(TileEntityBattery.class, "tileentity_hfr_battery");
+		GameRegistry.registerTileEntity(TileEntityMachineWindmill.class, "tileentity_hfr_windmill");
+		GameRegistry.registerTileEntity(TileEntityWaterWheel.class, "tileentity_hfr_waterwheel");
+		GameRegistry.registerTileEntity(TileEntityDieselGen.class, "tileentity_hfr_dieselgen");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
@@ -647,6 +653,9 @@ public class MainRegistry
         coalJamRate = createConfigInt(config, "COALMINE", "accidentRate", "Average amount of seconds for mine to have an accident", 60 * 30);
         
         coalgenProduction = createConfigInt(config, "COALGEN", "coalgenProduction", "How much RF the coal generator produces per tick", 200);
+        windmillProduction = createConfigInt(config, "WINDTURBINE", "windturbineProduction", "How much RF the wind turbine produces per tick", 500);
+        waterwheelProduction = createConfigInt(config, "WATERMILL", "watermillProduction", "How much RF the water mill produces per tick", 100);
+        dieselProduction = createConfigInt(config, "DIESELGEN", "dieselProduction", "How much RF the diesel generator produces per tick", 1000);
         
         Property pAids = config.get("SKELETON", "explosiveArrows", false).setDefaultValue(false);
         pAids.comment = "Whether or not skeleton arrows should be explosive";

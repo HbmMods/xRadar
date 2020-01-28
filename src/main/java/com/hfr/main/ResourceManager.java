@@ -196,6 +196,14 @@ public class ResourceManager {
 	public static final IModelCustom coal_gen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/coalgen.obj"));
 	public static final ResourceLocation coalgen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/coalgen.png");
 	
+	//WINDMILL
+	public static final IModelCustom windmill = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/windmill.obj"));
+	public static final ResourceLocation windmill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/windmill.png");
+	
+	//WATERWHEEL
+	public static final IModelCustom waterwheel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/waterwheel.obj"));
+	public static final ResourceLocation waterwheel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/waterwheel.png");
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));

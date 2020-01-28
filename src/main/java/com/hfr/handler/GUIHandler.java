@@ -10,6 +10,7 @@ import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.inventory.container.ContainerBox;
 import com.hfr.inventory.container.ContainerCoalGen;
 import com.hfr.inventory.container.ContainerCoalMine;
+import com.hfr.inventory.container.ContainerDieselGen;
 import com.hfr.inventory.container.ContainerFactory;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
@@ -34,6 +35,7 @@ import com.hfr.inventory.gui.GUIBlastFurnace;
 import com.hfr.inventory.gui.GUIBox;
 import com.hfr.inventory.gui.GUICoalGen;
 import com.hfr.inventory.gui.GUICoalMine;
+import com.hfr.inventory.gui.GUIDieselGen;
 import com.hfr.inventory.gui.GUIFactory;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
@@ -284,6 +286,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_diesel:
+			{
+				if(entity instanceof TileEntityDieselGen)
+				{
+					return new ContainerDieselGen(player.inventory, (TileEntityDieselGen) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -507,6 +518,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityBattery)
 					{
 						return new GUIBattery(player.inventory, (TileEntityBattery) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_diesel:
+				{
+					if(entity instanceof TileEntityDieselGen)
+					{
+						return new GUIDieselGen(player.inventory, (TileEntityDieselGen) entity);
 					}
 					return null;
 				}

@@ -9,6 +9,7 @@ import com.hfr.packet.tile.AuxElectricityPacket;
 import com.hfr.potion.HFRPotion;
 
 import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,9 +49,18 @@ public class TileEntityMachineEMP extends TileEntityMachineBase implements IEner
 				range = 10;
 			if(range > 500)
 				range = 500;
-
+			
 			if(slots[0] != null && slots[0].getItem() == ModItems.battery)
 				storage.setEnergyStored(storage.getMaxEnergyStored());
+
+			if (slots[0] != null && slots[0].getItem() instanceof IEnergyContainerItem) {
+				IEnergyContainerItem item = (IEnergyContainerItem) slots[0].getItem();
+				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(),
+						item.getEnergyStored(slots[0]));
+
+				int e = item.extractEnergy(slots[0], extract, false);
+				storage.setEnergyStored(storage.getEnergyStored() + e);
+			}
 			
 			if(isOn) {
 				int required = range * range * 20;

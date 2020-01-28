@@ -50,6 +50,10 @@ tile.machine_factory.name=Production Line
 container.machineFactory=Production Line
 tile.machine_battery.name=Battery Block
 container.battery=Battery Block
+tile.machine_windmill.name=Large Wind Turbine
+tile.machine_waterwheel.name=Water Mill
+tile.machine_diesel.name=Diesel Generator
+container.dieselGen=Diesel Generator
 
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
@@ -176,6 +180,9 @@ item.hfr_wrench.name=Construction Materials
 item.province_point.name=Prestige Point
 item.flour.name=Flour
 item.ingot_steel.name=Steel Ingot
+
+item.battery_rc.name=RC Battery
+item.battery_rc_2.name=HiCap RC Battery
 
 item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder

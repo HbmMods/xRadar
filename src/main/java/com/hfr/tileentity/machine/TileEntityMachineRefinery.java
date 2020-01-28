@@ -217,7 +217,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(),
 						item.getEnergyStored(slots[0]));
 
-				item.extractEnergy(slots[0], extract, false);
+				int e = item.extractEnergy(slots[0], extract, false);
 				storage.setEnergyStored(storage.getEnergyStored() + extract);
 			}
 			

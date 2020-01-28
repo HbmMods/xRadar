@@ -99,6 +99,7 @@ public class Flag extends BlockContainer {
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag lacking a solid 5x5 block foundation"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag's foundation not having sky access"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-You not being in any faction"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag being below Y:45 or above Y:100"));
 			}
 			
 			flag.markDirty();

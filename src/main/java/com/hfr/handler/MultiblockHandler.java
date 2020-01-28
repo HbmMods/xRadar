@@ -17,6 +17,7 @@ public class MultiblockHandler {
 	public static int[] mill = 		new int[] { 5, 0, 1, 1, 1, 1 };
 	public static int[] furnace = 	new int[] { 4, 0, 1, 1, 1, 1 };
 	public static int[] mine = 		new int[] { 3, 0, 2, 2, 1, 1 };
+	public static int[] windmill = 	new int[] { 31, 0, 1, 1, 1, 1 };
 	
 	public static boolean checkSpace(World world, int x, int y, int z, int[] dim, int ox, int oy, int oz, ForgeDirection dir) {
 		

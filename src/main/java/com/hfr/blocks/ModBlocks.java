@@ -103,6 +103,10 @@ public class ModBlocks {
 	public static final int guiID_factory = 25;
 	public static Block machine_battery;
 	public static final int guiID_battery = 26;
+	public static Block machine_windmill;
+	public static Block machine_waterwheel;
+	public static Block machine_diesel;
+	public static final int guiID_diesel = 27;
 
 	public static Block hesco_block;
 	public static Block palisade;
@@ -207,8 +211,11 @@ public class ModBlocks {
 		machine_blastfurnace = new MachineBlastFurnace(Material.rock).setStepSound(soundTypeConcrete).setBlockName("machine_blastfurnace").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_blastfurnace");
 		machine_coalmine = new MachineCoalMine(Material.rock).setStepSound(soundTypeMetal).setBlockName("machine_coalmine").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_coalmine");
 		machine_coalgen = new MachineCoalGen(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_coalgen").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_coalgen");
-		machine_factory = new MachineFactory(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_factory").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_factory");
+		machine_factory = new MachineFactory(Material.iron).setStepSound(soundTypeConcrete).setBlockName("machine_factory").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_factory");
 		machine_battery = new MachineBattery(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_battery").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab);
+		machine_windmill = new MachineWindmill(Material.iron).setStepSound(soundTypeConcrete).setBlockName("machine_windmill").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_windmill");
+		machine_waterwheel = new MachineWaterwheel(Material.iron).setStepSound(Block.soundTypeWood).setBlockName("machine_waterwheel").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_waterwheel");
+		machine_diesel = new MachineDieselGen(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_diesel").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab);
 
 		railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal).setBlockName("railgun_plasma").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":railgun_plasma");
 		cannon_naval = new CannonNaval(Material.iron).setStepSound(soundTypeMetal).setBlockName("cannon_naval").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":cannon_naval");
@@ -270,6 +277,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_coalmine, ItemBlockLore.class, machine_coalmine.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_coalgen, ItemBlockLore.class, machine_coalgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_battery, ItemBlockLore.class, machine_battery.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_windmill, ItemBlockLore.class, machine_windmill.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_waterwheel, ItemBlockLore.class, machine_waterwheel.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_diesel, ItemBlockLore.class, machine_diesel.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());

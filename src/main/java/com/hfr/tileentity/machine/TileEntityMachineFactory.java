@@ -34,14 +34,17 @@ public class TileEntityMachineFactory extends TileEntityMachineBase implements I
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			if(slots[4] != null && slots[4].getItem() == ModItems.battery)
+				storage.setEnergyStored(storage.getMaxEnergyStored());
 
 			if (slots[4] != null && slots[4].getItem() instanceof IEnergyContainerItem) {
 				IEnergyContainerItem item = (IEnergyContainerItem) slots[4].getItem();
 				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(),
 						item.getEnergyStored(slots[4]));
 
-				item.extractEnergy(slots[4], extract, false);
-				storage.setEnergyStored(storage.getEnergyStored() + extract);
+				int e = item.extractEnergy(slots[4], extract, false);
+				storage.setEnergyStored(storage.getEnergyStored() + e);
 			}
 			
 			if(operational() && hasSpace() && slots[4] == null) {

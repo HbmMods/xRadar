@@ -252,8 +252,8 @@ public class TileEntityMachineDerrick extends TileEntity implements ISidedInvent
 				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(),
 						item.getEnergyStored(slots[0]));
 
-				item.extractEnergy(slots[0], extract, false);
-				storage.setEnergyStored(storage.getEnergyStored() + extract);
+				int e = item.extractEnergy(slots[0], extract, false);
+				storage.setEnergyStored(storage.getEnergyStored() + e);
 			}
 			
 			if(slots[1] != null && slots[1].getItem() == ModItems.canister_empty && oil >= 1000) {

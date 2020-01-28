@@ -234,8 +234,8 @@ public class TileEntityRailgun extends TileEntity implements ISidedInventory, IE
 				IEnergyContainerItem item = (IEnergyContainerItem)slots[0].getItem();
 				int extract = (int) Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), item.getEnergyStored(slots[0]));
 				
-				item.extractEnergy(slots[0], extract, false);
-				storage.setEnergyStored(storage.getEnergyStored() + extract);
+				int e = item.extractEnergy(slots[0], extract, false);
+				storage.setEnergyStored(storage.getEnergyStored() + e);
 			}
 			
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, storage.getEnergyStored()));

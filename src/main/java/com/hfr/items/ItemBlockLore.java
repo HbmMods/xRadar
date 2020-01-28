@@ -148,7 +148,30 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Energy does not persist when broken");
 			list.add("Buffer: 200000 RF");
 			list.add("Connection speed: 2000 RF/t");
-			list.add("Connectors: all sides");
+			list.add("Connectors: all sides, top and bottom");
+		}
+
+		if(field_150939_a == ModBlocks.machine_windmill) {
+			list.add("Requires sky access and foundation");
+			list.add("Generation speed: 500 RF/t");
+			list.add("Connectors: visible knobs at the bottom");
+			list.add("[plane-shredding functionality pending]");
+		}
+
+		if(field_150939_a == ModBlocks.machine_waterwheel) {
+			list.add("Requires sky access and flowing water");
+			list.add("Surrounding solid blocks obstruct the mill");
+			list.add("Generation speed: 100 RF/t");
+			list.add("Connectors: axis");
+		}
+
+		if(field_150939_a == ModBlocks.machine_diesel) {
+			list.add("Burns diesel fuel");
+			list.add("Requires: 10 mB diesel/t");
+			list.add("Production: 1000 RF/t");
+			list.add("Buffer: 100000 RF");
+			list.add("Connection speed: 10000 RF/t");
+			list.add("Connectors: all sides, top and bottom");
 		}
 	}
 

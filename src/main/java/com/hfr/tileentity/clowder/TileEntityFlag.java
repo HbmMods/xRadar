@@ -375,6 +375,11 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 					!worldObj.getBlock(xCoord + i, yCoord - 1, zCoord + j).isSideSolid(worldObj, xCoord + i, yCoord - 1, zCoord + j, UP))
 					return false;
 		
+		if(yCoord < 45)
+			return false;
+		if(yCoord > 100)
+			return false;
+		
 		return true;
 	}
 

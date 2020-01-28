@@ -117,6 +117,9 @@ public class ModItems {
 	public static Item grenade_boxcar;
 	public static Item hatter;
 
+	public static Item battery_rc;
+	public static Item battery_rc_2;
+
 	public static Item mult_stoneage;
 	public static Item mult_roman;
 	public static Item mult_steel;
@@ -234,7 +237,6 @@ public class ModItems {
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
-		battery = new ItemLore().setUnlocalizedName("battery").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":oil_detector");
 		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask");
 		clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
@@ -242,6 +244,10 @@ public class ModItems {
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
 		hatter = new ItemHatter().setUnlocalizedName("hatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hat");
+		
+		battery_rc = new ItemBattery(50000).setUnlocalizedName("battery_rc").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery_rc");
+		battery_rc_2 = new ItemBattery(400000).setUnlocalizedName("battery_rc_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery_rc_2");
+		battery = new ItemBatteryInfinite().setUnlocalizedName("battery").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery");
 
 		mult_stoneage = new ItemMultitool().setUnlocalizedName("mult_stoneage").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_stoneage");
 		mult_roman = new ItemMultitool().setUnlocalizedName("mult_roman").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_roman");
@@ -346,6 +352,9 @@ public class ModItems {
 		GameRegistry.registerItem(mult_roman, mult_roman.getUnlocalizedName());
 		GameRegistry.registerItem(mult_steel, mult_steel.getUnlocalizedName());
 		GameRegistry.registerItem(mult_alloy, mult_alloy.getUnlocalizedName());
+		
+		GameRegistry.registerItem(battery_rc, battery_rc.getUnlocalizedName());
+		GameRegistry.registerItem(battery_rc_2, battery_rc_2.getUnlocalizedName());
 		
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
