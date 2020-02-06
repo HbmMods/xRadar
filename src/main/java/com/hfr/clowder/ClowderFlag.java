@@ -20,8 +20,8 @@ public enum ClowderFlag {
 	ASTERISK("asterisk"),
 	PONYCUM("pc", false);
 
-	private String name = "";
-	private boolean show = true;
+	public String name = "";
+	public boolean show = true;
 	private ResourceLocation flag;
 	private ResourceLocation overlay;
 

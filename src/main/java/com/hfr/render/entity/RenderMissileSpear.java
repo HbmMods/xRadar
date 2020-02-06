@@ -35,6 +35,8 @@ public class RenderMissileSpear extends Render {
 			return ResourceManager.missile_devon2_tex;
 		if(entity instanceof EntityMissileDevon3)
 			return ResourceManager.missile_devon3_tex;
+		if(entity instanceof EntityMissileCruise1)
+			return ResourceManager.missile_cruise_at1_tex;
 		
 		return ResourceManager.slbm_spear_tex;
 	}

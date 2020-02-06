@@ -281,6 +281,8 @@ public class ClowderEvents {
 	@SubscribeEvent
 	public void clowderExplosionEvent(Detonate event) {
 		
+		boolean bb = true;
+		
 		for(int i = 0; i < event.getAffectedBlocks().size(); i++) {
 			
 			ChunkPosition pos = event.getAffectedBlocks().get(i);
@@ -293,10 +295,12 @@ public class ClowderEvents {
 			if(!canExplode(owner, event.world, x, y, z)) {
 				event.getAffectedBlocks().remove(i);
 				i--;
+				bb = false;
 			}
 		}
 		
-		BobbyBreaker.handleExplosionEvent(event);
+		if(bb)
+			BobbyBreaker.handleExplosionEvent(event);
 		ExplosionSound.handleExplosion(event.world, event.explosion);
 	}
 	
@@ -570,10 +574,16 @@ public class ClowderEvents {
 		String name = player.getDisplayName();
 		Clowder clowder = Clowder.getClowderFromPlayer(player);
 		
-		if(clowder != null) {
-			clowder.notifyAll(player.worldObj, new ChatComponentText(CommandClowder.INFO + "Player " + name + " has just retreated!"));
+		if(clowder != null && clowder.retreating.contains(name)) {
+			
+			Long l = clowder.members.get(name);
+			
+			if(l != null && l < System.currentTimeMillis()) {
+				clowder.notifyAll(player.worldObj, new ChatComponentText(CommandClowder.INFO + "Player " + name + " has just retreated!"));
+				clowder.members.put(name, System.currentTimeMillis());
+			}
+			
 			clowder.retreating.remove(name);
-			clowder.members.put(name, System.currentTimeMillis());
 		}
 	}
 

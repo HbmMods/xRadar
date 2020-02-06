@@ -282,7 +282,7 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 	
 	public boolean canFire() {
 		
-		return slots[2] != null && slots[2].getItem() == ModItems.charge_naval && powder >= 30 * 64;
+		return slots[2] != null && (slots[2].getItem() == ModItems.charge_naval || slots[2].getItem() == ModItems.charge_at) && powder >= 30 * 64;
 	}
 	
 	public void tryFire() {
@@ -319,6 +319,12 @@ public class TileEntityNaval extends TileEntity implements ISidedInventory {
 		fart.motionX = motionX;
 		fart.motionY = motionY;
 		fart.motionZ = motionZ;
+		
+		if(slots[2].getItem() == ModItems.charge_naval)
+			fart.raiding = true;
+		else
+			fart.raiding = false;
+		
 		worldObj.spawnEntityInWorld(fart);
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hfr:block.navalFire", 100.0F, 1.0F);
 	}

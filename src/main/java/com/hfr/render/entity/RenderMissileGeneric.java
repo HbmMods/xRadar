@@ -2,6 +2,7 @@ package com.hfr.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.entity.missile.EntityMissileAT;
 import com.hfr.entity.missile.EntityMissileAntiBallistic;
 import com.hfr.entity.missile.EntityMissileDecoy;
 import com.hfr.entity.missile.EntityMissileGeneric;
@@ -26,7 +27,9 @@ public class RenderMissileGeneric extends Render {
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
         GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
-        
+
+        if(p_76986_1_ instanceof EntityMissileAT)
+        	bindTexture(ResourceManager.missileV2_AT_tex);
         if(p_76986_1_ instanceof EntityMissileGeneric)
         	bindTexture(ResourceManager.missileV2_HE_tex);
         if(p_76986_1_ instanceof EntityMissileIncendiary)

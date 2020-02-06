@@ -8,8 +8,6 @@ import com.hfr.ai.*;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
-import com.hfr.entity.missile.EntityMissileAntiBallistic;
-import com.hfr.entity.missile.EntityMissileBaseSimple;
 import com.hfr.handler.SLBMHandler;
 import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
@@ -54,6 +52,8 @@ public class CommonEventHandler {
 		EntityPlayer player = event.player;
 		
 		if(!player.worldObj.isRemote) {
+			
+			player.worldObj.theProfiler.startSection("xr_radar");
 
 			/// RADAR SHIT ///
 			Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
@@ -77,19 +77,12 @@ public class CommonEventHandler {
 				List<Blip> blips = new ArrayList();
 				
 				if(sufficient) {
-					List<Entity> entities = player.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(player.posX - range, des, player.posZ - range, player.posX + range, 3000, player.posZ + range));
+					List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY, player.posZ, range);
 					
-					for(Entity entity : entities) {
+					for(EntityPlayer entity : entities) {
 						
 						//player does not detect himself
 						if(entity == player)
-							continue;
-
-						double dX = entity.posX - player.posX;
-						double dZ = entity.posZ - player.posZ;
-						
-						//eliminates blips that won't ever appear on radar screen
-						if(Math.sqrt(dX * dX + dZ * dZ) > range)
 							continue;
 						
 						//only detect other players that are in a flans vehicle, players and targets must not be covered by blocks
@@ -123,32 +116,6 @@ public class CommonEventHandler {
 								
 								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, type));
 							
-							} else if(ReflectionEngine.hasValue(entity, Boolean.class, "missileRadarVisible", false)) {
-								
-								Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
-								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
-								int type = 4;
-								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, type));
-								
-							} else if(entity instanceof EntityMissileBaseSimple) {
-
-								Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
-								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
-
-								int mode = ((EntityMissileBaseSimple)entity).mode;
-								
-								if(mode == 0) {
-									blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, 6));
-								} else if(mode == 2) {
-									blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, 7));
-								}
-								
-							} else if(entity instanceof EntityMissileAntiBallistic) {
-
-								Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
-								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
-								
-								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, 8));
 							}
 						}
 					}
@@ -161,6 +128,8 @@ public class CommonEventHandler {
 				//if the player does not have a radar up, he will only receive destructor packets that remove all blips and deny radar screens
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
 			}
+			
+			player.worldObj.theProfiler.endSection();
 			/// RADAR SHIT ///
 			
 			
@@ -197,6 +166,22 @@ public class CommonEventHandler {
 			vec.rotateAroundY((float) (Math.PI * 2D / 3D));
 			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 3);
 		}
+	}
+	
+	public List<EntityPlayer> getPlayersInAABB(World world, double x, double y, double z, double range) {
+		
+		List<EntityPlayer> list = new ArrayList();
+		
+		for(Object entry : world.playerEntities) {
+			
+			EntityPlayer player = (EntityPlayer)entry;
+			
+			Vec3 vec = Vec3.createVectorHelper(x - player.posX, y - player.posY, z - player.posZ);
+			if(vec.lengthVector() <= range)
+				list.add(player);
+		}
+		
+		return list;
 	}
 
 	int timer = 0;

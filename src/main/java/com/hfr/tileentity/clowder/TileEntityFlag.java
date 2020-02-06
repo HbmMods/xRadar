@@ -8,7 +8,9 @@ import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.CoordPair;
+import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.machine.TileEntityMachineBase;
 
@@ -333,20 +335,6 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	
 	public void generateClaim() {
 		
-		/*TerritoryMeta center = ClowderTerritory.getMetaFromCoords(ClowderTerritory.getCoordPair(xCoord, zCoord));
-		boolean explode = false;
-		
-		if(center != null && center.owner.zone != Zone.FACTION)
-			explode = true;
-		if(center != null && center.owner.zone == Zone.FACTION && center.owner.owner != this.owner)
-			explode = true;
-		
-		if(explode) {
-			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-			worldObj.newExplosion(null, xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, 5.0F, true, true);
-			return;
-		}*/
-		
 		int rad = getRadius();
 		
 		for(int x = -rad; x <= rad; x++) {
@@ -363,6 +351,56 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
 			}
 		}
+	}
+	
+	public boolean bordersWilderness() {
+
+		int rad = getRadius();
+		
+		for(int x = -rad; x <= rad; x++) {
+			for(int z = -rad; z <= rad; z++) {
+				
+				double dist = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
+				
+				if(dist < rad && dist > rad - 1) {
+					
+					if(checkBorder(xCoord + x * 16, zCoord + z * 16))
+						return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean checkBorder(int x, int z) {
+
+		CoordPair loc = ClowderTerritory.getCoordPair(x, z);
+		Ownership owner = ClowderTerritory.getOwnerFromCoords(loc);
+		if(owner.zone != Zone.FACTION || owner.owner != this.owner)
+			return false;
+		
+		CoordPair loc1 = ClowderTerritory.getCoordPair(x + 16, z);
+		Ownership owner1 = ClowderTerritory.getOwnerFromCoords(loc1);
+		if(owner1.zone == Zone.WILDERNESS || owner1.owner != this.owner)
+			return true;
+		
+		CoordPair loc2 = ClowderTerritory.getCoordPair(x - 16, z);
+		Ownership owner2 = ClowderTerritory.getOwnerFromCoords(loc2);
+		if(owner2.zone == Zone.WILDERNESS || owner2.owner != this.owner)
+			return true;
+		
+		CoordPair loc3 = ClowderTerritory.getCoordPair(x, z + 16);
+		Ownership owner3 = ClowderTerritory.getOwnerFromCoords(loc3);
+		if(owner3.zone == Zone.WILDERNESS || owner3.owner != this.owner)
+			return true;
+		
+		CoordPair loc4 = ClowderTerritory.getCoordPair(x, z - 16);
+		Ownership owner4 = ClowderTerritory.getOwnerFromCoords(loc4);
+		if(owner4.zone == Zone.WILDERNESS || owner4.owner != this.owner)
+			return true;
+		
+		return false;
 	}
 	
 	public boolean canSeeSky() {

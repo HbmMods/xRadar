@@ -89,6 +89,9 @@ public class ItemLore extends Item {
 			list.add("Contains 30 stacks of gunpowder");
 		}
 		if(this == ModItems.charge_naval) {
+			list.add("Naval cannon raiding ammo");
+		}
+		if(this == ModItems.charge_at) {
 			list.add("Naval cannon ammo");
 		}
 		if(this == ModItems.charge_railgun) {
@@ -106,6 +109,9 @@ public class ItemLore extends Item {
 		
 		
 		
+		if(this == ModItems.missile_at_1) {
+			list.add("Non-raiding V2 variant");
+		}
 		if(this == ModItems.missile_he_1) {
 			list.add("V2 missile (Aggregat 4)");
 		}
@@ -144,6 +150,9 @@ public class ItemLore extends Item {
 		if(this == ModItems.missile_devon_3) {
 			list.add("Devon Corporation Land-Attack Cruise Missile");
 			list.add("N² warhead");
+		}
+		if(this == ModItems.missile_cruise_at_1) {
+			list.add("Like a Devon cruise missile, but shittier!");
 		}
 		
 

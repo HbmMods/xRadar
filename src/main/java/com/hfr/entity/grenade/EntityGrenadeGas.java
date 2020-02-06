@@ -7,6 +7,9 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.items.ItemGrenade;
 import com.hfr.items.ModItems;
 
@@ -33,6 +36,11 @@ public class EntityGrenadeGas extends EntityGrenadeBouncyBase {
 			this.setDead();
 			
 			worldObj.playSoundEffect(posX, posY, posZ, "random.fizz", 5.0F, 1.0F);
+			
+			Ownership owner = ClowderTerritory.getOwnerFromInts((int)posX, (int)posZ);
+			
+			if(owner.zone == Zone.SAFEZONE || owner.zone == Zone.WARZONE || (owner.owner != null && !owner.owner.isRaidable()))
+				return;
 			
 			int r = 10;
 			int r2 = r * r;

@@ -97,7 +97,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 			pingTimer = 0;
 		}
 		
-		////if(MainRegistry.freeRadar)
+		if(MainRegistry.freeRadar)
 			this.storage.setEnergyStored(storage.getMaxEnergyStored());
 	}
 	

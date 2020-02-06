@@ -722,7 +722,8 @@ public class CommandClowder extends CommandBase {
 		sender.addChatMessage(new ChatComponentText(TITLE + "[" + p + "/" + pages + "] List of availible flags:"));
 		
 		for(int i = (p - 1) * fpp; (i < p * fpp) && (i < ClowderFlag.values().length); i++) {
-			sender.addChatMessage(new ChatComponentText(LIST + "-" + ClowderFlag.values()[i]));
+			if(ClowderFlag.values()[i].show)
+			sender.addChatMessage(new ChatComponentText(LIST + "-" + ClowderFlag.values()[i].name));
 		}
 		
 	}

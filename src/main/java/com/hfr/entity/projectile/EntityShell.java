@@ -22,6 +22,8 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public class EntityShell extends Entity implements IChunkLoader {
+	
+	public boolean raiding = false;
 
 	public EntityShell(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -48,9 +50,12 @@ public class EntityShell extends Entity implements IChunkLoader {
 	        	this.setLocationAndAngles(movingobjectposition.blockX, movingobjectposition.blockY, movingobjectposition.blockZ, 0, 0);
 
 	    		EntityTNTPrimed scapegoat = new EntityTNTPrimed(worldObj);
-	        	worldObj.newExplosion(scapegoat, posX, posY, posZ, 8F, false, true);
-	        	worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, 45, MainRegistry.navalDamage, 5, 3, false));
-	        	//System.out.println(posX + " " + posY + " " + posZ);
+	        	worldObj.newExplosion(scapegoat, posX, posY, posZ, 8F, false, raiding);
+	        	
+	        	if(raiding)
+	        		worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, 45, MainRegistry.navalDamage, 5, 3, false));
+	        	else
+	        		worldObj.spawnEntityInWorld(EntityBlast.statFac(worldObj, posX, posY, posZ, 45, MainRegistry.navalDamage, 0, 0, false));
 			}
 			this.setDead();
 			return;

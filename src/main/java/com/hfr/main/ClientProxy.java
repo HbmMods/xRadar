@@ -96,7 +96,9 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFactory.class, new RenderFactory());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineWindmill.class, new RenderWindmill());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWaterWheel.class, new RenderWaterwheel());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRift.class, new RenderRift());
 
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissileAT.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileIncendiary.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileAntiBallistic.class, new RenderMissileGeneric());
@@ -118,6 +120,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDevon1.class, new RenderMissileSpear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDevon2.class, new RenderMissileSpear());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileDevon3.class, new RenderMissileSpear());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissileCruise1.class, new RenderMissileSpear());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityEMP.class, new RenderEmpty());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlast.class, new RenderEmpty());

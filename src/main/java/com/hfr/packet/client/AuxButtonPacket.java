@@ -26,6 +26,8 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 
 public class AuxButtonPacket implements IMessage {
@@ -232,7 +234,14 @@ public class AuxButtonPacket implements IMessage {
 						Clowder clow = Clowder.getClowderFromPlayer(p);
 						
 						if(clow != flag.owner && clow != null) {
-							flag.isClaimed = false;
+							
+							if(flag.bordersWilderness()) {
+								flag.isClaimed = false;
+							} else {
+								p.worldObj.playSoundEffect(m.x, m.y, m.z, "hfr:block.buttonNo", 1.0F, 1.0F);
+								p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "This claim is protected by surrounding claims."));
+								p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Capture outer claims before proceeding to this one!"));
+							}
 						}
 					}
 				}

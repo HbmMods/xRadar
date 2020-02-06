@@ -175,6 +175,8 @@ item.science_6.name=Research Point Mk.VI
 item.cog.name=Production Materials
 item.cog_2.name=Production Materials Mk.II
 item.cog_3.name=Production Materials Mk.III
+item.cog_4.name=Production Materials Mk.IV
+item.cog_5.name=Production Materials Mk.V
 item.hfr_coin.name=Stock Market Coin
 item.hfr_wrench.name=Construction Materials
 item.province_point.name=Prestige Point
@@ -201,6 +203,7 @@ item.mult_roman.name=Bronze Multitool
 item.mult_steel.name=Steel Multitool
 item.mult_alloy.name=Alloy Multitool
 
+item.missile_at_1.name=Tier 1 AT Missile
 item.missile_he_1.name=Tier 1 HE Missile
 item.missile_he_2.name=Tier 2 HE Missile
 item.missile_he_3.name=Tier 3 HE Missile
@@ -215,6 +218,7 @@ item.missile_nuclear.name=Nuclear Missile
 item.missile_devon_1.name=DC-LACM (Tier 1)
 item.missile_devon_2.name=DC-LACM (Tier 2)
 item.missile_devon_3.name=DC-LACM (Tier 3)
+item.missile_cruise_at_1.name=Tier 1 AT Cruise Missile
 
 item.slbm_martin_1.name=SLBM Martin-2 M1
 item.slbm_martin_2.name=SLBM Martin-2 M2
@@ -231,6 +235,7 @@ item.slbm_pepper_3.name=Naval Artillery Shell M3
 
 item.drum.name=Powder Drum
 item.charge_naval.name=16" HE Shell
+item.charge_at.name=16" AT Shell
 item.charge_railgun.name=Deuterium Plasma Capsule
 item.charge_bfg.name=Argent Plasma Capsule
 

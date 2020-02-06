@@ -1,8 +1,10 @@
 package com.hfr.items;
 
+import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
+import com.hfr.tileentity.clowder.TileEntityFlag;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -34,4 +36,22 @@ public class ItemDebug extends Item {
 		
 		return stack;
 	}
+	
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    {
+    	if(!world.isRemote) {
+    		
+    		if(world.getBlock(x, y, z) == ModBlocks.clowder_flag) {
+    			
+    			TileEntityFlag flag = (TileEntityFlag)world.getTileEntity(x, y, z);
+    			player.addChatMessage(new ChatComponentText("Is this surrounded? " + !flag.bordersWilderness()));
+    			
+    			return true;
+    		}
+    		
+    		world.createExplosion(null, x + 0.1, y + 0.1, z + 0.1, 10, true);
+    	}
+    	
+        return true;
+    }
 }

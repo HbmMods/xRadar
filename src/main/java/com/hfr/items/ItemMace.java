@@ -31,6 +31,8 @@ public class ItemMace extends ItemMultitool {
 		add(ModBlocks.machine_grainmill);
 		add(ModBlocks.machine_blastfurnace);
 		add(ModBlocks.machine_coalmine);
+		add(ModBlocks.machine_diesel);
+		add(ModBlocks.machine_coalgen);
 	}};
 
 	public static final List<Block> breakOverride = new ArrayList() {{
@@ -54,6 +56,10 @@ public class ItemMace extends ItemMultitool {
 		add(ModBlocks.machine_grainmill);
 		add(ModBlocks.machine_blastfurnace);
 		add(ModBlocks.machine_coalmine);
+		add(ModBlocks.machine_diesel);
+		add(ModBlocks.machine_coalgen);
+		add(ModBlocks.machine_waterwheel);
+		add(ModBlocks.machine_windmill);
 	}};
 
 }

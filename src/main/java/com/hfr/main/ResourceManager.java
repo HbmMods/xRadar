@@ -49,6 +49,7 @@ public class ResourceManager {
 	public static final IModelCustom missileV2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileV2.obj"));
 	public static final IModelCustom missileStrong = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileGeneric.obj"));
 	public static final IModelCustom missileNeon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missileNeon.obj"));
+	public static final ResourceLocation missileV2_AT_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_AT.png");
 	public static final ResourceLocation missileV2_HE_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_HE.png");
 	public static final ResourceLocation missileV2_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileV2_IN.png");
 	public static final ResourceLocation missileAA_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileAA.png");
@@ -62,6 +63,7 @@ public class ResourceManager {
 	public static final ResourceLocation missile_devon1_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileDevon1.png");
 	public static final ResourceLocation missile_devon2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileDevon2.png");
 	public static final ResourceLocation missile_devon3_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileDevon3.png");
+	public static final ResourceLocation missile_cruise_at1_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileCruiseAT.png");
 	
 	//BLAST SPHERES
 	public static final IModelCustom sphere_ruv = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/sphere_ruv.obj"));
@@ -203,6 +205,10 @@ public class ResourceManager {
 	//WATERWHEEL
 	public static final IModelCustom waterwheel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/waterwheel.obj"));
 	public static final ResourceLocation waterwheel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/waterwheel.png");
+	
+	//RIFT
+	public static final IModelCustom rift = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rift.obj"));
+	public static final ResourceLocation rift_tex = new ResourceLocation(RefStrings.MODID, "textures/models/rift.png");
 	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));

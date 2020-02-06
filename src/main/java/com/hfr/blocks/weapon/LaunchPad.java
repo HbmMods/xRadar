@@ -169,6 +169,17 @@ public class LaunchPad extends BlockContainer {
         			xCoord += 1;
         		}
         		
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_at_1 && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileAT missile = new EntityMissileAT(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_he_1 && entity.storage.getEnergyStored() >= re)
         		{
             		EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
@@ -295,6 +306,16 @@ public class LaunchPad extends BlockContainer {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_devon_3 && entity.storage.getEnergyStored() >= re)
         		{
             		EntityMissileDevon3 missile = new EntityMissileDevon3(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);
+            	
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hfr:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_cruise_at_1 && entity.storage.getEnergyStored() >= re)
+        		{
+            		EntityMissileCruise1 missile = new EntityMissileCruise1(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.storage.setEnergyStored(entity.storage.getEnergyStored() - re);

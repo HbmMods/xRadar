@@ -122,7 +122,7 @@ public class BobbyBreaker {
 				int iz = (int)z + dir.offsetZ;
 				
 				if(world.getBlock(ix, iy, iz) == Blocks.air) {
-					BobbyExplosion explosion = new BobbyExplosion(world, event.explosion.exploder, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, strength);
+					BobbyExplosion explosion = new BobbyExplosion(world, event.explosion.exploder, ix + 0.5, iy + 0.5, iz + 0.5, strength);
 					explosion.doExplosionA();
 					explosion.doExplosionB(false);
 					return;

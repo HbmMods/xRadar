@@ -32,10 +32,9 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.hfr.blocks.*;
-import com.hfr.clowder.ClowderEvents;
-import com.hfr.clowder.ClowderFlag;
+import com.hfr.clowder.*;
 import com.hfr.command.*;
-import com.hfr.data.StockData;
+import com.hfr.data.*;
 import com.hfr.data.StockData.Stock;
 import com.hfr.entity.*;
 import com.hfr.entity.grenade.*;
@@ -259,8 +258,10 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineWindmill.class, "tileentity_hfr_windmill");
 		GameRegistry.registerTileEntity(TileEntityWaterWheel.class, "tileentity_hfr_waterwheel");
 		GameRegistry.registerTileEntity(TileEntityDieselGen.class, "tileentity_hfr_dieselgen");
+		GameRegistry.registerTileEntity(TileEntityRift.class, "tileentity_hfr_rift");
 
 		int id = 0;
+	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileGeneric.class, "entity_missile_v2", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileIncendiary.class, "entity_missile_v2F", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileStrong.class, "entity_missile_large", id++, this, 1000, 1, true);
@@ -293,6 +294,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileDevon1.class, "entity_missile_devon1", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileDevon2.class, "entity_missile_devon2", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileDevon3.class, "entity_missile_devon3", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileCruise1.class, "entity_missile_cruise1", id++, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
