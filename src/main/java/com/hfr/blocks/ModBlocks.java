@@ -109,6 +109,8 @@ public class ModBlocks {
 	public static final int guiID_diesel = 27;
 	public static Block machine_rift;
 	public static final int guiID_rift = 28;
+	public static Block machine_turbine;
+	public static final int guiID_turbine = 29;
 
 	public static Block hesco_block;
 	public static Block palisade;
@@ -134,6 +136,13 @@ public class ModBlocks {
 	public static final int guiID_naval = 8;
 
 	public static Block debug;
+	public static Block steam;
+	public static Block oil;
+	public static Block gas;
+	public static Block petroil;
+	public static Block diesel;
+	public static Block kerosene;
+	public static Block petroleum;
 
 	public static Block.SoundType soundTypeConcrete = new ModSoundType("concrete", 0.25F, 1.0F)
     {
@@ -218,7 +227,8 @@ public class ModBlocks {
 		machine_windmill = new MachineWindmill(Material.iron).setStepSound(soundTypeConcrete).setBlockName("machine_windmill").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_windmill");
 		machine_waterwheel = new MachineWaterwheel(Material.wood).setStepSound(Block.soundTypeWood).setBlockName("machine_waterwheel").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_waterwheel");
 		machine_diesel = new MachineDieselGen(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_diesel").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab);
-		machine_rift = new MachineRift(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("machine_rift").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_rift");
+		machine_rift = new MachineRift(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_rift").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_rift");
+		machine_turbine = new MachineTurbine(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_turbine").setHardness(5.0F).setResistance(0.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_turbine");
 
 		railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal).setBlockName("railgun_plasma").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":railgun_plasma");
 		cannon_naval = new CannonNaval(Material.iron).setStepSound(soundTypeMetal).setBlockName("cannon_naval").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":cannon_naval");
@@ -238,6 +248,13 @@ public class ModBlocks {
 		statue = new PropStatue(Material.cloth).setStepSound(soundTypeConcrete).setBlockName("statue").setHardness(2.5F).setResistance(10F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":statue");
 
 		debug = new BlockDebug(Material.cloth).setStepSound(soundTypeMetal).setBlockName("debug").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":debug");
+		steam = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("steam").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
+		oil = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("oil").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
+		gas = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("gas").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
+		petroil = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("petroil").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
+		diesel = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("diesel").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
+		kerosene = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("kerosene").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
+		petroleum = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("petroleum").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
 		
 		Blocks.emerald_block.setResistance(6000000.0F).setBlockUnbreakable();
 	}
@@ -284,6 +301,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_waterwheel, ItemBlockLore.class, machine_waterwheel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_diesel, ItemBlockLore.class, machine_diesel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rift, ItemBlockLore.class, machine_rift.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
@@ -330,5 +348,12 @@ public class ModBlocks {
 		GameRegistry.registerBlock(statue, ItemBlockLore.class, statue.getUnlocalizedName());
 
 		GameRegistry.registerBlock(debug, ItemBlockUnstackable.class, debug.getUnlocalizedName());
+		GameRegistry.registerBlock(steam, steam.getUnlocalizedName());
+		GameRegistry.registerBlock(oil, oil.getUnlocalizedName());
+		GameRegistry.registerBlock(gas, gas.getUnlocalizedName());
+		GameRegistry.registerBlock(petroil, petroil.getUnlocalizedName());
+		GameRegistry.registerBlock(diesel, diesel.getUnlocalizedName());
+		GameRegistry.registerBlock(kerosene, kerosene.getUnlocalizedName());
+		GameRegistry.registerBlock(petroleum, petroleum.getUnlocalizedName());
 	}
 }

@@ -173,6 +173,16 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Connection speed: 10000 RF/t");
 			list.add("Connectors: all sides, top and bottom");
 		}
+
+		if(field_150939_a == ModBlocks.machine_turbine) {
+			list.add("Converts steam into water and power");
+			list.add("Buffer: 100000000 RF");
+			list.add("Connection speed: 100000 RF/t");
+			list.add("Connectors:");
+			list.add("-Energy: back");
+			list.add("-Steam: front");
+			list.add("-Water: sides");
+		}
 	}
 
 }

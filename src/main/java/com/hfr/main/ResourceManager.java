@@ -210,6 +210,10 @@ public class ResourceManager {
 	public static final IModelCustom rift = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/rift.obj"));
 	public static final ResourceLocation rift_tex = new ResourceLocation(RefStrings.MODID, "textures/models/rift.png");
 	
+	//TURBINE
+	public static final IModelCustom turbine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turbine.obj"));
+	public static final ResourceLocation turbine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbine.png");
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));

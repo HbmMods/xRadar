@@ -30,6 +30,7 @@ import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
 import com.hfr.inventory.container.ContainerTank;
+import com.hfr.inventory.container.ContainerTurbine;
 import com.hfr.inventory.gui.GUIBattery;
 import com.hfr.inventory.gui.GUIBlastFurnace;
 import com.hfr.inventory.gui.GUIBox;
@@ -57,6 +58,7 @@ import com.hfr.inventory.gui.GUIRailgun;
 import com.hfr.inventory.gui.GUIScreenDesignator;
 import com.hfr.inventory.gui.GUIScreenSLBM;
 import com.hfr.inventory.gui.GUITank;
+import com.hfr.inventory.gui.GUITurbine;
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.clowder.*;
 import com.hfr.tileentity.machine.*;
@@ -295,6 +297,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_turbine:
+			{
+				if(entity instanceof TileEntityMachineTurbine)
+				{
+					return new ContainerTurbine(player.inventory, (TileEntityMachineTurbine) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -527,6 +538,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityDieselGen)
 					{
 						return new GUIDieselGen(player.inventory, (TileEntityDieselGen) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_turbine:
+				{
+					if(entity instanceof TileEntityMachineTurbine)
+					{
+						return new GUITurbine(player.inventory, (TileEntityMachineTurbine) entity);
 					}
 					return null;
 				}

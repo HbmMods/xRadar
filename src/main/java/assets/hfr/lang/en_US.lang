@@ -54,6 +54,8 @@ tile.machine_windmill.name=Large Wind Turbine
 tile.machine_waterwheel.name=Water Mill
 tile.machine_diesel.name=Diesel Generator
 container.dieselGen=Diesel Generator
+tile.machine_turbine.name=Industrial Steam Turbine
+container.machineTurbine=Industrial Steam Turbine
 
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag

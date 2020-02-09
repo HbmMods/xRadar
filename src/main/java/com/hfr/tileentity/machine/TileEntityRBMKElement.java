@@ -281,7 +281,7 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		
 		if(canDrain(from, resource.getFluid()) && steam.getFluidAmount() > 0) {
-			return steam.drain(steam.getFluidAmount(), doDrain);
+			return steam.drain(Math.min(steam.getFluidAmount(), resource.amount), doDrain);
 		}
 		
 		return null;
@@ -291,7 +291,7 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		
 		if(steam.getFluidAmount() > 0) {
-			return steam.drain(steam.getFluidAmount(), doDrain);
+			return steam.drain(Math.min(steam.getFluidAmount(), maxDrain), doDrain);
 		}
 		
 		return null;
@@ -300,7 +300,7 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
 		
-		if(fluid == water.getFluid().getFluid() && water.getFluidAmount() < water.getCapacity()) {
+		if(fluid == FluidRegistry.WATER && water.getFluidAmount() < water.getCapacity()) {
 			return true;
 		}
 		
@@ -310,7 +310,7 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
 		
-		if(fluid == steam.getFluid().getFluid() && steam.getFluidAmount() > 0) {
+		if(fluid == FluidHandler.STEAM && steam.getFluidAmount() > 0) {
 			return true;
 		}
 		

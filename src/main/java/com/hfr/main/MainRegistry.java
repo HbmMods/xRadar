@@ -254,11 +254,14 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCoalGen.class, "tileentity_hfr_coalgenerator");
 		GameRegistry.registerTileEntity(TileEntityMachineFactory.class, "tileentity_hfr_factory");
 		GameRegistry.registerTileEntity(TileEntityProxy.class, "tileentity_hfr_energy_proxy");
+		GameRegistry.registerTileEntity(TileEntityFluidProxy.class, "tileentity_hfr_fluid_proxy");
+		GameRegistry.registerTileEntity(TileEntityComboProxy.class, "tileentity_hfr_combo_proxy");
 		GameRegistry.registerTileEntity(TileEntityBattery.class, "tileentity_hfr_battery");
 		GameRegistry.registerTileEntity(TileEntityMachineWindmill.class, "tileentity_hfr_windmill");
 		GameRegistry.registerTileEntity(TileEntityWaterWheel.class, "tileentity_hfr_waterwheel");
 		GameRegistry.registerTileEntity(TileEntityDieselGen.class, "tileentity_hfr_dieselgen");
 		GameRegistry.registerTileEntity(TileEntityRift.class, "tileentity_hfr_rift");
+		GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_hfr_turbine");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
