@@ -301,7 +301,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_waterwheel, ItemBlockLore.class, machine_waterwheel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_diesel, ItemBlockLore.class, machine_diesel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rift, ItemBlockLore.class, machine_rift.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
+		//GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());

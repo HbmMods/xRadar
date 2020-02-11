@@ -5,11 +5,11 @@ import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -35,7 +35,7 @@ public class TileEntityMachineFactory extends TileEntityMachineBase implements I
 
 		if(!worldObj.isRemote) {
 			
-			if(slots[4] != null && slots[4].getItem() == ModItems.battery)
+			/*if(slots[4] != null && slots[4].getItem() == ModItems.battery)
 				storage.setEnergyStored(storage.getMaxEnergyStored());
 
 			if (slots[4] != null && slots[4].getItem() instanceof IEnergyContainerItem) {
@@ -45,7 +45,7 @@ public class TileEntityMachineFactory extends TileEntityMachineBase implements I
 
 				int e = item.extractEnergy(slots[4], extract, false);
 				storage.setEnergyStored(storage.getEnergyStored() + e);
-			}
+			}*/
 			
 			if(operational() && hasSpace() && slots[4] == null) {
 				
@@ -62,6 +62,20 @@ public class TileEntityMachineFactory extends TileEntityMachineBase implements I
 							break;
 						}
 					}
+				}
+				
+				if(worldObj.rand.nextInt(MainRegistry.factoryJamRate * 20) == 0) {
+					
+					int i = worldObj.rand.nextInt(10);
+					
+					if(i < 5)
+						slots[4] = new ItemStack(Items.paper).setStackDisplayName("Worker Strike");
+					else if(i < 7)
+						slots[4] = new ItemStack(Items.skull).setStackDisplayName("Workplace Accident");
+					else if(i < 9)
+						slots[4] = new ItemStack(Items.slime_ball).setStackDisplayName("Chemical Spill");
+					else
+						slots[4] = new ItemStack(Items.potato).setStackDisplayName("Communist Takeover");
 				}
 			}
 			
@@ -87,6 +101,9 @@ public class TileEntityMachineFactory extends TileEntityMachineBase implements I
 					return false;
 		
 		if(storage.getEnergyStored() < MainRegistry.factoryConsumption)
+			return false;
+		
+		if(slots[4] != null)
 			return false;
 		
 		return true;

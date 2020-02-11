@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
@@ -23,6 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 //but with cats!
 public class Clowder {
 
+	public String uuid;
 	public String name;
 	public String motd;
 	public ClowderFlag flag;
@@ -374,6 +376,7 @@ public class Clowder {
 	}
 	
 	public void saveClowder(int i, NBTTagCompound nbt) {
+		nbt.setString(i + "_uuid", this.uuid);
 		nbt.setString(i + "_name", this.name);
 		nbt.setString(i + "_motd", this.motd);
 		nbt.setInteger(i + "_flag", this.flag.ordinal());
@@ -414,6 +417,12 @@ public class Clowder {
 	public static Clowder loadClowder(int i, NBTTagCompound nbt) {
 		
 		Clowder c = new Clowder();
+		
+		c.uuid = nbt.getString(i + "_uuid");
+		
+		if(c.uuid.isEmpty())
+			c.uuid = UUID.randomUUID().toString();
+		
 		c.name = nbt.getString(i + "_name");
 		c.motd = nbt.getString(i + "_motd");
 		c.flag = ClowderFlag.values()[nbt.getInteger(i + "_flag")];
@@ -554,11 +563,25 @@ public class Clowder {
 		return null;
 	}
 	
+	public static Clowder getClowderFromUUID(String uuid) {
+
+		uuid = uuid.toLowerCase();
+		
+		for(Clowder clowder : clowders) {
+			if(clowder.uuid.toLowerCase().equals(uuid))
+				return clowder;
+		}
+		
+		return null;
+	}
+	
 	public static void createClowder(EntityPlayer player, String name) {
 
 		String leader = player.getDisplayName();
 		
 		Clowder c = new Clowder();
+		
+		c.uuid = UUID.randomUUID().toString();
 		c.name = name;
 		c.leader = leader;
 		c.members.put(leader, time());

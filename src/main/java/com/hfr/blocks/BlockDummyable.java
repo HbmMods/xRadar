@@ -22,6 +22,7 @@ public abstract class BlockDummyable extends BlockContainer {
 
 	public BlockDummyable(Material mat) {
 		super(mat);
+		this.setTickRandomly(true);
 	}
 	
 	/// BLOCK METADATA ///
@@ -175,6 +176,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		world.setBlock(x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
 		MultiblockHandler.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
 		world.scheduleBlockUpdate(x, y, z, this, 1);
+		world.scheduleBlockUpdate(x, y, z, this, 2);
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}

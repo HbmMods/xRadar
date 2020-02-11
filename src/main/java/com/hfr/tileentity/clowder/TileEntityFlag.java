@@ -12,6 +12,7 @@ import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.items.ModItems;
+import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.machine.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -57,8 +58,10 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		if(!worldObj.isRemote) {
 			
 			//remove disbanded clowders
-			if(!Clowder.clowders.contains(owner))
+			if(!Clowder.clowders.contains(owner) && owner != null) {
+				MainRegistry.logger.info("Deleting clowder from flag " + xCoord + " " + yCoord + " " + zCoord + " due to clowder not being in the clowder list! (disband?)");
 				owner = null;
+			}
 			
 			/*if(Clowder.clowders.size() == 0) {
 				ClowderData.getData(worldObj);
@@ -92,6 +95,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 						height += speed;
 						
 						if(height >= 1) {
+							MainRegistry.logger.info("Locking flag " + xCoord + " " + yCoord + " " + zCoord + " for being hoisted! (captured and raised!)");
 							isClaimed = true;
 							height = 1;
 							this.markDirty();
@@ -149,6 +153,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			
 			if(prev == 1F && height != 1F) {
 				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagCapture", 100.0F, 1.0F);
+
+				MainRegistry.logger.info("Unlocking flag " + xCoord + " " + yCoord + " " + zCoord + " for being unhoisted! (captured!)");
 				
 				if(owner != null)
 					owner.notifyCapture(worldObj, xCoord, zCoord, "flags");
@@ -159,12 +165,18 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			
 			if(prev != 1F && height == 1F) {
 				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagHoist", 3.0F, 1.0F);
+				MainRegistry.logger.info("Hoisintg flag " + xCoord + " " + yCoord + " " + zCoord + "!");
 				generateClaim();
 			}
 			
 			/// CAPTURE END ///
 			
 			if(!canSeeSky()) {
+				
+				if(isClaimed) {
+					MainRegistry.logger.info("Unlocking flag " + xCoord + " " + yCoord + " " + zCoord + " for being obstructed!");
+				}
+				
 				isClaimed = false;
 				setOwner(null);
 				
@@ -247,6 +259,9 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	}
 	
 	public void setOwner(Clowder c) {
+		
+		if(owner != c)
+			MainRegistry.logger.info("Changing owner for flag " + xCoord + " " + yCoord + " " + zCoord + " from " + (owner != null ? owner.name : "null") + " to " + (c != null ? c.name : "null"));
 		
 		if(owner != null) {
 			
@@ -436,7 +451,32 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
+		String own = nbt.getString("owner");
+		
+		if(!own.isEmpty())
+			MainRegistry.logger.info("Reading owner from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + own + " (old name system, ignore)");
+		else
+			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was not read! (blank NBT) (old name system, ignore)");
+		
+		this.owner = Clowder.getClowderFromName(own);
+		
+		if(owner != null)
+			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name + " (old name system, ignore)");
+		else if(!own.isEmpty())
+			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list! (old name system, ignore)");
+		
+		if(owner == null) {
+
+			String id = nbt.getString("clow_uuid");
+			MainRegistry.logger.info("Reading owner ID from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + id);
+			this.owner = Clowder.getClowderFromUUID(id);
+			
+			if(owner != null)
+				MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name);
+			else if(!own.isEmpty())
+				MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list! (old name system, ignore)");
+		}
+		
 		this.isClaimed = nbt.getBoolean("isClaimed");
 		this.height = nbt.getFloat("height");
 		this.mode = nbt.getInteger("mode");
@@ -454,16 +494,20 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			}
 		}
 		
-		if(owner != null && mode > 0)
-			generateClaim();
+		//if(owner != null && mode > 0)
+		//	generateClaim();
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		if(owner != null)
-			nbt.setString("owner", owner.name);
+		if(owner != null) {
+			MainRegistry.logger.info("Writing owner for flag " + xCoord + " " + yCoord + " " + zCoord + " as " + owner.uuid);
+			nbt.setString("clow_uuid", owner.uuid);
+		} else {
+			MainRegistry.logger.info("Writing owner for flag " + xCoord + " " + yCoord + " " + zCoord + " as null!");
+		}
 		
 		nbt.setBoolean("isClaimed", isClaimed);
 		nbt.setFloat("height", height);
