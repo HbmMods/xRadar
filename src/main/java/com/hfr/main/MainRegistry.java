@@ -80,7 +80,7 @@ public class MainRegistry
 	public static int radarRange = 1000;
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
-	public static int radarConsumption = 50;
+	public static int radarConsumption = 2000;
 
 	public static int coalgenProduction = 200;
 	public static int windmillProduction = 500;
@@ -262,7 +262,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityWaterWheel.class, "tileentity_hfr_waterwheel");
 		GameRegistry.registerTileEntity(TileEntityDieselGen.class, "tileentity_hfr_dieselgen");
 		GameRegistry.registerTileEntity(TileEntityRift.class, "tileentity_hfr_rift");
-		//GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_hfr_turbine");
+		GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_hfr_turbine");
+		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileentity_hfr_teleporter");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
@@ -406,7 +407,7 @@ public class MainRegistry
         propRadarAltitude.comment = "Y height required for the radar to work";
         radarAltitude = propRadarAltitude.getInt();
         
-        Property propRadarConsumption = config.get("RADAR", "radarConsumption", 50);
+        Property propRadarConsumption = config.get("RADAR", "radarConsumptionNew", 2000);
         propRadarConsumption.comment = "Amount of RF per tick required for the radar to work";
         radarConsumption = propRadarConsumption.getInt();
         

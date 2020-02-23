@@ -47,10 +47,10 @@ public class EventHandlerClient {
 		
 		if(event.type == ElementType.CROSSHAIRS)
 		{
-			//anti-ragex mechanism, do not delete
-			if(player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
-				if(player.ticksExisted > 5 * 60 * 20) //<- time til the autism kicks in
-					Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
+			//anti-ragex mechanism, do not delete - oops i deleted it
+			//if(player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+			//	if(player.ticksExisted > 5 * 60 * 20) //<- time til the autism kicks in
+			//		Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
 			
 			/// START KEYBINDS ///
 			if(/*!FMLClientHandler.instance().isGUIOpen(GuiChat.class)*/ Minecraft.getMinecraft().currentScreen == null) {
@@ -114,13 +114,13 @@ public class EventHandlerClient {
 			RenderFlagOverlay.drawFlag();
 		}
 		
-		/*if(fps) {
+		if(fps) {
 			Minecraft.getMinecraft().gameSettings.limitFramerate = 5;
 		}
 		
 		if(tilt) {
 			Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
-		}*/
+		}
 	}
 	
 	@SubscribeEvent

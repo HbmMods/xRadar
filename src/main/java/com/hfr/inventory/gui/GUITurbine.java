@@ -6,9 +6,12 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.inventory.container.ContainerTurbine;
 import com.hfr.lib.RefStrings;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.client.AuxButtonPacket;
 import com.hfr.tileentity.machine.TileEntityMachineTurbine;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -26,6 +29,25 @@ public class GUITurbine extends GuiContainer {
 		this.xSize = 176;
 		this.ySize = 168;
 	}
+
+    protected void mouseClicked(int x, int y, int i) {
+    	super.mouseClicked(x, y, i);
+
+	    if(guiLeft + 7 <= x && guiLeft + 7 + 18 > x && guiTop + 16 < y && guiTop + 16 + 18 >= y) {
+	    	PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 0));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+	    }
+
+	    if(guiLeft + 7 <= x && guiLeft + 7 + 18 > x && guiTop + 34 < y && guiTop + 34 + 18 >= y) {
+	    	PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 1));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+	    }
+
+	    if(guiLeft + 7 <= x && guiLeft + 7 + 18 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
+	    	PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 2));
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+	    }
+    }
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y) {
@@ -49,6 +71,10 @@ public class GUITurbine extends GuiContainer {
 		if(guiLeft + 44 <= x && guiLeft + 44 + 16 > x && guiTop + 17 < y && guiTop + 17 + 52 >= y) {
 			this.func_146283_a(Arrays.asList(new String[] { "Steam:", diFurnace.steam.getFluidAmount() + "mB"}), x - guiLeft, y - guiTop);
 		}
+
+		if(guiLeft + 80 <= x && guiLeft + 80 + 16 > x && guiTop + 17 < y && guiTop + 17 + 52 >= y) {
+			this.func_146283_a(Arrays.asList(new String[] { "Water:", diFurnace.water.getFluidAmount() + "mB"}), x - guiLeft, y - guiTop);
+		}
 	}
 	
 	@Override
@@ -61,9 +87,12 @@ public class GUITurbine extends GuiContainer {
 		drawTexturedModalRect(guiLeft + 116, guiTop + 69 - i, 208, 52 - i, 16, i);
 		
 		int j = diFurnace.getWaterScaled(52);
-		drawTexturedModalRect(guiLeft + 66, guiTop + 69 - j, 192, 52 - j, 16, j);
+		drawTexturedModalRect(guiLeft + 80, guiTop + 69 - j, 192, 52 - j, 16, j);
 		
 		int k = diFurnace.getSteamScaled(52);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 69 - k, 176, 52 - k, 16, k);
+		
+		int l = diFurnace.mode;
+		drawTexturedModalRect(guiLeft + 7, guiTop + 16 + l * 18, 176, 52 + l * 18, 18, 18);
 	}
 }

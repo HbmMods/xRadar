@@ -1,13 +1,19 @@
 package com.hfr.items;
 
+import com.hfr.blocks.ModBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
 public class ItemBlockUnstackable extends ItemBlock {
 
-	public ItemBlockUnstackable(Block p_i45328_1_) {
-		super(p_i45328_1_);
-		this.setMaxStackSize(1);
+	public ItemBlockUnstackable(Block block) {
+		super(block);
+		
+		if(block == ModBlocks.machine_derrick)
+			this.setMaxStackSize(16);
+		else
+			this.setMaxStackSize(1);
 	}
 
 }

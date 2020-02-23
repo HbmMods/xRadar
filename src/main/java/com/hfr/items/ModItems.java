@@ -47,6 +47,7 @@ public class ModItems {
 	public static Item designator_range;
 	public static Item designator_manual;
 	public static Item detonator;
+	public static Item remote;
 	public static final int guiID_desingator = 99;
 	public static final int guiID_slbm = 100;
 
@@ -91,6 +92,11 @@ public class ModItems {
 	public static Item components_steel;
 	public static Item components_mechanical;
 	public static Item components_electronics;
+	public static Item components_plating;
+
+	public static Item ingot_boron;
+	public static Item ingot_graphite;
+	public static Item ingot_graphene;
 	
 	public static Item tidal_energy;
 	public static Item whale_meat;
@@ -116,6 +122,7 @@ public class ModItems {
 	public static Item battery;
 	public static Item oil_detector;
 	public static Item gas_mask;
+	public static Item graphene_vest;
 	public static Item clowder_banner;
 	public static Item grenade_gas;
 	public static Item grenade_nuclear;
@@ -179,6 +186,11 @@ public class ModItems {
 		components_steel = new ItemLore().setUnlocalizedName("components_steel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_steel");
 		components_mechanical = new ItemLore().setUnlocalizedName("components_mechanical").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_mechanical");
 		components_electronics = new ItemLore().setUnlocalizedName("components_electronics").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_electronics");
+		components_plating = new ItemLore().setUnlocalizedName("components_plating").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_plating");
+
+		ingot_boron = new ItemLore().setUnlocalizedName("ingot_boron").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_boron");
+		ingot_graphite = new ItemLore().setUnlocalizedName("ingot_graphite").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_graphite");
+		ingot_graphene = new ItemLore().setUnlocalizedName("ingot_graphene").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_graphene");
 		
 		farmer = new ItemContract().setUnlocalizedName("farmer").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":farmer");
 		miner = new ItemLore().setUnlocalizedName("miner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":miner");
@@ -189,6 +201,7 @@ public class ModItems {
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_range");
 		designator_manual = new ItemDesingatorManual().setUnlocalizedName("designator_manual").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_manual");
 		detonator = new ItemDetonator().setUnlocalizedName("detonator").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":detonator");
+		remote = new ItemRemote().setUnlocalizedName("remote").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":remote");
 		
 		missile_at_1 = new ItemLore().setUnlocalizedName("missile_at_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_at_1");
 		missile_he_1 = new ItemLore().setUnlocalizedName("missile_he_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":missile_he_1");
@@ -249,6 +262,7 @@ public class ModItems {
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":oil_detector");
 		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask");
+		graphene_vest = new ItemSpecialArmor(matGasMask, 5, 2).setUnlocalizedName("graphene_vest").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":graphene_vest");
 		clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
 		grenade_gas = new ItemGrenade(4).setUnlocalizedName("grenade_gas").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_gas");
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
@@ -289,6 +303,7 @@ public class ModItems {
 		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
+		GameRegistry.registerItem(graphene_vest, graphene_vest.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
 		
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
@@ -324,6 +339,11 @@ public class ModItems {
 		GameRegistry.registerItem(components_steel, components_steel.getUnlocalizedName());
 		GameRegistry.registerItem(components_mechanical, components_mechanical.getUnlocalizedName());
 		GameRegistry.registerItem(components_electronics, components_electronics.getUnlocalizedName());
+		GameRegistry.registerItem(components_plating, components_plating.getUnlocalizedName());
+
+		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_graphene, ingot_graphene.getUnlocalizedName());
 
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
 		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());
@@ -372,6 +392,7 @@ public class ModItems {
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
 		GameRegistry.registerItem(designator_manual, designator_manual.getUnlocalizedName());
 		GameRegistry.registerItem(detonator, detonator.getUnlocalizedName());
+		GameRegistry.registerItem(remote, remote.getUnlocalizedName());
 
 		GameRegistry.registerItem(missile_at_1, missile_at_1.getUnlocalizedName());
 		GameRegistry.registerItem(missile_he_1, missile_he_1.getUnlocalizedName());

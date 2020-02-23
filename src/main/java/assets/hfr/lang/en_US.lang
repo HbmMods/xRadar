@@ -7,6 +7,19 @@ death.attack.zyklon=%1$s died from natural causes.
 death.attack.wire=%1$s got tangled in barbed wire.
 
 hfr_steam.name=Steam
+tile.steam.name=Steam
+tile.oil.name=Crude Oil
+hfr_oil.name=Crude Oil
+tile.gas.name=Natural Gas
+hfr_gas.name=Natural Gas
+tile.petroil.name=Bunker Fuel
+hfr_petroil.name=Bunker Fuel
+tile.diesel.name=Diesel
+hfr_diesel.name=Diesel
+tile.kerosene.name=Kerosene
+hfr_kerosene.name=Kerosene
+tile.petroleum.name=Petroleum
+hfr_petroleum.name=Petroleum
 
 tile.machine_siren.name=Siren
 container.siren=Siren
@@ -57,6 +70,8 @@ container.dieselGen=Diesel Generator
 tile.machine_turbine.name=Industrial Steam Turbine
 container.machineTurbine=Industrial Steam Turbine
 
+tile.teleporter.name=Teleporter
+
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
 tile.clowder_flag_big.name=Clowder Territory Flag (DON'T USE THIS ONE)
@@ -86,6 +101,9 @@ tile.concrete_rocks.name=Broken Concrete
 tile.temp.name=Temporary Block
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
+
+tile.ore_uranium.name=Uranium Ore
+tile.ore_boron.name=Boron Ore
 
 tile.uni_foundation.name=Foundation Block
 tile.asphalt.name=Asphalt Road
@@ -121,6 +139,7 @@ item.wand.name=ThotBeGone Anti Mob Wand
 item.battery.name=HFR Infinite Battery
 item.oil_detector.name=Oil Detector
 item.gas_mask.name=Dräger M65 Gas Mask
+item.graphene_vest.name=Graphene Vest
 item.clowder_banner.name=Wearable Clowder Banner
 item.scanner.name=Block Damage Scanner
 item.repair_1.name=Duct Tape
@@ -165,6 +184,11 @@ item.components_scaffold.name=Sturdy Scaffolding
 item.components_steel.name=Steel Scaffolding
 item.components_mechanical.name=Mechanical Components
 item.components_electronics.name=Circuitry
+item.components_plating.name=Reinforced Plating
+
+item.ingot_boron.name=Boron Ingot
+item.ingot_graphite.name=Graphite Brick
+item.ingot_graphene.name=Graphene Brick
 
 item.tidal_energy.name=Tidal Energy
 item.whale_meat.name=Whale Meat
@@ -192,6 +216,7 @@ item.designator.name=GPS Rangefinder
 item.designator_range.name=Laser Rangefinder
 item.designator_manual.name=Manual Rangefinder
 item.detonator.name=Detonator
+item.remote.name=Coordinate Remote
 
 item.mace.name=Hammer of Raiding
 item.clowder_map.name=Clowder Map

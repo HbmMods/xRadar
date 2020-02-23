@@ -453,28 +453,28 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 
 		String own = nbt.getString("owner");
 		
-		if(!own.isEmpty())
+		/*if(!own.isEmpty())
 			MainRegistry.logger.info("Reading owner from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + own + " (old name system, ignore)");
 		else
-			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was not read! (blank NBT) (old name system, ignore)");
+			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was not read! (blank NBT) (old name system, ignore)");*/
 		
 		this.owner = Clowder.getClowderFromName(own);
 		
-		if(owner != null)
+		/*if(owner != null)
 			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name + " (old name system, ignore)");
 		else if(!own.isEmpty())
-			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list! (old name system, ignore)");
+			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list! (old name system, ignore)");*/
 		
 		if(owner == null) {
 
 			String id = nbt.getString("clow_uuid");
-			MainRegistry.logger.info("Reading owner ID from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + id);
+			//MainRegistry.logger.info("Reading owner ID from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + id);
 			this.owner = Clowder.getClowderFromUUID(id);
 			
 			if(owner != null)
-				MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name);
+				MainRegistry.logger.info("Owner of flag (" + id + ") " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name);
 			else if(!own.isEmpty())
-				MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list! (old name system, ignore)");
+				MainRegistry.logger.info("Owner of flag (" + id + ") " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list!");
 		}
 		
 		this.isClaimed = nbt.getBoolean("isClaimed");

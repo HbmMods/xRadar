@@ -32,7 +32,14 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.machine_tank), new Object[] { ModBlocks.machine_tank });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.box, 2), new Object[] { Blocks.chest });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.box, 2), new Object[] { Blocks.trapped_chest });
-		
+
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_boron, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_boron });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_graphite, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_graphite });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_boron, 9), new Object[] { "#", '#', ModBlocks.block_boron });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_graphite, 9), new Object[] { "#", '#', ModBlocks.block_graphite });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.graphene_vest, 1), new Object[] { "# #", "###", "###", '#', ModItems.ingot_graphene });
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_siren, 1), new Object[] { "ISI", "NCN", "ISI", 'N', Blocks.noteblock, 'C', ModItems.components_electronics, 'S', ModItems.components_scaffold, 'I', "ingotIron" }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_grainmill, 1), new Object[] { "WWW", "BWB", "BMB", 'W', ModItems.components_wood, 'M', ModItems.components_mechanical, 'B', Blocks.cobblestone });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_blastfurnace, 1), new Object[] { "BSB", "BSB", "BFB", 'S', ModItems.components_scaffold, 'F', Blocks.furnace, 'B', Blocks.stonebrick });
@@ -45,6 +52,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_steel), new Object[] { "IBI", "ISI", "IBI", 'I', ModItems.ingot_steel, 'B', "ingotIron", 'S', ModItems.components_scaffold }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_mechanical), new Object[] { "FIF", "IGI", "FIF", 'I', "ingotIron", 'F', Items.flint, 'G', "ingotGold" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_electronics), new Object[] { "BRD", "RGR", "DRB", 'R', "dustRedstone", 'G', "ingotGold", 'B', Blocks.stone_button, 'D', Items.repeater }));
+		GameRegistry.addRecipe(new ItemStack(ModItems.components_plating), new Object[] { "GSG", "SBS", "GSG", 'G', Items.gold_nugget, 'S', ModItems.ingot_steel, 'B', ModItems.ingot_boron });
 		
 		GameRegistry.addRecipe(new ItemStack(ModItems.can, 24), new Object[] { "S S", " S ", 'S', ModItems.ingot_steel });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.canned_spam, 1), new Object[] { Items.fish, ModItems.can });
@@ -58,11 +66,16 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_rc, 1), new Object[] { "GI", "CI", "RI", 'G', Items.gold_ingot, 'I', Items.iron_ingot, 'C', Items.coal, 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_rc, 1), new Object[] { "GI", "RI", "CI", 'G', Items.gold_ingot, 'I', Items.iron_ingot, 'C', Items.coal, 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_rc_2, 1), new Object[] { "RCR", "RBR", "RBR", 'R', Items.redstone, 'C', ModItems.components_electronics, 'B', ModBlocks.machine_battery });
+
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_element, 1), new Object[] { "PSP", "PSP", "PSP", 'P', ModItems.components_plating, 'S', ModItems.components_steel });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rods, 1), new Object[] { "CBC", "PBP", "MSM", 'C', ModItems.components_electronics, 'B', ModItems.ingot_boron, 'P', ModItems.components_plating, 'S', ModItems.components_steel, 'M', ModItems.components_mechanical });
 	}
 	
 	public static void AddSmeltingRec() {
 
 		GameRegistry.addSmelting(ModItems.flour, new ItemStack(Items.bread), 0.5F);
 		GameRegistry.addSmelting(Items.bone, new ItemStack(Items.slime_ball), 0.25F);
+		GameRegistry.addSmelting(ModBlocks.ore_boron, new ItemStack(ModItems.ingot_boron), 3F);
+		GameRegistry.addSmelting(Blocks.coal_block, new ItemStack(ModItems.ingot_graphite), 3F);
 	}
 }

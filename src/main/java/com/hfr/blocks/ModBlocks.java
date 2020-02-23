@@ -30,6 +30,9 @@ public class ModBlocks {
 	public static Block hard_mesh;
 	public static Block concrete_hazard;
 	public static Block concrete_rocks;
+
+	public static Block ore_uranium;
+	public static Block ore_boron;
 	
 	public static Block temp;
 	public static Block uni_foundation;
@@ -112,6 +115,8 @@ public class ModBlocks {
 	public static Block machine_turbine;
 	public static final int guiID_turbine = 29;
 
+	public static Block teleporter;
+
 	public static Block hesco_block;
 	public static Block palisade;
 	public static Block stone_wall;
@@ -170,6 +175,9 @@ public class ModBlocks {
 		concrete_hazard = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_hazard").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_hazard");
 		concrete_rocks = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_rocks").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_rocks");
 
+		ore_uranium = new BlockGeneric(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("ore_uranium").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
+		ore_boron = new BlockGeneric(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("ore_boron").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_boron");
+
 		temp = new BlockTemporary(Material.ground).setStepSound(Block.soundTypeGravel).setBlockName("temp").setHardness(1.0F).setResistance(1.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":dirt_alt");
 		uni_foundation = new BlockSpeedy(Material.rock, 0.15D).setStepSound(soundTypeConcrete).setBlockName("uni_foundation").setHardness(5.0F).setResistance(1.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":uni_foundation");
 		asphalt = new BlockSpeedy(Material.rock, 0.25D).setStepSound(soundTypeConcrete).setBlockName("asphalt").setHardness(5.0F).setResistance(30.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":asphalt");
@@ -196,6 +204,8 @@ public class ModBlocks {
 		machine_market = new MachineMarket(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_market").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":market_side");
 		builder = new MachineBuilder(Material.iron).setStepSound(soundTypeMetal).setBlockName("builder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":builder_side");
 		box = new Box(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab);
+
+		teleporter = new BlockTeleporter(Material.rock).setStepSound(soundTypeMetal).setBlockName("teleporter").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":teleporter");
 		
 		rbmk_element = new RBMKElement(Material.iron).setStepSound(soundTypeMetal).setBlockName("rbmk_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":rbmk_element");
 		rbmk_rods = new RBMKRods(Material.iron).setStepSound(soundTypeMetal).setBlockName("rbmk_rods").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":rbmk_rods");
@@ -270,6 +280,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(concrete_hazard, ItemBlockLore.class, concrete_hazard.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_rocks, ItemBlockLore.class, concrete_rocks.getUnlocalizedName());
 		
+		GameRegistry.registerBlock(teleporter, teleporter.getUnlocalizedName());
+
+		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_boron, ore_boron.getUnlocalizedName());
+		
 		GameRegistry.registerBlock(temp, temp.getUnlocalizedName());
 		GameRegistry.registerBlock(uni_foundation, ItemBlockLore.class, uni_foundation.getUnlocalizedName());
 		GameRegistry.registerBlock(asphalt, ItemBlockLore.class, asphalt.getUnlocalizedName());
@@ -301,7 +316,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_waterwheel, ItemBlockLore.class, machine_waterwheel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_diesel, ItemBlockLore.class, machine_diesel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rift, ItemBlockLore.class, machine_rift.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());

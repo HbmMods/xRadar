@@ -17,6 +17,7 @@ import com.hfr.tileentity.machine.TileEntityMachineBuilder;
 import com.hfr.tileentity.machine.TileEntityMachineEMP;
 import com.hfr.tileentity.machine.TileEntityMachineMarket;
 import com.hfr.tileentity.machine.TileEntityMachineRadar;
+import com.hfr.tileentity.machine.TileEntityMachineTurbine;
 import com.hfr.tileentity.weapon.TileEntityNaval;
 import com.hfr.tileentity.weapon.TileEntityRailgun;
 
@@ -244,6 +245,12 @@ public class AuxButtonPacket implements IMessage {
 							}
 						}
 					}
+				}
+				
+				if (te instanceof TileEntityMachineTurbine) {
+					TileEntityMachineTurbine turbine = (TileEntityMachineTurbine)te;
+					
+					turbine.mode = m.id;
 				}
 				
 			} catch (Exception x) { }

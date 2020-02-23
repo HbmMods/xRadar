@@ -16,6 +16,7 @@ import com.hfr.packet.tile.TESRadarPacket;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -58,13 +59,6 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		if(this.yCoord < MainRegistry.radarAltitude)
 			return;
 		
-		/*if(!worldObj.isRemote && storage.getEnergyStored() == 0)
-			nearbyMissiles.clear();
-
-		if(!worldObj.isRemote) {
-			PacketDispatcher.wrapper.sendToAll(new TERadarDestructorPacket(xCoord, yCoord, zCoord, mode));
-		}*/
-		
 		if(storage.getEnergyStored() > 0) {
 
 			if(!worldObj.isRemote) {
@@ -88,7 +82,7 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 		
 		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, storage.getEnergyStored()));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, storage.getEnergyStored()), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
 		
 		pingTimer++;
 		
@@ -96,9 +90,6 @@ public class TileEntityMachineRadar extends TileEntity implements IEnergyHandler
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.sonarPing", 2.0F, 1.0F);
 			pingTimer = 0;
 		}
-		
-		if(MainRegistry.freeRadar)
-			this.storage.setEnergyStored(storage.getMaxEnergyStored());
 	}
 	
 	private void allocateMissiles() {

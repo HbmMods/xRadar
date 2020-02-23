@@ -6,13 +6,17 @@ import java.util.Random;
 
 import com.hfr.ai.*;
 import com.hfr.data.AntiMobData;
+import com.hfr.data.CBTData;
+import com.hfr.data.CBTData.CBTEntry;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.handler.SLBMHandler;
+import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.CBTPacket;
 import com.hfr.packet.effect.SLBMOfferPacket;
 import com.hfr.packet.tile.SRadarPacket;
 import com.hfr.packet.tile.SchemOfferPacket;
@@ -35,6 +39,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -207,7 +212,7 @@ public class CommonEventHandler {
 			
 			timer++;
 			
-			/*if(timer % (60 * 20) == 0) {
+			if(timer % (60 * 20) == 0) {
 				
 				CBTData cbtdata = CBTData.getData(world);
 		        MinecraftServer minecraftserver = MinecraftServer.getServer();
@@ -220,7 +225,7 @@ public class CommonEventHandler {
 		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
 		            }
 				}
-			}*/
+			}
 			
 			if(MainRegistry.enableStocks && timer % (MainRegistry.updateInterval * 20) == 0) {
 				
@@ -335,8 +340,14 @@ public class CommonEventHandler {
 		
 		if(MainRegistry.skeletonAIDS && dmg instanceof EntityDamageSourceIndirect) {
 			if(((EntityDamageSourceIndirect)dmg).getEntity() instanceof EntitySkeleton) {
-				e.worldObj.newExplosion(((EntityDamageSourceIndirect)dmg).getEntity(), e.posX + r.nextGaussian() * 0.5, e.posY + 1.5, e.posZ + r.nextGaussian() * 0.5, 1.5F, false, false);
+				e.worldObj.newExplosion(((EntityDamageSourceIndirect)dmg).getEntity(), e.posX + r.nextGaussian() * 0.5,
+					e.posY + 1.5, e.posZ + r.nextGaussian() * 0.5, 1.5F, false, false);
 			}
+		}
+
+		if(e.getEquipmentInSlot(2) != null && e.getEquipmentInSlot(2).getItem() == ModItems.graphene_vest) {
+			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
+			event.setCanceled(true);
 		}
 	}
 }

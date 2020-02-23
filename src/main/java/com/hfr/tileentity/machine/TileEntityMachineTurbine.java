@@ -21,6 +21,8 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 
 	public EnergyStorage storage = new EnergyStorage(100000000, 100000, 100000);
 	
+	public int mode = 0;
+	
 	public FluidTank water;
 	public FluidTank steam;
 
@@ -29,6 +31,8 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 		
 		steam = new FluidTank(FluidHandler.STEAM, 0, 128000);
 		water = new FluidTank(FluidRegistry.WATER, 0, 128000);
+		
+		mode = 1;
 	}
 
 	@Override
@@ -40,10 +44,28 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			int process = Math.min(steam.getFluidAmount(), 500);
+			
+			if(mode == 1)
+				process = Math.min(process, water.getCapacity() - water.getFluidAmount());
+			
+			if(process > 0) {
+				steam.getFluid().amount -= process;
+				
+				if(mode != 0)
+					water.getFluid().amount += process;
+				
+				this.markDirty();
+			}
+			
+			if(mode == 0)
+				water.getFluid().amount = 0;
 
 			this.updateGauge(water.getFluidAmount(), 0, 25);
 			this.updateGauge(steam.getFluidAmount(), 1, 25);
 			this.updateGauge(storage.getEnergyStored(), 2, 25);
+			this.updateGauge(mode, 3, 25);
 		}
 	}
 	
@@ -52,6 +74,7 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 		case 0: water.getFluid().amount = val; break;
 		case 1: steam.getFluid().amount = val; break;
 		case 2: storage.setEnergyStored(val); break;
+		case 3: mode = val; break;
 		}
 	}
 
@@ -72,7 +95,8 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 			
 			FluidStack sauce = resource.copy();
 			sauce.amount = fill;
-			
+
+			this.markDirty();
 			return steam.fill(sauce, doFill);
 		}
 		
@@ -83,7 +107,14 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		
 		if(canDrain(from, resource.getFluid()) && water.getFluidAmount() > 0) {
-			return water.drain(Math.min(water.getFluidAmount(), resource.amount), doDrain);
+			this.markDirty();
+			
+			FluidStack drain = water.drain(Math.min(water.getFluidAmount(), resource.amount), doDrain);
+			
+			if(water.getFluid() == null)
+				water.setFluid(new FluidStack(FluidRegistry.WATER, 0));
+			
+			return drain;
 		}
 		
 		return null;
@@ -93,7 +124,14 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		
 		if(water.getFluidAmount() > 0) {
-			return water.drain(Math.min(water.getFluidAmount(), maxDrain), doDrain);
+			this.markDirty();
+			
+			FluidStack drain = water.drain(Math.min(water.getFluidAmount(), maxDrain), doDrain);
+			
+			if(water.getFluid() == null)
+				water.setFluid(new FluidStack(FluidRegistry.WATER, 0));
+			
+			return drain;
 		}
 		
 		return null;
@@ -146,6 +184,14 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 
 		water.readFromNBT(nbt);
 		steam.readFromNBT(nbt);
+		
+		if(water.getFluid() == null)
+			water.setFluid(new FluidStack(FluidRegistry.WATER, 0));
+		
+		if(steam.getFluid() == null)
+			steam.setFluid(new FluidStack(FluidHandler.STEAM, 0));
+		
+		this.mode = nbt.getInteger("mode");
 	}
 	
 	@Override
@@ -154,6 +200,8 @@ public class TileEntityMachineTurbine extends TileEntityMachineBase implements I
 
 		water.writeToNBT(nbt);
 		steam.writeToNBT(nbt);
+		
+		nbt.setInteger("mode", mode);
 	}
 	
 	public int getPowerScaled(int i) {

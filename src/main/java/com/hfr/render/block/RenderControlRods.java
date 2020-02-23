@@ -53,9 +53,9 @@ public class RenderControlRods implements ISimpleBlockRenderingHandler {
         
         tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
 		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rbmk_rods_base, iicon, tessellator, 0, true);
-        tessellator.addTranslation(0, 0.75F, 0);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rbmk_rods, iicon, tessellator, 0, false);
-        tessellator.addTranslation(0, -0.75F, 0);
+        //tessellator.addTranslation(0, 0.75F, 0);
+		//ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rbmk_rods, iicon, tessellator, 0, false);
+        //tessellator.addTranslation(0, -0.75F, 0);
         tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
         
 		return true;

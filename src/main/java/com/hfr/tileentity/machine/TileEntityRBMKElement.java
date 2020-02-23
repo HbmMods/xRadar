@@ -64,6 +64,17 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 		irradiate(ForgeDirection.EAST, reactivity);
 		irradiate(ForgeDirection.WEST, reactivity);
 		
+		int conv = 100;
+
+		int defacto = Math.min(steam.getCapacity() - steam.getFluidAmount(), water.getFluidAmount());
+		defacto = (int) Math.min(defacto, reactivity * conv / maxReactivity);
+		
+		if(defacto > 0) {
+			steam.getFluid().amount += defacto;
+			water.getFluid().amount -= defacto;
+			this.markDirty();
+		}
+		
 		this.reactivity = 0;
 	}
 	
@@ -240,6 +251,12 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 
 		water.readFromNBT(nbt);
 		steam.readFromNBT(nbt);
+		
+		if(water.getFluid() == null)
+			water.setFluid(new FluidStack(FluidRegistry.WATER, 0));
+		
+		if(steam.getFluid() == null)
+			steam.setFluid(new FluidStack(FluidHandler.STEAM, 0));
 	}
 	
 	@Override
@@ -270,7 +287,9 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 			//creates a copy of the fluidstack but with the cap in mind
 			FluidStack sauce = resource.copy();
 			sauce.amount = fill;
-			
+
+
+			this.markDirty();
 			return water.fill(sauce, doFill);
 		}
 		
@@ -281,7 +300,14 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		
 		if(canDrain(from, resource.getFluid()) && steam.getFluidAmount() > 0) {
-			return steam.drain(Math.min(steam.getFluidAmount(), resource.amount), doDrain);
+			this.markDirty();
+			
+			FluidStack drain = steam.drain(Math.min(steam.getFluidAmount(), resource.amount), doDrain);
+			
+			if(steam.getFluid() == null)
+				steam.setFluid(new FluidStack(FluidHandler.STEAM, 0));
+			
+			return drain;
 		}
 		
 		return null;
@@ -291,7 +317,14 @@ public class TileEntityRBMKElement extends TileEntityMachineBase implements IFlu
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		
 		if(steam.getFluidAmount() > 0) {
-			return steam.drain(Math.min(steam.getFluidAmount(), maxDrain), doDrain);
+			this.markDirty();
+			
+			FluidStack drain = steam.drain(Math.min(steam.getFluidAmount(), maxDrain), doDrain);
+			
+			if(steam.getFluid() == null)
+				steam.setFluid(new FluidStack(FluidHandler.STEAM, 0));
+			
+			return drain;
 		}
 		
 		return null;
