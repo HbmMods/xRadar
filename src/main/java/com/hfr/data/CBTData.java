@@ -37,7 +37,8 @@ public class CBTData extends WorldSavedData {
 			entries.add(new CBTEntry(
 				nbt.getString(i + "_name"),
 				nbt.getBoolean(i + "_fps"),
-				nbt.getBoolean(i + "_tilt")
+				nbt.getBoolean(i + "_tilt"),
+				nbt.getBoolean(i + "_shader")
 			));
 		}
 		
@@ -53,6 +54,7 @@ public class CBTData extends WorldSavedData {
 			nbt.setString(i + "_name", entries.get(i).player);
 			nbt.setBoolean(i + "_fps", entries.get(i).fps);
 			nbt.setBoolean(i + "_tilt", entries.get(i).tilt);
+			nbt.setBoolean(i + "_shader", entries.get(i).shader);
 		}
 	}
 	
@@ -72,15 +74,17 @@ public class CBTData extends WorldSavedData {
 		public String player;
 		public boolean fps;
 		public boolean tilt;
+		public boolean shader;
 		
 		public CBTEntry(String player){
 			this.player = player;
 		}
 		
-		public CBTEntry(String player, boolean fps, boolean tilt){
+		public CBTEntry(String player, boolean fps, boolean tilt, boolean shader){
 			this.player = player;
 			this.fps = fps;
 			this.tilt = tilt;
+			this.shader = shader;
 		}
 	}
 

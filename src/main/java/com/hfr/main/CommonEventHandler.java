@@ -119,7 +119,7 @@ public class CommonEventHandler {
 								if("EntityVehicle".equals(bogey.getClass().getSimpleName()))
 									type = 3;
 								
-								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, type));
+								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, (float)entBogey.posX, (float)entBogey.posZ, type));
 							
 							}
 						}
@@ -222,7 +222,7 @@ public class CommonEventHandler {
 		            EntityPlayerMP target = minecraftserver.getConfigurationManager().func_152612_a(entry.player);
 		            
 		            if(target != null) {
-		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
+		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt, entry.shader), target);
 		            }
 				}
 			}

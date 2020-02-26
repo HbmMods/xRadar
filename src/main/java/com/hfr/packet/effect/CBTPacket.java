@@ -13,13 +13,15 @@ public class CBTPacket implements IMessage {
 	
 	boolean fps;
 	boolean tilt;
+	boolean shader;
 
 	public CBTPacket() { }
 
-	public CBTPacket(boolean fps, boolean tilt) {
+	public CBTPacket(boolean fps, boolean tilt, boolean shader) {
 		
 		this.fps = fps;
 		this.tilt = tilt;
+		this.shader = shader;
 	}
 
 	@Override
@@ -27,6 +29,7 @@ public class CBTPacket implements IMessage {
 		
 		fps = buf.readBoolean();
 		tilt = buf.readBoolean();
+		shader = buf.readBoolean();
 	}
 
 	@Override
@@ -34,6 +37,7 @@ public class CBTPacket implements IMessage {
 		
 		buf.writeBoolean(fps);
 		buf.writeBoolean(tilt);
+		buf.writeBoolean(shader);
 	}
 
 	public static class Handler implements IMessageHandler<CBTPacket, IMessage> {
@@ -44,6 +48,7 @@ public class CBTPacket implements IMessage {
 			
 			EventHandlerClient.fps = m.fps;
 			EventHandlerClient.tilt = m.tilt;
+			EventHandlerClient.shader = m.shader;
 			
 			return null;
 		}

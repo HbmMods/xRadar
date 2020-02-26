@@ -122,6 +122,8 @@ public class ModItems {
 	public static Item battery;
 	public static Item oil_detector;
 	public static Item gas_mask;
+	public static Item gas_mask_grey;
+	public static Item gas_mask_black;
 	public static Item graphene_vest;
 	public static Item clowder_banner;
 	public static Item grenade_gas;
@@ -262,6 +264,8 @@ public class ModItems {
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":oil_detector");
 		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask");
+		gas_mask_grey = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask_grey").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask_grey");
+		gas_mask_black = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask_black").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask_black");
 		graphene_vest = new ItemSpecialArmor(matGasMask, 5, 2).setUnlocalizedName("graphene_vest").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":graphene_vest");
 		clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
 		grenade_gas = new ItemGrenade(4).setUnlocalizedName("grenade_gas").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_gas");
@@ -290,7 +294,7 @@ public class ModItems {
 		repair_3 = new ItemRepair(100).setUnlocalizedName("repair_3").setMaxStackSize(16).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":repair_3");
 		
 		sexlol = new ItemLore().setUnlocalizedName("sexlol").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":sexlol");
-		can = new ItemLore().setUnlocalizedName("can").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":can");
+		can = new ItemCan().setUnlocalizedName("can").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":can");
 		canned_spam = new ItemModFood(5).setUnlocalizedName("canned_spam").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_spam");
 		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
 		
@@ -303,6 +307,8 @@ public class ModItems {
 		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
+		GameRegistry.registerItem(gas_mask_grey, gas_mask_grey.getUnlocalizedName());
+		GameRegistry.registerItem(gas_mask_black, gas_mask_black.getUnlocalizedName());
 		GameRegistry.registerItem(graphene_vest, graphene_vest.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
 		

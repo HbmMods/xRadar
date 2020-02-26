@@ -42,7 +42,7 @@ public class SRadarPacket implements IMessage {
 		blips = new Blip[buf.readInt()];
 		
 		for(int i = 0; i < blips.length; i++) {
-			blips[i] = new Blip(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readShort());
+			blips[i] = new Blip(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readShort());
 		}
 	}
 
@@ -59,6 +59,8 @@ public class SRadarPacket implements IMessage {
 			buf.writeFloat(blips[i].x);
 			buf.writeFloat(blips[i].y);
 			buf.writeFloat(blips[i].z);
+			buf.writeFloat(blips[i].posX);
+			buf.writeFloat(blips[i].posZ);
 			buf.writeShort(blips[i].type);
 		}
 	}
@@ -73,7 +75,7 @@ public class SRadarPacket implements IMessage {
 			
 			if(m.blips != null)
 				for(Blip blip : m.blips)
-					MainRegistry.proxy.addBlip(blip.x, blip.y, blip.z, blip.type);
+					MainRegistry.proxy.addBlip(blip.x, blip.y, blip.z, blip.posX, blip.posZ, blip.type);
 			
 			return null;
 		}

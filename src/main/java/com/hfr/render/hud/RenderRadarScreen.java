@@ -132,7 +132,14 @@ public class RenderRadarScreen {
 			if(Math.sqrt(x + z) > size * 0.35)
 				continue;
 
-	        minecraft.fontRenderer.drawString("" + Math.round(blip.y), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 6), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 4), 0xBBFFBB);
+			if(blip.type != 3) {
+				minecraft.fontRenderer.drawString("" + Math.round(blip.y), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 6), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 4), 0xBBFFBB);
+			} else {
+				
+				minecraft.fontRenderer.drawString("" + Math.round(blip.posX), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 4), 0xFFBBBB);
+				minecraft.fontRenderer.drawString("" + Math.round(blip.posZ), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 12), 0xFFBBBB);
+				
+			}
 		}
 		GL11.glScalef(fontScale, fontScale, fontScale);
 		
@@ -182,12 +189,16 @@ public class RenderRadarScreen {
 		public float x;
 		public float y;
 		public float z;
+		public float posX;
+		public float posZ;
 		public int type;
 		
-		public Blip(float x, float y, float z, int type) {
+		public Blip(float x, float y, float z, float posX, float posZ, int type) {
 			this.x = x;
 			this.y = y;
 			this.z = z;
+			this.posX = posX;
+			this.posZ = posZ;
 			this.type = type;
 		}
 	}

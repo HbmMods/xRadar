@@ -33,6 +33,7 @@ public class EventHandlerClient {
 	
 	public static boolean fps = false;
 	public static boolean tilt = false;
+	public static boolean shader = false;
 	
 	public void register() {
 
@@ -120,6 +121,10 @@ public class EventHandlerClient {
 		
 		if(tilt) {
 			Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
+		}
+		
+		if(shader && player.getRNG().nextInt(500) == 0) {
+			Minecraft.getMinecraft().entityRenderer.activateNextShader();
 		}
 	}
 	

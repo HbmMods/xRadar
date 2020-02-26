@@ -53,10 +53,11 @@ public class CommandXPlayer extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + getCommandUsage(sender)));
 		} else {
 
-			if(!"cbt".equals(args[0]) && !"ramranch".equals(args[0]) && !"fps".equals(args[0]) && !"tilt".equals(args[0])) {
+			if(!"cbt".equals(args[0]) && !"ramranch".equals(args[0]) && !"fps".equals(args[0]) && !"tilt".equals(args[0]) && !"shader".equals(args[0]) && !"vomit".equals(args[0])) {
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Availible modes:"));
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "  -cbt OR fps (5 FPS mode)"));
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "  -ramranch OR tilt (screen gymnastics)"));
+				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "  -vomit OR shader (rapidly alternaating shaders)"));
 				return;
 			}
 			
@@ -87,9 +88,16 @@ public class CommandXPlayer extends CommandBase {
 						sender.addChatMessage(new ChatComponentText("Enabled tilt mode for player " + args[1]));
 					else
 						sender.addChatMessage(new ChatComponentText("Disabled tilt mode for player " + args[1]));
+				} else if("vomit".equals(args[0]) || "shader".equals(args[0])) {
+					entry.shader = !entry.shader;
+					
+					if(entry.shader)
+						sender.addChatMessage(new ChatComponentText("Enabled shader mode for player " + args[1]));
+					else
+						sender.addChatMessage(new ChatComponentText("Disabled shader mode for player " + args[1]));
 				}
 
-            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt), target);
+            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt, entry.shader), target);
             	
 				data.markDirty();
             	

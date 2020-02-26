@@ -97,6 +97,13 @@ public class BlockClorine extends Block {
     	
     	if(player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask)
     		return true;
+    	
+    	if(player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_grey)
+    		return true;
+    	
+    	if(player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_black)
+    		return true;
+    	
     	return false;
     }
 

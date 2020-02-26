@@ -15,13 +15,17 @@ public class VRadarPacket implements IMessage {
 	float x;
 	float y;
 	float z;
+	float posX;
+	float posZ;
 
 	public VRadarPacket() { }
 
-	public VRadarPacket(float x, float y, float z) {
+	public VRadarPacket(float x, float y, float z, float posX, float posZ) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.posX = posX;
+		this.posZ = posZ;
 	}
 
 	@Override
@@ -29,6 +33,8 @@ public class VRadarPacket implements IMessage {
 		x = buf.readFloat();
 		y = buf.readFloat();
 		z = buf.readFloat();
+		posX = buf.readFloat();
+		posZ = buf.readFloat();
 	}
 
 	@Override
@@ -36,6 +42,8 @@ public class VRadarPacket implements IMessage {
 		buf.writeFloat(x);
 		buf.writeFloat(y);
 		buf.writeFloat(z);
+		buf.writeFloat(posX);
+		buf.writeFloat(posZ);
 	}
 
 	public static class Handler implements IMessageHandler<VRadarPacket, IMessage> {
@@ -44,7 +52,7 @@ public class VRadarPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(VRadarPacket m, MessageContext ctx) {
 			
-			MainRegistry.proxy.addBlip(m.x, m.y, m.z, 0);
+			MainRegistry.proxy.addBlip(m.x, m.y, m.z, m.posX, m.posZ, 0);
 			
 			return null;
 		}

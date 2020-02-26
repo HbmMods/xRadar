@@ -278,6 +278,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			owner.addPrestigeGen(getGenRate(), worldObj);
 			owner.addPrestigeReq(getCost(), worldObj);
 		}
+		
+		this.markDirty();
 	}
 	
 	public void setMode(int mode) {
@@ -307,6 +309,8 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		//...and add the new ones
 		owner.addPrestigeGen(afterGen, worldObj);
 		owner.addPrestigeReq(afterCost, worldObj);
+		
+		this.markDirty();
 	}
 	
 	private boolean consumeToken() {

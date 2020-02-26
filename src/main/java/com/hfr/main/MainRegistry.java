@@ -864,6 +864,10 @@ public class MainRegistry
         		logger.error("Invalid config entry '" + val + "'");
         	}
         }
+        
+
+    	EnumHelper.addEnum(ClowderFlag.class, "GETTY", new Class[] { String.class, boolean.class }, new Object[] {"getty", false} );
+    	EnumHelper.addEnum(ClowderFlag.class, "COMRADES", new Class[] { String.class, boolean.class }, new Object[] {"comrades", false} );
 
         warpCost = createConfigInt(config, "CLOWDER", "warpCost", "How much prestige a warp point costs to create", 25);
         territoryDelay = createConfigInt(config, "CLOWDER", "territoryDelay", "How many ticks inbetween territory validation operations", 5);

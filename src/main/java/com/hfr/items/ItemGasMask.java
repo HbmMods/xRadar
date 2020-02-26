@@ -36,6 +36,13 @@ public class ItemGasMask extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+
+		if(stack.getItem() == ModItems.gas_mask_grey)
+			return "hfr:textures/armor/ModelM65Grey.png";
+		
+		if(stack.getItem() == ModItems.gas_mask_black)
+			return "hfr:textures/armor/ModelM65Black.png";
+		
 		return "hfr:textures/armor/ModelM65.png";
 	}
 }

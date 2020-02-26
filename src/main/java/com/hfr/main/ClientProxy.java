@@ -290,9 +290,9 @@ public class ClientProxy extends ServerProxy
 	}
 	
 	@Override
-	public void addBlip(float x, float y, float z, int type) {
+	public void addBlip(float x, float y, float z, float posX, float posZ, int type) {
 		
-		RenderRadarScreen.blips.add(new Blip(x, y, z, type));
+		RenderRadarScreen.blips.add(new Blip(x, y, z, posX, posZ, type));
 	}
 	
 	@Override
