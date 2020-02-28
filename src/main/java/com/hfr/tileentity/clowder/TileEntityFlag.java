@@ -456,29 +456,23 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		String own = nbt.getString("owner");
-		
-		/*if(!own.isEmpty())
-			MainRegistry.logger.info("Reading owner from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + own + " (old name system, ignore)");
-		else
-			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was not read! (blank NBT) (old name system, ignore)");*/
-		
 		this.owner = Clowder.getClowderFromName(own);
-		
-		/*if(owner != null)
-			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name + " (old name system, ignore)");
-		else if(!own.isEmpty())
-			MainRegistry.logger.info("Owner of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list! (old name system, ignore)");*/
+		boolean isNull = nbt.getBoolean("isNull");
 		
 		if(owner == null) {
 
 			String id = nbt.getString("clow_uuid");
-			//MainRegistry.logger.info("Reading owner ID from flag " + xCoord + " " + yCoord + " " + zCoord + " as " + id);
 			this.owner = Clowder.getClowderFromUUID(id);
 			
-			if(owner != null)
-				MainRegistry.logger.info("Owner of flag (" + id + ") " + xCoord + " " + yCoord + " " + zCoord + " was finalized as " + owner.name);
-			else if(!own.isEmpty())
-				MainRegistry.logger.info("Owner of flag (" + id + ") " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list!");
+			if(!isNull) {
+				
+				if(owner == null) {
+					MainRegistry.logger.info("Owner (" + id + ") of flag " + xCoord + " " + yCoord + " " + zCoord + " was saved NN but finalized as null!");
+				}
+			}
+			
+			if(owner == null && !id.isEmpty())
+				MainRegistry.logger.info("Owner (" + id + ") of flag " + xCoord + " " + yCoord + " " + zCoord + " was set in NBT but not found in te clowder list!");
 		}
 		
 		this.isClaimed = nbt.getBoolean("isClaimed");
@@ -497,9 +491,6 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-		
-		//if(owner != null && mode > 0)
-		//	generateClaim();
 	}
 	
 	@Override
@@ -507,10 +498,10 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		super.writeToNBT(nbt);
 
 		if(owner != null) {
-			MainRegistry.logger.info("Writing owner for flag " + xCoord + " " + yCoord + " " + zCoord + " as " + owner.uuid);
+			nbt.setBoolean("isNull", false);
 			nbt.setString("clow_uuid", owner.uuid);
 		} else {
-			MainRegistry.logger.info("Writing owner for flag " + xCoord + " " + yCoord + " " + zCoord + " as null!");
+			nbt.setBoolean("isNull", true);
 		}
 		
 		nbt.setBoolean("isClaimed", isClaimed);

@@ -47,6 +47,7 @@
     "item.toggle": {"category": "record", "sounds": [{"name": "tool/toggle", "stream": false}]},
     "item.doot": {"category": "record", "sounds": [{"name": "tool/doot", "stream": false}]},
     "item.launch": {"category": "record", "sounds": [{"name": "tool/launch", "stream": false}]},
+    "item.milk": {"category": "player", "sounds": ["tool/milk1", "tool/milk2", "tool/milk3"]},
     
     "explosion.close": {"category": "block", "sounds": [{"name": "explosion/explosion_close", "stream": false}]},
     "explosion.medium": {"category": "block", "sounds": [{"name": "explosion/explosion_medium", "stream": false}]},

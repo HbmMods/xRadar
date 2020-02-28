@@ -1,12 +1,14 @@
  package com.hfr.main;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityBreakingFX;
 import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.client.particle.EntityLargeExplodeFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -279,6 +281,16 @@ public class ClientProxy extends ServerProxy
 			}
 			
 			break;
+			
+			/// CUMMIES ///
+			case 3:
+				
+				EntityBreakingFX cum = new EntityBreakingFX(world, posX, posY, posZ, Items.snowball);
+				cum.motionX = ((double[])payload)[0];
+				cum.motionY = ((double[])payload)[1];
+				cum.motionZ = ((double[])payload)[2];
+				Minecraft.getMinecraft().effectRenderer.addEffect(cum);
+				break;
 			
 		default: break;
 		
