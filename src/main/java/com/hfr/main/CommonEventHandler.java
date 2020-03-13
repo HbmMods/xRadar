@@ -10,6 +10,7 @@ import com.hfr.data.CBTData;
 import com.hfr.data.CBTData.CBTEntry;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
+import com.hfr.dim.WorldProviderMoon;
 import com.hfr.handler.SLBMHandler;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry.ControlEntry;
@@ -32,11 +33,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -170,6 +173,14 @@ public class CommonEventHandler {
 			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 2);
 			vec.rotateAroundY((float) (Math.PI * 2D / 3D));
 			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 3);
+		}
+		
+		if(player.worldObj.provider instanceof WorldProviderMoon) {
+			
+			if(!player.capabilities.isFlying) {
+				player.motionY += 0.035D;
+				player.fallDistance = 0;
+			}
 		}
 	}
 	
@@ -319,6 +330,17 @@ public class CommonEventHandler {
 				ent.addPotionEffect(new PotionEffect(meta[0], meta[1], meta[2]));
 			}
 		}
+		
+		if(event.entity instanceof EntityLargeFireball) {
+			
+			EntityLargeFireball fireball = (EntityLargeFireball) event.entity;
+			
+			if(fireball.shootingEntity instanceof EntityGhast) {
+				fireball.accelerationX *= 10;
+				fireball.accelerationY *= 10;
+				fireball.accelerationZ *= 10;
+			}
+		}
 	}
 
 	//for handling damage immunity
@@ -349,5 +371,6 @@ public class CommonEventHandler {
 			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 			event.setCanceled(true);
 		}
+		
 	}
 }

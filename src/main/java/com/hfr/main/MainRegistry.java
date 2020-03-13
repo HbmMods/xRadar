@@ -7,6 +7,8 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -36,6 +38,9 @@ import com.hfr.clowder.*;
 import com.hfr.command.*;
 import com.hfr.data.*;
 import com.hfr.data.StockData.Stock;
+import com.hfr.dim.BiomeGenMoon;
+import com.hfr.dim.WorldGeneratorMoon;
+import com.hfr.dim.WorldProviderMoon;
 import com.hfr.entity.*;
 import com.hfr.entity.grenade.*;
 import com.hfr.entity.logic.*;
@@ -76,6 +81,8 @@ public class MainRegistry
 	public static ModMetadata meta;
 	
 	public static Logger logger;
+	
+	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon();
 	
 	public static int radarRange = 1000;
 	public static int radarBuffer = 30;
@@ -324,6 +331,10 @@ public class MainRegistry
 		MinecraftForge.EVENT_BUS.register(handler);
 		MinecraftForge.EVENT_BUS.register(clowder);
 		//MinecraftForge.EVENT_BUS.register(pon4);
+		
+		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
+		DimensionManager.registerProviderType(15, WorldProviderMoon.class, false);
+	    DimensionManager.registerDimension(15, 15);
 	}
 
 	@EventHandler
