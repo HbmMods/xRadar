@@ -32,6 +32,8 @@ public class ModBlocks {
 	public static Block concrete_rocks;
 
 	public static Block soil_moon;
+
+	public static Block rice;
 	
 	public static Block ore_uranium;
 	public static Block ore_boron;
@@ -178,6 +180,8 @@ public class ModBlocks {
 		concrete_rocks = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_rocks").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_rocks");
 
 		soil_moon = new BlockGeneric(Material.sand).setStepSound(Block.soundTypeGravel).setBlockName("soil_moon").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_moon");
+
+		rice = new BlockRice().setBlockName("rice").setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":rice");
 		
 		ore_uranium = new BlockGeneric(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("ore_uranium").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
 		ore_boron = new BlockGeneric(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("ore_boron").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_boron");
@@ -287,6 +291,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(teleporter, teleporter.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(soil_moon, soil_moon.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(rice, rice.getUnlocalizedName());
 
 		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_boron, ore_boron.getUnlocalizedName());

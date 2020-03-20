@@ -8,6 +8,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderMoon extends WorldProvider {
 	
@@ -16,8 +17,6 @@ public class WorldProviderMoon extends WorldProvider {
 		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoon(111), dimensionId);
 		this.dimensionId = 15;
 		this.hasNoSky = false;
-		
-		this.setSkyRenderer(new SkyProviderMoon());
 	}
 
 	@Override
@@ -65,6 +64,11 @@ public class WorldProviderMoon extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public float getCloudHeight()
     {
-        return -100;
-    }
+		return -100;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IRenderHandler getSkyRenderer() {
+		return new SkyProviderMoon();
+	}
 }

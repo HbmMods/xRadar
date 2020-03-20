@@ -6,6 +6,7 @@ import com.hfr.main.MainRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemFood;
 import net.minecraftforge.common.util.EnumHelper;
 
 public class ModItems {
@@ -42,6 +43,11 @@ public class ModItems {
 	public static Item miner;
 	public static Item miner_supplies;
 	public static Item canary;
+
+	public static Item rice;
+	public static Item rice_seeds;
+	public static Item rice_bag;
+	public static Item rice_sticky;
 
 	public static Item designator;
 	public static Item designator_range;
@@ -199,6 +205,11 @@ public class ModItems {
 		miner_supplies = new ItemLore().setUnlocalizedName("miner_supplies").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":miner_supplies");
 		canary = new ItemLore().setUnlocalizedName("canary").setMaxStackSize(4).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canary");
 		
+		rice = new ItemLore().setUnlocalizedName("rice").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice");
+		rice_seeds = new ItemRice().setUnlocalizedName("rice_seeds").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice_seeds");
+		rice_bag = new ItemLore().setUnlocalizedName("rice_bag").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice_bag");
+		rice_sticky = new ItemFood(5, false).setUnlocalizedName("rice_sticky").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice_sticky");
+		
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_range");
 		designator_manual = new ItemDesingatorManual().setUnlocalizedName("designator_manual").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_manual");
@@ -350,6 +361,11 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_graphene, ingot_graphene.getUnlocalizedName());
+
+		GameRegistry.registerItem(rice, rice.getUnlocalizedName());
+		GameRegistry.registerItem(rice_seeds, rice_seeds.getUnlocalizedName());
+		GameRegistry.registerItem(rice_sticky, rice_sticky.getUnlocalizedName());
+		GameRegistry.registerItem(rice_bag, rice_bag.getUnlocalizedName());
 
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
 		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());

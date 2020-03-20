@@ -35,8 +35,10 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_boron, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_boron });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_graphite, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_graphite });
+		GameRegistry.addRecipe(new ItemStack(ModItems.rice_bag, 1), new Object[] { "###", "###", "###", '#', ModItems.rice });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_boron, 9), new Object[] { "#", '#', ModBlocks.block_boron });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_graphite, 9), new Object[] { "#", '#', ModBlocks.block_graphite });
+		GameRegistry.addRecipe(new ItemStack(ModItems.rice, 9), new Object[] { "#", '#', ModItems.rice_bag });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.graphene_vest, 1), new Object[] { "# #", "###", "###", '#', ModItems.ingot_graphene });
 
@@ -77,5 +79,6 @@ public class CraftingManager {
 		GameRegistry.addSmelting(Items.bone, new ItemStack(Items.slime_ball), 0.25F);
 		GameRegistry.addSmelting(ModBlocks.ore_boron, new ItemStack(ModItems.ingot_boron), 3F);
 		GameRegistry.addSmelting(Blocks.coal_block, new ItemStack(ModItems.ingot_graphite), 3F);
+		GameRegistry.addSmelting(ModItems.rice, new ItemStack(ModItems.rice_sticky), 0.5F);
 	}
 }

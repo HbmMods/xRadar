@@ -101,6 +101,7 @@ tile.concrete_rocks.name=Broken Concrete
 tile.temp.name=Temporary Block
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
+tile.rice.name=Rice Plant
 
 tile.ore_uranium.name=Uranium Ore
 tile.ore_boron.name=Boron Ore
@@ -191,6 +192,11 @@ item.components_plating.name=Reinforced Plating
 item.ingot_boron.name=Boron Ingot
 item.ingot_graphite.name=Graphite Brick
 item.ingot_graphene.name=Graphene Brick
+
+item.rice.name=Raw Rice
+item.rice_seeds.name=Rice Seeds
+item.rice_bag.name=Bag of Rice
+item.rice_sticky.name=Sticky Rice
 
 item.tidal_energy.name=Tidal Energy
 item.whale_meat.name=Whale Meat
