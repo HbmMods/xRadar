@@ -48,6 +48,7 @@ public class S_Face {
 			averageV /= this.textureCoordinates.length;
 		}
 		
+		if(vertices.length == 3)
 		for (int i = 0; i < this.vertices.length; i++) {
 			
 			if ((this.textureCoordinates != null) && (this.textureCoordinates.length > 0)) {

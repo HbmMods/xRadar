@@ -80,5 +80,7 @@ public class CraftingManager {
 		GameRegistry.addSmelting(ModBlocks.ore_boron, new ItemStack(ModItems.ingot_boron), 3F);
 		GameRegistry.addSmelting(Blocks.coal_block, new ItemStack(ModItems.ingot_graphite), 3F);
 		GameRegistry.addSmelting(ModItems.rice, new ItemStack(ModItems.rice_sticky), 0.5F);
+		GameRegistry.addSmelting(ModItems.mutton_raw, new ItemStack(ModItems.mutton_cooked), 0.5F);
+		GameRegistry.addSmelting(ModItems.squid_raw, new ItemStack(ModItems.squid_cooked), 0.5F);
 	}
 }

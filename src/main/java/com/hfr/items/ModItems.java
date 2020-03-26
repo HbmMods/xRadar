@@ -48,6 +48,10 @@ public class ModItems {
 	public static Item rice_seeds;
 	public static Item rice_bag;
 	public static Item rice_sticky;
+	public static Item mutton_raw;
+	public static Item mutton_cooked;
+	public static Item squid_raw;
+	public static Item squid_cooked;
 
 	public static Item designator;
 	public static Item designator_range;
@@ -117,6 +121,8 @@ public class ModItems {
 	public static Item cog_3;
 	public static Item cog_4;
 	public static Item cog_5;
+	public static Item scroll;
+	
 	public static Item coin;
 	public static Item wrench;
 	public static Item province_point;
@@ -132,6 +138,7 @@ public class ModItems {
 	public static Item gas_mask_black;
 	public static Item graphene_vest;
 	public static Item clowder_banner;
+	public static Item lead_boots;
 	public static Item grenade_gas;
 	public static Item grenade_nuclear;
 	public static Item grenade_boxcar;
@@ -209,6 +216,10 @@ public class ModItems {
 		rice_seeds = new ItemRice().setUnlocalizedName("rice_seeds").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice_seeds");
 		rice_bag = new ItemLore().setUnlocalizedName("rice_bag").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice_bag");
 		rice_sticky = new ItemFood(5, false).setUnlocalizedName("rice_sticky").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":rice_sticky");
+		mutton_raw = new ItemFood(3, 0.3F, false).setUnlocalizedName("mutton_raw").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mutton_raw");
+		mutton_cooked = new ItemFood(8, 0.8F, false).setUnlocalizedName("mutton_cooked").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mutton_cooked");
+		squid_raw = new ItemFood(2, 0.2F, false).setUnlocalizedName("squid_raw").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":squid_raw");
+		squid_cooked = new ItemFood(6, 0.6F, false).setUnlocalizedName("squid_cooked").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":squid_cooked");
 		
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":designator_range");
@@ -265,6 +276,7 @@ public class ModItems {
 		cog_3 = new ItemLore().setUnlocalizedName("cog_3").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":cog_steel");
 		cog_4 = new ItemLore().setUnlocalizedName("cog_4").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":cog_4");
 		cog_5 = new ItemLore().setUnlocalizedName("cog_5").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":cog_5");
+		scroll = new ItemLore().setUnlocalizedName("scroll").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":scroll");
 		coin = new ItemLore().setUnlocalizedName("hfr_coin").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":coin");
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
 		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":prestige");
@@ -279,6 +291,7 @@ public class ModItems {
 		gas_mask_black = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask_black").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask_black");
 		graphene_vest = new ItemSpecialArmor(matGasMask, 5, 2).setUnlocalizedName("graphene_vest").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":graphene_vest");
 		clowder_banner = new ItemBanner(matGasMask, 5, 3).setUnlocalizedName("clowder_banner").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_banner");
+		lead_boots = new ItemSpecialArmor(matGasMask, 5, 3).setUnlocalizedName("lead_boots").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":lead_boots");
 		grenade_gas = new ItemGrenade(4).setUnlocalizedName("grenade_gas").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_gas");
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
@@ -322,6 +335,7 @@ public class ModItems {
 		GameRegistry.registerItem(gas_mask_black, gas_mask_black.getUnlocalizedName());
 		GameRegistry.registerItem(graphene_vest, graphene_vest.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
+		GameRegistry.registerItem(lead_boots, lead_boots.getUnlocalizedName());
 		
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
@@ -366,6 +380,10 @@ public class ModItems {
 		GameRegistry.registerItem(rice_seeds, rice_seeds.getUnlocalizedName());
 		GameRegistry.registerItem(rice_sticky, rice_sticky.getUnlocalizedName());
 		GameRegistry.registerItem(rice_bag, rice_bag.getUnlocalizedName());
+		GameRegistry.registerItem(mutton_raw, mutton_raw.getUnlocalizedName());
+		GameRegistry.registerItem(mutton_cooked, mutton_cooked.getUnlocalizedName());
+		GameRegistry.registerItem(squid_raw, squid_raw.getUnlocalizedName());
+		GameRegistry.registerItem(squid_cooked, squid_cooked.getUnlocalizedName());
 
 		GameRegistry.registerItem(tidal_energy, tidal_energy.getUnlocalizedName());
 		GameRegistry.registerItem(whale_meat, whale_meat.getUnlocalizedName());
@@ -380,6 +398,7 @@ public class ModItems {
 		GameRegistry.registerItem(cog_3, cog_3.getUnlocalizedName());
 		GameRegistry.registerItem(cog_4, cog_4.getUnlocalizedName());
 		GameRegistry.registerItem(cog_5, cog_5.getUnlocalizedName());
+		GameRegistry.registerItem(scroll, scroll.getUnlocalizedName());
 		GameRegistry.registerItem(coin, coin.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());

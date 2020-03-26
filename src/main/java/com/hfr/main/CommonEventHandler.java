@@ -32,14 +32,17 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityLargeFireball;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -50,6 +53,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
 public class CommonEventHandler {
 
@@ -178,8 +182,21 @@ public class CommonEventHandler {
 		if(player.worldObj.provider instanceof WorldProviderMoon) {
 			
 			if(!player.capabilities.isFlying) {
-				player.motionY += 0.035D;
+
+				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
+					player.motionY += 0.02D;
+				} else {
+					player.motionY += 0.035D;
+				}
 				player.fallDistance = 0;
+			}
+		} else {
+
+			if(!player.capabilities.isFlying) {
+				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
+					player.motionY -= 0.04D;
+					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 2));
+				}
 			}
 		}
 	}
@@ -371,6 +388,19 @@ public class CommonEventHandler {
 			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 			event.setCanceled(true);
 		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityDropEvent(LivingDropsEvent event) {
 		
+		World world = event.entityLiving.worldObj;
+		
+		/*if(event.entityLiving instanceof EntitySheep && world.rand.nextInt(3) == 0) {
+			event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ModItems.mutton_raw)));
+		}*/
+		
+		if(event.entityLiving instanceof EntitySquid && world.rand.nextInt(3) == 0) {
+			event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ModItems.squid_raw)));
+		}
 	}
 }

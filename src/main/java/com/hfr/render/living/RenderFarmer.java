@@ -1,4 +1,4 @@
-package com.hfr.render.entity;
+package com.hfr.render.living;
 
 import com.hfr.lib.RefStrings;
 

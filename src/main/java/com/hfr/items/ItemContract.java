@@ -152,7 +152,7 @@ public class ItemContract extends Item {
 		case 0:
 			list.add("O'Brien - Extra Potato Yield"); break;
 		case 1:
-			list.add("Nghiêm - Can Harvest Sugar Cane"); break;
+			list.add("Nghiêm - Can Harvest Sugar Cane, Extra Rice Yield"); break;
 		case 2:
 			list.add("Davis - Can Harvest Melons and Pumpkins"); break;
 		}

@@ -54,6 +54,12 @@ public class ItemLore extends Item {
 		}
 		
 		
+		
+		if(this == ModItems.scroll) {
+			list.add("In old times, ancient knowledge was just called knowledge.");
+		}
+		
+		
 
 		if(this == ModItems.miner) {
 			list.add("For use in coal mines");

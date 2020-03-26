@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
@@ -38,7 +37,6 @@ import com.hfr.clowder.*;
 import com.hfr.command.*;
 import com.hfr.data.*;
 import com.hfr.data.StockData.Stock;
-import com.hfr.dim.BiomeGenMoon;
 import com.hfr.dim.WorldGeneratorMoon;
 import com.hfr.dim.WorldProviderMoon;
 import com.hfr.entity.*;
@@ -165,6 +163,8 @@ public class MainRegistry
 	public static int uniRate = 60 * 3;
 	public static int uniJamRate = 60 * 15;
 
+	public static int temple = 10 * 60 * 3;
+
 	public static int factoryRate = 60 * 3;
 	public static int factoryConsumption = 300;
 	public static int factoryJamRate = 60 * 15;
@@ -271,6 +271,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityRift.class, "tileentity_hfr_rift");
 		GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_hfr_turbine");
 		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileentity_hfr_teleporter");
+		GameRegistry.registerTileEntity(TileEntityMachineTemple.class, "tileentity_hfr_temple");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
@@ -663,6 +664,8 @@ public class MainRegistry
 
         uniRate = createConfigInt(config, "UNIVERSITY", "uniRate", "Average amount of seconds for uni to generate research", 60 * 3);
         uniJamRate = createConfigInt(config, "UNIVERSITY", "uniJamRate", "Average amount of seconds for uni to get jammed", 60 * 15);
+
+        temple = createConfigInt(config, "TEMPLE", "templeRate", "Average amount of seconds for temple to generate scrolls", 10 * 60 * 3);
         
         factoryRate = createConfigInt(config, "FACTORY", "factoryRate", "Average amount of seconds for factory to generate cogs", 60 * 3);
         factoryConsumption = createConfigInt(config, "FACTORY", "factoryConsumption", "How much RF a factory needs per tick to operate", 300);

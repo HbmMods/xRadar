@@ -8,6 +8,10 @@ import net.minecraft.client.particle.EntityLargeExplodeFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -31,6 +35,9 @@ import com.hfr.render.hud.*;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.render.item.RenderFlaregun;
 import com.hfr.render.item.RenderPak;
+import com.hfr.render.living.*;
+import com.hfr.render.mob.*;
+import com.hfr.render.mob.ModelSheep.ModelSheepWooly;
 import com.hfr.render.tileentity.*;
 import com.hfr.tileentity.*;
 import com.hfr.tileentity.clowder.*;
@@ -100,6 +107,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWaterWheel.class, new RenderWaterwheel());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRift.class, new RenderRift());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineTurbine.class, new RenderTurbine());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineTemple.class, new RenderTemple());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileAT.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
@@ -138,6 +146,11 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBoxcar.class, new RenderBoxcar());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderFarmer());
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityCow.class, new RenderCow(new ModelBuffalo(), 1.0F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPig.class, new RenderPig(new ModelPig(), 1.0F));
+		RenderingRegistry.registerEntityRenderingHandler(EntitySheep.class, new RenderSheep(new ModelSheep(), new ModelSheepWooly(), 1.0F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityChicken.class, new RenderChicken(new ModelChicken(), 0.5F));
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.flaregun, new RenderFlaregun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.pakker, new RenderPak());

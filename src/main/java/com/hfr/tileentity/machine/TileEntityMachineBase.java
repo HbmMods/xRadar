@@ -80,7 +80,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 		{
 			return false;
 		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 256;
 		}
 	}
 	

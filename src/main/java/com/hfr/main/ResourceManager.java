@@ -125,6 +125,10 @@ public class ResourceManager {
 	public static final IModelCustom uni = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/uni.obj"));
 	public static final ResourceLocation uni_tex = new ResourceLocation(RefStrings.MODID, "textures/models/uni.png");
 	
+	//TEMPLE
+	public static final IModelCustom temple = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/props/temple.obj"));
+	public static final ResourceLocation temple_tex = new ResourceLocation(RefStrings.MODID, "textures/models/temple.png");
+	
 	//FACTORY
 	public static final IModelCustom factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/factory.obj"));
 	public static final ResourceLocation factory_tex = new ResourceLocation(RefStrings.MODID, "textures/models/factory.png");

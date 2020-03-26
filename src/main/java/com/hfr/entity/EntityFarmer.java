@@ -1,5 +1,8 @@
 package com.hfr.entity;
 
+import com.hfr.blocks.ModBlocks;
+import com.hfr.items.ModItems;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.entity.EntityLiving;
@@ -21,6 +24,7 @@ public class EntityFarmer extends EntityLiving {
 	private int wheat;
 	private int potato;
 	private int carrot;
+	private int rice;
 	private int sugar;
 	private int pumpkin;
 	private int melon;
@@ -182,6 +186,9 @@ public class EntityFarmer extends EntityLiving {
     	if(b == Blocks.carrots)
     		carrot += 3;
     	
+    	if(b == ModBlocks.rice)
+    		rice += 2 + (type == 1 ? 2 : 0);
+    	
     	if(b == Blocks.reeds)
     		sugar += 1;
     	
@@ -197,6 +204,8 @@ public class EntityFarmer extends EntityLiving {
     		potato = 64 * 3;
     	if(carrot > 64 * 3)
     		carrot = 64 * 3;
+    	if(rice > 64 * 3)
+    		rice = 64 * 3;
     	
     	if(sugar > 64 * 2)
     		sugar = 64 * 2;
@@ -214,6 +223,8 @@ public class EntityFarmer extends EntityLiving {
     		this.dropItem(Items.potato, potato);
     	if(carrot > 0)
     		this.dropItem(Items.carrot, carrot);
+    	if(rice > 0)
+    		this.dropItem(ModItems.rice, rice);
     	if(sugar > 0)
     		this.dropItem(Items.reeds, sugar);
     	if(pumpkin > 0)
@@ -256,6 +267,11 @@ public class EntityFarmer extends EntityLiving {
         	carrot = 0;
         	b = true;
         }
+        if(rice > 0) {
+        	player.inventory.addItemStackToInventory(new ItemStack(ModItems.rice, rice));
+        	rice = 0;
+        	b = true;
+        }
         if(sugar > 0) {
         	player.inventory.addItemStackToInventory(new ItemStack(Items.reeds, sugar));
         	sugar = 0;
@@ -289,6 +305,7 @@ public class EntityFarmer extends EntityLiving {
 		wheat = nbt.getInteger("wheat");
 		potato = nbt.getInteger("potato");
 		carrot = nbt.getInteger("carrot");
+		rice = nbt.getInteger("rice");
 		sugar = nbt.getInteger("sugar");
 		pumpkin = nbt.getInteger("pumpkin");
 		melon = nbt.getInteger("melon");
@@ -303,6 +320,7 @@ public class EntityFarmer extends EntityLiving {
 		nbt.setInteger("wheat", wheat);
 		nbt.setInteger("potato", potato);
 		nbt.setInteger("carrot", carrot);
+		nbt.setInteger("rice", rice);
 		nbt.setInteger("sugar", sugar);
 		nbt.setInteger("pumpkin", pumpkin);
 		nbt.setInteger("melon", melon);

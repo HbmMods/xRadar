@@ -1,5 +1,6 @@
 package com.hfr.items;
 
+import com.hfr.render.model.ModelBoots;
 import com.hfr.render.model.ModelGraphene;
 
 import cpw.mods.fml.relauncher.Side;
@@ -11,9 +12,11 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
 public class ItemSpecialArmor extends ItemArmor {
-	
+
 	@SideOnly(Side.CLIENT)
 	private ModelGraphene model;
+	@SideOnly(Side.CLIENT)
+	private ModelBoots boots;
 
 	public ItemSpecialArmor(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
 		super(armorMaterial, renderIndex, armorType);
@@ -29,15 +32,32 @@ public class ItemSpecialArmor extends ItemArmor {
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 		
-		if (this.model == null) {
-			this.model = new ModelGraphene();
+		if(this == ModItems.graphene_vest) {
+			if (this.model == null) {
+				this.model = new ModelGraphene();
+			}
+			return this.model;
 		}
-		return this.model;
+		
+		if(this == ModItems.lead_boots) {
+			if (this.boots == null) {
+				this.boots = new ModelBoots();
+			}
+			return this.boots;
+		}
+		
+		return null;
 	}
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		return "hfr:textures/armor/graphene_model.png";
+		
+		if(this == ModItems.graphene_vest)
+			return "hfr:textures/armor/graphene_model.png";
+		if(this == ModItems.lead_boots)
+			return "hfr:textures/armor/lead_boots.png";
+		
+		return null;
 	}
 
 }
