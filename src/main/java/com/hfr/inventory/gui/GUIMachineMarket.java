@@ -1,195 +1,183 @@
 package com.hfr.inventory.gui;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.data.StockData.Stock;
-import com.hfr.inventory.container.ContainerMachineMarket;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
-import com.hfr.tileentity.machine.TileEntityMachineMarket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineMarket extends GuiContainer {
+public class GUIMachineMarket extends GuiScreen {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_stocks.png");
-	private TileEntityMachineMarket diFurnace;
-	
-	int index = 0;
-	//Stock stock;
-	
-	public GUIMachineMarket(InventoryPlayer invPlayer, TileEntityMachineMarket tedf) {
-		super(new ContainerMachineMarket(invPlayer, tedf));
-		diFurnace = tedf;
-
-		this.xSize = 176;
-		this.ySize = 222;
-	}
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_shop.png");
+    private final EntityPlayer player;
+    protected int guiLeft;
+    protected int guiTop;
+    protected int xSize = 176;
+    protected int ySize = 194;
+    public static List<ItemStack[]> offers = new ArrayList();
+    int page;
+    
+    public GUIMachineMarket(EntityPlayer player) {
+    	
+    	this.player = player;
+    }
+    
+    public void initGui()
+    {
+        super.initGui();
+        this.guiLeft = (this.width - this.xSize) / 2;
+        this.guiTop = (this.height - this.ySize) / 2;
+        page = 1;
+    }
 
     protected void mouseClicked(int x, int y, int i) {
-    	super.mouseClicked(x, y, i);
-		
-    	if(guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 17 < y && guiTop + 17 + 18 >= y) {
+
+    	if(guiLeft + 25 <= x && guiLeft + 25 + 18 > x && guiTop + 7 < y && guiTop + 7 + 18 >= y) {
 
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			index--;
-    	}
-		
-    	if(guiLeft + 133 <= x && guiLeft + 133 + 18 > x && guiTop + 17 < y && guiTop + 17 + 18 >= y) {
-
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			index++;
+    		if(page > 1) {
+    			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    			page--;
+    		}
+			return;
     	}
 
-    	if(guiLeft + 79 <= x && guiLeft + 79 + 18 > x && guiTop + 89 < y && guiTop + 89 + 18 >= y) {
+    	if(guiLeft + 113 + 18 <= x && guiLeft + 113 + 36 > x && guiTop + 7 < y && guiTop + 7 + 18 >= y) {
 
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, index, 0));
+    		if(page < pagecount()) {
+    			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    			page++;
+    		}
+			return;
     	}
 
-    	if(guiLeft + 79 <= x && guiLeft + 79 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
-
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, index, 1));
+    	for(int j = 0; j < 6; j++) {
+	    	if(guiLeft + 133 <= x && guiLeft + 133 + 18 > x && guiTop + 34 + 27 * j < y && guiTop + 34 + 27 * j + 18 >= y) {
+    			
+	    		ItemStack[] offer = getOffer(j);
+	    		
+	    		if(offer != null) {
+	    			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, (page - 1) * 6 + j, 999));
+	    		}
+	    		
+				return;
+	    	}
     	}
     }
+    
+    public ItemStack[] getOffer(int index) {
+    	
+    	int i = (page - 1) * 6 + index;
+    	
+    	if(i < offers.size()) {
+    		
+    		ItemStack[] offer = offers.get(i);
+    		return offer;
+    	}
+    	
+    	return null;
+    }
+    
+    public void drawScreen(int mouseX, int mouseY, float f)
+    {
+        this.drawDefaultBackground();
+        this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        this.drawGuiContainerForegroundLayer(mouseX, mouseY);
+        GL11.glEnable(GL11.GL_LIGHTING);
+    }
 	
-	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		
-		if(getStock(index) == null)
-			return;
+		String s = page + "/" + pagecount();
+		this.fontRendererObj.drawString(s, guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, guiTop + 10, 4210752);
 		
-		String name = getStock(index).name + " (" + getStock(index).shortname + ")";
+		for(int k = 0; k < 6; k++) {
+			
+			ItemStack[] offer = getOffer(k);
+			
+			if(offer != null) {
+				int index = offers.indexOf(offer);
+	
+				this.fontRendererObj.drawString("#" + index, guiLeft + 6, guiTop + 40 + 27 * k, 4210752);
+			}
+		}
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		if(last != null)
+            this.renderToolTip(last, i, j);
 	}
 	
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+	ItemStack last = null;
+
+	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-        Tessellator tessellator = Tessellator.instance;
-		Minecraft minecraft = Minecraft.getMinecraft();
-        
-        float vals[] = getStock(index).value;
-        float render[] = new float[15];
-
-        List<Float> floats = Arrays.asList(ArrayUtils.toObject(vals));
-        
-        float min = Collections.min(floats);
-        float max = Collections.max(floats);
-        
-        int padding = 5;
-        int range = 52 - padding * 2;
-        float d = max - min;
-        
-        if(d == 0)
-        	d = 1F;
-        
-        for(int i = 0; i < render.length; i++) {
-        	render[i] = (vals[i] - min) * range / d;
-        }
-        
-        if(vals[14] > vals[13])
-    		drawTexturedModalRect(guiLeft + 150, guiTop + 38, 176, 0, 5, 5);
-        else if(vals[14] == vals[13])
-    		drawTexturedModalRect(guiLeft + 150, guiTop + 38, 176, 5, 5, 5);
-        else
-    		drawTexturedModalRect(guiLeft + 150, guiTop + 38, 176, 10, 5, 5);
-
-        GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glLineWidth(3F);
-
-        float last = render[0];
-        
-        for(int i = 1; i < render.length; i++) {
-        	
-            tessellator.startDrawing(3);
-            tessellator.setColorOpaque_I(0xFFFFFF);
-            
-            tessellator.addVertex(guiLeft + 8 + 10 * (i - 1), guiTop + 88 - last - padding, 0);
-            tessellator.addVertex(guiLeft + 8 + 10 * (i - 1) + 10, guiTop + 88 - render[i] - padding, 0);
-            tessellator.draw();
-            
-            last = render[i];
-        }
-
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-        float fontScale = 2F;
-        
-		GL11.glScalef(1 / fontScale, 1 / fontScale, 1 / fontScale);
-
-	    minecraft.fontRenderer.drawString("" + round(max), (int) ((guiLeft + 9) * fontScale), (int) ((guiTop + 37) * fontScale), 0xFFFFFF);
-	    minecraft.fontRenderer.drawString("" + round(min), (int) ((guiLeft + 9) * fontScale), (int) ((guiTop + 83.5) * fontScale), 0xFFFFFF);
-
-	    float diff = (vals[14] - vals[13]) / vals[13] * 100;
-	    
-	    int color = 0xFF0000;
-	    
-	    if(diff > 0)
-	    	color = 0x00FF00;
-	    if(diff == 0)
-	    	color = 0xFFFF00;
-	    
-	    minecraft.fontRenderer.drawString("" + round(diff) + "%", (int) ((guiLeft + 155.5) * fontScale), (int) ((guiTop + 38.5) * fontScale), color);
-	    minecraft.fontRenderer.drawString("=" + round(vals[14]), (int) ((guiLeft + 150) * fontScale), (int) ((guiTop + 48.5) * fontScale), 0xFFFFFF);
-
-	    
-		GL11.glScalef(fontScale, fontScale, fontScale);
-
-		fontScale = 1.5F;
-		GL11.glScalef(1 / fontScale, 1 / fontScale, 1 / fontScale);
-	    minecraft.fontRenderer.drawString("Your " + getStock(index).shortname + " shares:", (int) ((guiLeft + 105) * fontScale), (int) ((guiTop + 95) * fontScale), 4210752);
-	    minecraft.fontRenderer.drawString("" + getStock(index).shares, (int) ((guiLeft + 110) * fontScale), (int) ((guiTop + 105) * fontScale), 4210752);
-		GL11.glScalef(fontScale, fontScale, fontScale);
+		last = null;
 		
-	    GL11.glEnable(GL11.GL_LIGHTING);
-		
-        GL11.glPopMatrix();
-	}
-	
-	public float round(float f) {
-		
-		f *= 100F;
-		f = (int)f;
-		f /= 100F;
-		
-		return f;
-	}
-	
-	private int getIndex(int i) {
-		
-		i = i % diFurnace.stocks.size();
-		
-		if(i < 0) {
-			i = diFurnace.stocks.size() + i;
+        short short1 = 240;
+        short short2 = 240;
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)short1 / 1.0F, (float)short2 / 1.0F);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        
+		for(int k = 0; k < 6; k++) {
+			
+			ItemStack[] offer = getOffer(k);
+			
+			if(offer != null) {
+				for(int l = 1; l < 4; l++) {
+					
+					if(offer[l] != null) {
+						
+						int posX = guiLeft + 8 + 18 * l;
+						int posY = guiTop + 35 + 27 * k;
+						
+						if(posX < x && posX + 16 > x && posY < y && posY + 16 > y)
+							last = offer[l];
+						
+				        itemRender.renderItemAndEffectIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[l], posX, posY);
+				        itemRender.renderItemOverlayIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[l], posX, posY);
+					}
+				}
+				
+				int posX = guiLeft + 98;
+				int posY = guiTop + 35 + 27 * k;
+				
+		        itemRender.renderItemAndEffectIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[0], posX, posY);
+		        itemRender.renderItemOverlayIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[0], posX, posY);
+				
+				if(posX < x && posX + 16 > x && posY < y && posY + 16 > y)
+					last = offer[0];
+			}
 		}
-		
-		return i;
 	}
 	
-	private Stock getStock(int i) {
-		
-		i = getIndex(i);
-		return diFurnace.stocks.get(i);
+	public int pagecount() {
+		return (int)Math.ceil((double) offers.size() / 6D);
 	}
+	
+    protected void keyTyped(char p_73869_1_, int p_73869_2_)
+    {
+        if (p_73869_2_ == 1 || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode())
+        {
+            this.mc.thePlayer.closeScreen();
+        }
+    }
+    
+    public boolean doesGuiPauseGame()
+    {
+        return false;
+    }
 }

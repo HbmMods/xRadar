@@ -20,7 +20,7 @@ public class CommandXMarket extends CommandBase {
 	
 	public CommandXMarket() {
 		aliases = new ArrayList();
-		aliases.add("xplayer");
+		aliases.add("xmarket");
 	}
 	
 	@Override

@@ -370,6 +370,7 @@ public class MainRegistry
 		event.registerServerCommand(new CommandClowder());
 		event.registerServerCommand(new CommandClowderChat());
 		event.registerServerCommand(new CommandClowderAdmin());
+		event.registerServerCommand(new CommandXShop());
 	}
 
 	public static List<Block> blastShields = new ArrayList();

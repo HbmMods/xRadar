@@ -174,15 +174,6 @@ public class GUIHandler implements IGuiHandler {
 				return null;
 			}
 
-			case ModBlocks.guiID_market:
-			{
-				if(entity instanceof TileEntityMachineMarket)
-				{
-					return new ContainerMachineMarket(player.inventory, (TileEntityMachineMarket) entity);
-				}
-				return null;
-			}
-
 			case ModBlocks.guiID_builder:
 			{
 				if(entity instanceof TileEntityMachineBuilder)
@@ -427,15 +418,6 @@ public class GUIHandler implements IGuiHandler {
 					return null;
 				}
 				
-				case ModBlocks.guiID_market:
-				{
-					if(entity instanceof TileEntityMachineMarket)
-					{
-						return new GUIMachineMarket(player.inventory, (TileEntityMachineMarket) entity);
-					}
-					return null;
-				}
-				
 				case ModBlocks.guiID_builder:
 				{
 					if(entity instanceof TileEntityMachineBuilder)
@@ -582,6 +564,10 @@ public class GUIHandler implements IGuiHandler {
 			case ModItems.guiID_slbm:
 			{
 				return new GUIScreenSLBM(player);
+			}
+			case ModBlocks.guiID_market:
+			{
+				return new GUIMachineMarket(player);
 			}
 			}
 		}

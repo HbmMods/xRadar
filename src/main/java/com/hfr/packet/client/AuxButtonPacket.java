@@ -1,6 +1,7 @@
 package com.hfr.packet.client;
 
 import com.hfr.clowder.Clowder;
+import com.hfr.data.MarketData;
 import com.hfr.data.StockData;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
@@ -26,6 +27,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -253,9 +256,97 @@ public class AuxButtonPacket implements IMessage {
 					turbine.mode = m.id;
 				}
 				
+				if(m.id == 999) {
+
+					MarketData data = MarketData.getData(p.worldObj);
+					
+					if(m.value < 0 || m.value >= data.offers.size())
+						return null;
+					
+					ItemStack[] offer = data.offers.get(m.value);
+					
+					if(offer != null) {
+						
+						ItemStack item = offer[0];
+						
+						boolean flag = true;
+						
+						for(int i = 1; i < 4; i++) {
+							
+							if(offer[i] != null) {
+								
+								int count = countItems(p, offer[i].getItem(), offer[i].getItemDamage());
+								
+								if(count < offer[i].stackSize)
+									flag = false;
+							}
+						}
+						
+						if(flag) {
+							
+							p.worldObj.playSoundAtEntity(p, "hfr:block.buttonYes", 1.0F, 1.0F);
+							
+							for(int i = 1; i < 4; i++) {
+								
+								if(offer[i] != null) {
+									
+									removeItems(p, offer[i].getItem(), offer[i].getItemDamage(), offer[i].stackSize);
+								}
+							}
+							
+							if(!p.inventory.addItemStackToInventory(item.copy()))
+								p.dropPlayerItemWithRandomChoice(item.copy(), true);
+							
+							p.inventoryContainer.detectAndSendChanges();
+						} else {
+							
+							p.worldObj.playSoundAtEntity(p, "hfr:block.buttonNo", 1.0F, 1.0F);
+							p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You lack required items."));
+						}
+					}
+				}
+				
 			} catch (Exception x) { }
 			
 			return null;
+		}
+	}
+	
+	public static int countItems(EntityPlayer player, Item item, int meta) {
+		
+		int count = 0;
+		
+		for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			
+			ItemStack slot = player.inventory.getStackInSlot(i);
+			
+			if(slot != null && slot.getItem() == item && slot.getItemDamage() == meta) {
+				count += slot.stackSize;
+			}
+		}
+		
+		return count;
+	}
+	
+	public static void removeItems(EntityPlayer player, Item item, int meta, int count) {
+		
+		for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			
+			ItemStack slot = player.inventory.getStackInSlot(i);
+			
+			if(slot != null && slot.getItem() == item && slot.getItemDamage() == meta) {
+				
+				if(slot.stackSize < count) {
+					count -= slot.stackSize;
+					player.inventory.decrStackSize(i, slot.stackSize);
+				} else {
+					player.inventory.decrStackSize(i, count);
+					count = 0;
+				}
+				
+				if(count <= 0)
+					return;
+			}
 		}
 	}
 }
