@@ -384,6 +384,7 @@ public class MainRegistry
 	public static float skeletonHIV = 2.5F;
 	public static boolean zombAI = true;
 	public static boolean creepAI = true;
+	public static boolean surfaceMobs = false;
 
 	public static List<String> u2 = new ArrayList();
 	public static List<String> u1 = new ArrayList();
@@ -909,6 +910,7 @@ public class MainRegistry
 
         zombAI = createConfigBool(config, "ENTITYCONTROL", "zombAI", "Enables advanced zombert AI", true);
         creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);
+        surfaceMobs = createConfigBool(config, "ENTITYCONTROL", "surfaceMobs", "Forces hostiles to spawn on the surface", true);
         
         config.save();
         

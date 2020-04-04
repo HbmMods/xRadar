@@ -358,6 +358,15 @@ public class CommonEventHandler {
 				fireball.accelerationZ *= 10;
 			}
 		}
+		
+		if(event.entity instanceof EntityMob && MainRegistry.surfaceMobs) {
+
+			double x = event.entity.posX;
+			double z = event.entity.posZ;
+			double y = event.entity.worldObj.getHeightValue((int)x - 1, (int)z);
+			
+			event.entity.setLocationAndAngles(x, y, z, event.entity.rotationYaw, event.entity.rotationPitch);
+		}
 	}
 
 	//for handling damage immunity
