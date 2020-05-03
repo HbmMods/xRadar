@@ -197,6 +197,13 @@ public class MainRegistry
 	public static boolean freeRadar = false;
 	public static boolean sound = true;
 	public static boolean comparator = false;
+
+	public static boolean border = false;
+	public static int borderBuffer = 0;
+	public static int borderPosX = 0;
+	public static int borderNegX = 0;
+	public static int borderPosZ = 0;
+	public static int borderNegZ = 0;
 	
 	public static int empID = 66;
 	
@@ -911,6 +918,13 @@ public class MainRegistry
         zombAI = createConfigBool(config, "ENTITYCONTROL", "zombAI", "Enables advanced zombert AI", true);
         creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);
         surfaceMobs = createConfigBool(config, "ENTITYCONTROL", "surfaceMobs", "Forces hostiles to spawn on the surface", true);
+
+        border = createConfigBool(config, "WORLDBORDER", "enableBorder", "Toggles the world border", true);
+        borderBuffer = createConfigInt(config, "WORLDBORDER", "borderBuffer", "The width of the warning area", 100);
+        borderPosX = createConfigInt(config, "WORLDBORDER", "borderPosX", "World border in the positive X direction", 10000);
+        borderNegX = createConfigInt(config, "WORLDBORDER", "borderNegX", "World border in the negative X direction", -10000);
+        borderPosZ = createConfigInt(config, "WORLDBORDER", "borderPosX", "World border in the positive Z direction", 10000);
+        borderNegZ = createConfigInt(config, "WORLDBORDER", "borderNegX", "World border in the negative Z direction", -10000);
         
         config.save();
         

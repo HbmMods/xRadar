@@ -283,7 +283,7 @@ public class ClowderEvents {
 		
 		boolean bb = true;
 		
-		for(int i = 0; i < event.getAffectedBlocks().size(); i++) {
+		/*for(int i = 0; i < event.getAffectedBlocks().size(); i++) {
 			
 			ChunkPosition pos = event.getAffectedBlocks().get(i);
 			int x = pos.chunkPosX;
@@ -297,6 +297,16 @@ public class ClowderEvents {
 				i--;
 				bb = false;
 			}
+		}*/
+
+		int x = (int)event.explosion.explosionX;
+		int y = (int)event.explosion.explosionY;
+		int z = (int)event.explosion.explosionZ;
+		Ownership owner = ClowderTerritory.getOwnerFromInts(x, z);
+		
+		if(!canExplode(owner, event.world, x, y, z)) {
+			event.getAffectedBlocks().clear();
+			bb = false;
 		}
 		
 		if(bb)

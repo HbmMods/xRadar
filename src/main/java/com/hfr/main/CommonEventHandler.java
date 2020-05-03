@@ -47,8 +47,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -63,12 +66,14 @@ public class CommonEventHandler {
 		
 		EntityPlayer player = event.player;
 		
-		if(!player.worldObj.isRemote) {
+		if(!player.worldObj.isRemote && event.phase == Phase.START) {
 			
 			player.worldObj.theProfiler.startSection("xr_radar");
 
 			/// RADAR SHIT ///
 			Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+			
+			handleBorder(player, vehicle);
 			
 			//if the player is sitting in a vehicle with radar support
 			if(vehicle != null && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false) || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false)) && !player.isPotionActive(HFRPotion.emp)) {
@@ -199,6 +204,76 @@ public class CommonEventHandler {
 				}
 			}
 		}
+	}
+	
+	public void handleBorder(EntityPlayer player, Object vehicle) {
+		
+		if(isWithinNotifRange(player.posX, player.posZ) && player.ticksExisted % 200 == 0)
+			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are nearing the world border!"));
+		
+		if(leftBorder(player.posX, player.posZ)) {
+			
+			Entity scope = player;
+			
+			if(vehicle instanceof Entity) {
+				scope = (Entity)vehicle;
+				
+				scope.setPosition(
+						MathHelper.clamp_double(scope.posX, MainRegistry.borderPosX, MainRegistry.borderNegX),
+						scope.posY,
+						MathHelper.clamp_double(scope.posZ, MainRegistry.borderPosZ, MainRegistry.borderNegZ)
+				);
+
+				Vec3 vec = Vec3.createVectorHelper(-scope.posX, 0, -scope.posZ);
+				vec = vec.normalize();
+				
+				scope.motionX = vec.xCoord * 2;
+				scope.motionZ = vec.zCoord * 2;
+				
+			} else {
+
+				if(player instanceof EntityPlayerMP) {
+					player.mountEntity(null);
+					((EntityPlayerMP)player).playerNetServerHandler.setPlayerLocation(
+							MathHelper.clamp_double(scope.posX, MainRegistry.borderNegX, MainRegistry.borderPosX),
+							scope.posY,
+							MathHelper.clamp_double(scope.posZ, MainRegistry.borderNegZ, MainRegistry.borderPosZ),
+							player.rotationYaw,
+							player.rotationPitch
+					);
+				}
+			}
+
+			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You have reached the world border!"));
+		}
+	}
+	
+	public boolean isWithinNotifRange(double x, double z) {
+
+		if(x > MainRegistry.borderPosX - MainRegistry.borderBuffer)
+			return true;
+		if(x < MainRegistry.borderNegX + MainRegistry.borderBuffer)
+			return true;
+		if(z > MainRegistry.borderPosZ - MainRegistry.borderBuffer)
+			return true;
+		if(z < MainRegistry.borderNegZ + MainRegistry.borderBuffer)
+			return true;
+		
+		return false;
+	}
+	
+	public boolean leftBorder(double x, double z) {
+
+		if(x > MainRegistry.borderPosX)
+			return true;
+		if(x < MainRegistry.borderNegX)
+			return true;
+		if(z > MainRegistry.borderPosZ)
+			return true;
+		if(z < MainRegistry.borderNegZ)
+			return true;
+		
+		return false;
 	}
 	
 	public List<EntityPlayer> getPlayersInAABB(World world, double x, double y, double z, double range) {
