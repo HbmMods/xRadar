@@ -218,6 +218,16 @@ public class ResourceManager {
 	public static final IModelCustom turbine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turbine.obj"));
 	public static final ResourceLocation turbine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbine.png");
 	
+	//BLAST DOOR
+	public static final IModelCustom blast_door_block = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_door_block.obj"));
+	public static final ResourceLocation blast_door_block_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_block.png");
+	public static final IModelCustom blast_door_slider = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_door_slider.obj"));
+	public static final ResourceLocation blast_door_slider_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_slider.png");
+	public static final IModelCustom blast_door_tooth = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_door_tooth.obj"));
+	public static final ResourceLocation blast_door_tooth_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_tooth.png");
+	public static final IModelCustom blast_door_base = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_door_base.obj"));
+	public static final ResourceLocation blast_door_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_base.png");
+	
 	//TMT
 	public static final IModelCustom statue = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatue.obj"));
 	public static final IModelCustom statue_damaged = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ModelStatueDamaged.obj"));

@@ -1,5 +1,6 @@
 package com.hfr.packet.tile;
 
+import com.hfr.tileentity.machine.TileEntityBlastDoor;
 import com.hfr.tileentity.machine.TileEntityVaultDoor;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -73,6 +74,14 @@ public class TEVaultPacket implements IMessage {
 					if(m.sysTime == 1)
 						vault.sysTime = System.currentTimeMillis();
 					vault.type = m.type;
+				}
+				if (te != null && te instanceof TileEntityBlastDoor) {
+
+					TileEntityBlastDoor vault = (TileEntityBlastDoor) te;
+					vault.isOpening = m.isOpening;
+					vault.state = m.state;
+					if(m.sysTime == 1)
+						vault.sysTime = System.currentTimeMillis();
 				}
 			} catch (Exception x) {
 			}

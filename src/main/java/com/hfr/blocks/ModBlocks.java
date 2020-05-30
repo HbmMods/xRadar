@@ -53,6 +53,9 @@ public class ModBlocks {
 	public static Block vault_door;
 	public static Block vault_door_dummy;
 
+	public static Block blast_door;
+	public static Block blast_door_dummy;
+
 	public static Block vent_chlorine_seal;
 	public static Block chlorine_gas;
 	public static Block barbed_wire;
@@ -202,6 +205,8 @@ public class ModBlocks {
 		
 		vault_door = new VaultDoor(Material.rock).setStepSound(soundTypeMetal).setBlockName("vault_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":vault_door");
 		vault_door_dummy = new DummyBlockVault(Material.rock).setStepSound(soundTypeMetal).setBlockName("vault_door_dummy").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":concrete");
+		blast_door = new BlastDoor(Material.rock).setStepSound(soundTypeMetal).setBlockName("blast_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":blast_door");
+		blast_door_dummy = new DummyBlockBlast(Material.rock).setStepSound(soundTypeMetal).setBlockName("blast_door_dummy").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":concrete");
 		
 		machine_radar = new MachineRadar(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		machine_siren = new MachineSiren(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_siren");
@@ -314,7 +319,9 @@ public class ModBlocks {
 		
 		GameRegistry.registerBlock(vault_door, ItemBlockUnstackable.class, vault_door.getUnlocalizedName());
 		GameRegistry.registerBlock(vault_door_dummy, vault_door_dummy.getUnlocalizedName());
-
+		GameRegistry.registerBlock(blast_door, ItemBlockUnstackable.class, blast_door.getUnlocalizedName());
+		GameRegistry.registerBlock(blast_door_dummy, blast_door_dummy.getUnlocalizedName());
+		
 		GameRegistry.registerBlock(hydro_wall, hydro_wall.getUnlocalizedName());
 		GameRegistry.registerBlock(hydro_turbine, hydro_turbine.getUnlocalizedName());
 		GameRegistry.registerBlock(hydro_core, hydro_core.getUnlocalizedName());

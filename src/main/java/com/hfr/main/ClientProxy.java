@@ -53,9 +53,8 @@ public class ClientProxy extends ServerProxy
 	public static KeyBinding toggleZoom = new KeyBinding("Toggle Radar Zoom", 33, "xRadar");
 	public static KeyBinding incScale = new KeyBinding("Increase Radar Scale", 78, "xRadar");
 	public static KeyBinding decScale = new KeyBinding("Decrease Radar Scale", 74, "xRadar");
-	//public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 200, "xRadar");
 	public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 0, "xRadar");
-	//public static KeyBinding toggleDebug = new KeyBinding("Decrease Radar Scale", 83, "xRadar");
+	public static KeyBinding filter = new KeyBinding("Toggle chat filter", 0, "xRadar");
 	
 	@Override
 	public void registerRenderInfo()
@@ -75,11 +74,13 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.registerKeyBinding(incScale);
 		ClientRegistry.registerKeyBinding(decScale);
 		ClientRegistry.registerKeyBinding(slbm);
+		ClientRegistry.registerKeyBinding(filter);
 		//ClientRegistry.registerKeyBinding(toggleDebug);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVaultDoor.class, new RenderVaultDoor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlastDoor.class, new RenderBlastDoor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPad.class, new RenderLaunch());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDebug.class, new RenderDebug());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineDerrick.class, new RenderDerrick());
@@ -163,6 +164,8 @@ public class ClientProxy extends ServerProxy
 		case 0: return toggleZoom.isPressed();
 		case 1: return incScale.isPressed();
 		case 2: return decScale.isPressed();
+		case 3: return slbm.isPressed();
+		case 4: return filter.isPressed();
 		}
 		
 		return false;

@@ -1,5 +1,8 @@
 package com.hfr.main;
 
+import java.util.Map.Entry;
+
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 
 import com.hfr.handler.SLBMHandler;
@@ -17,7 +20,10 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -94,6 +100,16 @@ public class EventHandlerClient {
 					}
 					
 					lock = true;
+				
+				//chat filter
+				} else if(Keyboard.isKeyDown(ClientProxy.filter.getKeyCode())/* && Minecraft.getMinecraft().currentScreen != null*/) {
+					
+					if(!lock) {
+						MainRegistry.chatfilter = !MainRegistry.chatfilter;
+						Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 0.25F, 0.5F);
+					}
+					
+					lock = true;
 					
 				} else {
 					
@@ -153,5 +169,29 @@ public class EventHandlerClient {
 		
 		if(event.phase == TickEvent.Phase.START)
 			MainRegistry.smoothing = event.renderTickTime;
+	}
+	
+	@SubscribeEvent
+	public void chatReceivedEvent(ClientChatReceivedEvent event) {
+		
+		if(!MainRegistry.chatfilter)
+			return;
+		
+		IChatComponent component = event.message;
+		String msg = component.getUnformattedText();
+		
+		for(Entry<String, String> pair : MainRegistry.sub.entrySet()) {
+			
+			//limit to 50 substitutions to prevent infinite loops
+			for(int i = 0; i < 50 && StringUtils.containsIgnoreCase(msg, pair.getKey()); i++) {
+				msg = msg.replaceAll("(?i)" + pair.getKey(), pair.getValue());
+			}
+		}
+
+		
+		IChatComponent text = new ChatComponentText(msg);
+		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
+		
+		event.setCanceled(true);
 	}
 }

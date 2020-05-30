@@ -68,12 +68,12 @@ public class CommonEventHandler {
 		
 		if(!player.worldObj.isRemote && event.phase == Phase.START) {
 			
+			handleBorder(player);
+			
 			player.worldObj.theProfiler.startSection("xr_radar");
 
 			/// RADAR SHIT ///
 			Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
-			
-			handleBorder(player, vehicle);
 			
 			//if the player is sitting in a vehicle with radar support
 			if(vehicle != null && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false) || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false)) && !player.isPotionActive(HFRPotion.emp)) {
@@ -206,42 +206,22 @@ public class CommonEventHandler {
 		}
 	}
 	
-	public void handleBorder(EntityPlayer player, Object vehicle) {
+	public void handleBorder(EntityPlayer player) {
 		
 		if(isWithinNotifRange(player.posX, player.posZ) && player.ticksExisted % 200 == 0)
 			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are nearing the world border!"));
 		
 		if(leftBorder(player.posX, player.posZ)) {
 			
-			Entity scope = player;
-			
-			if(vehicle instanceof Entity) {
-				scope = (Entity)vehicle;
-				
-				scope.setPosition(
-						MathHelper.clamp_double(scope.posX, MainRegistry.borderPosX, MainRegistry.borderNegX),
-						scope.posY,
-						MathHelper.clamp_double(scope.posZ, MainRegistry.borderPosZ, MainRegistry.borderNegZ)
-				);
-
-				Vec3 vec = Vec3.createVectorHelper(-scope.posX, 0, -scope.posZ);
-				vec = vec.normalize();
-				
-				scope.motionX = vec.xCoord * 2;
-				scope.motionZ = vec.zCoord * 2;
-				
-			} else {
-
-				if(player instanceof EntityPlayerMP) {
+			if(player instanceof EntityPlayerMP) {
 					player.mountEntity(null);
 					((EntityPlayerMP)player).playerNetServerHandler.setPlayerLocation(
-							MathHelper.clamp_double(scope.posX, MainRegistry.borderNegX, MainRegistry.borderPosX),
-							scope.posY,
-							MathHelper.clamp_double(scope.posZ, MainRegistry.borderNegZ, MainRegistry.borderPosZ),
-							player.rotationYaw,
-							player.rotationPitch
-					);
-				}
+						MathHelper.clamp_double(player.posX, MainRegistry.borderNegX, MainRegistry.borderPosX),
+						player.posY,
+						MathHelper.clamp_double(player.posZ, MainRegistry.borderNegZ, MainRegistry.borderPosZ),
+						player.rotationYaw,
+						player.rotationPitch
+				);
 			}
 
 			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You have reached the world border!"));

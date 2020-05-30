@@ -25,6 +25,7 @@ import cpw.mods.fml.common.ModMetadata;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -66,7 +67,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = RefStrings.MODID, name = RefStrings.NAME, version = RefStrings.VERSION)
+@Mod(modid = RefStrings.MODID, name = RefStrings.NAME, version = RefStrings.VERSION, guiFactory = RefStrings.GUI_FACTORY)
 public class MainRegistry
 {
 	@Instance(RefStrings.MODID)
@@ -194,6 +195,8 @@ public class MainRegistry
 
 	public static boolean bb_rng = false;
 	
+	public static boolean chatfilter = true;
+	
 	public static boolean freeRadar = false;
 	public static boolean sound = true;
 	public static boolean comparator = false;
@@ -217,6 +220,8 @@ public class MainRegistry
 	
 	public static float smoothing = 0.0F;
 	
+	public static HashMap<String, String> sub = new HashMap();
+	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
 	{
@@ -230,6 +235,43 @@ public class MainRegistry
 		proxy.registerRenderInfo();
 		FluidHandler.init();
 		HFRPotion.init();
+
+		sub.put("fuck", "frick");
+		sub.put("nigga", "african american");
+		sub.put("nigger", "african american");
+		sub.put("faggot", "homosexual");
+		sub.put("gay", "homosexual");
+		sub.put("fag", "cigarette");
+		sub.put("cunt", "immanuel kant");
+		sub.put("penis", "pee pee");
+		sub.put("cock", "rooster");
+		sub.put("dick", "richard nixon");
+		sub.put("shit", "crap");
+		sub.put("bitch", "dog");
+		sub.put("pussy", "kitten");
+		sub.put("bastard", "illegitimate child");
+		sub.put("goddamn", "goshdarn");
+		sub.put("damn", "darn");
+		sub.put("asshole", "poohole");
+		sub.put("jew", "יהודי");
+		sub.put("kike", "יהודי");
+		sub.put("kys", "stop");
+		sub.put("kill yourself", "reconsider your life choices");
+		sub.put("chink", "eastern asian fellow");
+		sub.put(" ass ", " butté ");
+		sub.put("cracker", "caucasian");
+		sub.put("gook", "vietnamese");
+		sub.put("cuck", "lad");
+		sub.put("negro", "melanine man");
+		sub.put("negroid", "african-like");
+		sub.put("coon", "overweight");
+		sub.put("penis", "junk");
+		sub.put("twat", "天安门广场大屠杀");
+		sub.put("idiot", "傻子");
+		sub.put("whore", "hussy");
+		sub.put("pornography", "naughty pics");
+		sub.put("porn", "cartoons");
+		sub.put("hentai", "naughty cartoons");
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
@@ -279,6 +321,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_hfr_turbine");
 		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileentity_hfr_teleporter");
 		GameRegistry.registerTileEntity(TileEntityMachineTemple.class, "tileentity_hfr_temple");
+		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_hfr_blastdoor");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
@@ -406,6 +449,8 @@ public class MainRegistry
 	
 	public static String jsonDir;
 	
+	public static Configuration config;
+	
 	public void loadConfig(FMLPreInitializationEvent event)
 	{
 		if(logger == null)
@@ -413,10 +458,12 @@ public class MainRegistry
 		
 		PacketDispatcher.registerPackets();
 
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 		jsonDir = config.getConfigFile().getAbsolutePath().replace("cfg", "json");
 		
-		config.load();Property propRadarRange = config.get("RADAR", "radarRange", 1000);
+		config.load();
+		
+		Property propRadarRange = config.get("RADAR", "radarRange", 1000);
         propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";
         radarRange = propRadarRange.getInt();
         
@@ -701,48 +748,8 @@ public class MainRegistry
         zombgrief.comment = "What blocks can be griefed by zomberts (syntax: [shortname]:[HP amount])";
         //rather than being processed instantly (and by doing so, missing out half the blocks), the config data is being loaded into a string-based buffer
         twilightBuffer = zombgrief.getStringList();
-        
-        /*for(String val : zg) {
-        	
-        	try {
-        		
-        		String name = val.split(":")[0];
-        		//gets block from string with no modifiers (intended for vanilla)
-        		Block b = Block.getBlockFromName(name);
-        		
-        		//in case the block uses the integer id notation
-        		if(b == null) {
-        			try {
-        				b = Block.getBlockById(Integer.parseInt(name));
-        			} catch(Exception ex) { }
-        		}
-        		
-        		//if there is no block found, it'll retry with the proper domain format (modid:name)
-        		//first _ is replaced with : (intended for modded blocks with the inclusion of the modid)
-        		if(b == null)
-        			//b = Block.getBlockFromName(name.replaceFirst("_", ":"));
-        			b = RegistryUtil.getBlockByNameNoCaseOrPoint(name);
-        		
-        		//if there is still no block found, it'll retry with the tile. prefix
-        		//in addition to the replacement of the _, it'll search for 'tile' and add a period to create 'tile.' (intended for HFR blocks)
-        		if(b == null) {
-        			String nname = name.replaceFirst("tile", "tile.");
-        			//b = Block.getBlockFromName(nname.replaceFirst("_", ":"));
-        			b = RegistryUtil.getBlockByNameNoCaseOrPoint(nname);
-        		}
-        		
-	        	int hp = Integer.valueOf(val.split(":")[1]);
-	        	
-	        	if(b != null)
-	        		zombWhitelist.add(new GriefEntry(b, hp));
-	        	else
-	        		logger.error("Invalid block entry '" + val.split(":")[0] + "'");
-        	
-        	} catch(Exception ex) {
-        		logger.error("Invalid config entry '" + val + "'");
-        	}
-        }*/
         /////////////////////////////////////////////////////////////////////////
+        
         Property entcontrol = config.get("ENTITYCONTROL", "entityRestrictions", new String[] { "" });
         entcontrol.comment = "What entities should be regulated (syntax: [entity name]:[new spawn chance])";
         String[] ec = entcontrol.getStringList();
@@ -900,6 +907,12 @@ public class MainRegistry
         mold = createConfigInt(config, "CLOWDER", "mold", "How many ticks cardboard boxes can remain loaded until rotting (5h by default)", 5 * 60 * 60 * 20);
 
         bb_rng = createConfigBool(config, "BOBBYBREAKER", "enableFineCalc", "Whether or not BB uses exact position values or rounded ones, exact values simulate RNG due to bomb spread and highly varying damage", false);
+
+        Property prop_chatfilter = config.get("CHATFILTER", "enableChatFilter", true);
+        prop_chatfilter.comment = "Enables the swear filter for chat";
+        prop_chatfilter.setRequiresMcRestart(false);
+        prop_chatfilter.setRequiresWorldRestart(false);
+        chatfilter = prop_chatfilter.getBoolean(true);
         
         u2en = createConfigBool(config, "STOCKMARKET", "u2enable", "Whether econ boost messages should be broadcasted", true);
         u1en = createConfigBool(config, "STOCKMARKET", "u1enable", "Whether small econ boost messages should be broadcasted", true);
@@ -923,8 +936,8 @@ public class MainRegistry
         borderBuffer = createConfigInt(config, "WORLDBORDER", "borderBuffer", "The width of the warning area", 100);
         borderPosX = createConfigInt(config, "WORLDBORDER", "borderPosX", "World border in the positive X direction", 10000);
         borderNegX = createConfigInt(config, "WORLDBORDER", "borderNegX", "World border in the negative X direction", -10000);
-        borderPosZ = createConfigInt(config, "WORLDBORDER", "borderPosX", "World border in the positive Z direction", 10000);
-        borderNegZ = createConfigInt(config, "WORLDBORDER", "borderNegX", "World border in the negative Z direction", -10000);
+        borderPosZ = createConfigInt(config, "WORLDBORDER", "borderPosZ", "World border in the positive Z direction", 10000);
+        borderNegZ = createConfigInt(config, "WORLDBORDER", "borderNegZ", "World border in the negative Z direction", -10000);
         
         config.save();
         

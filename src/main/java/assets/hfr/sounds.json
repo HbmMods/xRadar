@@ -14,6 +14,8 @@
     "block.railgunFire": {"category": "block", "sounds": [{"name": "block/railgunFire", "stream": false}]},
     "block.railgunCharge": {"category": "block", "sounds": [{"name": "block/railgunCharge", "stream": false}]},
     "block.navalFire": {"category": "block", "sounds": [{"name": "block/navalFire", "stream": false}]},
+    "block.reactorStart": {"category": "block", "sounds": [{"name": "block/reactorStart", "stream": false}]},
+    "block.reactorStop": {"category": "block", "sounds": [{"name": "block/reactorStop", "stream": false}]},
     
     "block.flagCapture": {"category": "block", "sounds": [{"name": "block/flagCapture", "stream": false}]},
     "block.flagChange": {"category": "block", "sounds": [{"name": "block/flagChange", "stream": false}]},

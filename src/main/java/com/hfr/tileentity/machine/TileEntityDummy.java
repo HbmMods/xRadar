@@ -1,5 +1,6 @@
 package com.hfr.tileentity.machine;
 
+import com.hfr.blocks.door.BlastDoor;
 import com.hfr.blocks.door.VaultDoor;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,7 +15,7 @@ public class TileEntityDummy extends TileEntity {
     @Override
 	public void updateEntity() {
     	if(!this.worldObj.isRemote) {
-    		if(!(this.worldObj.getBlock(targetX, targetY, targetZ) instanceof VaultDoor)) {
+    		if(!(this.worldObj.getBlock(targetX, targetY, targetZ) instanceof VaultDoor) && !(this.worldObj.getBlock(targetX, targetY, targetZ) instanceof BlastDoor)) {
     			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
     		}
     	}
