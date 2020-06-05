@@ -54,7 +54,7 @@ public class ClientProxy extends ServerProxy
 	public static KeyBinding incScale = new KeyBinding("Increase Radar Scale", 78, "xRadar");
 	public static KeyBinding decScale = new KeyBinding("Decrease Radar Scale", 74, "xRadar");
 	public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 0, "xRadar");
-	public static KeyBinding filter = new KeyBinding("Toggle chat filter", 0, "xRadar");
+	public static KeyBinding filter = new KeyBinding("Toggle chat filter", 62, "xRadar");
 	
 	@Override
 	public void registerRenderInfo()
@@ -75,7 +75,6 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.registerKeyBinding(decScale);
 		ClientRegistry.registerKeyBinding(slbm);
 		ClientRegistry.registerKeyBinding(filter);
-		//ClientRegistry.registerKeyBinding(toggleDebug);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());

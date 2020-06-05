@@ -2,7 +2,6 @@ package com.hfr.main;
 
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 
 import com.hfr.handler.SLBMHandler;
@@ -178,13 +177,16 @@ public class EventHandlerClient {
 			return;
 		
 		IChatComponent component = event.message;
-		String msg = component.getUnformattedText();
+		String msg = component.getFormattedText();
 		
 		for(Entry<String, String> pair : MainRegistry.sub.entrySet()) {
 			
-			//limit to 50 substitutions to prevent infinite loops
-			for(int i = 0; i < 50 && StringUtils.containsIgnoreCase(msg, pair.getKey()); i++) {
-				msg = msg.replaceAll("(?i)" + pair.getKey(), pair.getValue());
+			String prev = msg;
+			msg = msg.replaceAll("(?i)" + pair.getKey() + "", pair.getValue());
+			
+			while(!prev.equals(msg)) {
+				msg = msg.replaceAll("(?i)" + pair.getKey() + "", pair.getValue());
+				prev = msg;
 			}
 		}
 

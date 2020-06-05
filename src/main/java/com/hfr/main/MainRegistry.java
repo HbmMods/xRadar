@@ -236,42 +236,44 @@ public class MainRegistry
 		FluidHandler.init();
 		HFRPotion.init();
 
-		sub.put("fuck", "frick");
-		sub.put("nigga", "african american");
-		sub.put("nigger", "african american");
-		sub.put("faggot", "homosexual");
-		sub.put("gay", "homosexual");
-		sub.put("fag", "cigarette");
-		sub.put("cunt", "immanuel kant");
-		sub.put("penis", "pee pee");
-		sub.put("cock", "rooster");
-		sub.put("dick", "richard nixon");
-		sub.put("shit", "crap");
-		sub.put("bitch", "dog");
-		sub.put("pussy", "kitten");
-		sub.put("bastard", "illegitimate child");
-		sub.put("goddamn", "goshdarn");
-		sub.put("damn", "darn");
-		sub.put("asshole", "poohole");
-		sub.put("jew", "יהודי");
-		sub.put("kike", "יהודי");
-		sub.put("kys", "stop");
-		sub.put("kill yourself", "reconsider your life choices");
-		sub.put("chink", "eastern asian fellow");
-		sub.put(" ass ", " butté ");
-		sub.put("cracker", "caucasian");
-		sub.put("gook", "vietnamese");
-		sub.put("cuck", "lad");
-		sub.put("negro", "melanine man");
-		sub.put("negroid", "african-like");
-		sub.put("coon", "overweight");
-		sub.put("penis", "junk");
-		sub.put("twat", "天安门广场大屠杀");
-		sub.put("idiot", "傻子");
-		sub.put("whore", "hussy");
-		sub.put("pornography", "naughty pics");
-		sub.put("porn", "cartoons");
-		sub.put("hentai", "naughty cartoons");
+		sub.put(regexify("sex mod"), "funnies");
+		sub.put(regexify("fuck"), "frick");
+		sub.put(regexify("nigga"), "african american");
+		sub.put(regexify("nigger"), "african american");
+		sub.put(regexify("faggot"), "homosexual");
+		sub.put(regexify("gay"), "homosexual");
+		sub.put(regexify("fag"), "cigarette");
+		sub.put(regexify("cunt"), "immanuel kant");
+		sub.put(regexify("penis"), "pee pee");
+		sub.put(regexify("cock"), "rooster");
+		sub.put(regexify("dick"), "richard nixon");
+		sub.put(regexify("shit"), "crap");
+		sub.put(regexify("bitch"), "dog");
+		sub.put(regexify("pussy"), "kitten");
+		sub.put(regexify("bastard"), "illegitimate child");
+		sub.put(regexify("goddamn"), "goshdarn");
+		sub.put(regexify("damn"), "darn");
+		sub.put(regexify("asshole"), "poohole");
+		sub.put(regexify("jew"), "יהודי");
+		sub.put(regexify("kike"), "יהודי");
+		sub.put(regexify("kys"), "stop");
+		sub.put(regexify("kill yourself"), "reconsider your life choices");
+		sub.put(regexify("chink"), "eastern asian fellow");
+		sub.put(regexify(" ass "), " butté ");
+		sub.put(regexify("cracker"), "caucasian");
+		sub.put(regexify("gook"), "vietnamese");
+		sub.put(regexify("cuck"), "lad");
+		sub.put(regexify("negro"), "melanine man");
+		sub.put(regexify("negroid"), "african-like");
+		sub.put(regexify("coon"), "overweight");
+		sub.put(regexify("penis"), "junk");
+		sub.put(regexify("twat"), "天安门广场大屠杀");
+		sub.put(regexify("idiot"), "傻子");
+		sub.put(regexify("whore"), "hussy");
+		sub.put(regexify("pornography"), "naughty pics");
+		sub.put(regexify("porn"), "cartoons");
+		sub.put(regexify("hentai"), "naughty cartoons");
+		sub.put(regexify("wally"), "walter avila");
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
@@ -386,6 +388,36 @@ public class MainRegistry
 		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
 		DimensionManager.registerProviderType(15, WorldProviderMoon.class, false);
 	    DimensionManager.registerDimension(15, 15);
+	}
+	
+	private String regexify(String string) {
+		
+		String neue = "(?i)";
+		boolean first = true;
+		
+		for(char c : string.toCharArray()) {
+			
+			if(!first)
+				neue += "[ \\.\\-_]{0,3}";
+			
+			first = false;
+			
+			if(c == 'a') {
+				neue += "[aäáàâåǎ]";
+			} else if(c == 'e') {
+				neue += "[eëéèêě]";
+			} else if(c == 'i') {
+				neue += "[iịǐíìîï]";
+			} else if(c == 'o') {
+				neue += "[oöóòôǒọ]";
+			} else if(c == 'u') {
+				neue += "[uüúùûůǔụ]";
+			} else {
+				neue += c;
+			}
+		}
+		
+		return neue;
 	}
 
 	@EventHandler
