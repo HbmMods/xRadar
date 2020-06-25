@@ -1,5 +1,9 @@
 package com.hfr.main;
 
+import java.util.List;
+
+import com.hfr.rvi.RVICommon.Indicator;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -12,6 +16,7 @@ public class ServerProxy
 	public void howDoIUseTheZOMG(World world, double posX, double posY, double posZ, int type) { }
 
 	public void addBlip(float x, float y, float z, float posX, float posZ, int type) { }
+	public void addRVIs(List<Indicator> indicators) { }
 
 	public void clearBlips(boolean sufficient, boolean enabled, int offset, int range) { }
 	

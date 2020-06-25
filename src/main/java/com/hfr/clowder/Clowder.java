@@ -39,6 +39,7 @@ public class Clowder {
 	public Set<String> officers = new HashSet();
 	public HashMap<String, Long> members = new HashMap();
 	public Set<String> applications = new HashSet();
+	public int flags = 0;
 	
 	public static List<Clowder> clowders = new ArrayList();
 	public static HashMap<String, Clowder> inverseMap = new HashMap();
@@ -387,6 +388,7 @@ public class Clowder {
 		nbt.setFloat(i + "_prestige", this.prestige);
 		nbt.setFloat(i + "_prestigeGen", this.prestigeGen);
 		nbt.setFloat(i + "_prestigeReq", this.prestigeReq);
+		nbt.setInteger(i + "_flags", this.flags);
 
 		nbt.setString(i + "_leader", this.leader);
 		nbt.setInteger(i + "_members", this.members.size());
@@ -433,6 +435,7 @@ public class Clowder {
 		c.prestige = Math.max(nbt.getFloat(i + "_prestige"), 1F);
 		c.prestigeGen = Math.max(nbt.getFloat(i + "_prestigeGen"), 0F);
 		c.prestigeReq = Math.max(nbt.getFloat(i + "_prestigeReq"), 0F);
+		c.flags = nbt.getInteger(i + "_flags");
 
 		c.leader = nbt.getString(i + "_leader");
 		int count = nbt.getInteger(i + "_members");
@@ -539,6 +542,22 @@ public class Clowder {
 
 		for(int i = 0; i < clowders.size(); i++)
 			clowders.get(i).saveClowder(i, nbt);
+	}
+	
+	public static boolean areFriends(EntityPlayer player1, EntityPlayer player2) {
+
+		if(player1 == null)
+			return false;
+		if(player2 == null)
+			return false;
+
+		Clowder c1 = getClowderFromPlayer(player1);
+		Clowder c2 = getClowderFromPlayer(player2);
+		
+		if(c1 == null)
+			return false;
+		
+		return c1 == c2;
 	}
 	
 	public static Clowder getClowderFromPlayer(EntityPlayer player) {

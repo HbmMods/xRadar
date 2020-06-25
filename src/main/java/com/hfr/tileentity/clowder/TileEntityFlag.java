@@ -268,6 +268,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			//more of a failsafe since in all natural cases, the mode is 0 during this happening
 			owner.addPrestigeGen(-getGenRate(), worldObj);
 			owner.addPrestigeReq(-getCost(), worldObj);
+			owner.flags--;
 
 			owner.multPrestige(0.95F, worldObj);
 		}
@@ -277,6 +278,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		if(owner != null) {
 			owner.addPrestigeGen(getGenRate(), worldObj);
 			owner.addPrestigeReq(getCost(), worldObj);
+			owner.flags++;
 		}
 		
 		this.markDirty();

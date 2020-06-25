@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.hfr.handler.SLBMHandler;
 import com.hfr.items.ModItems;
 import com.hfr.render.hud.RenderFlagOverlay;
+import com.hfr.render.hud.RenderRVIOverlay;
 import com.hfr.render.hud.RenderRadarScreen;
 import com.hfr.render.util.RenderAccessoryUtility;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
@@ -14,6 +15,8 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -26,6 +29,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 
 public class EventHandlerClient {
@@ -117,6 +121,7 @@ public class EventHandlerClient {
 			}
 			/// END KEYBINDS ///
 			
+			/// RADAR SHIT ///
 			if(lastEnabled) {
 				int offset = lastOffset;
 				int range = 250;
@@ -127,6 +132,7 @@ public class EventHandlerClient {
 				RenderRadarScreen.renderRadar(offset, range, zoom);
 			}
 			
+			/// CLOWDER TRASH ///
 			RenderFlagOverlay.drawFlag();
 		}
 		
@@ -141,6 +147,13 @@ public class EventHandlerClient {
 		if(shader && player.getRNG().nextInt(500) == 0) {
 			Minecraft.getMinecraft().entityRenderer.activateNextShader();
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
+		
+		RenderRVIOverlay.renderIndicators(event.partialTicks);
 	}
 	
 	@SubscribeEvent

@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
+import java.util.List;
+
 import com.hfr.effect.ParticleContrail;
 import com.hfr.effect.ParticleMush;
 import com.hfr.entity.*;
@@ -39,6 +41,7 @@ import com.hfr.render.living.*;
 import com.hfr.render.mob.*;
 import com.hfr.render.mob.ModelSheep.ModelSheepWooly;
 import com.hfr.render.tileentity.*;
+import com.hfr.rvi.RVICommon.Indicator;
 import com.hfr.tileentity.*;
 import com.hfr.tileentity.clowder.*;
 import com.hfr.tileentity.machine.*;
@@ -108,6 +111,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRift.class, new RenderRift());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineTurbine.class, new RenderTurbine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineTemple.class, new RenderTemple());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConquerer.class, new RenderConquerer());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileAT.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
@@ -320,6 +324,11 @@ public class ClientProxy extends ServerProxy
 	public void addBlip(float x, float y, float z, float posX, float posZ, int type) {
 		
 		RenderRadarScreen.blips.add(new Blip(x, y, z, posX, posZ, type));
+	}
+	
+	@Override
+	public void addRVIs(List<Indicator> indicators) {
+		RenderRVIOverlay.indicators = indicators;
 	}
 	
 	@Override

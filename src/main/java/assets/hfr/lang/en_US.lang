@@ -78,6 +78,7 @@ tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
 tile.clowder_flag_big.name=Clowder Territory Flag (DON'T USE THIS ONE)
 tile.clowder_cap.name=Clowder Cap Point (ALSO DON'T USE THIS ONE AS WELL)
+tile.clowder_conquerer.name=Clowder Conquest Flag
 
 tile.rbmk_element.name=RBMK Fuel Rod
 tile.rbmk_rods.name=RBMK Control Rods

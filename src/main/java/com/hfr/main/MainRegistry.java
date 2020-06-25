@@ -273,7 +273,7 @@ public class MainRegistry
 		sub.put(regexify("pornography"), "naughty pics");
 		sub.put(regexify("porn"), "cartoons");
 		sub.put(regexify("hentai"), "naughty cartoons");
-		sub.put(regexify("wally"), "walter avila");
+		sub.put(regexify("wally"), "walter");
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		
@@ -398,18 +398,28 @@ public class MainRegistry
 		for(char c : string.toCharArray()) {
 			
 			if(!first)
-				neue += "[ \\.\\-_]{0,3}";
+				neue += "[ \\.\\-_@$!#:;&\\(\\)-¶,\\.\\?+×÷=%/*€£￦¥¿¡^\\[\\]<>~`§μ¬Г´·\\{\\}©|¤Ωθฯ]{0,3}";
 			
 			first = false;
 			
 			if(c == 'a') {
 				neue += "[aäáàâåǎ]";
+			} else if(c == 'c') {
+				neue += "[cĉčćç]";
 			} else if(c == 'e') {
 				neue += "[eëéèêě]";
 			} else if(c == 'i') {
 				neue += "[iịǐíìîï]";
+			} else if(c == 'j') {
+				neue += "[jĵǰ]";
+			} else if(c == 'm') {
+				neue += "[mṃ]";
+			} else if(c == 'n') {
+				neue += "[nňṇńņ]";
 			} else if(c == 'o') {
 				neue += "[oöóòôǒọ]";
+			} else if(c == 's') {
+				neue += "[sŝšṣśşŝ]";
 			} else if(c == 'u') {
 				neue += "[uüúùûůǔụ]";
 			} else {

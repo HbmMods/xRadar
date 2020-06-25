@@ -96,11 +96,17 @@ public class RenderRadarScreen {
 		Minecraft minecraft = Minecraft.getMinecraft();
         
 		for(Blip blip : blips) {
+			
+			Vec3 vec = Vec3.createVectorHelper(blip.x, 0, blip.z);
+			vec.rotateAroundY((float) Math.toRadians(minecraft.thePlayer.rotationYaw));
 
 			float x = (blip.x * clamp * blip.x * clamp);
 			float z = (blip.z * clamp * blip.z * clamp);
 			if(Math.sqrt(x + z) > size * 0.35)
 				continue;
+			
+			x = (float)vec.xCoord;
+			z = (float)vec.zCoord;
 
 			switch(blip.type) {
 			case 0: minecraft.getTextureManager().bindTexture(blipGreen); break;
@@ -115,10 +121,10 @@ public class RenderRadarScreen {
 			}
 
 			tessellator.startDrawingQuads();
-	        tessellator.addVertexWithUV(cX + (blip.x * clamp) - blipSize, cY + (blip.z * clamp) + blipSize, zLevel, 0, 1);
-	        tessellator.addVertexWithUV(cX + (blip.x * clamp) + blipSize, cY + (blip.z * clamp) + blipSize, zLevel, 1, 1);
-	        tessellator.addVertexWithUV(cX + (blip.x * clamp) + blipSize, cY + (blip.z * clamp) - blipSize, zLevel, 1, 0);
-	        tessellator.addVertexWithUV(cX + (blip.x * clamp) - blipSize, cY + (blip.z * clamp) - blipSize, zLevel, 0, 0);
+	        tessellator.addVertexWithUV(cX + (x * clamp) - blipSize, cY + (z * clamp) + blipSize, zLevel, 0, 1);
+	        tessellator.addVertexWithUV(cX + (x * clamp) + blipSize, cY + (z * clamp) + blipSize, zLevel, 1, 1);
+	        tessellator.addVertexWithUV(cX + (x * clamp) + blipSize, cY + (z * clamp) - blipSize, zLevel, 1, 0);
+	        tessellator.addVertexWithUV(cX + (x * clamp) - blipSize, cY + (z * clamp) - blipSize, zLevel, 0, 0);
 	        tessellator.draw();
 		}
 
@@ -131,13 +137,19 @@ public class RenderRadarScreen {
 			float z = (blip.z * clamp * blip.z * clamp);
 			if(Math.sqrt(x + z) > size * 0.35)
 				continue;
+			
+			Vec3 vec = Vec3.createVectorHelper(blip.x, 0, blip.z);
+			vec.rotateAroundY((float) Math.toRadians(minecraft.thePlayer.rotationYaw));
+			
+			x = (float)vec.xCoord;
+			z = (float)vec.zCoord;
 
 			if(blip.type != 3) {
-				minecraft.fontRenderer.drawString("" + Math.round(blip.y), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 6), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 4), 0xBBFFBB);
+				minecraft.fontRenderer.drawString("" + Math.round(blip.y), (int) (cX * fontScale + (int)(x * clamp * fontScale) - 6), (int) (cY * fontScale + (int)(z * clamp * fontScale) + 4), 0xBBFFBB);
 			} else {
 				
-				minecraft.fontRenderer.drawString("" + Math.round(blip.posX), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 4), 0xFFBBBB);
-				minecraft.fontRenderer.drawString("" + Math.round(blip.posZ), (int) (cX * fontScale + (int)(blip.x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(blip.z * clamp * fontScale) + 12), 0xFFBBBB);
+				minecraft.fontRenderer.drawString("" + Math.round(blip.posX), (int) (cX * fontScale + (int)(x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(z * clamp * fontScale) + 4), 0xFFBBBB);
+				minecraft.fontRenderer.drawString("" + Math.round(blip.posZ), (int) (cX * fontScale + (int)(x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(z * clamp * fontScale) + 12), 0xFFBBBB);
 				
 			}
 		}

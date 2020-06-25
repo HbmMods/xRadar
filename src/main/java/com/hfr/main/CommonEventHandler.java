@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hfr.ai.*;
+import com.hfr.clowder.Clowder;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.CBTData;
 import com.hfr.data.CBTData.CBTEntry;
@@ -18,12 +19,15 @@ import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.CBTPacket;
+import com.hfr.packet.effect.RVIPacket;
 import com.hfr.packet.effect.SLBMOfferPacket;
 import com.hfr.packet.tile.SRadarPacket;
 import com.hfr.packet.tile.SchemOfferPacket;
 import com.hfr.pon4.ExplosionController;
 import com.hfr.potion.HFRPotion;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
+import com.hfr.rvi.RVICommon.Indicator;
+import com.hfr.rvi.RVICommon.RVIType;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -107,9 +111,8 @@ public class CommonEventHandler {
 								player.worldObj.getHeightValue((int)entity.posX, (int)entity.posZ) <= entity.posY + 2) {
 							
 							Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
-							boolean isRiding = bogey != null;
 							
-							if(bogey == vehicle)
+							if(bogey == vehicle || bogey == null)
 								continue;
 							
 							//only detect if visible on radar or the radar is on a ground vehicle
@@ -120,7 +123,6 @@ public class CommonEventHandler {
 								Entity entBogey = (Entity)bogey;
 								
 								Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY, entBogey.posZ - player.posZ);
-								vec.rotateAroundY(player.rotationYaw * (float)Math.PI / 180F);
 								
 								//default: 5 (questionmark)
 								//plane: 1 (circled blip)
@@ -203,6 +205,92 @@ public class CommonEventHandler {
 					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 2));
 				}
 			}
+		}
+	}
+	
+	public boolean hasDigiOverlay(EntityPlayer player) {
+		
+		Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+
+		if(vehicle != null && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false) || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false)) && !player.isPotionActive(HFRPotion.emp)) {
+			
+			boolean digitalRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "digitalRadar", false);
+			
+			return digitalRadar;
+		}
+		
+		return false;
+	}
+	
+	@SubscribeEvent
+	public void handleRVITick(TickEvent.PlayerTickEvent event) {
+		
+		EntityPlayer player = event.player;
+		
+		if(!player.worldObj.isRemote && event.phase == Phase.START) {
+			
+			player.worldObj.theProfiler.startSection("xr_rvi");
+
+			int range = 500;	//the maximum distance where vehicles are visible
+			int buffer = 200;	//the minimum distance where vehicles are visible
+			int delay = 4;		//the time in ticks between scans
+			boolean digital = hasDigiOverlay(player);
+
+			if(player.ticksExisted % delay != 0)
+				return;
+			
+			List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY, player.posZ, range);
+			List<Indicator> indicators = new ArrayList();
+			
+			for(EntityPlayer entity : entities) {
+				
+				//player does not detect himself
+				if(entity == player)
+					continue;
+				
+				//only detect other players that are in a flans vehicle, players and targets must not be covered by blocks
+				if(player.worldObj.getHeightValue((int)player.posX, (int)player.posZ) <= player.posY + 2 &&
+						player.worldObj.getHeightValue((int)entity.posX, (int)entity.posZ) <= entity.posY + 2) {
+					
+					Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
+					
+					if(bogey == null)
+						continue;
+					
+					Entity entBogey = (Entity)bogey;
+					
+					Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY - player.posY, entBogey.posZ - player.posZ);
+					double dist = vec.lengthVector();
+					
+					if(dist > range)
+						continue;
+					
+					if(!digital && buffer > dist)
+						continue;
+					
+					RVIType type = RVIType.VEHICLE;
+					
+					if(!digital) {
+						if("EntityPlane".equals(bogey.getClass().getSimpleName()))
+							type = RVIType.PLANE;
+						if("EntityVehicle".equals(bogey.getClass().getSimpleName()))
+							type = RVIType.VEHICLE;
+					} else {
+						
+						if(Clowder.areFriends(player, entity)) {
+							type = RVIType.FRIEND;
+						} else {
+							type = RVIType.ENEMY;
+						}
+					}
+					
+					indicators.add(new Indicator(entBogey.posX, entBogey.posY + 2, entBogey.posZ, type));
+				}
+			}
+			
+			PacketDispatcher.wrapper.sendTo(new RVIPacket(indicators.toArray(new Indicator[0])), (EntityPlayerMP) player);
+			
+			player.worldObj.theProfiler.endSection();
 		}
 	}
 	
