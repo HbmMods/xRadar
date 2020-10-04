@@ -1,30 +1,43 @@
 package com.hfr.main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
+import com.hfr.command.CommandClowderChat;
 import com.hfr.handler.SLBMHandler;
 import com.hfr.items.ModItems;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.client.ReseatRequestPacket;
+import com.hfr.packet.effect.PlayerDataPacket;
 import com.hfr.render.hud.RenderFlagOverlay;
 import com.hfr.render.hud.RenderRVIOverlay;
 import com.hfr.render.hud.RenderRadarScreen;
 import com.hfr.render.util.RenderAccessoryUtility;
+import com.hfr.util.LoggingEngine;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -43,6 +56,9 @@ public class EventHandlerClient {
 	public static boolean fps = false;
 	public static boolean tilt = false;
 	public static boolean shader = false;
+	
+	public static List<int[]> resourceBorders = new ArrayList();
+	boolean resources = false;
 	
 	public void register() {
 
@@ -113,6 +129,26 @@ public class EventHandlerClient {
 					}
 					
 					lock = true;
+
+				//resource markers
+				} else if(Keyboard.isKeyDown(ClientProxy.markers.getKeyCode())) {
+					
+					if(!lock) {
+						resources = !resources;
+						Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 0.25F, 0.5F);
+					}
+					
+					lock = true;
+
+				//logger
+				} else if(Keyboard.isKeyDown(ClientProxy.flushLog.getKeyCode())) {
+					
+					if(!lock) {
+						LoggingEngine.flush();
+						Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 0.25F, 0.5F);
+					}
+					
+					lock = true;
 					
 				} else {
 					
@@ -153,7 +189,87 @@ public class EventHandlerClient {
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		
+		GL11.glPushMatrix();
+		
 		RenderRVIOverlay.renderIndicators(event.partialTicks);
+		
+		World world = Minecraft.getMinecraft().theWorld;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+		double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.partialTicks;
+		double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * event.partialTicks;
+		double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * event.partialTicks;
+		
+		if(resources) {
+			for(int[] pos : resourceBorders) {
+	
+				int minX = pos[0];
+				int minZ = pos[1];
+				int maxX = pos[2];
+				int maxZ = pos[3];
+				int color = pos[4];
+	
+				int avgX = (minX + maxX) / 2;
+				int avgZ = (minZ + maxZ) / 2;
+				
+				if(Vec3.createVectorHelper(avgX - x, 0, avgZ - z).lengthVector() > 50)
+					continue;
+				
+				int iy;
+				for(int ix = minX; ix <= maxX; ix++) {
+	
+					iy = getLocalY(world, ix, (int)y, minZ);
+					drawX(ix - x, iy - y, minZ - z, color);
+					iy = getLocalY(world, ix, (int)y, maxZ);
+					drawX(ix - x, iy - y, maxZ - z, color);
+				}
+				for(int iz = minZ; iz <= maxZ; iz++) {
+	
+					iy = getLocalY(world, minX, (int)y, iz);
+					drawX(minX - x, iy - y, iz - z, color);
+					iy = getLocalY(world, maxX, (int)y, iz);
+					drawX(maxX - x, iy - y, iz - z, color);
+				}
+			}
+		}
+		
+		GL11.glPopMatrix();
+	}
+	
+	private int getLocalY(World world, int x, int y, int z) {
+		
+		for(int i = y + 10; i > y - 30; i--) {
+			
+			if(world.getBlock(x, i, z).canPlaceTorchOnTop(world, x, i, z))
+				return i;
+		}
+		
+		return -1;
+	}
+	
+	private void drawX(double x, double y, double z, int color) {
+
+		GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glTranslated(x, y + 1.05, z);
+        GL11.glLineWidth(3F);
+		
+		Tessellator tess = Tessellator.instance;
+		
+		tess.startDrawing(3);
+		tess.setColorOpaque_I(color);
+		tess.addVertex(0, 0, 0);
+		tess.addVertex(1, 0, 1);
+		tess.draw();
+		tess.startDrawing(3);
+		tess.setColorOpaque_I(color);
+		tess.addVertex(1, 0, 0);
+		tess.addVertex(0, 0, 1);
+		tess.draw();
+		
+        GL11.glLineWidth(2F);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glPopMatrix();
 	}
 	
 	@SubscribeEvent
@@ -179,18 +295,93 @@ public class EventHandlerClient {
 	@SubscribeEvent
 	public void renderTick(TickEvent.RenderTickEvent event) {
 		
-		if(event.phase == TickEvent.Phase.START)
+		if(event.phase == TickEvent.Phase.START) {
 			MainRegistry.smoothing = event.renderTickTime;
+			
+			if(MainRegistry.hfr_powerlog)
+				LoggingEngine.survey();
+		}
 	}
+	
+	long time = -1;
+	int oldEnt = 0;
+	
+	/*@SubscribeEvent
+	public void clientTick(ClientTickEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(player == null || player.worldObj == null)
+			return;
+		
+		long now = System.currentTimeMillis();
+		
+		if(player.isRiding()) {
+			time = now;
+			oldEnt = player.ridingEntity.getEntityId();
+			return;
+		}
+		
+		if(now > time + 150 && now < time + 15000) {
+			
+			int shift = Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode();
+			
+			if(Keyboard.isKeyDown(shift)) {
+				time = -1;
+				oldEnt = 0;
+				player.addChatComponentMessage(new ChatComponentText("Vehicle dismount detected: Shift key is pressed!"));
+				return;
+			} else {
+				
+				Entity reseat = player.worldObj.getEntityByID(oldEnt);
+				
+				if(reseat != null) {
+					player.mountEntity(reseat);
+					PacketDispatcher.wrapper.sendToServer(new ReseatRequestPacket());
+					time = -1;
+					oldEnt = 0;
+					player.addChatComponentMessage(new ChatComponentText("Vehicle dismount detected: Attempting to remount!"));
+					return;
+				} else {
+					player.addChatComponentMessage(new ChatComponentText("Vehicle dismount detected: Mounting entity not found!"));
+				}
+			}
+		}
+	}*/
 	
 	@SubscribeEvent
 	public void chatReceivedEvent(ClientChatReceivedEvent event) {
 		
+		IChatComponent component = event.message;
+		String raw = component.getUnformattedText();
+		String msg = component.getFormattedText();
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		Integer i = PlayerDataPacket.vals.get(CommandClowderChat.MUTE_KEY);
+		
+		if(i != null && i == 1) {
+			
+			System.out.println(raw);
+			
+			if(raw.startsWith("§") && (raw.endsWith("Citizen ]") || raw.endsWith("Officer ]") || raw.endsWith("Leader ]"))) {
+				event.setCanceled(true);
+				return;
+			}
+			
+			if(raw.startsWith("§2<")) {
+				return;
+			}
+			
+			if(raw.startsWith("<")) {
+				event.setCanceled(true);
+				return;
+			}
+			
+			return;
+		}
+		
 		if(!MainRegistry.chatfilter)
 			return;
-		
-		IChatComponent component = event.message;
-		String msg = component.getFormattedText();
 		
 		for(Entry<String, String> pair : MainRegistry.sub.entrySet()) {
 			
@@ -205,7 +396,7 @@ public class EventHandlerClient {
 
 		
 		IChatComponent text = new ChatComponentText(msg);
-		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
+		player.addChatComponentMessage(text);
 		
 		event.setCanceled(true);
 	}

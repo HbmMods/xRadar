@@ -375,8 +375,11 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	}
 	
 	public boolean bordersWilderness() {
+		
+		//no longer needed
+		return true;
 
-		int rad = getRadius();
+		/*int rad = getRadius();
 		
 		for(int x = -rad; x <= rad; x++) {
 			for(int z = -rad; z <= rad; z++) {
@@ -391,7 +394,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 			}
 		}
 		
-		return false;
+		return false;*/
 	}
 	
 	public boolean checkBorder(int x, int z) {
@@ -429,8 +432,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		for(int i = -2; i <= 2; i++)
 			for(int j = -2; j <= 2; j++)
 				
-				if(worldObj.getBlock(xCoord + i, yCoord, zCoord + j).isNormalCube() && !(i == 0 && j == 0) ||
-					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord, zCoord + j) ||
+				if(!worldObj.canBlockSeeTheSky(xCoord + i, yCoord + 1, zCoord + j) ||
 					!worldObj.getBlock(xCoord + i, yCoord - 1, zCoord + j).isSideSolid(worldObj, xCoord + i, yCoord - 1, zCoord + j, UP))
 					return false;
 		

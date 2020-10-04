@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hfr.rvi.RVICommon.Indicator;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -29,4 +30,8 @@ public class ServerProxy
 	public void spawnEFX(double posX, double posY, double posZ, float pow) { }
 
 	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name) { }
+
+	public void openURL(String url) { }
+
+	public void effectNT(NBTTagCompound nbt) { }
 }

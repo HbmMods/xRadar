@@ -132,6 +132,10 @@ public class ResourceManager {
 	//FACTORY
 	public static final IModelCustom factory = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/factory.obj"));
 	public static final ResourceLocation factory_tex = new ResourceLocation(RefStrings.MODID, "textures/models/factory.png");
+	
+	//TRADEPORT
+	public static final IModelCustom tradeport = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/tradeport.obj"));
+	public static final ResourceLocation tradeport_tex = new ResourceLocation(RefStrings.MODID, "textures/models/tradeport.png");
 
 	//BOXCAR
 	public static final IModelCustom boxcar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/boxcar.obj"));

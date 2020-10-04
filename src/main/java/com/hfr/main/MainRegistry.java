@@ -220,6 +220,8 @@ public class MainRegistry
 	
 	public static float smoothing = 0.0F;
 	
+	public static boolean hfr_powerlog = false;
+	
 	public static HashMap<String, String> sub = new HashMap();
 	
 	@EventHandler
@@ -324,6 +326,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileentity_hfr_teleporter");
 		GameRegistry.registerTileEntity(TileEntityMachineTemple.class, "tileentity_hfr_temple");
 		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_hfr_blastdoor");
+		GameRegistry.registerTileEntity(TileEntityConquerer.class, "tileentity_hfr_conquest_flag");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
@@ -398,7 +401,7 @@ public class MainRegistry
 		for(char c : string.toCharArray()) {
 			
 			if(!first)
-				neue += "[ \\.\\-_@$!#:;&\\(\\)-¶,\\.\\?+×÷=%/*€£￦¥¿¡^\\[\\]<>~`§μ¬Г´·\\{\\}©|¤Ωθฯ]{0,3}";
+				neue += "[ \\.\\-_@$!#:;&\\(\\)\\-¶,\\.\\?+×÷=%/*€£￦¥¿¡^\\[\\]<>~`§μ¬Г´·\\{\\}©|¤Ωθฯ]{0,3}";
 			
 			first = false;
 			
@@ -463,6 +466,7 @@ public class MainRegistry
 		event.registerServerCommand(new CommandClowderChat());
 		event.registerServerCommand(new CommandClowderAdmin());
 		event.registerServerCommand(new CommandXShop());
+		event.registerServerCommand(new CommandXCum());
 	}
 
 	public static List<Block> blastShields = new ArrayList();
@@ -980,6 +984,8 @@ public class MainRegistry
         borderNegX = createConfigInt(config, "WORLDBORDER", "borderNegX", "World border in the negative X direction", -10000);
         borderPosZ = createConfigInt(config, "WORLDBORDER", "borderPosZ", "World border in the positive Z direction", 10000);
         borderNegZ = createConfigInt(config, "WORLDBORDER", "borderNegZ", "World border in the negative Z direction", -10000);
+        
+        hfr_powerlog = createConfigBool(config, "LOGGING", "hfrExtendedLogging", "Enables the HFR powerlogging(tm) feature which prints a shitton of debugging information", false);
         
         config.save();
         

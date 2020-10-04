@@ -2,13 +2,19 @@ package com.hfr.blocks.clowder;
 
 import java.util.Random;
 
+import com.hfr.blocks.ModBlocks;
+import com.hfr.items.ModItems;
+import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.clowder.TileEntityFlagBig;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -68,5 +74,41 @@ public class FlagBig extends BlockContainer {
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
-
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+			
+		} else if(!player.isSneaking()) {
+			
+			ItemStack held = player.getHeldItem();
+			if(held != null && held.getItem() == ModItems.hatchet) {
+				
+				if(held.hasTagCompound()) {
+					
+					TileEntityFlagBig flag = (TileEntityFlagBig)world.getTileEntity(x, y, z);
+					
+					if(flag != null) {
+						
+						NBTTagCompound nbt = held.stackTagCompound;
+						
+						flag.addClaim(
+								nbt.getInteger("xCoord1"),
+								nbt.getInteger("zCoord1"),
+								nbt.getInteger("xCoord2"),
+								nbt.getInteger("zCoord2")
+								);
+					}
+				}
+				
+				return true;
+			}
+			
+			return false;
+			
+		} else {
+			return false;
+		}
+	}
 }

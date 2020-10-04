@@ -53,13 +53,8 @@ public class RenderFlagBig extends TileEntitySpecialRenderer {
 	    int g = ((color & 0xFF00) >> 8) / 2;
 	    int b = (color & 0xFF) / 2;
 
-	    //rainbow mode
-	    /*r = (int) (System.currentTimeMillis() / 10 % 0x100);
-	    g = (int) (System.currentTimeMillis() / 10 + 42 % 0x100);
-	    b = (int) (System.currentTimeMillis() / 10 + 85 % 0x100);*/
-
-        GL11.glTranslatef(0, -8F, 0);
-        GL11.glTranslatef(0, flagpole.height * 8, 0);
+	    if(!flagpole.isClaimed)
+	    	GL11.glTranslatef(0, -8F, 0);
 
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);

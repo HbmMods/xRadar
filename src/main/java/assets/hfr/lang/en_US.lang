@@ -76,7 +76,7 @@ tile.teleporter.name=Teleporter
 
 tile.clowder_flag.name=Clowder Flag
 container.flagPole=Clowder Flag
-tile.clowder_flag_big.name=Clowder Territory Flag (DON'T USE THIS ONE)
+tile.clowder_flag_big.name=Clowder Territory Flag
 tile.clowder_cap.name=Clowder Cap Point (ALSO DON'T USE THIS ONE AS WELL)
 tile.clowder_conquerer.name=Clowder Conquest Flag
 
@@ -100,6 +100,7 @@ tile.hard_stone.name=Hardened Rock
 tile.hard_mesh.name=Reinforced Mesh
 tile.concrete_hazard.name=Hazard Concrete
 tile.concrete_rocks.name=Broken Concrete
+tile.barricade.name=Sand Bags
 
 tile.temp.name=Temporary Block
 tile.ore_oil.name=Oil Deposit
@@ -141,6 +142,8 @@ container.launchPad=Launch Pad
 
 item.hammer.name=Maul of Bench Appearo
 item.wand.name=ThotBeGone Anti Mob Wand
+item.wand_iron.name=Iron Wand
+item.wand_coal.name=Coal Wand
 item.battery.name=HFR Infinite Battery
 item.oil_detector.name=Oil Detector
 item.gas_mask.name=Dräger M65 Gas Mask
@@ -237,6 +240,7 @@ item.detonator.name=Detonator
 item.remote.name=Coordinate Remote
 
 item.mace.name=Hammer of Raiding
+item.hatchet.name=Hatchet of Province Creation
 item.clowder_map.name=Clowder Map
 item.flaregun.name=Flare Gun
 item.flare.name=Flare Cartridge

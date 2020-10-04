@@ -8,6 +8,7 @@ import com.hfr.ai.*;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.CBTData;
+import com.hfr.data.ResourceData;
 import com.hfr.data.CBTData.CBTEntry;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
@@ -18,6 +19,7 @@ import com.hfr.main.MainRegistry.ControlEntry;
 import com.hfr.main.MainRegistry.ImmunityEntry;
 import com.hfr.main.MainRegistry.PotionEntry;
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.AuxParticlePacketNT;
 import com.hfr.packet.effect.CBTPacket;
 import com.hfr.packet.effect.RVIPacket;
 import com.hfr.packet.effect.SLBMOfferPacket;
@@ -46,7 +48,10 @@ import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityLargeFireball;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
@@ -61,6 +66,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class CommonEventHandler {
 
@@ -440,6 +447,35 @@ public class CommonEventHandler {
 			}
 			
 			PacketDispatcher.wrapper.sendTo(new SchemOfferPacket(schems), (EntityPlayerMP) player);
+			
+			ResourceData res = ResourceData.getData(event.world);
+			NBTTagCompound areaData = new NBTTagCompound();
+			int areaCount = 0;
+			
+			for(int[] pos : res.coal) {
+
+				areaData.setInteger("minX" + areaCount, pos[0]);
+				areaData.setInteger("minZ" + areaCount, pos[1]);
+				areaData.setInteger("maxX" + areaCount, pos[2]);
+				areaData.setInteger("maxZ" + areaCount, pos[3]);
+				areaData.setInteger("color" + areaCount, 0x0f0f0f);
+				areaCount++;
+			}
+			
+			for(int[] pos : res.iron) {
+
+				areaData.setInteger("minX" + areaCount, pos[0]);
+				areaData.setInteger("minZ" + areaCount, pos[1]);
+				areaData.setInteger("maxX" + areaCount, pos[2]);
+				areaData.setInteger("maxZ" + areaCount, pos[3]);
+				areaData.setInteger("color" + areaCount, 0xC5AE71);
+				areaCount++;
+			}
+			
+			areaData.setInteger("count", areaCount);
+			areaData.setString("type", "resources");
+			
+			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(areaData, 0, 0, 0), (EntityPlayerMP) player);
 		}
 		
 		int chance = ControlEntry.getEntry(event.entity);
@@ -554,5 +590,26 @@ public class CommonEventHandler {
 		if(event.entityLiving instanceof EntitySquid && world.rand.nextInt(3) == 0) {
 			event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ModItems.squid_raw)));
 		}
+	}
+	
+	@SubscribeEvent
+	public void oreDropEvent(BreakEvent event) {
+		
+		World world = event.world;
+		
+		if(world.isRemote)
+			return;
+		
+		if(event.block != Blocks.stone)
+			return;
+		
+		ResourceData data = ResourceData.getData(world);
+		
+		if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z, data.iron))
+			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
+		
+		if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z, data.coal))
+			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));
+		
 	}
 }

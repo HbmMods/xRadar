@@ -1,10 +1,13 @@
 package com.hfr.command;
 
 import com.hfr.clowder.Clowder;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.PlayerDataPacket;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -46,6 +49,15 @@ public class CommandClowderChat extends CommandBase {
 			} else if(args[0].equals("faction") || args[0].equals("f")) {
 				player.getEntityData().setInteger(CHAT_KEY, 1);
 				sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to faction!"));
+				return;
+			} else if(args[0].equals("mute") || args[0].equals("m")) {
+				player.getEntityData().setInteger(MUTE_KEY, 1);
+				PacketDispatcher.wrapper.sendTo(new PlayerDataPacket(MUTE_KEY, 1), (EntityPlayerMP) player);
+				sender.addChatMessage(new ChatComponentText(INFO + "Public chat has been muted!"));
+				return;
+			} else if(args[0].equals("unmute") || args[0].equals("u")) {
+				PacketDispatcher.wrapper.sendTo(new PlayerDataPacket(MUTE_KEY, 0), (EntityPlayerMP) player);
+				sender.addChatMessage(new ChatComponentText(INFO + "Public chat has been unmuted!"));
 				return;
 			} else {
 				sender.addChatMessage(new ChatComponentText(CRITICAL + "Invalid arguments!"));
@@ -90,8 +102,9 @@ public class CommandClowderChat extends CommandBase {
 		
 		String name = "";*/
 	}
-	
+
 	public static final String CHAT_KEY = "clowderChat";
+	public static final String MUTE_KEY = "clowderMute";
 
 	public static final String ERROR = EnumChatFormatting.RED.toString();
 	public static final String CRITICAL = EnumChatFormatting.DARK_RED.toString();

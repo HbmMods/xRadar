@@ -11,6 +11,7 @@ import com.hfr.tileentity.machine.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -71,7 +72,12 @@ public class TileEntityStatue extends TileEntityMachineBase {
 	
 	public boolean operational() {
 		
-		BlockDummyable dummy = (BlockDummyable) this.getBlockType();
+		Block b = this.getBlockType();
+		
+		if(!(b instanceof BlockDummyable))
+			return false;
+		
+		BlockDummyable dummy = (BlockDummyable) b;
 		
 		int[] dim = MultiblockHandler.rotate(dummy.getDimensions(), ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset));
 		int n = dim[2];

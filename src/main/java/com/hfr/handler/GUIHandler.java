@@ -5,12 +5,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.inventory.container.ContainerAlloy;
 import com.hfr.inventory.container.ContainerBattery;
 import com.hfr.inventory.container.ContainerBlastFurnace;
 import com.hfr.inventory.container.ContainerBox;
 import com.hfr.inventory.container.ContainerCoalGen;
 import com.hfr.inventory.container.ContainerCoalMine;
+import com.hfr.inventory.container.ContainerCrusher;
 import com.hfr.inventory.container.ContainerDieselGen;
+import com.hfr.inventory.container.ContainerDistillery;
+import com.hfr.inventory.container.ContainerEFurnace;
 import com.hfr.inventory.container.ContainerFactory;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerForceField;
@@ -28,15 +32,20 @@ import com.hfr.inventory.container.ContainerMachineUni;
 import com.hfr.inventory.container.ContainerNaval;
 import com.hfr.inventory.container.ContainerRBMKElement;
 import com.hfr.inventory.container.ContainerRailgun;
+import com.hfr.inventory.container.ContainerSawmill;
 import com.hfr.inventory.container.ContainerTank;
 import com.hfr.inventory.container.ContainerTemple;
 import com.hfr.inventory.container.ContainerTurbine;
+import com.hfr.inventory.gui.GUIAlloy;
 import com.hfr.inventory.gui.GUIBattery;
 import com.hfr.inventory.gui.GUIBlastFurnace;
 import com.hfr.inventory.gui.GUIBox;
 import com.hfr.inventory.gui.GUICoalGen;
 import com.hfr.inventory.gui.GUICoalMine;
+import com.hfr.inventory.gui.GUICrusher;
 import com.hfr.inventory.gui.GUIDieselGen;
+import com.hfr.inventory.gui.GUIDistillery;
+import com.hfr.inventory.gui.GUIEFurnace;
 import com.hfr.inventory.gui.GUIFactory;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
@@ -55,6 +64,7 @@ import com.hfr.inventory.gui.GUIMachineUni;
 import com.hfr.inventory.gui.GUINaval;
 import com.hfr.inventory.gui.GUIRBMKElement;
 import com.hfr.inventory.gui.GUIRailgun;
+import com.hfr.inventory.gui.GUISawmill;
 import com.hfr.inventory.gui.GUIScreenDesignator;
 import com.hfr.inventory.gui.GUIScreenSLBM;
 import com.hfr.inventory.gui.GUITank;
@@ -307,6 +317,51 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_alloy:
+			{
+				if(entity instanceof TileEntityMachineAlloy)
+				{
+					return new ContainerAlloy(player.inventory, (TileEntityMachineAlloy) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_sawmill:
+			{
+				if(entity instanceof TileEntityMachineSawmill)
+				{
+					return new ContainerSawmill(player.inventory, (TileEntityMachineSawmill) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_crusher:
+			{
+				if(entity instanceof TileEntityMachineCrusher)
+				{
+					return new ContainerCrusher(player.inventory, (TileEntityMachineCrusher) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_efurnace:
+			{
+				if(entity instanceof TileEntityMachineEFurnace)
+				{
+					return new ContainerEFurnace(player.inventory, (TileEntityMachineEFurnace) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_distillery:
+			{
+				if(entity instanceof TileEntityMachineDistillery)
+				{
+					return new ContainerDistillery(player.inventory, (TileEntityMachineDistillery) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -551,6 +606,51 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+				
+				case ModBlocks.guiID_alloy:
+				{
+					if(entity instanceof TileEntityMachineAlloy)
+					{
+						return new GUIAlloy(player.inventory, (TileEntityMachineAlloy) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_sawmill:
+				{
+					if(entity instanceof TileEntityMachineSawmill)
+					{
+						return new GUISawmill(player.inventory, (TileEntityMachineSawmill) entity);
+					}
+					return null;
+				}
+				
+				/*case ModBlocks.guiID_crusher:
+				{
+					if(entity instanceof TileEntityMachineCrusher)
+					{
+						return new GUICrusher(player.inventory, (TileEntityMachineCrusher) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_efurnace:
+				{
+					if(entity instanceof TileEntityMachineEFurnace)
+					{
+						return new GUIEFurnace(player.inventory, (TileEntityMachineEFurnace) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_distillery:
+				{
+					if(entity instanceof TileEntityMachineDistillery)
+					{
+						return new GUIDistillery(player.inventory, (TileEntityMachineDistillery) entity);
+					}
+					return null;
+				}*/
 			}
 		} else {
 			

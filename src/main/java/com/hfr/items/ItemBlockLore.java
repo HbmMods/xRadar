@@ -53,6 +53,10 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("[Bonus Hard Wall]");
 			list.add("Decorative concrete chunks");
 		}
+		if(field_150939_a == ModBlocks.barricade) {
+			list.add("Can be placed in enemy chunks");
+			list.add("if a conquest flag within 8 blocks");
+		}
 
 		if(field_150939_a == ModBlocks.uni_foundation) {
 			list.add("Increases speed by 15%");

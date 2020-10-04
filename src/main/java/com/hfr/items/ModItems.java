@@ -131,6 +131,8 @@ public class ModItems {
 
 	public static Item hammer;
 	public static Item wand;
+	public static Item wand_iron;
+	public static Item wand_coal;
 	public static Item battery;
 	public static Item oil_detector;
 	public static Item gas_mask;
@@ -153,6 +155,7 @@ public class ModItems {
 	public static Item mult_alloy;
 	
 	public static Item mace;
+	public static Item hatchet;
 	public static Item clowder_map;
 	public static Item flaregun;
 	public static Item flare;
@@ -285,6 +288,8 @@ public class ModItems {
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
+		wand_iron = new ItemWandOre().setUnlocalizedName("wand_iron").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand_iron");
+		wand_coal = new ItemWandOre().setUnlocalizedName("wand_coal").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand_coal");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":oil_detector");
 		gas_mask = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask");
 		gas_mask_grey = new ItemGasMask(matGasMask, 5, 0).setUnlocalizedName("gas_mask_grey").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":gas_mask_grey");
@@ -307,6 +312,7 @@ public class ModItems {
 		mult_alloy = new ItemMultitool().setUnlocalizedName("mult_alloy").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mult_alloy");
 		
 		mace = new ItemMace().setUnlocalizedName("mace").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":mace");
+		hatchet = new ItemHatchet().setUnlocalizedName("hatchet").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hatchet");
 		clowder_map = new ItemMap().setUnlocalizedName("clowder_map").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":clowder_map");
 		flaregun = new ItemFlaregun().setUnlocalizedName("flaregun").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
 		flare = new ItemLore().setUnlocalizedName("flare").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":flare");
@@ -328,6 +334,8 @@ public class ModItems {
 	private static void registerItem() {
 		GameRegistry.registerItem(hammer, hammer.getUnlocalizedName());
 		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
+		GameRegistry.registerItem(wand_iron, wand_iron.getUnlocalizedName());
+		GameRegistry.registerItem(wand_coal, wand_coal.getUnlocalizedName());
 		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
@@ -411,6 +419,7 @@ public class ModItems {
 		GameRegistry.registerItem(canary, canary.getUnlocalizedName());
 
 		GameRegistry.registerItem(mace, mace.getUnlocalizedName());
+		GameRegistry.registerItem(hatchet, hatchet.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_map, clowder_map.getUnlocalizedName());
 		GameRegistry.registerItem(scanner, scanner.getUnlocalizedName());
 		GameRegistry.registerItem(repair_1, repair_1.getUnlocalizedName());

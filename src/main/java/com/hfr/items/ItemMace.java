@@ -62,4 +62,8 @@ public class ItemMace extends ItemMultitool {
 		add(ModBlocks.machine_windmill);
 	}};
 
+	public static final List<Block> placeOverride = new ArrayList() {{
+		add(ModBlocks.clowder_conquerer);
+	}};
+
 }

@@ -13,12 +13,17 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Items;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import com.hfr.effect.ParticleContrail;
@@ -58,6 +63,8 @@ public class ClientProxy extends ServerProxy
 	public static KeyBinding decScale = new KeyBinding("Decrease Radar Scale", 74, "xRadar");
 	public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 0, "xRadar");
 	public static KeyBinding filter = new KeyBinding("Toggle chat filter", 62, "xRadar");
+	public static KeyBinding markers = new KeyBinding("Toggle resource markers", 0, "xRadar");
+	public static KeyBinding flushLog = new KeyBinding("Flush extended debugging log", 0, "xRadar");
 	
 	@Override
 	public void registerRenderInfo()
@@ -78,6 +85,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.registerKeyBinding(decScale);
 		ClientRegistry.registerKeyBinding(slbm);
 		ClientRegistry.registerKeyBinding(filter);
+		ClientRegistry.registerKeyBinding(markers);
+		ClientRegistry.registerKeyBinding(flushLog);
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadar.class, new RenderRadar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForceField.class, new RenderMachineForceField());
@@ -169,6 +178,7 @@ public class ClientProxy extends ServerProxy
 		case 2: return decScale.isPressed();
 		case 3: return slbm.isPressed();
 		case 4: return filter.isPressed();
+		case 5: return markers.isPressed();
 		}
 		
 		return false;
@@ -348,6 +358,32 @@ public class ClientProxy extends ServerProxy
 		RenderFlagOverlay.color = color;
 		RenderFlagOverlay.title = name;
 		RenderFlagOverlay.startingTime = System.currentTimeMillis();
+	}
+	
+	@Override
+	public void openURL(String url) {
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (Exception e) { }
+	}
+
+	public void effectNT(NBTTagCompound nbt) {
+		
+		if(nbt.getString("type").equals("resources")) {
+			
+			int count = nbt.getInteger("count");
+			
+			for(int i = 0; i < count; i++) {
+
+				int minX = nbt.getInteger("minX" + i);
+				int minZ = nbt.getInteger("minZ" + i);
+				int maxX = nbt.getInteger("maxX" + i);
+				int maxZ = nbt.getInteger("maxZ" + i);
+				int color = nbt.getInteger("color" + i);
+				
+				EventHandlerClient.resourceBorders.add(new int[] {minX, minZ, maxX, maxZ, color});
+			}
+		}
 	}
 }
 

@@ -1,14 +1,21 @@
 package com.hfr.blocks.clowder;
 
 import com.hfr.clowder.Clowder;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.tileentity.clowder.TileEntityConquerer;
+import com.hfr.tileentity.clowder.TileEntityFlag;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -64,14 +71,32 @@ public class Conquerer extends BlockContainer {
 			TileEntityConquerer flag = (TileEntityConquerer)world.getTileEntity(x, y, z);
 			
 			Clowder clowder = Clowder.getClowderFromPlayer((EntityPlayer)player);
+			flag.owner = clowder;
 			
-			if(clowder != null && flag.canSeeSky()) {
-				flag.owner = clowder;
+			if(clowder != null && flag.checkBorder(x, z) && flag.canSeeSky()) {
+				flag.owner.addPrestigeReq(0.2F, world);
 				flag.markDirty();
+			} else {
+				flag.owner = null;
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You won't be able to raise this flag. This may be due to:"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-You not being in any faction"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag not having sky access"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag not being in a foreign border chunk"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The enemy faction or your faction not being raidable"));
 			}
 		}
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
-
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block b, int i)
+    {
+		TileEntityConquerer flag = (TileEntityConquerer)world.getTileEntity(x, y, z);
+		if(flag != null && flag.owner != null) {
+			flag.owner.addPrestigeReq(-0.2F, world);
+		}
+		
+		super.breakBlock(world, x, y, z, b, i);
+    }
 }

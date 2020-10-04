@@ -14,6 +14,7 @@ public class RenderFlagOverlay {
 	public static ResourceLocation flag = null;
 	public static ResourceLocation overlay = null;
 	public static String title = "";
+	public static String zone = "";
 	public static int color = 0xFF0000;
 	public static long startingTime;
 	public static int ttl = 5000;
@@ -66,6 +67,11 @@ public class RenderFlagOverlay {
 	        String s = title.replace('_', ' ');
 	        int w = font.getStringWidth(s);
 	        font.drawString(s, (int)(-w/2), (int)(posY), color | (alpha << 24));
+	        
+	        s = zone.replace('_', ' ');
+	        w = font.getStringWidth(s);
+	        font.drawString(s, (int)(-w/2), (int)(posY + 10), color | (alpha << 24));
+	        
 	        GL11.glColor4b((byte)127, (byte)127, (byte)127, (byte)127);
 	        GL11.glDisable(GL11.GL_BLEND);
 	    }

@@ -19,6 +19,7 @@ public class RenderRVIOverlay {
 	
 	public static void renderIndicators(float interpolation) {
 		
+		GL11.glPushMatrix();
 		Minecraft minecraft = Minecraft.getMinecraft();
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glDisable(2929);
@@ -36,6 +37,9 @@ public class RenderRVIOverlay {
 		double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * interpolation;
 		
 		for(Indicator ind : indicators) {
+			
+			GL11.glPushMatrix();
+			
 			minecraft.getTextureManager().bindTexture(ind.type.texture);
 			Vec3 vec = Vec3.createVectorHelper(x - ind.x, y - ind.y, z - ind.z);
 			vec.rotateAroundY((float) Math.toRadians(1));
@@ -70,13 +74,11 @@ public class RenderRVIOverlay {
 			else
 				GL11.glTranslated(-vec.xCoord, -vec.yCoord, -vec.zCoord);
 			
-			GL11.glPushMatrix();
-
 			GL11.glRotated(yaw + 180, 0, 1, 0);
 			GL11.glRotated(pitch, 1, 0, 0);
 			
 			renderScaled(0, 0, 0, -5 * (1 - (1 / dist * 0.5)));
-			
+
 			GL11.glPopMatrix();
 		}
 
@@ -84,7 +86,8 @@ public class RenderRVIOverlay {
         GL11.glDepthMask(true);
         GL11.glEnable(2929);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		
+
+		GL11.glPopMatrix();
 	}
 	
 	public static void renderScaled(double x, double y, double z, double scale) {

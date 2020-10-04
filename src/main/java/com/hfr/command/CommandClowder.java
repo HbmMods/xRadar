@@ -244,7 +244,7 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
-		if(cmd.equals("deemote") && args.length > 1) {
+		if(cmd.equals("demote") && args.length > 1) {
 			cmdDemote(sender, args[1]);
 			return;
 		}
@@ -411,7 +411,7 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(LIST + "Raidable? " + clowder.isRaidable()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Members: " + clowder.members.size()));
 			sender.addChatMessage(new ChatComponentText(LIST + "Prestige: " + clowder.round(clowder.getPrestige())));
-			sender.addChatMessage(new ChatComponentText(LIST + " -generating: " + clowder.round(clowder.getPrestigeGen()) + " per hour"));
+			sender.addChatMessage(new ChatComponentText(LIST + " -generating: " + clowder.round(clowder.getPrestigeGen()) + " per hour (x" + clowder.round((float) Math.pow(0.99, clowder.getPrestige())) + ")"));
 			sender.addChatMessage(new ChatComponentText(LIST + " -requires: " + clowder.round(clowder.getPrestigeReq()) + " at all times"));
 			sender.addChatMessage(new ChatComponentText(LIST + "Color: " + Integer.toHexString(clowder.color).toUpperCase()));
 			

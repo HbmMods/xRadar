@@ -233,7 +233,7 @@ public class AuxButtonPacket implements IMessage {
 							flag.generateClaim();
 					}
 					
-					if(m.id == 3) {
+					/*if(m.id == 3) {
 						
 						Clowder clow = Clowder.getClowderFromPlayer(p);
 						
@@ -247,7 +247,7 @@ public class AuxButtonPacket implements IMessage {
 								p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "Capture outer claims before proceeding to this one!"));
 							}
 						}
-					}
+					}*/
 				}
 				
 				if (te instanceof TileEntityMachineTurbine) {

@@ -96,12 +96,12 @@ public class GUIFlag extends GuiContainer {
     	}
     	
     	//CAPTURE
-    	if(!isPressed() && guiLeft + 133 <= x && guiLeft + 133 + 18 > x && guiTop + 16 < y && guiTop + 16 + 18 >= y) {
+    	/*if(!isPressed() && guiLeft + 133 <= x && guiLeft + 133 + 18 > x && guiTop + 16 < y && guiTop + 16 + 18 >= y) {
 
     		press = System.currentTimeMillis();
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 3));
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    	}
+    	}*/
     }
 	
 	@Override

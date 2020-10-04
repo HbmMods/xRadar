@@ -1,12 +1,15 @@
 package com.hfr.tileentity.clowder;
 
+import java.util.HashSet;
 import java.util.List;
 
+import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.CoordPair;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
+import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.ClowderData;
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.machine.TileEntityMachineBase;
@@ -25,8 +28,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 
 	public Clowder owner;
 	public boolean isClaimed = true;
-	public float height = 1.0F;
-	public float speed = 0.005F;
+	public HashSet<CoordPair> claim = new HashSet();
 	
 	@SideOnly(Side.CLIENT)
 	public ClowderFlag flag;
@@ -35,7 +37,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 
 	public TileEntityFlagBig() {
 		super(5);
-		height = 0.0F;
+		isClaimed = false;
 	}
 
 	@Override
@@ -56,102 +58,31 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				owner = null;
 			
 			/// CAPTURE START ///
-
-			float prev = height;
-			Clowder prevC = owner;
-			
-			List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 4, yCoord - 1, zCoord - 4, xCoord + 5, yCoord + 2, zCoord + 5));
-			
-			Clowder capturer = null;
-			for(EntityPlayer player : entities) {
+			if(owner == null) {
 				
-				Clowder clow = Clowder.getClowderFromPlayer(player);
+				List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 4, yCoord - 1, zCoord - 4, xCoord + 5, yCoord + 2, zCoord + 5));
 				
-				if(clow != null && player.inventory.hasItem(ModItems.mace)) {
-					capturer = clow;
-					break;
-				}
-			}
-			
-			if(capturer != null && canSeeSky() && (owner == null || owner.isRaidable() || capturer == owner)) {
-				
-				//he who owns the flag now can raise it.
-				//if the flag reaches the end of the pole, the ownership will be locked
-				if(capturer == owner) {
-					height += speed;
+				Clowder capturer = null;
+				for(EntityPlayer player : entities) {
 					
-					if(height >= 1) {
-						isClaimed = true;
-						height = 1;
-					}
+					Clowder clow = Clowder.getClowderFromPlayer(player);
 					
-				//he who does not own the flag can lower it
-				//once it reaches the bottom, it will be his
-				} else {
-					
-					isClaimed = false;
-					height -= speed;
-					
-					if(height <= 0) {
-						owner = capturer;
-						height = 0;
+					if(clow != null) {
+						capturer = clow;
+						break;
 					}
 				}
 				
-			//if there is nobody capturing the flag, it will simply descend
-			} else {
-				
-				if(!isClaimed)
-					height -= speed;
-				
-				if(height <= 0) {
-					height = 0;
+				if(capturer != null) {
+					
+					owner = capturer;
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagChange", 3.0F, 1.0F);
+					this.isClaimed = true;
+					this.generateClaim();
 				}
-			}
-			
-			if(prev == 1F && height != 1F) {
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagCapture", 100.0F, 1.0F);
-				
-				if(owner != null)
-					owner.notifyCapture(worldObj, xCoord, zCoord, "flags");
-			}
-			
-			if(prevC != owner)
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagChange", 3.0F, 1.0F);
-			
-			if(prev != 1F && height == 1F) {
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagHoist", 3.0F, 1.0F);
-				generateClaim();
 			}
 			
 			/// CAPTURE END ///
-			
-			if(height == 1F && owner != null) {
-				
-				if(worldObj.rand.nextInt(100) == 0) {
-					
-					for(int i = 0; i < slots.length; i++) {
-						
-						if(slots[i] == null) {
-							slots[i] = new ItemStack(ModItems.province_point);
-							break;
-						} else if(slots[i].getItem() == ModItems.province_point && slots[i].stackSize < 64) {
-							slots[i].stackSize++;
-							break;
-						}
-					}
-				}
-			}
-			
-			if(!canSeeSky()) {
-				isClaimed = false;
-				owner = null;
-				
-				if(height >= speed * 2)
-					height -= speed * 2;
-			} else if(owner != null) {
-				//generateClaim();
-			}
 			
 			if(owner != null) {
 				this.updateGauge(owner.flag.ordinal(), 0, 100);
@@ -160,11 +91,13 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 				this.updateGauge(ClowderFlag.NONE.ordinal(), 0, 100);
 				this.updateGauge(0xFFFFFF, 1, 100);
 			}
-			this.updateGauge((int) (height * 100F), 3, 100);
 			
 		} else {
+			
+			isClaimed = this.flag != ClowderFlag.NONE;
+				
 
-			if(height == 1F && isClaimed) {
+			if(isClaimed) {
 				double x = xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
 				double y = yCoord + 0.125 + worldObj.rand.nextDouble() * 0.5D;
 				double z = zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5D;
@@ -183,14 +116,13 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		switch(id) {
 		case 0: flag = ClowderFlag.values()[val]; break;
 		case 1: color = val; break;
-		case 3: height = val * 0.01F; break;
 		}
 	}
 
 	@Override
 	public int getRadius() {
 		
-		return 20;
+		return 1000;
 	}
 
 	@Override
@@ -198,35 +130,50 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		return owner;
 	}
 	
-	public void generateClaim() {
-		
-		int rad = getRadius();
-		
-		for(int x = -rad; x <= rad; x++) {
-			for(int z = -rad; z <= rad; z++) {
+	public void addClaim(int x1, int z1, int x2, int z2) {
 
-				int posX = xCoord + x * 16;
-				int posZ = zCoord + z * 16;
-				CoordPair loc = ClowderTerritory.getCoordPair(posX, posZ);
+		int minX = Math.min(x1, x2);
+		int minZ = Math.min(z1, z2);
+		int maxX = Math.max(x1, x2);
+		int maxZ = Math.max(z1, z2);
+		
+		for(int x = minX; x <= maxX; x += 16) {
+			
+			for(int z = minZ; z <= maxZ; z += 16) {
 				
-				TerritoryMeta meta = ClowderTerritory.getMetaFromCoords(loc);
-				
-				if(meta == null || !meta.checkPersistence(worldObj, loc))
-					if(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) < rad)
-						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
+				CoordPair coord = ClowderTerritory.getCoordPair(x, z);
+				this.claim.add(coord);
 			}
 		}
+
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:item.techBoop", 3.0F, 1.0F);
+		this.markDirty();
+		
+		this.generateClaim();
 	}
 	
-	public boolean canSeeSky() {
-
-		for(int i = -2; i <= 2; i++)
-			for(int j = -2; j <= 2; j++)
-				if(worldObj.getBlock(xCoord + i, yCoord + 1, zCoord + j).getMaterial() != Material.air && !(i == 0 && j == 0) ||
-					!worldObj.canBlockSeeTheSky(xCoord + i, yCoord + 1, zCoord + j))
-					return false;
+	public void generateClaim() {
 		
-		return true;
+		for(CoordPair coords : this.claim) {
+			
+			TerritoryMeta meta = ClowderTerritory.getMetaFromCoords(coords);
+			
+			//destroy unwanted conquest flags
+			if(meta != null && meta.owner != null && meta.owner.zone == Zone.FACTION) {
+				int x = meta.flagX;
+				int y = meta.flagY;
+				int z = meta.flagZ;
+				
+				if(worldObj.getBlock(x, y, z) == ModBlocks.clowder_conquerer) {
+					worldObj.func_147480_a(x, y, z, false);
+				}
+			}
+			
+			if(this.owner != null)
+				ClowderTerritory.setOwnerForCoord(worldObj, coords, owner, xCoord, yCoord, zCoord);
+			else
+				ClowderTerritory.removeZoneForCoord(worldObj, coords);
+		}
 	}
 
 	@Override
@@ -246,22 +193,15 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		
 		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
 		this.isClaimed = nbt.getBoolean("isClaimed");
-		this.height = nbt.getFloat("height");
 		
-		slots = new ItemStack[getSizeInventory()];
+		int length = nbt.getInteger("len");
 		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
+		for(int i = 0; i < length; i++) {
+			this.claim.add(new CoordPair(
+					nbt.getInteger("x" + i),
+					nbt.getInteger("z" + i)
+					));
 		}
-		
-		//if(owner != null)
-		//	generateClaim();
 	}
 	
 	@Override
@@ -271,21 +211,18 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		if(owner != null)
 			nbt.setString("owner", owner.name);
 		nbt.setBoolean("isClaimed", isClaimed);
-		nbt.setFloat("height", height);
 		
-		NBTTagList list = new NBTTagList();
+		nbt.setInteger("len", this.claim.size());
+
+		int i = 0;
 		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
+		for(CoordPair coords : this.claim) {
+
+			nbt.setInteger("x" + i, coords.x);
+			nbt.setInteger("z" + i, coords.z);
+			
+			i++;
 		}
-		nbt.setTag("items", list);
 	}
 
 	@Override

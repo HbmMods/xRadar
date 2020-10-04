@@ -624,7 +624,11 @@ public class Clowder {
 			
 			if(clowder.valid()) {
 				
-				clowder.addPrestige(clowder.getPrestigeGen(), world);
+				float prestige = clowder.getPrestigeGen();
+				
+				prestige *= (float)Math.pow(0.99, clowder.getPrestige());
+				
+				clowder.addPrestige(prestige, world);
 			}
 		}
 	}

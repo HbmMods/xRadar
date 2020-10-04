@@ -7,6 +7,8 @@ import com.hfr.main.ResourceManager;
 import com.hfr.tileentity.clowder.TileEntityConquerer;
 
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -55,6 +57,7 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
 	    int g = ((color & 0xFF00) >> 8) / 2;
 	    int b = (color & 0xFF) / 2;
 
+	    GL11.glPushMatrix();
         GL11.glTranslatef(0, -4F, 0);
         GL11.glTranslatef(0, flagpole.height * 4, 0);
 
@@ -69,6 +72,47 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
 	    bindTexture(flag.getFlagOverlay());
 	    GL11.glColor3b((byte)127, (byte)127, (byte)127);
 	    ResourceManager.flag.renderOnly("Flag");
+	    GL11.glPopMatrix();
+	    
+	    if(flagpole.height < 1) {
+	    	
+	        GL11.glPushMatrix();
+		    GL11.glDisable(GL11.GL_TEXTURE_2D);
+	        GL11.glShadeModel(GL11.GL_SMOOTH);
+	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+	        GL11.glDepthMask(false);
+			RenderHelper.disableStandardItemLighting();
+		    Tessellator tess = Tessellator.instance;
+		    
+	        GL11.glTranslatef(0, 5F, 0);
+	        GL11.glRotated(System.currentTimeMillis() / 10 % 360, 0, 1, 0);
+		    
+	        double length = 2.5;
+	        double height = 0.75;
+	        
+		    for(int i = 0; i < 2; i++) {
+			    tess.startDrawing(GL11.GL_TRIANGLES);
+			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
+			    tess.addVertex(0, 0, 0);
+			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.0F);
+			    tess.addVertex(length, height, 0);
+			    tess.addVertex(length, -height, 0);
+			    tess.draw();
+
+			    tess.startDrawing(GL11.GL_TRIANGLES);
+			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
+			    tess.addVertex(0, 0, 0);
+			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.0F);
+			    tess.addVertex(-length, height, 0);
+			    tess.addVertex(-length, -height, 0);
+			    tess.draw();
+		    }
+		    
+		    GL11.glEnable(GL11.GL_TEXTURE_2D);
+	        GL11.glShadeModel(GL11.GL_FLAT);
+	        GL11.glDepthMask(true);
+		    GL11.glPopMatrix();
+	    }
 	    
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glDisable(GL11.GL_BLEND);

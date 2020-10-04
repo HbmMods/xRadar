@@ -7,6 +7,7 @@ import java.util.List;
 import com.hfr.data.ClowderData;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.clowder.ITerritoryProvider;
+import com.hfr.tileentity.clowder.TileEntityConquerer;
 import com.hfr.tileentity.clowder.TileEntityFlag;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -265,6 +266,31 @@ public class ClowderTerritory {
 	//don't judge me vanilla minecraft does it too since 1.8 just with 3 integers
 	public static class CoordPair {
 		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + x;
+			result = prime * result + z;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			CoordPair other = (CoordPair) obj;
+			if (x != other.x)
+				return false;
+			if (z != other.z)
+				return false;
+			return true;
+		}
+
 		public int x;
 		public int z;
 		
@@ -280,12 +306,14 @@ public class ClowderTerritory {
 		public int flagX;
 		public int flagY;
 		public int flagZ;
+		public String name;
 		
 		public TerritoryMeta(Ownership owner, int flagX, int flagY, int flagZ) {
 			this.owner = owner;
 			this.flagX = flagX;
 			this.flagY = flagY;
 			this.flagZ = flagZ;
+			this.name = "";
 		}
 		
 		public TerritoryMeta(Ownership owner) {
@@ -355,6 +383,9 @@ public class ClowderTerritory {
 					} else if(dist >= r) {
 						
 						if(flag instanceof TileEntityFlag && ((TileEntityFlag)flag).height > 0 && ((TileEntityFlag)flag).height < 1.0F)
+							return true;
+						
+						if(flag instanceof TileEntityConquerer && ((TileEntityConquerer)flag).height > 0)
 							return true;
 						
 						return false;
