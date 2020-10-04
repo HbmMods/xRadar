@@ -71,7 +71,15 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_element, 1), new Object[] { "PSP", "PSP", "PSP", 'P', ModItems.components_plating, 'S', ModItems.components_steel });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.rbmk_rods, 1), new Object[] { "CBC", "PBP", "MSM", 'C', ModItems.components_electronics, 'B', ModItems.ingot_boron, 'P', ModItems.components_plating, 'S', ModItems.components_steel, 'M', ModItems.components_mechanical });
-	}
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_revolver, 1), new Object[] { "BSR", "  W", 'B', ModItems.part_rifled_barrel, 'S', ModItems.part_spring, 'R', ModItems.part_rod, 'W', Items.stick });
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_singleshot, 1), new Object[] { "BGS", "WRW", 'B', ModItems.part_rifled_barrel, 'S', ModItems.part_spring, 'R', ModItems.part_rod, 'W', Items.stick, 'G', ModItems.part_gear });
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_smg, 1), new Object[] { "BGS", "RSW", 'B', ModItems.part_rifled_barrel, 'S', ModItems.part_spring, 'R', ModItems.part_rod, 'W', Items.stick, 'G', ModItems.part_gear });
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_repeating, 1), new Object[] { "BGP", "RWG", 'B', ModItems.part_rifled_barrel, 'R', ModItems.part_rod, 'W', Items.stick, 'G', ModItems.part_gear, 'P', ModItems.part_plate });
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_shotgun, 1), new Object[] { "BGS", "RPW", 'B', ModItems.part_smoothbore_barrel, 'S', ModItems.part_spring, 'R', ModItems.part_rod, 'W', Items.stick, 'G', ModItems.part_gear, 'P', ModItems.part_plate });
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_auto, 1), new Object[] { "BGS", "RSG", " PW", 'B', ModItems.part_rifled_barrel, 'S', ModItems.part_spring, 'R', ModItems.part_rod, 'W', Items.stick, 'G', ModItems.part_gear, 'P', ModItems.part_plate });
+		GameRegistry.addRecipe(new ItemStack(ModItems.kit_hmg, 1), new Object[] { "RGS", "BFP", "RGS", 'B', ModItems.part_rifled_barrel, 'S', ModItems.part_spring, 'R', ModItems.part_rod, 'G', ModItems.part_gear, 'P', ModItems.part_plate, 'F', ModItems.part_frame });
+}
 	
 	public static void AddSmeltingRec() {
 

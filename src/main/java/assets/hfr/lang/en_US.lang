@@ -197,6 +197,21 @@ item.components_mechanical.name=Mechanical Components
 item.components_electronics.name=Circuitry
 item.components_plating.name=Reinforced Plating
 
+item.part_rifled_barrel.name=Rifled Barrel
+item.part_smoothbore_barrel.name=Smoothbore Barrel
+item.part_plate.name=Plating
+item.part_gear.name=Gear
+item.part_rod.name=Metal Rod
+item.part_frame.name=Metal Frame
+item.part_spring.name=Spring
+item.kit_singleshot.name=Single-Shot Rifle Kit
+item.kit_repeating.name=Repeating Rifle Kit
+item.kit_auto.name=Self-Loading Rifle Kit
+item.kit_shotgun.name=Smoothbore Kit
+item.kit_revolver.name=Handgun Kit
+item.kit_smg.name=SMG Kit
+item.kit_hmg.name=HMG Kit
+
 item.ingot_boron.name=Boron Ingot
 item.ingot_graphite.name=Graphite Brick
 item.ingot_graphene.name=Graphene Brick

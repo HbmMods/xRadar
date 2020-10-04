@@ -104,6 +104,22 @@ public class ModItems {
 	public static Item components_electronics;
 	public static Item components_plating;
 
+	public static Item part_rifled_barrel;
+	public static Item part_smoothbore_barrel;
+	public static Item part_plate;
+	public static Item part_gear;
+	public static Item part_rod;
+	public static Item part_frame;
+	public static Item part_spring;
+
+	public static Item kit_singleshot;
+	public static Item kit_repeating;
+	public static Item kit_auto;
+	public static Item kit_shotgun;
+	public static Item kit_revolver;
+	public static Item kit_smg;
+	public static Item kit_hmg;
+
 	public static Item ingot_boron;
 	public static Item ingot_graphite;
 	public static Item ingot_graphene;
@@ -206,6 +222,22 @@ public class ModItems {
 		components_electronics = new ItemLore().setUnlocalizedName("components_electronics").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_electronics");
 		components_plating = new ItemLore().setUnlocalizedName("components_plating").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":components_plating");
 
+		part_rifled_barrel = new ItemLore().setUnlocalizedName("part_rifled_barrel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":part_rifled_barrel");
+		part_smoothbore_barrel = new ItemLore().setUnlocalizedName("part_smoothbore_barrel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":part_smoothbore_barrel");
+		part_plate = new ItemLore().setUnlocalizedName("part_plate").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":part_plate");
+		part_gear = new ItemLore().setUnlocalizedName("part_gear").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":part_gear");
+		part_rod = new ItemLore().setUnlocalizedName("part_rod").setCreativeTab(MainRegistry.tab).setFull3D().setTextureName(RefStrings.MODID + ":part_rod");
+		part_frame = new ItemLore().setUnlocalizedName("part_frame").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":part_frame");
+		part_spring = new ItemLore().setUnlocalizedName("part_spring").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":part_spring");
+
+		kit_singleshot = new ItemLore().setUnlocalizedName("kit_singleshot").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_singleshot");
+		kit_repeating = new ItemLore().setUnlocalizedName("kit_repeating").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_repeating");
+		kit_auto = new ItemLore().setUnlocalizedName("kit_auto").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_auto");
+		kit_shotgun = new ItemLore().setUnlocalizedName("kit_shotgun").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_shotgun");
+		kit_revolver = new ItemLore().setUnlocalizedName("kit_revolver").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_revolver");
+		kit_smg = new ItemLore().setUnlocalizedName("kit_smg").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_smg");
+		kit_hmg = new ItemLore().setUnlocalizedName("kit_hmg").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":kit_hmg");
+		
 		ingot_boron = new ItemLore().setUnlocalizedName("ingot_boron").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_boron");
 		ingot_graphite = new ItemLore().setUnlocalizedName("ingot_graphite").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_graphite");
 		ingot_graphene = new ItemLore().setUnlocalizedName("ingot_graphene").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_graphene");
@@ -379,6 +411,22 @@ public class ModItems {
 		GameRegistry.registerItem(components_mechanical, components_mechanical.getUnlocalizedName());
 		GameRegistry.registerItem(components_electronics, components_electronics.getUnlocalizedName());
 		GameRegistry.registerItem(components_plating, components_plating.getUnlocalizedName());
+
+		GameRegistry.registerItem(part_rifled_barrel, part_rifled_barrel.getUnlocalizedName());
+		GameRegistry.registerItem(part_smoothbore_barrel, part_smoothbore_barrel.getUnlocalizedName());
+		GameRegistry.registerItem(part_plate, part_plate.getUnlocalizedName());
+		GameRegistry.registerItem(part_gear, part_gear.getUnlocalizedName());
+		GameRegistry.registerItem(part_rod, part_rod.getUnlocalizedName());
+		GameRegistry.registerItem(part_frame, part_frame.getUnlocalizedName());
+		GameRegistry.registerItem(part_spring, part_spring.getUnlocalizedName());
+
+		GameRegistry.registerItem(kit_singleshot, kit_singleshot.getUnlocalizedName());
+		GameRegistry.registerItem(kit_repeating, kit_repeating.getUnlocalizedName());
+		GameRegistry.registerItem(kit_auto, kit_auto.getUnlocalizedName());
+		GameRegistry.registerItem(kit_shotgun, kit_shotgun.getUnlocalizedName());
+		GameRegistry.registerItem(kit_revolver, kit_revolver.getUnlocalizedName());
+		GameRegistry.registerItem(kit_smg, kit_smg.getUnlocalizedName());
+		GameRegistry.registerItem(kit_hmg, kit_hmg.getUnlocalizedName());
 
 		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
