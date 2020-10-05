@@ -1,6 +1,8 @@
 package net.minecraft.client.network;
 
 import com.google.common.base.Charsets;
+import com.hfr.main.ReflectionEngine;
+import com.hfr.util.LoggingEngine;
 import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -200,6 +202,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 /**
  * Mutant NetHandlerPlayClient
@@ -207,30 +210,31 @@ import org.apache.logging.log4j.Logger;
  * Uses unorthodox class overriding to provide an alternate packet handling system
  * in an effort to prevent set kicks. May god have mercy on our souls.
  * 
- *                    666
- * 
  *                 .ed$$$be..
  *             .$$$ec*****ze$$$.
- *           .$b*             *d$P.
- *         .$$$$P.             "$$$P
+ *           .$b*             *d$b.
+ *         .$$$$b.             "$$$b
  *        .$.4$"z$$.        v*$$$$ $$
  *       $$   d$  .$$.    .$$c 3$   d$
- *      3$     $F   .d$P$$e   v$F    $P
- *      $L     4$"  v*$$$P"   $$     4$.
- *     4$       d$"$$c   z$$"3$       $F
+ *      3$     $b   .d$P$$e   v$F    $b
+ *      $L     4$.  v*$$$P"   $$     4$.
+ *     4$       d$.$$c   z$$"3$       $F
  *     4$      v*$$"       "d$F       $$
- *     4$    *$$.4$.  666   $$d$P"    $$
- *     *$%"$$e    d$       3$   z$$"  $F
- *      $$$F.......$F......$F.....C$$*$
+ *     4$    .$$.4$.  666   $$d$b.    $$
+ *     *$%.$$e    d$       3$   z$$.  $F
+ *      $$$F.......$F......$F.....C$$.$
  *      4$$$$$$$$$$$$$$$$$$$$$$$$$$$$$F
  *       z$%        d$   3$        ^$L
  *        4$P        $F v$F       .$c
- *          d$.      4$"$$      .$$*
- *           *d$P.    d$$    .d$$*
- *              *d$$$$*$$$$$$bc
+ *          q$.      4$"$$      .$$*
+ *           *q$P.    d$$    .d$$*
+ *              *q$$$$*$$$$$$pc
  *                   *****
- * 
- *                    666
+ *               __    __    __        
+ *              / /   / /   / /
+ *             / /_  / /_  / /_ 
+ *            |  _ \|  _ \|  _ \
+ *             \___/ \___/ \___/
  * 
  * @author hbm
  *
@@ -653,6 +657,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     {
         for (int i = 0; i < p_147238_1_.func_149098_c().length; ++i)
         {
+        	/// XXX TIE IN SECTOR START ///
+        	
+        	Entity seat = Minecraft.getMinecraft().thePlayer.ridingEntity;
+        	
+        	if(seat != null && seat.getClass().getCanonicalName().equals("com.flansmod.common.driveables.EntitySeat")) {
+        		
+        		Entity vehicle = (Entity) ReflectionEngine.getVehicleFromSeat(seat);
+        		
+        		if(vehicle.getEntityId() == p_147238_1_.func_149098_c()[i]) {
+        			
+        			LoggingEngine.log("HIT? Vehicle " + vehicle.toString() + " has been have been killed off while player is still mounted! CODE 00");
+        			//continue;
+        		}
+        	}
+        	
+        	/// XXX TIE IN SECTOR END ///
+        	
             this.clientWorldController.removeEntityFromWorld(p_147238_1_.func_149098_c()[i]);
         }
     }
@@ -963,7 +984,18 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             {
                 return;
             }
+            
+            /// XXX TIE IN SECTOR START ///
+			
+			int shift = Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode();
 
+            if(entity != null && Keyboard.isKeyDown(shift)) {
+    			LoggingEngine.log("HIT! Vehicle " + entity.toString() + " would have dismounted without shift being pressed! CODE 01");
+            	return;
+            }
+            
+            /// XXX TIE IN SECTOR END ///
+            
             ((Entity)object).mountEntity(entity);
 
             if (flag)

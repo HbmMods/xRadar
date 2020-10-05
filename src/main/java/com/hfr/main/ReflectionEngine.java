@@ -19,8 +19,6 @@ public class ReflectionEngine {
 
 		List<Field> fields = new ArrayList();
 		
-		//System.out.println(clazz.toString());
-		
 		for (Field field : clazz.getFields()) {
 			if (field.getType().isAssignableFrom(type)) {
 				fields.add(field);

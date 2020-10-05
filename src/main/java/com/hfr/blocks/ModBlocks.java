@@ -367,11 +367,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_rift, ItemBlockLore.class, machine_rift.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
 
-		GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class, machine_alloy.getUnlocalizedName());
+		/*GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class, machine_alloy.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_sawmill, ItemBlockLore.class, machine_sawmill.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_crusher, ItemBlockLore.class, machine_crusher.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_efurnace, ItemBlockLore.class, machine_efurnace.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class, machine_distillery.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class, machine_distillery.getUnlocalizedName());*/
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
 		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
