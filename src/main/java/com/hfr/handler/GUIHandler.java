@@ -1,6 +1,8 @@
 package com.hfr.handler;
 
+import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ContainerChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -362,6 +364,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_chest:
+			{
+				if(entity instanceof TileEntityOfficerChest)
+				{
+					return new ContainerChest(player.inventory, (TileEntityOfficerChest) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -621,6 +632,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineSawmill)
 					{
 						return new GUISawmill(player.inventory, (TileEntityMachineSawmill) entity);
+					}
+					return null;
+				}
+
+				case ModBlocks.guiID_chest:
+				{
+					if(entity instanceof TileEntityOfficerChest)
+					{
+						return new GuiChest(player.inventory, (TileEntityOfficerChest) entity);
 					}
 					return null;
 				}

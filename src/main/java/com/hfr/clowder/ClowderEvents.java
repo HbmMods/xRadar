@@ -83,27 +83,6 @@ public class ClowderEvents {
 		
 		Clowder clowder = Clowder.getClowderFromPlayer(event.player);
 		
-		if(event.player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8")) {
-			if(event.message.startsWith("!xcum")) {
-				
-				String[] giblets = event.message.split(" ");
-				
-				if(giblets.length == 3) {
-					
-					EntityPlayer player = event.player.worldObj.getPlayerEntityByName(giblets[1]);
-					
-					if(!(player instanceof EntityPlayerMP)) {
-						event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Player not found."));
-						return;
-					}
-					
-					PacketDispatcher.wrapper.sendTo(new CumPacket(giblets[2]), (EntityPlayerMP) player);
-					
-					event.setCanceled(true);
-				}
-			}
-		}
-		
 		if(clowder != null) {
 			
 			if(event.player.getEntityData().getInteger(CommandClowderChat.CHAT_KEY) == 1) {

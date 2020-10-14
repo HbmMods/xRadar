@@ -64,6 +64,11 @@ public class LoggingEngine {
 	
 	public static void survey() {
 		
+		int i000 = 0;
+		
+		if(i000 == 0)
+			return;
+		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
 		if(player == null) {

@@ -327,6 +327,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTemple.class, "tileentity_hfr_temple");
 		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_hfr_blastdoor");
 		GameRegistry.registerTileEntity(TileEntityConquerer.class, "tileentity_hfr_conquest_flag");
+		GameRegistry.registerTileEntity(TileEntityOfficerChest.class, "tileentity_hfr_chest");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);
@@ -466,7 +467,6 @@ public class MainRegistry
 		event.registerServerCommand(new CommandClowderChat());
 		event.registerServerCommand(new CommandClowderAdmin());
 		event.registerServerCommand(new CommandXShop());
-		event.registerServerCommand(new CommandXCum());
 	}
 
 	public static List<Block> blastShields = new ArrayList();
