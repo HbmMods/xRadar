@@ -29,6 +29,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 	public Clowder owner;
 	public boolean isClaimed = true;
 	public HashSet<CoordPair> claim = new HashSet();
+	public String name = "";
 	
 	@SideOnly(Side.CLIENT)
 	public ClowderFlag flag;
@@ -170,7 +171,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 			}
 			
 			if(this.owner != null)
-				ClowderTerritory.setOwnerForCoord(worldObj, coords, owner, xCoord, yCoord, zCoord);
+				ClowderTerritory.setOwnerForCoord(worldObj, coords, owner, xCoord, yCoord, zCoord, name);
 			else
 				ClowderTerritory.removeZoneForCoord(worldObj, coords);
 		}
@@ -193,6 +194,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		
 		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
 		this.isClaimed = nbt.getBoolean("isClaimed");
+		this.name = nbt.getString("name");
 		
 		int length = nbt.getInteger("len");
 		
@@ -211,6 +213,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		if(owner != null)
 			nbt.setString("owner", owner.name);
 		nbt.setBoolean("isClaimed", isClaimed);
+		nbt.setString(name, "name");
 		
 		nbt.setInteger("len", this.claim.size());
 
@@ -234,5 +237,15 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public String getClaimName() {
+		return name;
+	}
+
+	@Override
+	public void setClaimName(String name) {
+		this.name = name;
 	}
 }

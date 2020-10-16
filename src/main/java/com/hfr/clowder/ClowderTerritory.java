@@ -41,13 +41,13 @@ public class ClowderTerritory {
 	}
 	
 	//sets the owner of a chunk to a clowder
-	public static void setOwnerForCoord(World world, CoordPair coords, Clowder owner, int fX, int fY, int fZ) {
+	public static void setOwnerForCoord(World world, CoordPair coords, Clowder owner, int fX, int fY, int fZ, String name) {
 		
-		setOwnerForInts(world, coords.x, coords.z, owner, fX, fY, fZ);
+		setOwnerForInts(world, coords.x, coords.z, owner, fX, fY, fZ, name);
 	}
 	
 	//sets the owner of a chunk to a clowder
-	public static void setOwnerForInts(World world, int x, int z, Clowder owner, int fX, int fY, int fZ) {
+	public static void setOwnerForInts(World world, int x, int z, Clowder owner, int fX, int fY, int fZ, String name) {
 		
 		long code = intsToCode(x, z);
 		
@@ -55,6 +55,7 @@ public class ClowderTerritory {
 		
 		Ownership o = new Ownership(Zone.FACTION, owner);
 		TerritoryMeta metadata = new TerritoryMeta(o, fX, fY, fZ);
+		metadata.name = name;
 		
 		territories.put(code, metadata);
 		ClowderData.getData(world).markDirty();
@@ -316,6 +317,14 @@ public class ClowderTerritory {
 			this.name = "";
 		}
 		
+		public TerritoryMeta(Ownership owner, int flagX, int flagY, int flagZ, String name) {
+			this.owner = owner;
+			this.flagX = flagX;
+			this.flagY = flagY;
+			this.flagZ = flagZ;
+			this.name = name;
+		}
+		
 		public TerritoryMeta(Ownership owner) {
 			this(owner, -1, -1, -1);
 		}
@@ -326,6 +335,7 @@ public class ClowderTerritory {
 			nbt.setInteger("terr_" + code + "_flagX", flagX);
 			nbt.setInteger("terr_" + code + "_flagY", flagY);
 			nbt.setInteger("terr_" + code + "_flagZ", flagZ);
+			nbt.setString("name_" + code, name);
 		}
 		
 		public static TerritoryMeta readFromNBT(NBTTagCompound nbt, String code) {
@@ -334,7 +344,8 @@ public class ClowderTerritory {
 					Ownership.readFromNBT(nbt, code),
 					nbt.getInteger("terr_" + code + "_flagX"),
 					nbt.getInteger("terr_" + code + "_flagY"),
-					nbt.getInteger("terr_" + code + "_flagZ")
+					nbt.getInteger("terr_" + code + "_flagZ"),
+					nbt.getString("name_" + code)
 			);
 			
 			return meta;
@@ -375,6 +386,7 @@ public class ClowderTerritory {
 					ITerritoryProvider flag = (ITerritoryProvider)te;
 					
 					int r = flag.getRadius();
+					this.name = flag.getClaimName();
 					
 					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
 					

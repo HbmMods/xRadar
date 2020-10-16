@@ -6,4 +6,6 @@ public interface ITerritoryProvider {
 
 	public int getRadius();
 	public Clowder getOwner();
+	public String getClaimName();
+	public void setClaimName(String name);
 }

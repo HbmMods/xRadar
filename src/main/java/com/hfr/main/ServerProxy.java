@@ -29,7 +29,7 @@ public class ServerProxy
 	
 	public void spawnEFX(double posX, double posY, double posZ, float pow) { }
 
-	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name) { }
+	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name, String title) { }
 
 	public void openURL(String url) { }
 

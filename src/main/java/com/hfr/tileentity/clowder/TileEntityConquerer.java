@@ -26,6 +26,7 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 	public Clowder owner;
 	public float height = 0.0F;
 	public static final float speed = 1.0F / (20F * 90F);
+	public String name = "";
 	
 	@SideOnly(Side.CLIENT)
 	public ClowderFlag flag;
@@ -152,10 +153,10 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 					
 				} else if(te instanceof TileEntityConquerer) {
 					worldObj.func_147480_a(meta.flagX, meta.flagY, meta.flagZ, false);
-					ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
+					ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord, name);
 				}
 			} else {
-				ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
+				ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord, name);
 			}
 			
 		} else {
@@ -218,6 +219,7 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 		}
 		
 		this.height = nbt.getFloat("height");
+		this.name = nbt.getString("name");
 	}
 	
 	@Override
@@ -232,6 +234,7 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 		}
 		
 		nbt.setFloat("height", height);
+		nbt.setString(name, "name");
 	}
 
 	@Override
@@ -253,5 +256,15 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 	@Override
 	public Clowder getOwner() {
 		return this.owner;
+	}
+
+	@Override
+	public String getClaimName() {
+		return name;
+	}
+
+	@Override
+	public void setClaimName(String name) {
+		this.name = name;
 	}
 }

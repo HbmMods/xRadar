@@ -31,6 +31,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 	public float height = 1.0F;
 	public float speed = 1F / (20F * 30F);
 	public int mode = 0;
+	public String name = "";
 	
 	private int timer = 0;
 	
@@ -369,7 +370,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				
 				if(meta == null || !meta.checkPersistence(worldObj, loc))
 					if(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) < rad)
-						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
+						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord, name);
 			}
 		}
 	}
@@ -483,6 +484,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		this.height = nbt.getFloat("height");
 		this.mode = nbt.getInteger("mode");
 		this.timer = nbt.getInteger("timer");
+		this.name = nbt.getString("name");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -512,6 +514,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		nbt.setFloat("height", height);
 		nbt.setInteger("mode", mode);
 		nbt.setInteger("timer", timer);
+		nbt.setString(name, "name");
 		
 		NBTTagList list = new NBTTagList();
 		
@@ -539,4 +542,13 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		return 65536.0D;
 	}
 
+	@Override
+	public String getClaimName() {
+		return name;
+	}
+
+	@Override
+	public void setClaimName(String name) {
+		this.name = name;
+	}
 }

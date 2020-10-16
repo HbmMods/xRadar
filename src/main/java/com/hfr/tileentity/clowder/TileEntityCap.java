@@ -25,6 +25,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 	public Clowder owner;
 	public int progress;
 	public static final int maxProgress = 200;
+	public String name = "";
 	
 	@SideOnly(Side.CLIENT)
 	public int color;
@@ -145,7 +146,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				
 				if(meta == null || !meta.checkPersistence(worldObj, loc))
 					if(Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2)) < rad)
-						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord);
+						ClowderTerritory.setOwnerForCoord(worldObj, loc, owner, xCoord, yCoord, zCoord, name);
 			}
 		}
 	}
@@ -184,6 +185,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 
 		this.owner = Clowder.getClowderFromName(nbt.getString("owner"));
 		this.progress = nbt.getInteger("progress");
+		this.name = nbt.getString("name");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -208,6 +210,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 		if(owner != null)
 			nbt.setString("owner", owner.name);
 		nbt.setInteger("progress", progress);
+		nbt.setString(name, "name");
 		
 		NBTTagList list = new NBTTagList();
 		
@@ -235,4 +238,13 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 		return 65536.0D;
 	}
 
+	@Override
+	public String getClaimName() {
+		return name;
+	}
+
+	@Override
+	public void setClaimName(String name) {
+		this.name = name;
+	}
 }

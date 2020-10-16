@@ -353,11 +353,12 @@ public class ClientProxy extends ServerProxy
 	}
 
 	@Override
-	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name) {
+	public void updateFlag(ResourceLocation flag, ResourceLocation overlay, int color, String name, String title) {
 		RenderFlagOverlay.flag = flag;
 		RenderFlagOverlay.overlay = overlay;
 		RenderFlagOverlay.color = color;
 		RenderFlagOverlay.title = name;
+		RenderFlagOverlay.zone = title;
 		RenderFlagOverlay.startingTime = System.currentTimeMillis();
 	}
 	

@@ -18,22 +18,25 @@ public class ClowderFlagPacket implements IMessage {
 	int flag;
 	int color;
 	String name;
+	String title;
 
 	public ClowderFlagPacket()
 	{
 		
 	}
 
-	public ClowderFlagPacket(Clowder clowder) {
+	public ClowderFlagPacket(Clowder clowder, String title) {
 		this.flag = clowder.flag.ordinal();
 		this.color = clowder.color;
 		this.name = clowder.getDecoratedName();
+		this.title = title;
 	}
 
-	public ClowderFlagPacket(ClowderFlag flag, int color, String name) {
+	public ClowderFlagPacket(ClowderFlag flag, int color, String name, String title) {
 		this.flag = flag.ordinal();
 		this.color = color;
 		this.name = name;
+		this.title = "";
 	}
 
 	public ClowderFlagPacket(String special) {
@@ -60,6 +63,7 @@ public class ClowderFlagPacket implements IMessage {
 		flag = buf.readInt();
 		color = buf.readInt();
 		name = ByteBufUtils.readUTF8String(buf);
+		title = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
@@ -67,6 +71,7 @@ public class ClowderFlagPacket implements IMessage {
 		buf.writeInt(flag);
 		buf.writeInt(color);
 		ByteBufUtils.writeUTF8String(buf, name);
+		ByteBufUtils.writeUTF8String(buf, title);
 	}
 
 	public static class Handler implements IMessageHandler<ClowderFlagPacket, IMessage> {
@@ -76,9 +81,9 @@ public class ClowderFlagPacket implements IMessage {
 			
 			if(m.flag > 0) {
 				ClowderFlag flag = ClowderFlag.values()[m.flag];
-				MainRegistry.proxy.updateFlag(flag.getFlag(), flag.getFlagOverlay(), m.color, m.name);
+				MainRegistry.proxy.updateFlag(flag.getFlag(), flag.getFlagOverlay(), m.color, m.name, m.title);
 			} else {
-				MainRegistry.proxy.updateFlag(null, m.flag == -3 ? ClowderFlag.WARZONE : m.flag == -2 ? ClowderFlag.SAFEZONE : ClowderFlag.WILDERNESS, m.color, m.name);
+				MainRegistry.proxy.updateFlag(null, m.flag == -3 ? ClowderFlag.WARZONE : m.flag == -2 ? ClowderFlag.SAFEZONE : ClowderFlag.WILDERNESS, m.color, m.name, m.title);
 			}
 			
 			Minecraft.getMinecraft().thePlayer.playSound("hfr:item.doot", 0.5F, 1.0F);

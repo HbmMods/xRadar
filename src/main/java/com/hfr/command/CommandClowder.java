@@ -249,6 +249,11 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
+		if(cmd.equals("nameclaim") && args.length > 1) {
+			cmdNameClaim(sender, args[1]);
+			return;
+		}
+		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
 	}
 	
@@ -307,6 +312,7 @@ public class CommandClowder extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-withdraw <amount>" + TITLE + " - Withdraws digiprestige as prestige items"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-promote <amount>" + TITLE + " - Promotes a member to officer"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-demote <amount>" + TITLE + " - Demotes an officer to member"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-nameclaim <name>" + TITLE + " - Renames the territory"));
 		}
 	}
 	
@@ -385,7 +391,7 @@ public class CommandClowder extends CommandBase {
 				} else {
 					clowder.setColor(c, player);
 					sender.addChatMessage(new ChatComponentText(INFO + "Set faction color to " + color + "!"));
-					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder, ""), (EntityPlayerMP) player);
 				}
 			} else {
 				sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to change this factiion's color!"));
@@ -451,7 +457,7 @@ public class CommandClowder extends CommandBase {
 				if(clowder.getPermLevel(player.getDisplayName()) > 1) {
 					clowder.rename(name, player);
 					sender.addChatMessage(new ChatComponentText(TITLE + "Renamed faction to " + name + "!"));
-					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder, ""), (EntityPlayerMP) player);
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to rename this faction!"));
 				}
@@ -743,7 +749,7 @@ public class CommandClowder extends CommandBase {
 					
 					clowder.flag = f;
 					sender.addChatMessage(new ChatComponentText(INFO + "Changed flag to " + flag + "!"));
-					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder), (EntityPlayerMP) player);
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder, ""), (EntityPlayerMP) player);
 					
 				} else {
 					sender.addChatMessage(new ChatComponentText(ERROR + "This flag does not exist!"));
@@ -1157,6 +1163,18 @@ public class CommandClowder extends CommandBase {
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
 		}
+	}
+	
+	private void cmdNameClaim(ICommandSender sender, String name) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder == null) {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+			return;
+		}
+		
 	}
 	
 	@Override

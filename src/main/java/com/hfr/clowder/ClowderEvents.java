@@ -7,6 +7,7 @@ import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder.ScheduledTeleport;
 import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.command.CommandClowder;
 import com.hfr.command.CommandClowderChat;
@@ -427,7 +428,14 @@ public class ClowderEvents {
 	 */
 	private void flagPopup(World world, EntityPlayer player) {
 
-		Ownership owner = ClowderTerritory.getOwnerFromInts((int)player.posX, (int)player.posZ - 1);
+		TerritoryMeta meta = ClowderTerritory.getMetaFromInts((int)player.posX, (int)player.posZ - 1);
+		
+		Ownership owner;
+		
+		if(meta == null)
+			owner = ClowderTerritory.WILDERNESS;
+		else
+			owner = meta.owner;
 		
 		String name = owner.zone.toString();
 		
@@ -444,7 +452,10 @@ public class ClowderEvents {
 		if(!name.equals(past)) {
 
 			if(owner.zone == Zone.FACTION) {
-				PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(owner.owner), (EntityPlayerMP) player);
+				
+				String title = meta == null ? "" : meta.name;
+				
+				PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(owner.owner, title), (EntityPlayerMP) player);
 				
 				Clowder mine = Clowder.getClowderFromPlayer(player);
 				
