@@ -58,6 +58,11 @@ public class CommandXShop extends CommandBase {
 			
 			if(args[0].equals("add")) {
 				
+				if(args.length < 2) {
+					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "This command requires a shop name!"));
+					return;
+				}
+				
 				ItemStack[] offer = new ItemStack[4];
 				
 				for(int i = 0; i < 4; i++) {
@@ -66,11 +71,11 @@ public class CommandXShop extends CommandBase {
 					if(stack == null) {
 						
 						if(i == 0) {
-							sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "no offer item found!"));
+							sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No offer item found!"));
 							return;
 						}
 						if(i == 1) {
-							sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "no currency items found!"));
+							sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No currency items found!"));
 							return;
 						}
 						
@@ -83,27 +88,41 @@ public class CommandXShop extends CommandBase {
 				
 				MarketData data = MarketData.getData(player.worldObj);
 				
-				data.offers.add(offer);
+				List<ItemStack[]> offers = data.offers.get(args[1]);
+				
+				if(offers == null)
+					offers = new ArrayList();
+				
+				offers.add(offer);
+				data.offers.put(args[1], offers);
 				data.markDirty();
-				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Offer has been added!"));
+				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Offer has been added to shop " + args[1] + " with index " + (offers.size() - 1) + "!"));
 			}
 			
 			if(args[0].equals("delete")) {
 				
-				if(args.length < 2) {
-					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "This command requires an offer number!"));
+				if(args.length < 3) {
+					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "This command requires an offer number and a shop!"));
 					return;
 				}
 
 				MarketData data = MarketData.getData(player.worldObj);
 				int offer = this.parseInt(sender, args[1]);
 				
-				if(offer >= data.offers.size() || offer < 0) {
+				List<ItemStack[]> offers = data.offers.get(args[2]);
+				
+				if(offers == null) {
+					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Shop " + args[2] + " has no offers!"));
+					return;
+				}
+				
+				if(offer >= offers.size() || offer < 0) {
 					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Index must be within the range of the offers!"));
 					return;
 				}
 				
-				data.offers.remove(offer);
+				offers.remove(offer);
+				data.offers.put(args[2], offers);
 				data.markDirty();
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Offer has been removed!"));
 			}

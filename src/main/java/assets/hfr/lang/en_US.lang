@@ -72,6 +72,8 @@ container.machineTurbine=Industrial Steam Turbine
 tile.machine_temple.name=Temple
 container.temple=Temple
 
+tile.officer_chest.name=Officer Chest
+
 tile.teleporter.name=Teleporter
 
 tile.clowder_flag.name=Clowder Flag

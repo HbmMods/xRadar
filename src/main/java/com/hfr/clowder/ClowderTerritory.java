@@ -149,6 +149,14 @@ public class ClowderTerritory {
 	}
 	
 	//returns the ownership information of the chunk
+	public static TerritoryMeta getMetaFromIntCoords(int x, int z) {
+
+		z += 1;
+		
+		return getMetaFromInts(x / 16, z / 16);
+	}
+	
+	//returns the ownership information of the chunk
 	public static TerritoryMeta getMetaFromCoords(CoordPair coords) {
 		
 		return getMetaFromInts(coords.x, coords.z);

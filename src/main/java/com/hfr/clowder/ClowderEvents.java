@@ -428,7 +428,7 @@ public class ClowderEvents {
 	 */
 	private void flagPopup(World world, EntityPlayer player) {
 
-		TerritoryMeta meta = ClowderTerritory.getMetaFromInts((int)player.posX, (int)player.posZ - 1);
+		TerritoryMeta meta = ClowderTerritory.getMetaFromIntCoords((int)player.posX, (int)player.posZ - 1);
 		
 		Ownership owner;
 		
@@ -454,7 +454,6 @@ public class ClowderEvents {
 			if(owner.zone == Zone.FACTION) {
 				
 				String title = meta == null ? "" : meta.name;
-				
 				PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(owner.owner, title), (EntityPlayerMP) player);
 				
 				Clowder mine = Clowder.getClowderFromPlayer(player);

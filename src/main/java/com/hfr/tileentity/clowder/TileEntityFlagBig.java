@@ -213,7 +213,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 		if(owner != null)
 			nbt.setString("owner", owner.name);
 		nbt.setBoolean("isClaimed", isClaimed);
-		nbt.setString(name, "name");
+		nbt.setString("name", name);
 		
 		nbt.setInteger("len", this.claim.size());
 

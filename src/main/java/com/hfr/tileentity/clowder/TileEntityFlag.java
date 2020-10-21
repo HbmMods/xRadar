@@ -514,7 +514,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 		nbt.setFloat("height", height);
 		nbt.setInteger("mode", mode);
 		nbt.setInteger("timer", timer);
-		nbt.setString(name, "name");
+		nbt.setString("name", name);
 		
 		NBTTagList list = new NBTTagList();
 		

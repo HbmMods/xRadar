@@ -22,7 +22,7 @@ public class ClowderFlagPacket implements IMessage {
 
 	public ClowderFlagPacket()
 	{
-		
+		title = " ";
 	}
 
 	public ClowderFlagPacket(Clowder clowder, String title) {
@@ -30,13 +30,16 @@ public class ClowderFlagPacket implements IMessage {
 		this.color = clowder.color;
 		this.name = clowder.getDecoratedName();
 		this.title = title;
+		
+		if(title == null)
+			title = " ";
 	}
 
 	public ClowderFlagPacket(ClowderFlag flag, int color, String name, String title) {
 		this.flag = flag.ordinal();
 		this.color = color;
 		this.name = name;
-		this.title = "";
+		this.title = " ";
 	}
 
 	public ClowderFlagPacket(String special) {
@@ -56,6 +59,9 @@ public class ClowderFlagPacket implements IMessage {
 			this.color = ClowderTerritory.WARZONE_COLOR;
 			this.name = "War Zone";
 		}
+		
+		if(title == null)
+			title = " ";
 	}
 
 	@Override

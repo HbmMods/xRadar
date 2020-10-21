@@ -1,7 +1,9 @@
 package com.hfr.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +13,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class MarketData extends WorldSavedData {
 	
-	public List<ItemStack[]> offers = new ArrayList();
+	public HashMap<String, List<ItemStack[]>> offers = new HashMap();
 
 	public MarketData() {
 		super("hfr_market");
@@ -38,44 +40,83 @@ public class MarketData extends WorldSavedData {
 		
 		int count = nbt.getInteger("count");
 		
-		for(int i = 0; i < count; i++) {
+		readMarkets(nbt, count);
+	}
+	
+	private void readMarkets(NBTTagCompound nbt, int count) {
+		
+		for(int index = 0; index < count; index++) {
 			
-			ItemStack[] slots = new ItemStack[4];
-			NBTTagList list = nbt.getTagList("items" + i, 10);
-
-			for (int j = 0; j < list.tagCount(); j++) {
-				NBTTagCompound nbt1 = list.getCompoundTagAt(j);
-				byte b0 = nbt1.getByte("slot");
-				if (b0 >= 0 && b0 < slots.length) {
-					slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-				}
-			}
+			String name = nbt.getString("market_" + index);
+			int offerCount = nbt.getInteger("offercount_" + index);
 			
-			offers.add(slots);
+			for(int off = 0; off < offerCount; off++)
+				readOffers(nbt, name, count, off);
 		}
+	}
+	
+	private void readOffers(NBTTagCompound nbt, String name, int count, int index) {
+
+		ItemStack[] slots = new ItemStack[4];
+		NBTTagList list = nbt.getTagList("items" + name + index, 10);
+		
+		for (int j = 0; j < list.tagCount(); j++) {
+			NBTTagCompound nbt1 = list.getCompoundTagAt(j);
+			byte b0 = nbt1.getByte("slot" + index);
+			if (b0 >= 0 && b0 < slots.length) {
+				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
+		}
+		
+		List<ItemStack[]> offers = this.offers.get(name);
+		
+		if(offers == null)
+			offers = new ArrayList();
+		
+		offers.add(slots);
+		this.offers.put(name, offers);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		
 		nbt.setInteger("count", offers.size());
+		
+		writeMarkets(nbt);
+	}
+
+	private void writeMarkets(NBTTagCompound nbt) {
+		
 		int index = 0;
 		
-		for(ItemStack[] offer : offers) {
-
+		for(Entry<String, List<ItemStack[]>> entry : offers.entrySet()) {
+			
+			nbt.setString("market_" + index, entry.getKey());
+			nbt.setInteger("offercount_" + index, entry.getValue().size());
+			
+			writeOffers(nbt, entry.getKey(), entry.getValue());
+			
+			index++;
+		}
+	}
+	
+	private void writeOffers(NBTTagCompound nbt, String name, List<ItemStack[]> offers) {
+		
+		for(int index = 0; index < offers.size(); index++) {
+			
 			NBTTagList list = new NBTTagList();
+			ItemStack[] offer = offers.get(index);
 
 			for (int i = 0; i < offer.length; i++) {
 				if (offer[i] != null) {
 					NBTTagCompound nbt1 = new NBTTagCompound();
-					nbt1.setByte("slot", (byte) i);
+					nbt1.setByte("slot" + index, (byte) i);
 					offer[i].writeToNBT(nbt1);
 					list.appendTag(nbt1);
 				}
 			}
-			nbt.setTag("items" + index, list);
-			index++;
+			
+			nbt.setTag("items" + name + index, list);
 		}
 	}
-
 }

@@ -10,12 +10,14 @@ import com.hfr.clowder.Clowder.ScheduledTeleport;
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.ClowderData;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.effect.ClowderFlagPacket;
+import com.hfr.tileentity.clowder.ITerritoryProvider;
 import com.hfr.tileentity.prop.TileEntityProp;
 import com.hfr.util.ParserUtil;
 
@@ -27,6 +29,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -1175,6 +1178,35 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
+		if(clowder.getPermLevel(player.getDisplayName()) < 2) {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to rename land!"));
+			return;
+		}
+		
+		TerritoryMeta meta = ClowderTerritory.getMetaFromIntCoords((int)player.posX, (int)player.posZ);
+		
+		if(meta == null || meta.owner == null) {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any claimed land!"));
+			return;
+		}
+		
+		if(meta.owner.owner != clowder)  {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You cannot rename foreign land!"));
+			return;
+		}
+		
+		ITerritoryProvider flag = (ITerritoryProvider) player.worldObj.getTileEntity(meta.flagX, meta.flagY, meta.flagZ);
+		
+		if(flag == null) {
+			sender.addChatMessage(new ChatComponentText(ERROR + "The flag that is connected to this claim could not be found! Are the chunks unloaded?"));
+			return;
+		}
+		
+		flag.setClaimName(name);
+		((TileEntity)flag).markDirty();
+
+		sender.addChatMessage(new ChatComponentText(INFO + "Your claim has been renamed! It might take a few moments for all chunks to assume the new name."));
+		ClowderData.getData(player.worldObj).markDirty();
 	}
 	
 	@Override

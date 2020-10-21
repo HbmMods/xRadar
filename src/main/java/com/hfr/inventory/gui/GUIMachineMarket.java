@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.blocks.machine.MachineMarket;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
@@ -13,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -83,6 +85,7 @@ public class GUIMachineMarket extends GuiScreen {
     	if(i < offers.size()) {
     		
     		ItemStack[] offer = offers.get(i);
+    		
     		return offer;
     	}
     	
@@ -100,7 +103,7 @@ public class GUIMachineMarket extends GuiScreen {
 	
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		
-		String s = page + "/" + pagecount();
+		String s = MachineMarket.name + " " + page + "/" + pagecount();
 		this.fontRendererObj.drawString(s, guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, guiTop + 10, 4210752);
 		
 		for(int k = 0; k < 6; k++) {
@@ -137,6 +140,7 @@ public class GUIMachineMarket extends GuiScreen {
 			ItemStack[] offer = getOffer(k);
 			
 			if(offer != null) {
+				
 				for(int l = 1; l < 4; l++) {
 					
 					if(offer[l] != null) {
@@ -147,6 +151,7 @@ public class GUIMachineMarket extends GuiScreen {
 						if(posX < x && posX + 16 > x && posY < y && posY + 16 > y)
 							last = offer[l];
 						
+				        RenderHelper.disableStandardItemLighting();
 				        itemRender.renderItemAndEffectIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[l], posX, posY);
 				        itemRender.renderItemOverlayIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[l], posX, posY);
 					}
@@ -155,6 +160,7 @@ public class GUIMachineMarket extends GuiScreen {
 				int posX = guiLeft + 98;
 				int posY = guiTop + 35 + 27 * k;
 				
+		        RenderHelper.disableStandardItemLighting();
 		        itemRender.renderItemAndEffectIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[0], posX, posY);
 		        itemRender.renderItemOverlayIntoGUI(fontRendererObj, this.mc.getTextureManager(), offer[0], posX, posY);
 				

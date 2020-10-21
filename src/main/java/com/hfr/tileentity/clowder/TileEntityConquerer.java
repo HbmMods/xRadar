@@ -234,7 +234,7 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 		}
 		
 		nbt.setFloat("height", height);
-		nbt.setString(name, "name");
+		nbt.setString("name", name);
 	}
 
 	@Override

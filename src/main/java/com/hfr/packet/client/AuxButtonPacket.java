@@ -1,5 +1,6 @@
 package com.hfr.packet.client;
 
+import com.hfr.blocks.machine.MachineMarket;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.MarketData;
 import com.hfr.data.StockData;
@@ -263,7 +264,7 @@ public class AuxButtonPacket implements IMessage {
 					if(m.value < 0 || m.value >= data.offers.size())
 						return null;
 					
-					ItemStack[] offer = data.offers.get(m.value);
+					ItemStack[] offer = data.offers.get(MachineMarket.name).get(m.value);
 					
 					if(offer != null) {
 						

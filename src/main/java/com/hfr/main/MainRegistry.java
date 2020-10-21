@@ -34,6 +34,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.hfr.blocks.*;
+import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
 import com.hfr.clowder.*;
 import com.hfr.command.*;
 import com.hfr.data.*;
@@ -328,6 +329,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_hfr_blastdoor");
 		GameRegistry.registerTileEntity(TileEntityConquerer.class, "tileentity_hfr_conquest_flag");
 		GameRegistry.registerTileEntity(TileEntityOfficerChest.class, "tileentity_hfr_chest");
+		GameRegistry.registerTileEntity(TileEntityMarket.class, "tileentity_hfr_shop");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);

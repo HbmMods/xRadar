@@ -210,7 +210,7 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 		if(owner != null)
 			nbt.setString("owner", owner.name);
 		nbt.setInteger("progress", progress);
-		nbt.setString(name, "name");
+		nbt.setString("name", name);
 		
 		NBTTagList list = new NBTTagList();
 		
