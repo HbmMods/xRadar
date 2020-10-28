@@ -85,7 +85,7 @@ public class OfferPacket implements IMessage {
 				
 				GUIMachineMarket.offers = offers;
 				
-				System.out.println("Offers: " + data.offers.size());
+				/*System.out.println("Offers: " + data.offers.size());
 				
 				for(Entry<String, List<ItemStack[]>> entry : data.offers.entrySet()) {
 					
@@ -103,7 +103,7 @@ public class OfferPacket implements IMessage {
 								System.out.println("  " + stack.getDisplayName());
 						}
 					}
-				}
+				}*/
 				
 			} catch (IOException e) {
 

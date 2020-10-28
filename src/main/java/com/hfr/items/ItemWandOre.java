@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class ItemWandOre extends Item {
 	
-	@Override
+	/*@Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
     {
 		if(world.getBlock(x, y, z) == Blocks.redstone_block) {
@@ -84,6 +84,6 @@ public class ItemWandOre extends Item {
 		} else {
 			list.add("Please select a starting position.");
 		}
-	}
+	}*/
 
 }

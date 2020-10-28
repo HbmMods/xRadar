@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hfr.ai.*;
+import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.CBTData;
@@ -85,87 +86,106 @@ public class CommonEventHandler {
 
 			/// RADAR SHIT ///
 			Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
-			
-			//if the player is sitting in a vehicle with radar support
-			if(vehicle != null && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false) || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false)) && !player.isPotionActive(HFRPotion.emp)) {
-				
+
+			// if the player is sitting in a vehicle with radar support
+			if (vehicle != null
+					&& (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false)
+							|| ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false))
+					&& !player.isPotionActive(HFRPotion.emp)) {
+
 				int delay = ReflectionEngine.hasValue(vehicle, Integer.class, "radarRefreshDelay", 4);
-				
-				//stop radar operation if the delay isn't ready
-				if(player.ticksExisted % delay != 0)
+
+				// stop radar operation if the delay isn't ready
+				if (player.ticksExisted % delay != 0)
 					return;
-				
+
 				float range = ReflectionEngine.hasValue(vehicle, Float.class, "radarRange", 1.0F);
 				int offset = ReflectionEngine.hasValue(vehicle, Integer.class, "radarPositionOffset", 0);
 				boolean isPlaneRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false);
 				float altitude = isPlaneRadar ? MainRegistry.fPlaneAltitude : MainRegistry.fTankAltitude;
 				double des = isPlaneRadar ? altitude : player.posY - MainRegistry.fOffset;
-				
+
 				boolean sufficient = altitude <= player.posY;
 				List<Blip> blips = new ArrayList();
-				
-				if(sufficient) {
-					List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY, player.posZ, range);
-					
-					for(EntityPlayer entity : entities) {
-						
-						//player does not detect himself
-						if(entity == player)
-							continue;
-						
-						//only detect other players that are in a flans vehicle, players and targets must not be covered by blocks
-						if(player.worldObj.getHeightValue((int)player.posX, (int)player.posZ) <= player.posY + 2 &&
-								player.worldObj.getHeightValue((int)entity.posX, (int)entity.posZ) <= entity.posY + 2) {
-							
-							Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
-							
-							if(bogey == vehicle || bogey == null)
-								continue;
-							
-							//only detect if visible on radar or the radar is on a ground vehicle
-							if(ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false)) {
 
-								//Vec3 vec = Vec3.createVectorHelper(entity.posX - player.posX, entity.posY, entity.posZ - player.posZ);
-								
-								Entity entBogey = (Entity)bogey;
-								
-								Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY, entBogey.posZ - player.posZ);
-								
-								//default: 5 (questionmark)
-								//plane: 1 (circled blip)
-								//tank: 3 (red blip)
+				if (sufficient) {
+					List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY,
+							player.posZ, range);
+
+					for (EntityPlayer entity : entities) {
+
+						// player does not detect himself
+						if (entity == player)
+							continue;
+
+						// only detect other players that are in a flans
+						// vehicle, players and targets must not be covered by
+						// blocks
+						if (player.worldObj.getHeightValue((int) player.posX, (int) player.posZ) <= player.posY + 2
+								&& player.worldObj.getHeightValue((int) entity.posX, (int) entity.posZ) <= entity.posY
+										+ 2) {
+
+							Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
+
+							if (bogey == vehicle || bogey == null)
+								continue;
+
+							// only detect if visible on radar or the radar is
+							// on a ground vehicle
+							if (ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false)) {
+
+								// Vec3 vec =
+								// Vec3.createVectorHelper(entity.posX -
+								// player.posX, entity.posY, entity.posZ -
+								// player.posZ);
+
+								Entity entBogey = (Entity) bogey;
+
+								Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY,
+										entBogey.posZ - player.posZ);
+
+								// default: 5 (questionmark)
+								// plane: 1 (circled blip)
+								// tank: 3 (red blip)
 								int type = 5;
-								if("EntityPlane".equals(bogey.getClass().getSimpleName()))
+								if ("EntityPlane".equals(bogey.getClass().getSimpleName()))
 									type = 1;
-								if("EntityVehicle".equals(bogey.getClass().getSimpleName()))
+								if ("EntityVehicle".equals(bogey.getClass().getSimpleName()))
 									type = 3;
-								
-								blips.add(new Blip((float)-vec.xCoord, (float)vec.yCoord, (float)-vec.zCoord, (float)entBogey.posX, (float)entBogey.posZ, type));
-							
+
+								blips.add(new Blip((float) -vec.xCoord, (float) vec.yCoord, (float) -vec.zCoord,
+										(float) entBogey.posX, (float) entBogey.posZ, type));
+
 							}
 						}
 					}
 				}
-					
-				//directed traffic to avoid spammy broadcast
-				PacketDispatcher.wrapper.sendTo(new SRadarPacket(blips.toArray(new Blip[0]), sufficient, true, offset, (int)range), (EntityPlayerMP) player);
-				
+
+				// directed traffic to avoid spammy broadcast
+				PacketDispatcher.wrapper.sendTo(
+						new SRadarPacket(blips.toArray(new Blip[0]), sufficient, true, offset, (int) range),
+						(EntityPlayerMP) player);
+
 			} else {
-				//if the player does not have a radar up, he will only receive destructor packets that remove all blips and deny radar screens
+				// if the player does not have a radar up, he will only receive
+				// destructor packets that remove all blips and deny radar
+				// screens
 				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
 			}
-			
+
 			player.worldObj.theProfiler.endSection();
 			/// RADAR SHIT ///
-			
-			
+
 			/// SLBM OFFER HANDLER ///
-			if(vehicle != null && SLBMHandler.getFlightType(vehicle) > 0) {
-				PacketDispatcher.wrapper.sendTo(new SLBMOfferPacket(SLBMHandler.getFlightType(vehicle), SLBMHandler.getWarhead(vehicle)), (EntityPlayerMP) player);
+			if (vehicle != null && SLBMHandler.getFlightType(vehicle) > 0) {
+				PacketDispatcher.wrapper.sendTo(
+						new SLBMOfferPacket(SLBMHandler.getFlightType(vehicle), SLBMHandler.getWarhead(vehicle)),
+						(EntityPlayerMP) player);
 			} else {
 				PacketDispatcher.wrapper.sendTo(new SLBMOfferPacket(0, 0), (EntityPlayerMP) player);
 			}
 			/// SLBM OFFER HANDLER ///
+
 			
 			/// CAVE SICKNESS ///
 			if(player.posY <= MainRegistry.caveCap && !player.isRiding()) {
@@ -175,6 +195,23 @@ public class CommonEventHandler {
 				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 50, 2));
 			}
 			/// CAVE SICKNESS ///
+
+			/// MUD CREATION ///
+			
+			if(player.worldObj.isRaining()) {
+				
+				for(int i = 0; i < MainRegistry.mudrate; i++) {
+	
+					int ix = (int)(player.posX + player.getRNG().nextDouble() * 100 - 50);
+					int iz = (int)(player.posZ + player.getRNG().nextDouble() * 100 - 50);
+					int iy = player.worldObj.getHeightValue(ix, iz) - 1;
+					
+					if(player.worldObj.getBlock(ix, iy, iz) == Blocks.dirt)
+						player.worldObj.setBlock(ix, iy, iz, ModBlocks.soil_mud);
+				}
+			}
+			
+			/// MUD CREATION ///
 			
 		} else {
 			//client stuff
@@ -437,7 +474,7 @@ public class CommonEventHandler {
 		if(event.world.isRemote)
 			return;
 		
-		if(event.entity instanceof EntityPlayer) {
+		/*if(event.entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)event.entity;
 			
 			String[] schems = new String[MainRegistry.schems.size()];
@@ -476,7 +513,7 @@ public class CommonEventHandler {
 			areaData.setString("type", "resources");
 			
 			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(areaData, 0, 0, 0), (EntityPlayerMP) player);
-		}
+		}*/
 		
 		int chance = ControlEntry.getEntry(event.entity);
 		
@@ -602,14 +639,21 @@ public class CommonEventHandler {
 		
 		if(event.block != Blocks.stone)
 			return;
+
+		if(world.rand.nextDouble() < MainRegistry.coalChance)
+			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));
+		if(world.rand.nextDouble() < MainRegistry.ironChance)
+			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
+		if(world.rand.nextDouble() < MainRegistry.goldChance)
+			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.gold_ore)));
 		
-		ResourceData data = ResourceData.getData(world);
+		/*ResourceData data = ResourceData.getData(world);
 		
 		if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z, data.iron))
 			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
 		
 		if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z, data.coal))
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));
+			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));*/
 		
 	}
 }

@@ -13,6 +13,7 @@ public class ResourceManager {
 	public static final int id_palisade = 10002;
 	public static final int id_wall = 10003;
 	public static final int id_berliner = 10004;
+	public static final int id_barbed = 10005;
 
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/deb.png");
 	public static final IModelCustom cylinder = new S_WavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cylinder.obj"));
@@ -161,6 +162,7 @@ public class ResourceManager {
 	//FLAG POLE
 	public static final IModelCustom flag = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/flag.obj"));
 	public static final ResourceLocation flag_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flag.png");
+	public static final ResourceLocation flag_conq_tex = new ResourceLocation(RefStrings.MODID, "textures/models/flag_conq.png");
 	
 	//CAP POINT
 	public static final IModelCustom cap = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cap.obj"));
@@ -248,4 +250,5 @@ public class ResourceManager {
 	public static final IModelCustom palisade = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/palisade.obj"));
 	public static final IModelCustom wall = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/wall.obj"));
 	public static final IModelCustom berliner = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/berliner.obj"));
+	public static final IModelCustom barbed_wire = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/barbed_wire.obj"));
 }

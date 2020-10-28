@@ -109,6 +109,7 @@ tile.ore_oil.name=Oil Deposit
 tile.soil_moon.name=Moon Soil
 tile.ore_oil_empty.name=Empty Oil Deposit
 tile.rice.name=Rice Plant
+tile.soil_mud.name=Watery Mud
 
 tile.ore_uranium.name=Uranium Ore
 tile.ore_boron.name=Boron Ore
@@ -246,6 +247,7 @@ item.hfr_wrench.name=Construction Materials
 item.province_point.name=Prestige Point
 item.flour.name=Flour
 item.ingot_steel.name=Steel Ingot
+item.crate.name=Shipping Crate
 
 item.battery_rc.name=RC Battery
 item.battery_rc_2.name=HiCap RC Battery

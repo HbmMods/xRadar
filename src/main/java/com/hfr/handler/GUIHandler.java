@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
 import com.hfr.inventory.container.ContainerAlloy;
 import com.hfr.inventory.container.ContainerBattery;
 import com.hfr.inventory.container.ContainerBlastFurnace;
@@ -19,6 +20,7 @@ import com.hfr.inventory.container.ContainerDistillery;
 import com.hfr.inventory.container.ContainerEFurnace;
 import com.hfr.inventory.container.ContainerFactory;
 import com.hfr.inventory.container.ContainerFlag;
+import com.hfr.inventory.container.ContainerFlagBig;
 import com.hfr.inventory.container.ContainerForceField;
 import com.hfr.inventory.container.ContainerGrainMill;
 import com.hfr.inventory.container.ContainerHydro;
@@ -72,6 +74,7 @@ import com.hfr.inventory.gui.GUIScreenSLBM;
 import com.hfr.inventory.gui.GUITank;
 import com.hfr.inventory.gui.GUITemple;
 import com.hfr.inventory.gui.GUITurbine;
+import com.hfr.inventory.gui.GuiFlagBig;
 import com.hfr.items.ModItems;
 import com.hfr.tileentity.clowder.*;
 import com.hfr.tileentity.machine.*;
@@ -373,6 +376,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_flag_big:
+			{
+				if(entity instanceof TileEntityFlagBig)
+				{
+					return new ContainerFlagBig(player.inventory, (TileEntityFlagBig) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -644,6 +656,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+
+				case ModBlocks.guiID_flag_big:
+				{
+					if(entity instanceof TileEntityFlagBig)
+					{
+						return new GuiFlagBig(player.inventory, (TileEntityFlagBig) entity);
+					}
+					return null;
+				}
 				
 				/*case ModBlocks.guiID_crusher:
 				{
@@ -671,23 +692,25 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}*/
+				
+				case ModBlocks.guiID_market:
+				{
+					if(entity instanceof TileEntityMarket) {
+						return new GUIMachineMarket(player, (TileEntityMarket) entity);
+					}
+				}
 			}
 		} else {
 			
-			switch(ID)
-			{
-			case ModItems.guiID_desingator:
-			{
-				return new GUIScreenDesignator(player);
-			}
-			case ModItems.guiID_slbm:
-			{
-				return new GUIScreenSLBM(player);
-			}
-			case ModBlocks.guiID_market:
-			{
-				return new GUIMachineMarket(player);
-			}
+			switch(ID) {
+				case ModItems.guiID_desingator:
+				{
+					return new GUIScreenDesignator(player);
+				}
+				case ModItems.guiID_slbm:
+				{
+					return new GUIScreenSLBM(player);
+				}
 			}
 		}
 		return null;

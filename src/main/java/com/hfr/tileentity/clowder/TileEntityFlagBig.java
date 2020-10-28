@@ -37,7 +37,7 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 	public int color;
 
 	public TileEntityFlagBig() {
-		super(5);
+		super(2);
 		isClaimed = false;
 	}
 
@@ -80,6 +80,19 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagChange", 3.0F, 1.0F);
 					this.isClaimed = true;
 					this.generateClaim();
+				}
+			} else {
+				
+				if(slots[1] != null) {
+					
+					if(worldObj.rand.nextInt(60 * 20) == 0) {
+						
+						if(slots[0] == null) {
+							slots[0] = slots[1].copy();
+						} else if(slots[0].getItem() == slots[1].getItem() && slots[0].stackSize < slots[0].getMaxStackSize()) {
+							slots[0].stackSize++;
+						}
+					}
 				}
 			}
 			
@@ -179,12 +192,12 @@ public class TileEntityFlagBig extends TileEntityMachineBase implements ITerrito
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return true;
+		return false;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 0, 1, 2, 3, 4 };
+		return new int[] { 0 };
 	}
 	
 	@Override

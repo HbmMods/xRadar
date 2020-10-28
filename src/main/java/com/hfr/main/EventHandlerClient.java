@@ -193,7 +193,7 @@ public class EventHandlerClient {
 		
 		RenderRVIOverlay.renderIndicators(event.partialTicks);
 		
-		World world = Minecraft.getMinecraft().theWorld;
+		/*World world = Minecraft.getMinecraft().theWorld;
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
 		double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * event.partialTicks;
@@ -231,7 +231,7 @@ public class EventHandlerClient {
 					drawX(maxX - x, iy - y, iz - z, color);
 				}
 			}
-		}
+		}*/
 		
 		GL11.glPopMatrix();
 	}

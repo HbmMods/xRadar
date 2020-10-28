@@ -144,6 +144,7 @@ public class ModItems {
 	public static Item province_point;
 	public static Item flour;
 	public static Item ingot_steel;
+	public static Item crate;
 
 	public static Item hammer;
 	public static Item wand;
@@ -317,6 +318,7 @@ public class ModItems {
 		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":prestige");
 		flour = new ItemLore().setUnlocalizedName("flour").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":flour");
 		ingot_steel = new ItemLore().setUnlocalizedName("ingot_steel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_steel");
+		crate = new ItemLore().setUnlocalizedName("crate").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":crate");
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wand");
@@ -460,6 +462,7 @@ public class ModItems {
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());
 		GameRegistry.registerItem(flour, flour.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
+		GameRegistry.registerItem(crate, crate.getUnlocalizedName());
 
 		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
 		GameRegistry.registerItem(miner, miner.getUnlocalizedName());

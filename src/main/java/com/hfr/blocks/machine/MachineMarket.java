@@ -73,7 +73,7 @@ public class MachineMarket extends BlockContainer {
 			
 		} else if(!player.isSneaking()) {
 			
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_market, world, 0, 0, 0);
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_market, world, x, y, z);
 			return true;
 			
 		} else {

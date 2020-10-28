@@ -1,6 +1,6 @@
 package com.hfr.packet.client;
 
-import com.hfr.blocks.machine.MachineMarket;
+import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.MarketData;
 import com.hfr.data.StockData;
@@ -257,14 +257,26 @@ public class AuxButtonPacket implements IMessage {
 					turbine.mode = m.id;
 				}
 				
-				if(m.id == 999) {
+				if(te instanceof TileEntityMarket) {
 
 					MarketData data = MarketData.getData(p.worldObj);
 					
-					if(m.value < 0 || m.value >= data.offers.size())
-						return null;
+					TileEntityMarket market = (TileEntityMarket)te;
 					
-					ItemStack[] offer = data.offers.get(MachineMarket.name).get(m.value);
+					if(data.offers.get(market.name) == null) {
+						System.out.println("There's no market with the name");
+						System.out.println(market.name);
+						return null;
+					}
+					
+					if(m.value < 0 || m.value >= data.offers.get(market.name).size()) {
+						System.out.println("The selected offer is out of bounds");
+						System.out.println(market.name);
+						System.out.println(m.value);
+						return null;
+					}
+					
+					ItemStack[] offer = data.offers.get(market.name).get(m.value);
 					
 					if(offer != null) {
 						
@@ -304,6 +316,8 @@ public class AuxButtonPacket implements IMessage {
 							p.worldObj.playSoundAtEntity(p, "hfr:block.buttonNo", 1.0F, 1.0F);
 							p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You lack required items."));
 						}
+					} else {
+						System.out.println("The selected offer is apparently null");
 					}
 				}
 				

@@ -6,9 +6,11 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hfr.blocks.machine.MachineMarket;
+import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
+import com.hfr.tileentity.machine.TileEntityMachineEMP;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -29,9 +31,11 @@ public class GUIMachineMarket extends GuiScreen {
     protected int ySize = 194;
     public static List<ItemStack[]> offers = new ArrayList();
     int page;
+    TileEntityMarket market;
     
-    public GUIMachineMarket(EntityPlayer player) {
+    public GUIMachineMarket(EntityPlayer player, TileEntityMarket market) {
     	
+    	this.market = market;
     	this.player = player;
     }
     
@@ -70,7 +74,7 @@ public class GUIMachineMarket extends GuiScreen {
 	    		ItemStack[] offer = getOffer(j);
 	    		
 	    		if(offer != null) {
-	    			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, (page - 1) * 6 + j, 999));
+	    			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(market.xCoord, market.yCoord, market.zCoord, (page - 1) * 6 + j, 999));
 	    		}
 	    		
 				return;
@@ -99,6 +103,9 @@ public class GUIMachineMarket extends GuiScreen {
         GL11.glDisable(GL11.GL_LIGHTING);
         this.drawGuiContainerForegroundLayer(mouseX, mouseY);
         GL11.glEnable(GL11.GL_LIGHTING);
+        
+        if(market == null || market.isInvalid())
+            this.mc.thePlayer.closeScreen();
     }
 	
 	protected void drawGuiContainerForegroundLayer(int i, int j) {

@@ -36,12 +36,10 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
         
         TileEntityConquerer flagpole = (TileEntityConquerer)te;
 		
-        bindTexture(ResourceManager.flag_tex);
+        bindTexture(ResourceManager.flag_conq_tex);
         
         GL11.glShadeModel(GL11.GL_SMOOTH);
-        GL11.glColor4f(1, 0.5F, 0.5F, 1);
         ResourceManager.flag.renderOnly("Pole");
-        GL11.glColor4f(1, 1, 1, 1);
         GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -107,7 +105,8 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
 			    tess.addVertex(-length, -height, 0);
 			    tess.draw();
 		    }
-		    
+
+			RenderHelper.enableStandardItemLighting();
 		    GL11.glEnable(GL11.GL_TEXTURE_2D);
 	        GL11.glShadeModel(GL11.GL_FLAT);
 	        GL11.glDepthMask(true);

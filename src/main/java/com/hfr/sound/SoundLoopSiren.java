@@ -7,9 +7,9 @@ import com.hfr.blocks.ModBlocks;
 import com.hfr.items.ItemCassette.SoundType;
 import com.hfr.tileentity.machine.TileEntityMachineSiren;
 
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 

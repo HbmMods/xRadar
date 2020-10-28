@@ -184,8 +184,11 @@ public class MainRegistry
 	public static int caveCap = -10;
 
 	public static int crafting = 0;
+
+	public static int mudrate = 10;
 	
 	public static boolean enableStocks = true;
+	public static boolean enableRadar = true;
 
 	public static int warpCost = 25;
 	public static int territoryDelay = 5;
@@ -208,6 +211,10 @@ public class MainRegistry
 	public static int borderNegX = 0;
 	public static int borderPosZ = 0;
 	public static int borderNegZ = 0;
+
+	public static double coalChance = 0.04;
+	public static double ironChance = 0.05;
+	public static double goldChance = 0.01;
 	
 	public static int empID = 66;
 	
@@ -535,6 +542,8 @@ public class MainRegistry
         pFTankAltitude.comment = "Minimum altitude for flans non-planes' radars to work";
         fTankAltitude = pFTankAltitude.getInt();
         
+        enableRadar = this.createConfigBool(config, "RADAR", "FxR_enableRadar", "Whether FMU+ radars should be enaables (dissaable to fix crashes with McHeli)", true);
+        
         Property pFOffset = config.get("RADAR", "FxR_radarYOffset", 2);
         pFOffset.comment = "Y-axis offset from where the \"is below roof\" measurement is taken (to avoid ship radars from breaking)";
         fOffset = pFOffset.getInt();
@@ -542,6 +551,8 @@ public class MainRegistry
         Property propCrafting = config.get(Configuration.CATEGORY_GENERAL, "craftingDifficulty", 0);
         propCrafting.comment = "How difficult the crafting recipes are, from 0 - 2 (very easy to hard), values outside this range make most stuff uncraftable";
         crafting = propCrafting.getInt();
+        
+        mudrate = createConfigInt(config, Configuration.CATEGORY_GENERAL, "mudRate", "How many mud-checks are done per tick, 0 turns mud off", 10);
         
         Property propFree = config.get(Configuration.CATEGORY_GENERAL, "freeRadar", false).setDefaultValue(false);
         propFree.comment = "Whether or not the radar and shield are free to use, i.e. do not require RF";
@@ -986,6 +997,10 @@ public class MainRegistry
         borderNegX = createConfigInt(config, "WORLDBORDER", "borderNegX", "World border in the negative X direction", -10000);
         borderPosZ = createConfigInt(config, "WORLDBORDER", "borderPosZ", "World border in the positive Z direction", 10000);
         borderNegZ = createConfigInt(config, "WORLDBORDER", "borderNegZ", "World border in the negative Z direction", -10000);
+
+        coalChance = createConfigDouble(config, "WORLD", "coalChance", "Chance for coal when stone is mined", 0.04);
+        ironChance = createConfigDouble(config, "WORLD", "ironChance", "Chance for iron when stone is mined", 0.05);
+        goldChance = createConfigDouble(config, "WORLD", "goldChance", "Chance for gold when stone is mined", 0.01);
         
         hfr_powerlog = createConfigBool(config, "LOGGING", "hfrExtendedLogging", "Enables the HFR powerlogging(tm) feature which prints a shitton of debugging information", false);
         
@@ -1025,6 +1040,13 @@ public class MainRegistry
         Property prop = config.get(category, name, def);
         prop.comment = comment;
         return prop.getBoolean();
+	}
+	
+	private static double createConfigDouble(Configuration config, String category, String name, String comment, double def) {
+
+        Property prop = config.get(category, name, def);
+        prop.comment = comment;
+        return prop.getDouble();
 	}
 	
 	private static String[] createConfigStringList(Configuration config, String category, String name, String comment, String[] def) {

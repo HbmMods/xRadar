@@ -83,29 +83,45 @@ public class FlagBig extends BlockContainer {
 		} else if(!player.isSneaking()) {
 			
 			ItemStack held = player.getHeldItem();
-			if(held != null && held.getItem() == ModItems.hatchet) {
+			
+			if(held != null) {
 				
-				if(held.hasTagCompound()) {
+				if(held.getItem() == ModItems.hatchet) {
 					
-					TileEntityFlagBig flag = (TileEntityFlagBig)world.getTileEntity(x, y, z);
-					
-					if(flag != null) {
+					if(held.hasTagCompound()) {
 						
-						NBTTagCompound nbt = held.stackTagCompound;
+						TileEntityFlagBig flag = (TileEntityFlagBig)world.getTileEntity(x, y, z);
 						
-						flag.addClaim(
-								nbt.getInteger("xCoord1"),
-								nbt.getInteger("zCoord1"),
-								nbt.getInteger("xCoord2"),
-								nbt.getInteger("zCoord2")
-								);
+						if(flag != null) {
+							
+							NBTTagCompound nbt = held.stackTagCompound;
+							
+							flag.addClaim(
+									nbt.getInteger("xCoord1"),
+									nbt.getInteger("zCoord1"),
+									nbt.getInteger("xCoord2"),
+									nbt.getInteger("zCoord2")
+									);
+						}
 					}
+					
+					return true;
 				}
 				
-				return true;
+				if(player.inventory.hasItem(ModItems.debug)) {
+					
+					TileEntityFlagBig flag = (TileEntityFlagBig)world.getTileEntity(x, y, z);
+					flag.slots[1] = player.getHeldItem().copy();
+					flag.slots[1].stackSize = 1;
+					flag.markDirty();
+					
+					return true;
+				}
 			}
 			
-			return false;
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_flag_big, world, x, y, z);
+			
+			return true;
 			
 		} else {
 			return false;
