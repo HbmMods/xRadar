@@ -224,6 +224,10 @@ public class ResourceManager {
 	public static final IModelCustom turbine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turbine.obj"));
 	public static final ResourceLocation turbine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbine.png");
 	
+	//TURBINE
+	public static final IModelCustom foundry = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/foundry.obj"));
+	public static final ResourceLocation foundry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/foundry.png");
+	
 	//BLAST DOOR
 	public static final IModelCustom blast_door_block = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_door_block.obj"));
 	public static final ResourceLocation blast_door_block_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_block.png");

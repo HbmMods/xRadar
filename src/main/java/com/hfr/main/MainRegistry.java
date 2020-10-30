@@ -337,6 +337,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityConquerer.class, "tileentity_hfr_conquest_flag");
 		GameRegistry.registerTileEntity(TileEntityOfficerChest.class, "tileentity_hfr_chest");
 		GameRegistry.registerTileEntity(TileEntityMarket.class, "tileentity_hfr_shop");
+		GameRegistry.registerTileEntity(TileEntityFoundry.class, "tileentity_hfr_foundry");
 
 		int id = 0;
 	    EntityRegistry.registerModEntity(EntityMissileAT.class, "entity_missile_v2AT", id++, this, 1000, 1, true);

@@ -22,6 +22,7 @@ import com.hfr.inventory.container.ContainerFactory;
 import com.hfr.inventory.container.ContainerFlag;
 import com.hfr.inventory.container.ContainerFlagBig;
 import com.hfr.inventory.container.ContainerForceField;
+import com.hfr.inventory.container.ContainerFoundry;
 import com.hfr.inventory.container.ContainerGrainMill;
 import com.hfr.inventory.container.ContainerHydro;
 import com.hfr.inventory.container.ContainerLaunchPad;
@@ -53,6 +54,7 @@ import com.hfr.inventory.gui.GUIEFurnace;
 import com.hfr.inventory.gui.GUIFactory;
 import com.hfr.inventory.gui.GUIFlag;
 import com.hfr.inventory.gui.GUIForceField;
+import com.hfr.inventory.gui.GUIFoundry;
 import com.hfr.inventory.gui.GUIGrainmill;
 import com.hfr.inventory.gui.GUIHydro;
 import com.hfr.inventory.gui.GUILaunchPad;
@@ -385,6 +387,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_foundry:
+			{
+				if(entity instanceof TileEntityFoundry)
+				{
+					return new ContainerFoundry(player.inventory, (TileEntityFoundry) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -697,6 +708,13 @@ public class GUIHandler implements IGuiHandler {
 				{
 					if(entity instanceof TileEntityMarket) {
 						return new GUIMachineMarket(player, (TileEntityMarket) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_foundry:
+				{
+					if(entity instanceof TileEntityFoundry) {
+						return new GUIFoundry(player.inventory, (TileEntityFoundry) entity);
 					}
 				}
 			}

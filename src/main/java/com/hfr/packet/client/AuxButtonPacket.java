@@ -15,6 +15,7 @@ import com.hfr.potion.HFRPotion;
 import com.hfr.schematic.Schematic;
 import com.hfr.tileentity.clowder.TileEntityFlag;
 import com.hfr.tileentity.machine.TileEntityForceField;
+import com.hfr.tileentity.machine.TileEntityFoundry;
 import com.hfr.tileentity.machine.TileEntityMachineBuilder;
 import com.hfr.tileentity.machine.TileEntityMachineEMP;
 import com.hfr.tileentity.machine.TileEntityMachineMarket;
@@ -255,6 +256,15 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityMachineTurbine turbine = (TileEntityMachineTurbine)te;
 					
 					turbine.mode = m.id;
+				}
+				
+				if (te instanceof TileEntityFoundry) {
+					TileEntityFoundry foundry = (TileEntityFoundry)te;
+
+					if(m.id == 0)
+						foundry.decrement();
+					else if(m.id == 1)
+						foundry.increment();
 				}
 				
 				if(te instanceof TileEntityMarket) {
