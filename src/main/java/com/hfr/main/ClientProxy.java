@@ -86,6 +86,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerBlockHandler(new RenderWall());
 		RenderingRegistry.registerBlockHandler(new RenderBerliner());
 		RenderingRegistry.registerBlockHandler(new RenderBarbedWire());
+		RenderingRegistry.registerBlockHandler(new RenderSandbags());
 
 		ClientRegistry.registerKeyBinding(toggleZoom);
 		ClientRegistry.registerKeyBinding(incScale);
@@ -132,6 +133,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundry.class, new RenderFoundry());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSawmill.class, new RenderSawmill());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDieselGen.class, new RenderDieselGen());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineEFurnace.class, new RenderEFurnace());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileAT.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());

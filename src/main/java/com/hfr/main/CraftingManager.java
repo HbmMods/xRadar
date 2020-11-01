@@ -41,6 +41,9 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.rice, 9), new Object[] { "#", '#', ModItems.rice_bag });
 		GameRegistry.addRecipe(new ItemStack(Items.paper, 3), new Object[] { "##", '#', ModItems.part_sawdust });
 
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.barricade, 4), new Object[] { Blocks.sand, ModItems.part_rubber });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.barricade, 6), new Object[] { Blocks.sand, ModItems.part_rubber, ModItems.part_sawdust });
+
 		GameRegistry.addRecipe(new ItemStack(ModItems.graphene_vest, 1), new Object[] { "# #", "###", "###", '#', ModItems.ingot_graphene });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_siren, 1), new Object[] { "ISI", "NCN", "ISI", 'N', Blocks.noteblock, 'C', ModItems.components_electronics, 'S', ModItems.components_scaffold, 'I', "ingotIron" }));
@@ -51,6 +54,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_diesel, 1), new Object[] { "MPM", "MSM", "CFC", 'M', ModItems.components_mechanical, 'P', Blocks.piston, 'S', ModBlocks.machine_coalgen, 'C', ModItems.components_electronics, 'F', ModItems.components_steel });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_foundry, 1), new Object[] { "MBM", "SFS", "SDS", 'M', ModItems.components_mechanical, 'B', Items.bucket, 'S', ModItems.components_steel, 'F', Blocks.furnace, 'D', new ItemStack(Blocks.stone_slab, 1, 0) });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_sawmill, 1), new Object[] { "MSM", "BFB", "WWW", 'M', ModItems.components_mechanical, 'S', ModItems.ingot_steel, 'B', ModItems.part_sawblade, 'F', ModItems.components_scaffold, 'W', ModItems.components_wood });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_efurnace, 1), new Object[] { "CGC", "PFP", "RRR", 'C', ModItems.components_electronics, 'G', ModItems.part_grate, 'P', ModItems.part_plating_1, 'F', Blocks.furnace, 'R', ModItems.part_rod });
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_wood), new Object[] { "WSW", "WSW", "WSW", 'W', "logWood", 'S', Items.stick }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_scaffold), new Object[] { "IBI", "ISI", "IBI", 'I', "ingotIron", 'B', Blocks.iron_bars, 'S', Blocks.stone }));
@@ -90,6 +94,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.part_mechanism_2, 1), new Object[] { " A ", "AAA", " A ", 'A', ModItems.part_mechanism_1 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.part_mechanism_3, 1), new Object[] { " A ", "AAA", " A ", 'A', ModItems.part_mechanism_2 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.part_rubber, 1), new Object[] { " A ", "AAA", " A ", 'A', ModItems.part_raw_rubber });
+		GameRegistry.addRecipe(new ItemStack(ModItems.part_rubber, 4), new Object[] { " A ", "ABA", " A ", 'A', ModItems.part_raw_rubber, 'B', ModItems.gas_petroleum });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.part_cannon_1, 1), new Object[] { "A  ", " A ", "  A", 'A', ModItems.part_plating_1 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.part_cannon_2, 1), new Object[] { "A  ", " A ", "  A", 'A', ModItems.part_plating_2 });

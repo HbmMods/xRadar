@@ -686,15 +686,6 @@ public class GUIHandler implements IGuiHandler {
 					return null;
 				}
 				
-				case ModBlocks.guiID_efurnace:
-				{
-					if(entity instanceof TileEntityMachineEFurnace)
-					{
-						return new GUIEFurnace(player.inventory, (TileEntityMachineEFurnace) entity);
-					}
-					return null;
-				}
-				
 				case ModBlocks.guiID_distillery:
 				{
 					if(entity instanceof TileEntityMachineDistillery)
@@ -709,6 +700,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMarket) {
 						return new GUIMachineMarket(player, (TileEntityMarket) entity);
 					}
+				}
+				
+				case ModBlocks.guiID_efurnace:
+				{
+					if(entity instanceof TileEntityMachineEFurnace)
+					{
+						return new GUIEFurnace(player.inventory, (TileEntityMachineEFurnace) entity);
+					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_foundry:

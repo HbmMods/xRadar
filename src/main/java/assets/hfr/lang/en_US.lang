@@ -75,6 +75,8 @@ tile.machine_foundry.name=Steel Foundry
 container.foundry=Steel Foundry
 tile.machine_sawmill.name=Sawmill
 container.machineSawmill=Sawmill
+tile.machine_efurnace.name=Electric Furnace
+container.machineEFurnace=Electric Furnace
 
 tile.officer_chest.name=Officer Chest
 

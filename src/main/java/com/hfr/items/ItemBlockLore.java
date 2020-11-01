@@ -187,6 +187,13 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("-Steam: front");
 			list.add("-Water: sides");
 		}
+
+		if(field_150939_a == ModBlocks.machine_efurnace) {
+			list.add("Smelts items quickly");
+			list.add("Requires: 500 RF/t");
+			list.add("Buffer: 10000 RF");
+			list.add("Connection speed: 1000 RF/t");
+		}
 	}
 
 }

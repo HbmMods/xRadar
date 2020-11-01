@@ -17,17 +17,20 @@ public class ContainerEFurnace extends Container {
 	public ContainerEFurnace(InventoryPlayer invPlayer, TileEntityMachineEFurnace te) {
 
 		furnace = te;
-		
-		//Ingredients
-		this.addSlotToContainer(new Slot(te, 0, 80, 17));
-		this.addSlotToContainer(new Slot(te, 1, 80, 35));
-		this.addSlotToContainer(new Slot(te, 2, 80, 53));
-		//Battery
-		this.addSlotToContainer(new Slot(te, 3, 44, 53));
-		//Results
-		this.addSlotToContainer(new LockedSlot(te, 4, 134, 17));
-		this.addSlotToContainer(new LockedSlot(te, 5, 152, 35));
-		this.addSlotToContainer(new LockedSlot(te, 6, 152, 53));
+
+		/*
+		 * //Ingredients this.addSlotToContainer(new Slot(te, 0, 80, 17));
+		 * this.addSlotToContainer(new Slot(te, 1, 80, 35));
+		 * this.addSlotToContainer(new Slot(te, 2, 80, 53)); //Battery
+		 * this.addSlotToContainer(new Slot(te, 3, 44, 53)); //Results
+		 * this.addSlotToContainer(new LockedSlot(te, 4, 134, 17));
+		 * this.addSlotToContainer(new LockedSlot(te, 5, 152, 35));
+		 * this.addSlotToContainer(new LockedSlot(te, 6, 152, 53));
+		 */
+
+		this.addSlotToContainer(new Slot(te, 0, 56, 53));
+		this.addSlotToContainer(new Slot(te, 1, 56, 17));
+		this.addSlotToContainer(new LockedSlot(te, 2, 116, 35));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -54,12 +57,12 @@ public class ContainerEFurnace extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if (par2 <= 6) {
-				if (!this.mergeItemStack(var5, 7, this.inventorySlots.size(), true)) {
+			if (par2 <= 2) {
+				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else {
-				if (!this.mergeItemStack(var5, 0, 4, false))
+			} else if (!this.mergeItemStack(var5, 1, 2, false)) {
+				if (!this.mergeItemStack(var5, 0, 1, false))
 					return null;
 			}
 

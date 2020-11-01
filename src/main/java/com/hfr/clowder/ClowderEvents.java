@@ -231,6 +231,12 @@ public class ClowderEvents {
 					return true;
 				
 				return false;
+			} else {
+				
+				if(player.worldObj.getBlock(x, y, z) == ModBlocks.officer_chest && clowder.getPermLevel(player.getDisplayName()) < 2) {
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You lack the permissions to destroy this chest."));
+					return false;
+				}
 			}
 
 			if(player.worldObj.getBlock(x, y, z) != ModBlocks.clowder_flag) {

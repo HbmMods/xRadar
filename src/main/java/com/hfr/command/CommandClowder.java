@@ -237,10 +237,10 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
-		if(cmd.equals("claim")) {
+		/*if(cmd.equals("claim")) {
 			cmdClaim(sender);
 			return;
-		}
+		}*/
 		
 		if(cmd.equals("promote") && args.length > 1) {
 			cmdPromote(sender, args[1]);
@@ -309,7 +309,7 @@ public class CommandClowder extends CommandBase {
 
 		if(p == 4) {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-retreat" + TITLE + " - Reatreats after 10 minutes"));
-			sender.addChatMessage(new ChatComponentText(COMMAND + "-claim" + TITLE + " - Creates a new flag"));
+			//sender.addChatMessage(new ChatComponentText(COMMAND + "-claim" + TITLE + " - Creates a new flag"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-balance" + TITLE + " - Displays how much prestige the faction has"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-deposit <amount>" + TITLE + " - Turns prestige items into digiprestige"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-withdraw <amount>" + TITLE + " - Withdraws digiprestige as prestige items"));

@@ -14,6 +14,7 @@ public class ResourceManager {
 	public static final int id_wall = 10003;
 	public static final int id_berliner = 10004;
 	public static final int id_barbed = 10005;
+	public static final int id_sandbags = 10006;
 
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/deb.png");
 	public static final IModelCustom cylinder = new S_WavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cylinder.obj"));
@@ -232,6 +233,10 @@ public class ResourceManager {
 	public static final IModelCustom sawmill = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/sawmill.obj"));
 	public static final ResourceLocation sawmill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/sawmill.png");
 	
+	//EFURNACE
+	public static final IModelCustom efurnace = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/efurnace.obj"));
+	public static final ResourceLocation efurnace_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/efurnace.png");
+	
 	//DIESELGEN
 	public static final IModelCustom diesel = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/dieselgen.obj"));
 	public static final ResourceLocation diesel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/dieselgen.png");
@@ -263,4 +268,5 @@ public class ResourceManager {
 	public static final IModelCustom wall = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/wall.obj"));
 	public static final IModelCustom berliner = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/berliner.obj"));
 	public static final IModelCustom barbed_wire = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/barbed_wire.obj"));
+	public static final IModelCustom sandbags = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/props/sandbags.obj"));
 }

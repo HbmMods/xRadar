@@ -59,16 +59,17 @@ public class MachineMarket extends BlockContainer {
 			if(market == null)
 				return false;
 			
+			NBTTagCompound nbt = new NBTTagCompound();
+			MarketData data = MarketData.getData(world);
+			data.writeToNBT(nbt);
+			PacketDispatcher.wrapper.sendTo(new OfferPacket(market.name, nbt), (EntityPlayerMP)player);
+			
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() == Items.name_tag && player.getHeldItem().hasDisplayName()) {
 				market.name = player.getHeldItem().getDisplayName();
 				market.markDirty();
 				return true;
 			}
 			
-			NBTTagCompound nbt = new NBTTagCompound();
-			MarketData data = MarketData.getData(world);
-			data.writeToNBT(nbt);
-			PacketDispatcher.wrapper.sendTo(new OfferPacket(market.name, nbt), (EntityPlayerMP)player);
 			return true;
 			
 		} else if(!player.isSneaking()) {

@@ -204,7 +204,7 @@ public class ModBlocks {
 		hard_mesh = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("hard_mesh").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hard_mesh");
 		concrete_hazard = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_hazard").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_hazard");
 		concrete_rocks = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_rocks").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_rocks");
-		barricade = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("barricade").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":barricade");
+		barricade = new BlockSandbags(Material.rock).setStepSound(soundTypeConcrete).setBlockName("barricade").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":sandbags");
 
 		soil_moon = new BlockGeneric(Material.sand).setStepSound(Block.soundTypeGravel).setBlockName("soil_moon").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_moon");
 		soil_mud = new BlockMud(Material.ground).setStepSound(Block.soundTypeGravel).setBlockName("soil_mud").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_mud");
@@ -293,7 +293,7 @@ public class ModBlocks {
 		clowder_cap = new Cap(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_cap").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":clowder_cap");
 		clowder_flag_big = new FlagBig(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_flag_big").setLightLevel(1F).setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":clowder_flag_big");
 		clowder_conquerer = new Conquerer(Material.iron).setStepSound(soundTypeMetal).setBlockName("clowder_conquerer").setHardness(5.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":clowder_conquerer");
-		officer_chest = new OfficerChest().setStepSound(Block.soundTypeWood).setBlockName("officer_chest").setHardness(5.0F).setResistance(10F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":officer_chest");
+		officer_chest = new OfficerChest().setStepSound(Block.soundTypeWood).setBlockName("officer_chest").setResistance(10F).setHardness(5.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":officer_chest");
 
 		hesco_block = new PropHesco(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("hesco_block").setHardness(1F).setResistance(200F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hesco_block");
 		palisade = new PropPalisade(Material.wood).setStepSound(Block.soundTypeWood).setBlockName("palisade").setHardness(2F).setResistance(5F).setCreativeTab(MainRegistry.tab);
@@ -379,8 +379,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_sawmill, ItemBlockLore.class, machine_sawmill.getUnlocalizedName());
 		/*GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class, machine_alloy.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_crusher, ItemBlockLore.class, machine_crusher.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_efurnace, ItemBlockLore.class, machine_efurnace.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class, machine_distillery.getUnlocalizedName());*/
+		GameRegistry.registerBlock(machine_efurnace, ItemBlockLore.class, machine_efurnace.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_foundry, machine_foundry.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
