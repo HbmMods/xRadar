@@ -224,9 +224,17 @@ public class ResourceManager {
 	public static final IModelCustom turbine = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turbine.obj"));
 	public static final ResourceLocation turbine_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turbine.png");
 	
-	//TURBINE
+	//FOUNDRY
 	public static final IModelCustom foundry = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/foundry.obj"));
 	public static final ResourceLocation foundry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/foundry.png");
+	
+	//SAWMILL
+	public static final IModelCustom sawmill = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/sawmill.obj"));
+	public static final ResourceLocation sawmill_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/sawmill.png");
+	
+	//DIESELGEN
+	public static final IModelCustom diesel = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/numachines/dieselgen.obj"));
+	public static final ResourceLocation diesel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/numachines/dieselgen.png");
 	
 	//BLAST DOOR
 	public static final IModelCustom blast_door_block = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/blast_door_block.obj"));

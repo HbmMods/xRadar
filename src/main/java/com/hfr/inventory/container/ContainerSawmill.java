@@ -23,8 +23,9 @@ public class ContainerSawmill extends Container {
 		//Battery
 		this.addSlotToContainer(new Slot(te, 1, 26, 53));
 		//Results
-		this.addSlotToContainer(new LockedSlot(te, 2, 134, 35));
-		this.addSlotToContainer(new LockedSlot(te, 3, 152, 35));
+		this.addSlotToContainer(new LockedSlot(te, 2, 134, 26));
+		this.addSlotToContainer(new LockedSlot(te, 3, 134, 44));
+		this.addSlotToContainer(new LockedSlot(te, 4, 152, 35));
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -51,8 +52,8 @@ public class ContainerSawmill extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if (par2 <= 3) {
-				if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true)) {
+			if (par2 <= 4) {
+				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {

@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -22,15 +23,34 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 	@SideOnly(Side.CLIENT)
 	public float lastTilt;
 	
-	public boolean operating;
 	public float steel;
-	public static final float maxSteel = 16;
+	public static final float maxSteel = 32;
 	public int heat;
 	public static final int maxHeat = 4;
 	public int smeltTimer;
 	public int progress;
 	public static final int castTime = 100;
 	public int index = 0;
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.steel = nbt.getFloat("steel");
+		this.index = nbt.getInteger("index");
+		this.smeltTimer = nbt.getInteger("smeltTimer");
+		this.progress = nbt.getInteger("progress");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setFloat("steel", steel);
+		nbt.setInteger("index", index);
+		nbt.setInteger("smeltTimer", smeltTimer);
+		nbt.setInteger("progress", progress);
+	}
 	
 	public static HashMap<String, Float> recipes = new HashMap();
 	public static List<Item> options = new ArrayList();
@@ -44,6 +64,14 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 		recipes.put(ModItems.part_gear.getUnlocalizedName(), 2.5F);
 		recipes.put(ModItems.part_plate.getUnlocalizedName(), 3F);
 		recipes.put(ModItems.part_frame.getUnlocalizedName(), 5F);
+		recipes.put(ModItems.part_grate.getUnlocalizedName(), 3F);
+		recipes.put(ModItems.part_suspension.getUnlocalizedName(), 3F);
+		recipes.put(ModItems.part_plating_1.getUnlocalizedName(), 5F);
+		recipes.put(ModItems.part_hull_1.getUnlocalizedName(), 15F);
+		recipes.put(ModItems.part_mechanism_1.getUnlocalizedName(), 4F);
+		recipes.put(ModItems.part_steel_wheel.getUnlocalizedName(), 3F);
+		recipes.put(ModItems.part_sawblade.getUnlocalizedName(), 2.5F);
+		recipes.put(ModItems.part_track.getUnlocalizedName(), 2F);
 
 		options.add(ModItems.ingot_steel);
 		options.add(ModItems.part_spring);
@@ -53,6 +81,14 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 		options.add(ModItems.part_gear);
 		options.add(ModItems.part_plate);
 		options.add(ModItems.part_frame);
+		options.add(ModItems.part_grate);
+		options.add(ModItems.part_suspension);
+		options.add(ModItems.part_plating_1);
+		options.add(ModItems.part_hull_1);
+		options.add(ModItems.part_mechanism_1);
+		options.add(ModItems.part_steel_wheel);
+		options.add(ModItems.part_sawblade);
+		options.add(ModItems.part_track);
 	}
 
 	public TileEntityFoundry() {

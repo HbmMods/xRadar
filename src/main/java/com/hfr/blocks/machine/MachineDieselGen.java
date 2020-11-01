@@ -2,10 +2,12 @@ package com.hfr.blocks.machine;
 
 import java.util.Random;
 
+import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.machine.TileEntityDieselGen;
+import com.hfr.tileentity.machine.TileEntityProxy;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -23,45 +25,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class MachineDieselGen extends BlockContainer {
-
-	@SideOnly(Side.CLIENT)
-	protected IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	protected IIcon iconFront;
-	@SideOnly(Side.CLIENT)
-	protected IIcon iconBottom;
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_top");
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_front");
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_bottom");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_side");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
-
-		if(side == 0)
-			return iconBottom;
-		if(side == 1)
-			return iconTop;
-		if(side == 2 || side == 3)
-			return iconFront;
-		
-		return blockIcon;
-	}
+public class MachineDieselGen extends BlockDummyable {
 	
 	public MachineDieselGen(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityDieselGen();
+	public TileEntity createNewTileEntity(World p_149915_1_, int meta) {
+		
+		if(meta >= 12)
+			return new TileEntityDieselGen();
+		
+		return null;
 	}
 	
 	@Override
@@ -71,7 +47,12 @@ public class MachineDieselGen extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_diesel, world, x, y, z);
+			int[] pos = this.findCore(world, x, y, z);
+			
+			if(pos == null)
+				return false;
+			
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_diesel, world, pos[0], pos[1], pos[2]);
 
 			return true;
 		} else {
@@ -83,11 +64,11 @@ public class MachineDieselGen extends BlockContainer {
 	private static boolean keepInventory;
 	
 	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
+	public void breakBlock(World world, int x, int y, int z, Block p_149749_5_, int p_149749_6_)
     {
-        if (!keepInventory)
+        if (!keepInventory && world.getTileEntity(x, y, z) instanceof ISidedInventory)
         {
-        	ISidedInventory tileentityfurnace = (ISidedInventory)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	ISidedInventory tileentityfurnace = (ISidedInventory)world.getTileEntity(x, y, z);
 
             if (tileentityfurnace != null)
             {
@@ -111,7 +92,7 @@ public class MachineDieselGen extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -122,16 +103,26 @@ public class MachineDieselGen extends BlockContainer {
                             entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
                             entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
                             entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
-                            p_149749_1_.spawnEntityInWorld(entityitem);
+                            world.spawnEntityInWorld(entityitem);
                         }
                     }
                 }
 
-                p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
+                world.func_147453_f(x, y, z, p_149749_5_);
             }
         }
 
-        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+        super.breakBlock(world, x, y, z, p_149749_5_, p_149749_6_);
     }
+
+	@Override
+	public int[] getDimensions() {
+		return new int[] {0, 0, 0, 0, 1, 1};
+	}
+
+	@Override
+	public int getOffset() {
+		return 0;
+	}
 
 }

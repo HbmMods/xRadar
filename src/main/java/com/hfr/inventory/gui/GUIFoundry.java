@@ -86,6 +86,8 @@ public class GUIFoundry extends GuiContainer {
 		int progress = foundry.getProgressScaled(48);
 		drawTexturedModalRect(guiLeft + 80, guiTop + 40, 176, 12, progress, 11);
 		
-		drawTexturedModalRect(guiLeft + 115, guiTop + 16, 18 * foundry.index, 166, 18, 18);
+		int i = foundry.index;
+		
+		drawTexturedModalRect(guiLeft + 115, guiTop + 16, 18 * (i % 8), 166 + 18 * (i / 8), 18, 18);
 	}
 }

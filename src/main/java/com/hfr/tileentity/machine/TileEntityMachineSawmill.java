@@ -6,12 +6,17 @@ import com.hfr.main.MainRegistry;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineSawmill extends TileEntityMachineBase implements IEnergyHandler {
@@ -22,7 +27,7 @@ public class TileEntityMachineSawmill extends TileEntityMachineBase implements I
 	public EnergyStorage storage = new EnergyStorage(10000, 1000, 1000);
 
 	public TileEntityMachineSawmill() {
-		super(4);
+		super(5);
 	}
 
 	@Override
@@ -69,6 +74,22 @@ public class TileEntityMachineSawmill extends TileEntityMachineBase implements I
 			
 			this.updateGauge(storage.getEnergyStored(), 0, 50);
 			this.updateGauge(progress, 1, 50);
+		} else {
+			
+			if(progress > 0) {
+				
+				Vec3 vec = Vec3.createVectorHelper(-1, 0.875, -0.5);
+				
+				switch(getBlockMetadata() - 10)
+				{
+				case 2: vec.rotateAroundY((float)Math.toRadians(0)); break;
+				case 4: vec.rotateAroundY((float)Math.toRadians(90)); break;
+				case 3: vec.rotateAroundY((float)Math.toRadians(180)); break;
+				case 5: vec.rotateAroundY((float)Math.toRadians(270)); break;
+				}
+				
+				worldObj.spawnParticle("smoke", xCoord + 0.5 + vec.xCoord, yCoord + 0.5 + vec.yCoord, zCoord + 0.5 + vec.zCoord, 0.0, 0.0, 0.0);
+			}
 		}
 	}
 	
@@ -81,41 +102,40 @@ public class TileEntityMachineSawmill extends TileEntityMachineBase implements I
 	
 	private void process(ItemStack output) {
 		
-		int toAdd = output.stackSize;
+		if(slots[2] == null) {
+			slots[2] = output.copy();
+		} else {
+			slots[2].stackSize += output.stackSize;
+		}
 		
-		for(int i = 2; i <= 3; i++) {
-			
-			if(slots[i] == null) {
-				slots[i] = new ItemStack(output.getItem(), toAdd, output.getItemDamage());
-				return;
-			}
-			
-			if(slots[i].getItem() == output.getItem() && slots[i].getItemDamage() == output.getItemDamage()) {
-				
-				int canAdd = Math.min(slots[i].getMaxStackSize() - slots[i].stackSize, toAdd);
-				toAdd -= canAdd;
-				slots[i].stackSize += canAdd;
-				
-				if(toAdd <= 0)
-					return;
+		if(slots[3] == null) {
+			slots[3] = new ItemStack(ModItems.part_sawdust);
+		} else {
+			if(slots[3].stackSize < slots[3].getMaxStackSize())
+				slots[3].stackSize++;
+		}
+		
+		if(worldObj.rand.nextInt(5) == 0) {
+			if(slots[4] == null) {
+				slots[4] = new ItemStack(ModItems.part_rubber_drop);
+			} else {
+				if(slots[4].stackSize < slots[4].getMaxStackSize())
+					slots[4].stackSize++;
 			}
 		}
 	}
 	
 	public boolean hasSpace(ItemStack output) {
 		
-		int toAdd = output.stackSize;
+		if(slots[2] == null)
+			return true;
 		
-		for(int i = 2; i <= 3; i++) {
-			
-			if(slots[i] == null)
-				return true;
-			
-			if(slots[i].getItem() == output.getItem() && slots[i].getItemDamage() == output.getItemDamage())
-				toAdd -= (slots[i].getMaxStackSize() - slots[i].stackSize);
-		}
+		if(slots[2].getItem() == output.getItem() &&
+				slots[2].getItemDamage() == output.getItemDamage() &&
+				slots[2].stackSize + output.stackSize <= slots[2].getMaxStackSize())
+			return true;
 		
-		return toAdd <= 0;
+		return false;
 	}
 	
 	public static ItemStack getRecipe(ItemStack stack) {
@@ -169,5 +189,33 @@ public class TileEntityMachineSawmill extends TileEntityMachineBase implements I
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return storage.getMaxEnergyStored();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.progress = nbt.getInteger("progress");
+		this.storage.readFromNBT(nbt);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setInteger("progress", progress);
+		this.storage.writeToNBT(nbt);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

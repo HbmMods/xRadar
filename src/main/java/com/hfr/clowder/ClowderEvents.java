@@ -316,8 +316,10 @@ public class ClowderEvents {
 			bb = false;
 		}
 		
-		if(bb)
-			BobbyBreaker.handleExplosionEvent(event);
+		//TEMP
+		//if(bb)
+		//	BobbyBreaker.handleExplosionEvent(event);
+		
 		ExplosionSound.handleExplosion(event.world, event.explosion);
 	}
 	

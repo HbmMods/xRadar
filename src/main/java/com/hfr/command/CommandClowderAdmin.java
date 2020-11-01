@@ -107,7 +107,7 @@ public class CommandClowderAdmin extends CommandBase {
 	private void cmdHelp(ICommandSender sender, String page) {
 		
 		int p = this.parseInt(sender, page);
-		int pages = 2;
+		int pages = 1;
 		
 		if(p < 1 || p > pages)
 			p = 1;
@@ -123,7 +123,7 @@ public class CommandClowderAdmin extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-setclaim <wild/safe/war> <s/c> <radius>" + TITLE + " - Claims chunks in a radius (square or circular)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-addprestige <name> <amount>" + TITLE + " - Adds prestige (neg values to subtract)"));
-			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
+			//sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
 		}
 
 		if(p == 2) {

@@ -1,10 +1,12 @@
 package com.hfr.handler;
 
 import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.AuxParticlePacketNT;
 import com.hfr.packet.effect.ExplosionSoundPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -30,6 +32,11 @@ public class ExplosionSound {
 		
 		double farRange = 1000D * pow / max;
 		PacketDispatcher.wrapper.sendToAllAround(new ExplosionSoundPacket((int)x, (int)y, (int)z, pow), new TargetPoint(world.provider.dimensionId, x, y, z, farRange));
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "explosion");
+		data.setFloat("strength", pow);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 	}
 	
 	public static void handleClient(EntityPlayer player, int x, int y, int z, float pow) {

@@ -20,6 +20,8 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		
+		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		switch(tile.getBlockMetadata() - 10)
 		{
@@ -63,16 +65,31 @@ public class RenderFoundry extends TileEntitySpecialRenderer {
 	        float slide = (System.currentTimeMillis() % 1000) * -0.001F;
 	        
 	        tess.startDrawingQuads();
+	        tess.addVertexWithUV(offset + pixel, height, -pixel, slide, 0);
+	        tess.addVertexWithUV(offset + pixel, height, pixel, slide, 0.125);
+	        tess.addVertexWithUV(offset + pixel, min, pixel, slide + 1, 0.125);
+	        tess.addVertexWithUV(offset + pixel, min, -pixel, slide + 1, 0);
+
+	        tess.addVertexWithUV(offset, height, pixel, slide, 0.125);
 	        tess.addVertexWithUV(offset, height, -pixel, slide, 0);
+	        tess.addVertexWithUV(offset, min, -pixel, slide + 1, 0);
+	        tess.addVertexWithUV(offset, min, pixel, slide + 1, 0.125);
+
+	        tess.addVertexWithUV(offset + pixel, height, pixel, slide, 0.1875);
 	        tess.addVertexWithUV(offset, height, pixel, slide, 0.125);
 	        tess.addVertexWithUV(offset, min, pixel, slide + 1, 0.125);
-	        tess.addVertexWithUV(offset, min, -pixel, slide + 1, 0);
+	        tess.addVertexWithUV(offset + pixel, min, pixel, slide + 1, 0.1875);
+
+	        tess.addVertexWithUV(offset, height, -pixel, slide, 0.125);
+	        tess.addVertexWithUV(offset + pixel, height, -pixel, slide, 0.1875);
+	        tess.addVertexWithUV(offset + pixel, min, -pixel, slide + 1, 0.1875);
+	        tess.addVertexWithUV(offset, min, -pixel, slide + 1, 0.125);
 	        
 	        float size = 8;
-	        tess.addVertexWithUV(offset - pixel * size, min, pixel * size, 0, 1);
 	        tess.addVertexWithUV(offset - pixel * size, min, -pixel * size, 0, 0);
-	        tess.addVertexWithUV(offset + pixel  * size, min, -pixel * size, 1, 0);
+	        tess.addVertexWithUV(offset - pixel * size, min, pixel * size, 0, 1);
 	        tess.addVertexWithUV(offset + pixel  * size, min, pixel * size, 1, 1);
+	        tess.addVertexWithUV(offset + pixel  * size, min, -pixel * size, 1, 0);
 	        tess.draw();
 	        
 			GL11.glEnable(GL11.GL_LIGHTING);

@@ -3,11 +3,16 @@
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityBreakingFX;
 import net.minecraft.client.particle.EntityCloudFX;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFireworkSparkFX;
+import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntityLargeExplodeFX;
+import net.minecraft.client.particle.EntityLavaFX;
 import net.minecraft.client.particle.EntityReddustFX;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
@@ -55,6 +60,7 @@ import com.hfr.tileentity.weapon.*;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class ClientProxy extends ServerProxy
 {
@@ -124,6 +130,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConquerer.class, new RenderConquerer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOfficerChest.class, new RenderChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoundry.class, new RenderFoundry());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSawmill.class, new RenderSawmill());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDieselGen.class, new RenderDieselGen());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileAT.class, new RenderMissileGeneric());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
@@ -373,7 +381,10 @@ public class ClientProxy extends ServerProxy
 
 	public void effectNT(NBTTagCompound nbt) {
 		
-		if(nbt.getString("type").equals("resources")) {
+		String type = nbt.getString("type");
+		World world = Minecraft.getMinecraft().theWorld;
+		
+		if(type.equals("resources")) {
 			
 			int count = nbt.getInteger("count");
 			
@@ -387,6 +398,52 @@ public class ClientProxy extends ServerProxy
 				
 				EventHandlerClient.resourceBorders.add(new int[] {minX, minZ, maxX, maxZ, color});
 			}
+		} else if(type.equals("explosion")) {
+			
+			try {
+				float strength = nbt.getFloat("strength");
+				double x = nbt.getDouble("posX");
+				double y = nbt.getDouble("posY") + 0.5;
+				double z = nbt.getDouble("posZ");
+				
+				for(int i = 0; i < strength * 10; i++) {
+					
+					EntityFlameFX flames = new EntityFlameFX(world, x, y, z,
+							world.rand.nextGaussian() * 0.1 * strength,
+							world.rand.nextGaussian() * 0.1 * strength,
+							world.rand.nextGaussian() * 0.1 * strength);
+					
+					ReflectionHelper.setPrivateValue(EntityFX.class, flames, 100, "particleMaxAge", "field_70547_e");
+					
+					Minecraft.getMinecraft().effectRenderer.addEffect(flames);
+				}
+				
+				for(int i = 0; i < strength * 25; i++) {
+					
+					EntityLavaFX flames = new EntityLavaFX(world, x, y, z);
+	
+					ReflectionHelper.setPrivateValue(EntityFX.class, flames, 200, "particleMaxAge", "field_70547_e");
+					ReflectionHelper.setPrivateValue(Entity.class, flames, world.rand.nextGaussian() * 0.1 * strength, "motionX", "field_70159_w");
+					ReflectionHelper.setPrivateValue(Entity.class, flames, world.rand.nextDouble() * 0.25 * strength, "motionY", "field_70181_x");
+					ReflectionHelper.setPrivateValue(Entity.class, flames, world.rand.nextGaussian() * 0.1 * strength, "motionZ", "field_70179_y");
+					
+					Minecraft.getMinecraft().effectRenderer.addEffect(flames);
+				}
+				
+				for(int i = 0; i < strength * 50; i++) {
+					
+					EntityCloudFX flames = new EntityCloudFX(world, x, y, z,
+							world.rand.nextGaussian() * 0.025 * strength,
+							world.rand.nextGaussian() * 0.025 * strength,
+							world.rand.nextGaussian() * 0.025 * strength);
+	
+					ReflectionHelper.setPrivateValue(EntityFX.class, flames, 100, "particleMaxAge", "field_70547_e");
+					ReflectionHelper.setPrivateValue(EntityFX.class, flames, 10, "particleScale", "field_70544_f");
+					ReflectionHelper.setPrivateValue(EntityCloudFX.class, flames, 10, "field_70569_a");
+					
+					Minecraft.getMinecraft().effectRenderer.addEffect(flames);
+				}
+			} catch(Exception ex) {}
 		}
 	}
 }
