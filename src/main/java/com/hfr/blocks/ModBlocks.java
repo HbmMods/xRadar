@@ -194,6 +194,13 @@ public class ModBlocks {
             return Block.soundTypeMetal.func_150496_b();
         }
     };
+	public static Block.SoundType soundTypeMud = new ModSoundType("mud", 0.5F, 1.0F)
+    {
+        public String func_150496_b()
+        {
+            return Block.soundTypeMetal.func_150496_b();
+        }
+    };
 
 	private static void initializeBlock() {
 		
@@ -208,7 +215,7 @@ public class ModBlocks {
 		barricade = new BlockSandbags(Material.rock).setStepSound(soundTypeConcrete).setBlockName("barricade").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":sandbags");
 
 		soil_moon = new BlockGeneric(Material.sand).setStepSound(Block.soundTypeGravel).setBlockName("soil_moon").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_moon");
-		soil_mud = new BlockMud(Material.ground).setStepSound(Block.soundTypeGravel).setBlockName("soil_mud").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_mud");
+		soil_mud = new BlockMud(Material.ground).setStepSound(soundTypeMud).setBlockName("soil_mud").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_mud");
 
 		rice = new BlockRice().setBlockName("rice").setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":rice");
 		rope = new BlockRope(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("rope").setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":rope");

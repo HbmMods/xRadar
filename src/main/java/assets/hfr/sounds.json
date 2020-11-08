@@ -3,6 +3,8 @@
     "step.metal": {"category": "block", "sounds": ["step/metalStep1", "step/metalStep2", "step/metalStep3", "step/metalStep4"]},
     "dig.concrete": {"category": "block", "sounds": ["step/concreteBreak1", "step/concreteBreak2"]},
     "dig.metal": {"category": "block", "sounds": ["step/metalBreak1", "step/metalBreak2", "step/metalBreak3"]},
+    "step.mud": {"category": "block", "sounds": ["step/mud_walk1", "step/mud_walk2", "step/mud_walk3", "step/mud_walk4", "step/mud_walk5", "step/mud_walk6"]},
+    "dig.mud": {"category": "block", "sounds": ["step/mud_walk1", "step/mud_walk2", "step/mud_walk3", "step/mud_walk4", "step/mud_walk5", "step/mud_walk6"]},
     
     "block.sonarPing": {"category": "block", "sounds": [{"name": "block/sonarPing", "stream": false}]},
     "block.vaultScrapeNew": {"category": "block", "sounds": [{"name": "block/vaultScrapeNew", "stream": false}]},
