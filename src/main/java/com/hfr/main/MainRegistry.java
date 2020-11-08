@@ -196,6 +196,7 @@ public class MainRegistry
 	public static int prestigeDelay = 60 * 60 * 20;
 	public static boolean disableChests = true;
 	public static int mold = 5 * 60 * 60 * 20;
+	public static boolean freeRaid = false;
 
 	public static boolean bb_rng = false;
 	
@@ -364,6 +365,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeGas.class, "entity_hfr_gas_grenade", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_hfr_nuke_grenade", id++, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeBoxcar.class, "entity_hfr_grb_grenade", id++, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityHook.class, "entity_hfr_hook_baall", id++, this, 1000, 1, true);
 
 	    EntityRegistry.registerModEntity(EntityFarmer.class, "entity_hfr_slave", id++, this, 1000, 1, true);
 
@@ -967,6 +969,7 @@ public class MainRegistry
         prestigeDelay = createConfigInt(config, "CLOWDER", "prestigeDelay", "How many ticks inbetween prestige updates (1h per default)", 60 * 60 * 20);
         disableChests = createConfigBool(config, "CLOWDER", "disableChests", "Whether chests should not be placable outside of claims", true);
         mold = createConfigInt(config, "CLOWDER", "mold", "How many ticks cardboard boxes can remain loaded until rotting (5h by default)", 5 * 60 * 60 * 20);
+        freeRaid = createConfigBool(config, "CLOWDER", "freeRaid", "Enabling this will cause all raidability checks to be ignored, everyone will alway be raidable", false);
 
         bb_rng = createConfigBool(config, "BOBBYBREAKER", "enableFineCalc", "Whether or not BB uses exact position values or rounded ones, exact values simulate RNG due to bomb spread and highly varying damage", false);
 

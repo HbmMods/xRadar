@@ -1,6 +1,7 @@
 package com.hfr.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -28,12 +29,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -41,6 +48,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -291,6 +299,154 @@ public class EventHandlerClient {
 			}
 		}
 	}
+	
+	public static HashMap<String, String> lookup = new HashMap();
+	
+	@SubscribeEvent
+	public void preRenderEvent(RenderLivingEvent.Pre event) {
+
+		if(event.entity instanceof EntityPlayer) {
+			
+			String clowder = lookup.get(event.entity.getUniqueID().toString());
+			String own = lookup.get(Minecraft.getMinecraft().thePlayer.getUniqueID().toString());
+			
+			if(clowder != null && !clowder.equals("###")) {
+				
+				if(own == null || own.equals("###")) {
+					clowder = EnumChatFormatting.YELLOW + clowder;
+				} else if(own.equals(clowder)) {
+					clowder = EnumChatFormatting.GREEN + clowder;
+				} else {
+					clowder = EnumChatFormatting.RED + clowder;
+				}
+				
+				renderTag((EntityPlayer)event.entity, event.x, event.y, event.z, event.renderer, clowder.replaceAll("_", " "));
+			}
+		}
+	}
+	
+	private void renderTag(EntityPlayer player, double x, double y, double z, RendererLivingEntity renderer, String name) {
+		
+		EntityPlayer thePlayer = Minecraft.getMinecraft().thePlayer;
+		
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+
+        if (this.func_110813_b(player))
+        {
+            float f = 1.6F;
+            float f1 = 0.016666668F * f;
+            double d3 = player.getDistanceSqToEntity(thePlayer);
+            float f2 = player.isSneaking() ? renderer.NAME_TAG_RANGE_SNEAK : renderer.NAME_TAG_RANGE;
+
+            if (d3 < (double)(f2 * f2))
+            {
+                String s = name;
+
+                if (player.isSneaking())
+                {
+                    FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+                    GL11.glPushMatrix();
+                    GL11.glTranslatef((float)x + 0.0F, (float)y + player.height + 0.75F, (float)z);
+                    GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+                    GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+                    GL11.glScalef(-f1, -f1, f1);
+                    GL11.glDisable(GL11.GL_LIGHTING);
+                    GL11.glTranslatef(0.0F, 0.25F / f1, 0.0F);
+                    GL11.glDepthMask(false);
+                    GL11.glEnable(GL11.GL_BLEND);
+                    OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+                    Tessellator tessellator = Tessellator.instance;
+                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    tessellator.startDrawingQuads();
+                    int i = fontrenderer.getStringWidth(s) / 2;
+                    tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+                    tessellator.addVertex((double)(-i - 1), -1.0D, 0.0D);
+                    tessellator.addVertex((double)(-i - 1), 8.0D, 0.0D);
+                    tessellator.addVertex((double)(i + 1), 8.0D, 0.0D);
+                    tessellator.addVertex((double)(i + 1), -1.0D, 0.0D);
+                    tessellator.draw();
+                    GL11.glEnable(GL11.GL_TEXTURE_2D);
+                    GL11.glDepthMask(true);
+                    fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 0, 553648127);
+                    GL11.glEnable(GL11.GL_LIGHTING);
+                    GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    GL11.glPopMatrix();
+                }
+                else
+                {
+                	func_96449_a(player, x, y, z, name, f1, d3);
+                }
+            }
+        }
+	}
+
+    protected boolean func_110813_b(EntityLivingBase p_110813_1_)
+    {
+        return Minecraft.isGuiEnabled() && p_110813_1_ != RenderManager.instance.livingPlayer && !p_110813_1_.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && p_110813_1_.riddenByEntity == null;
+    }
+
+    protected void func_96449_a(EntityLivingBase p_96449_1_, double p_96449_2_, double p_96449_4_, double p_96449_6_, String p_96449_8_, float p_96449_9_, double p_96449_10_)
+    {
+        if (p_96449_1_.isPlayerSleeping())
+        {
+            this.func_147906_a(p_96449_1_, p_96449_8_, p_96449_2_, p_96449_4_ - 1.5D, p_96449_6_, 64);
+        }
+        else
+        {
+            this.func_147906_a(p_96449_1_, p_96449_8_, p_96449_2_, p_96449_4_, p_96449_6_, 64);
+        }
+    }
+
+    protected void func_147906_a(Entity p_147906_1_, String name, double p_147906_3_, double p_147906_5_, double p_147906_7_, int p_147906_9_)
+    {
+        double d3 = p_147906_1_.getDistanceSqToEntity(RenderManager.instance.livingPlayer);
+
+        if (d3 <= (double)(p_147906_9_ * p_147906_9_))
+        {
+            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+            float f = 1.6F;
+            float f1 = 0.016666668F * f;
+            GL11.glPushMatrix();
+            GL11.glTranslatef((float)p_147906_3_ + 0.0F, (float)p_147906_5_ + p_147906_1_.height + 0.75F, (float)p_147906_7_);
+            GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+            GL11.glScalef(-f1, -f1, f1);
+            GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDepthMask(false);
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+            GL11.glEnable(GL11.GL_BLEND);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+            Tessellator tessellator = Tessellator.instance;
+            byte b0 = 0;
+
+            if (name.equals("deadmau5"))
+            {
+                b0 = -10;
+            }
+
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            tessellator.startDrawingQuads();
+            int j = fontrenderer.getStringWidth(name) / 2;
+            tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+            tessellator.addVertex((double)(-j - 1), (double)(-1 + b0), 0.0D);
+            tessellator.addVertex((double)(-j - 1), (double)(8 + b0), 0.0D);
+            tessellator.addVertex((double)(j + 1), (double)(8 + b0), 0.0D);
+            tessellator.addVertex((double)(j + 1), (double)(-1 + b0), 0.0D);
+            tessellator.draw();
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            fontrenderer.drawString(name, -fontrenderer.getStringWidth(name) / 2, b0, 553648127);
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glDepthMask(true);
+            fontrenderer.drawString(name, -fontrenderer.getStringWidth(name) / 2, b0, -1);
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GL11.glPopMatrix();
+        }
+    }
 	
 	@SubscribeEvent
 	public void renderTick(TickEvent.RenderTickEvent event) {

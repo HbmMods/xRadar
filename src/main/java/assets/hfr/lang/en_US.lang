@@ -149,6 +149,9 @@ tile.statue.name=Statue
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Launch Pad
 
+tile.rope.name=Rope
+item.hook.name=Grappling Hook
+
 item.hammer.name=Maul of Bench Appearo
 item.wand.name=ThotBeGone Anti Mob Wand
 item.wand_iron.name=Iron Wand
@@ -353,3 +356,4 @@ item.canned_jizz.name=Canned Horse Milk
 item.canned_spam.name=Canned Coochie
 
 item.debug.name=Metal Junk of Debugging
+item.capsule.name=Explosive Capsule

@@ -193,6 +193,7 @@ public class ModItems {
 	public static Item grenade_gas;
 	public static Item grenade_nuclear;
 	public static Item grenade_boxcar;
+	public static Item hook;
 	public static Item hatter;
 
 	public static Item battery_rc;
@@ -221,6 +222,7 @@ public class ModItems {
 	public static Item canned_jizz;
 
 	public static Item debug;
+	public static Item capsule;
 	
 	public static ArmorMaterial matGasMask = EnumHelper.addArmorMaterial("GASMASK", 10, new int[] {0, 0, 0, 0}, 0);
 
@@ -398,6 +400,7 @@ public class ModItems {
 		grenade_gas = new ItemGrenade(4).setUnlocalizedName("grenade_gas").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_gas");
 		grenade_nuclear = new ItemGrenade(7).setUnlocalizedName("grenade_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 		grenade_boxcar = new ItemGrenade(12).setUnlocalizedName("grenade_boxcar").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":grenade_boxcar");
+		hook = new ItemGrenade(-1).setUnlocalizedName("hook").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hook");
 		hatter = new ItemHatter().setUnlocalizedName("hatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hat");
 		
 		battery_rc = new ItemBattery(50000).setUnlocalizedName("battery_rc").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":battery_rc");
@@ -427,6 +430,7 @@ public class ModItems {
 		canned_jizz = new ItemModFood(10).setUnlocalizedName("canned_jizz").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":canned_jizz");
 		
 		debug = new ItemDebug().setUnlocalizedName("debug").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":debug");
+		capsule = new ItemCapsule().setUnlocalizedName("capsule").setMaxStackSize(1).setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":capsule");
 	}
 	
 	private static void registerItem() {
@@ -446,6 +450,7 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_boxcar, grenade_boxcar.getUnlocalizedName());
+		GameRegistry.registerItem(hook, hook.getUnlocalizedName());
 		
 		GameRegistry.registerItem(hatter, hatter.getUnlocalizedName());
 		
@@ -633,5 +638,6 @@ public class ModItems {
 		GameRegistry.registerItem(canned_jizz, canned_jizz.getUnlocalizedName());
 		
 		GameRegistry.registerItem(debug, debug.getUnlocalizedName());
+		GameRegistry.registerItem(capsule, capsule.getUnlocalizedName());
 	}
 }

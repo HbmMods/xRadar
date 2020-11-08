@@ -1,5 +1,7 @@
 package com.hfr.blocks.machine;
 
+import java.util.List;
+
 import com.hfr.blocks.ModBlocks;
 import com.hfr.data.MarketData;
 import com.hfr.lib.RefStrings;
@@ -17,6 +19,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -61,7 +64,8 @@ public class MachineMarket extends BlockContainer {
 			
 			NBTTagCompound nbt = new NBTTagCompound();
 			MarketData data = MarketData.getData(world);
-			data.writeToNBT(nbt);
+			data.writeMarketFromName(nbt, market.name);
+			
 			PacketDispatcher.wrapper.sendTo(new OfferPacket(market.name, nbt), (EntityPlayerMP)player);
 			
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() == Items.name_tag && player.getHeldItem().hasDisplayName()) {

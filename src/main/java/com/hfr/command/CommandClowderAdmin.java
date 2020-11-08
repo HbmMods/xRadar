@@ -8,10 +8,13 @@ import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.CoordPair;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.data.ClowderData;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.ClowderFlagPacket;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -101,6 +104,21 @@ public class CommandClowderAdmin extends CommandBase {
 			return;
 		}
 		
+		if(cmd.equals("create") && args.length > 1) {
+			cmdCreate(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("disband") && args.length > 1) {
+			cmdDisband(sender, args[1]);
+			return;
+		}
+		
+		if(cmd.equals("rename") && args.length > 1) {
+			cmdRename(sender, args[1]);
+			return;
+		}
+		
 		sender.addChatMessage(new ChatComponentText(ERROR + getCommandUsage(sender)));
 	}
 	
@@ -123,10 +141,13 @@ public class CommandClowderAdmin extends CommandBase {
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-deletedata" + TITLE + " - Deletes all clowder data (CAUTION!!)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-setclaim <wild/safe/war> <s/c> <radius>" + TITLE + " - Claims chunks in a radius (square or circular)"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-addprestige <name> <amount>" + TITLE + " - Adds prestige (neg values to subtract)"));
-			//sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
+			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
 		}
 
 		if(p == 2) {
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-create <name>" + TITLE + " - Creates a faction"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-disband <name>" + TITLE + " - Disbands a faction, name parameter for confirmation"));
+			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-rename <name>" + TITLE + " - Renames your faction"));
 			//sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-info" + TITLE + " - Shows info on your faction"));
 		}
 	}
@@ -289,6 +310,75 @@ public class CommandClowderAdmin extends CommandBase {
 			
 		} else {
 			sender.addChatMessage(new ChatComponentText(ERROR + "There is no faction with this name!"));
+		}
+	}
+	
+	private void cmdCreate(ICommandSender sender, String name) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		
+		if(Clowder.getClowderFromPlayer(player) == null) {
+			
+			if(Clowder.getClowderFromName(name) == null) {
+				Clowder.createClowder(player, name);
+				sender.addChatMessage(new ChatComponentText(TITLE + "Created faction " + name + "!"));
+				sender.addChatMessage(new ChatComponentText(INFO + "Use /c claim to get started!"));
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "This name is already taken!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You can not create a new faction while already being in one!"));
+		}
+	}
+	
+	private void cmdDisband(ICommandSender sender, String name) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+				
+			if(name.equals(clowder.name)) {
+				
+				if(clowder.disbandClowder(player)) {
+					sender.addChatMessage(new ChatComponentText(CRITICAL + "Your faction was disbanded!"));
+				} else {
+					sender.addChatMessage(new ChatComponentText(ERROR + "Can not disband a faction you do not own!"));
+				}
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "Confirmation unsuccessful. Please enter the faction name to disband the faction."));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
+		}
+	}
+	
+	private void cmdRename(ICommandSender sender, String name) {
+
+		EntityPlayer player = getCommandSenderAsPlayer(sender);
+		Clowder clowder = Clowder.getClowderFromPlayer(player);
+		
+		if(clowder != null) {
+				
+			if(Clowder.getClowderFromName(name) == null) {
+
+				if(clowder.getPermLevel(player.getDisplayName()) > 1) {
+					clowder.rename(name, player);
+					sender.addChatMessage(new ChatComponentText(TITLE + "Renamed faction to " + name + "!"));
+					PacketDispatcher.wrapper.sendTo(new ClowderFlagPacket(clowder, ""), (EntityPlayerMP) player);
+				} else {
+					sender.addChatMessage(new ChatComponentText(ERROR + "You lack the permissions to rename this faction!"));
+				}
+				
+			} else {
+				sender.addChatMessage(new ChatComponentText(ERROR + "This name is already taken!"));
+			}
+			
+		} else {
+			sender.addChatMessage(new ChatComponentText(ERROR + "You are not in any faction!"));
 		}
 	}
 	

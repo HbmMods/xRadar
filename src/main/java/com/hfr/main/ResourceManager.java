@@ -15,6 +15,7 @@ public class ResourceManager {
 	public static final int id_berliner = 10004;
 	public static final int id_barbed = 10005;
 	public static final int id_sandbags = 10006;
+	public static final int id_rope = 10007;
 
 	public static final ResourceLocation universal = new ResourceLocation(RefStrings.MODID, "textures/models/deb.png");
 	public static final IModelCustom cylinder = new S_WavefrontObject(new ResourceLocation(RefStrings.MODID, "models/cylinder.obj"));

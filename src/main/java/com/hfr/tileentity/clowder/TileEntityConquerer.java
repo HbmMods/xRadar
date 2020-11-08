@@ -25,7 +25,7 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 	
 	public Clowder owner;
 	public float height = 0.0F;
-	public static final float speed = 1.0F / (20F * 90F);
+	public static final float speed = 1.0F / (20F * 40F);
 	public String name = "";
 	
 	@SideOnly(Side.CLIENT)
@@ -173,22 +173,22 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 		
 		CoordPair loc1 = ClowderTerritory.getCoordPair(x + 16, z);
 		Ownership owner1 = ClowderTerritory.getOwnerFromCoords(loc1);
-		if(owner1.zone == Zone.WILDERNESS || owner1.owner == this.owner)
+		if(owner1.zone == Zone.WILDERNESS || owner1.owner != owner.owner)
 			return true;
 		
 		CoordPair loc2 = ClowderTerritory.getCoordPair(x - 16, z);
 		Ownership owner2 = ClowderTerritory.getOwnerFromCoords(loc2);
-		if(owner2.zone == Zone.WILDERNESS || owner2.owner == this.owner)
+		if(owner2.zone == Zone.WILDERNESS || owner2.owner != owner.owner)
 			return true;
 		
 		CoordPair loc3 = ClowderTerritory.getCoordPair(x, z + 16);
 		Ownership owner3 = ClowderTerritory.getOwnerFromCoords(loc3);
-		if(owner3.zone == Zone.WILDERNESS || owner3.owner == this.owner)
+		if(owner3.zone == Zone.WILDERNESS || owner3.owner != owner.owner)
 			return true;
 		
 		CoordPair loc4 = ClowderTerritory.getCoordPair(x, z - 16);
 		Ownership owner4 = ClowderTerritory.getOwnerFromCoords(loc4);
-		if(owner4.zone == Zone.WILDERNESS || owner4.owner == this.owner)
+		if(owner4.zone == Zone.WILDERNESS || owner4.owner != owner.owner)
 			return true;
 		
 		return false;

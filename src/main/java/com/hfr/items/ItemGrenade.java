@@ -5,6 +5,7 @@ import java.util.List;
 import com.hfr.entity.grenade.EntityGrenadeBoxcar;
 import com.hfr.entity.grenade.EntityGrenadeGas;
 import com.hfr.entity.grenade.EntityGrenadeNuclear;
+import com.hfr.entity.grenade.EntityHook;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -37,6 +38,9 @@ public class ItemGrenade extends Item {
 			}
 			if (this == ModItems.grenade_boxcar) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeBoxcar(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.hook) {
+				p_77659_2_.spawnEntityInWorld(new EntityHook(p_77659_2_, p_77659_3_));
 			}
 		}
 

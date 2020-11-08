@@ -105,8 +105,6 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
 			    tess.addVertex(-length, -height, 0);
 			    tess.draw();
 		    }
-
-			RenderHelper.enableStandardItemLighting();
 		    GL11.glEnable(GL11.GL_TEXTURE_2D);
 	        GL11.glShadeModel(GL11.GL_FLAT);
 	        GL11.glDepthMask(true);
@@ -115,6 +113,8 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
 	    
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glDisable(GL11.GL_BLEND);
+
+		RenderHelper.enableStandardItemLighting();
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();

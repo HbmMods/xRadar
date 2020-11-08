@@ -32,6 +32,7 @@ import com.hfr.render.hud.RenderRadarScreen.Blip;
 import com.hfr.rvi.RVICommon.Indicator;
 import com.hfr.rvi.RVICommon.RVIType;
 
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -212,6 +213,33 @@ public class CommonEventHandler {
 			}
 			
 			/// MUD CREATION ///
+
+			/// UPDATE CLOWDER INFO ///
+			
+			long age = player.worldObj.getTotalWorldTime();
+			
+			if(age % 10 == 0 && !player.worldObj.playerEntities.isEmpty()) {
+				
+				age /= 10;
+				age %= player.worldObj.playerEntities.size();
+				
+				EntityPlayer pl = (EntityPlayer) player.worldObj.playerEntities.get((int)age);
+				Clowder clow = Clowder.getClowderFromPlayer(pl);
+				
+				String name = "###";
+				
+				if(clow != null)
+					name = clow.name;
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "clowderNotif");
+				data.setString("player", pl.getUniqueID().toString());
+				data.setString("clowder", name);
+				
+				PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, 0, 0, 0), (EntityPlayerMP) player);
+			}
+			
+			/// UPDATE CLOWDER INFO ///
 			
 		} else {
 			//client stuff
@@ -629,8 +657,11 @@ public class CommonEventHandler {
 		}
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void oreDropEvent(BreakEvent event) {
+		
+		if(event.isCanceled())
+			return;
 		
 		World world = event.world;
 		

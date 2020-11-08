@@ -35,6 +35,7 @@ public class ModBlocks {
 	public static Block soil_mud;
 
 	public static Block rice;
+	public static Block rope;
 	
 	public static Block ore_uranium;
 	public static Block ore_boron;
@@ -210,6 +211,7 @@ public class ModBlocks {
 		soil_mud = new BlockMud(Material.ground).setStepSound(Block.soundTypeGravel).setBlockName("soil_mud").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_mud");
 
 		rice = new BlockRice().setBlockName("rice").setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":rice");
+		rope = new BlockRope(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("rope").setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":rope");
 		
 		ore_uranium = new BlockGeneric(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("ore_uranium").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
 		ore_boron = new BlockGeneric(Material.rock).setStepSound(Block.soundTypeStone).setBlockName("ore_boron").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":ore_boron");
@@ -239,7 +241,7 @@ public class ModBlocks {
 		machine_derrick = new MachineDerrick(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_derrick").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_derrick");
 		machine_refinery = new MachineRefinery(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_refinery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
 		machine_tank = new MachineTank(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":tank");
-		machine_market = new MachineMarket(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_market").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":market_side");
+		machine_market = new MachineMarket(Material.iron).setStepSound(soundTypeMetal).setBlockName("machine_market").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":market_side");
 		builder = new MachineBuilder(Material.iron).setStepSound(soundTypeMetal).setBlockName("builder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":builder_side");
 		box = new Box(Material.cloth).setStepSound(Block.soundTypeCloth).setBlockName("box").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab);
 
@@ -335,6 +337,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(soil_mud, soil_mud.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(rice, rice.getUnlocalizedName());
+		GameRegistry.registerBlock(rope, rope.getUnlocalizedName());
 
 		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_boron, ore_boron.getUnlocalizedName());

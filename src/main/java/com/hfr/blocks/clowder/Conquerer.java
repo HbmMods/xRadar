@@ -1,5 +1,6 @@
 package com.hfr.blocks.clowder;
 
+import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderTerritory;
 import com.hfr.clowder.ClowderTerritory.Ownership;
@@ -73,7 +74,7 @@ public class Conquerer extends BlockContainer {
 			Clowder clowder = Clowder.getClowderFromPlayer((EntityPlayer)player);
 			flag.owner = clowder;
 			
-			if(clowder != null && flag.checkBorder(x, z) && flag.canSeeSky()) {
+			if(clowder != null && flag.checkBorder(x, z) && flag.canSeeSky() && noProximity(world, x, y, z)) {
 				flag.owner.addPrestigeReq(0.2F, world);
 				flag.markDirty();
 			} else {
@@ -83,10 +84,32 @@ public class Conquerer extends BlockContainer {
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag not having sky access"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag not being in a foreign border chunk"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The enemy faction or your faction not being raidable"));
+				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag being too close to another conquest flag"));
 			}
 		}
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+	}
+	
+	public boolean noProximity(World world, int x, int y, int z) {
+		
+		int range = 4;
+		
+		for(int ix = x - range; ix <= x + range; ix++) {
+			for(int iy = y - 3; iy <= y + 3; iy++) {
+				for(int iz = z - range; iz <= z + range; iz++) {
+					
+					if(ix == x && iy == y && iz == z)
+						continue;
+					
+					if(world.getBlock(ix, iy, iz) == ModBlocks.clowder_conquerer) {
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	@Override

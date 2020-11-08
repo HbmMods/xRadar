@@ -10,6 +10,7 @@ import java.util.UUID;
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.data.ClowderData;
+import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.prop.TileEntityProp;
 
 import net.minecraft.block.Block;
@@ -283,6 +284,9 @@ public class Clowder {
 	}
 	
 	public boolean isRaidable() {
+		
+		if(MainRegistry.freeRaid)
+			return true;
 		
 		int online = 0;
 		int members = this.members.size();

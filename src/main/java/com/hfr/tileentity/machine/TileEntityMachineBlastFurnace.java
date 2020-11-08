@@ -84,7 +84,7 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase {
 				
 				if(hasIron() && hasSpace() && fuel > 0) {
 					
-					progress++;
+					progress += 2;
 					
 					if(progress >= maxProgress) {
 						

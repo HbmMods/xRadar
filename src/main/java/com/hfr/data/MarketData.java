@@ -43,7 +43,7 @@ public class MarketData extends WorldSavedData {
 		readMarkets(nbt, count);
 	}
 	
-	private void readMarkets(NBTTagCompound nbt, int count) {
+	public void readMarkets(NBTTagCompound nbt, int count) {
 		
 		for(int index = 0; index < count; index++) {
 			
@@ -51,11 +51,20 @@ public class MarketData extends WorldSavedData {
 			int offerCount = nbt.getInteger("offercount_" + index);
 			
 			for(int off = 0; off < offerCount; off++)
-				readOffers(nbt, name, count, off);
+				readOffers(nbt, name, off);
 		}
 	}
 	
-	private void readOffers(NBTTagCompound nbt, String name, int count, int index) {
+	public void readMarketFromPacket(NBTTagCompound nbt) {
+			
+		String name = nbt.getString("market");
+		int offerCount = nbt.getInteger("offercount");
+
+		for (int off = 0; off < offerCount; off++)
+			readOffers(nbt, name, off);
+	}
+	
+	public void readOffers(NBTTagCompound nbt, String name, int index) {
 
 		ItemStack[] slots = new ItemStack[4];
 		NBTTagList list = nbt.getTagList("items" + name + index, 10);
@@ -85,7 +94,7 @@ public class MarketData extends WorldSavedData {
 		writeMarkets(nbt);
 	}
 
-	private void writeMarkets(NBTTagCompound nbt) {
+	public void writeMarkets(NBTTagCompound nbt) {
 		
 		int index = 0;
 		
@@ -99,8 +108,21 @@ public class MarketData extends WorldSavedData {
 			index++;
 		}
 	}
+
+	public void writeMarketFromName(NBTTagCompound nbt, String name) {
+		
+		List<ItemStack[]> market = this.offers.get(name);
+		
+		if(market == null)
+			return;
+			
+		nbt.setString("market", name);
+		nbt.setInteger("offercount", market.size());
+		
+		writeOffers(nbt, name, market);
+	}
 	
-	private void writeOffers(NBTTagCompound nbt, String name, List<ItemStack[]> offers) {
+	public void writeOffers(NBTTagCompound nbt, String name, List<ItemStack[]> offers) {
 		
 		for(int index = 0; index < offers.size(); index++) {
 			

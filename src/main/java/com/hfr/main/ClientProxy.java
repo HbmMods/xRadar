@@ -87,6 +87,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerBlockHandler(new RenderBerliner());
 		RenderingRegistry.registerBlockHandler(new RenderBarbedWire());
 		RenderingRegistry.registerBlockHandler(new RenderSandbags());
+		RenderingRegistry.registerBlockHandler(new RenderRope());
 
 		ClientRegistry.registerKeyBinding(toggleZoom);
 		ClientRegistry.registerKeyBinding(incScale);
@@ -170,6 +171,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGas.class, new RenderSnowball(ModItems.grenade_gas));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBoxcar.class, new RenderBoxcar());
+		RenderingRegistry.registerEntityRenderingHandler(EntityHook.class, new RenderSnowball(ModItems.hook));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityFarmer.class, new RenderFarmer());
 
@@ -385,6 +387,12 @@ public class ClientProxy extends ServerProxy
 		
 		String type = nbt.getString("type");
 		World world = Minecraft.getMinecraft().theWorld;
+		
+		if(type.equals("clowderNotif")) {
+			
+			EventHandlerClient.lookup.put(nbt.getString("player"), nbt.getString("clowder"));
+			return;
+		}
 		
 		if(type.equals("resources")) {
 			

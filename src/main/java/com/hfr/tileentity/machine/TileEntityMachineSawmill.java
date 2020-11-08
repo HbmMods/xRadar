@@ -115,7 +115,7 @@ public class TileEntityMachineSawmill extends TileEntityMachineBase implements I
 				slots[3].stackSize++;
 		}
 		
-		if(worldObj.rand.nextInt(5) == 0) {
+		if(worldObj.rand.nextInt(3) == 0) {
 			if(slots[4] == null) {
 				slots[4] = new ItemStack(ModItems.part_rubber_drop);
 			} else {

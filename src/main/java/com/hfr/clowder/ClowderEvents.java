@@ -48,6 +48,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
@@ -450,6 +451,9 @@ public class ClowderEvents {
 		if(owner.zone == Zone.FACTION)
 			name = owner.owner.name;
 		
+		if(meta != null)
+			name += meta.name;
+		
 		String past = player.getEntityData().getString(NBTKEY);
 		
 		if(past.isEmpty()) {
@@ -724,8 +728,22 @@ public class ClowderEvents {
 		}
 		
 		/// CLOWDER TERRITORYY ADMINISTRATIVE STUFF START ///
-		ClowderTerritory.persistenceAutomaton(world);
+		//ClowderTerritory.persistenceAutomaton(world);
 		/// CLOWDER TERRITORYY ADMINISTRATIVE STUFF END ///
+	}
+	
+	@SubscribeEvent
+	public void yeetEvent(ItemTossEvent event) {
+		
+		try {
+			
+			if(event.entityItem.getEntityItem().getItem() == ModItems.capsule) {
+				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.capsule));
+				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.capsule));
+				event.setCanceled(true);
+			}
+			
+		} catch(NullPointerException ex) { }
 	}
 
 }

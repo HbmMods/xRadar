@@ -76,7 +76,7 @@ public class OfferPacket implements IMessage {
 				
 				NBTTagCompound nbt = m.buffer.readNBTTagCompoundFromBuffer();
 				data.offers.clear();
-				data.readFromNBT(nbt);
+				data.readMarketFromPacket(nbt);
 				MachineMarket.name = m.name;
 				List<ItemStack[]> offers = data.offers.get(m.name);
 				

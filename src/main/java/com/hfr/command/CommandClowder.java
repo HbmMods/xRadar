@@ -84,15 +84,15 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
-		if(cmd.equals("create") && args.length > 1) {
+		/*if(cmd.equals("create") && args.length > 1) {
 			cmdCreate(sender, args[1]);
 			return;
-		}
+		}*/
 		
-		if(cmd.equals("disband") && args.length > 1) {
+		/*if(cmd.equals("disband") && args.length > 1) {
 			cmdDisband(sender, args[1]);
 			return;
-		}
+		}*/
 		
 		if(cmd.equals("comrades")) {
 			cmdComrades(sender);
@@ -114,10 +114,10 @@ public class CommandClowder extends CommandBase {
 			return;
 		}
 		
-		if(cmd.equals("rename") && args.length > 1) {
+		/*if(cmd.equals("rename") && args.length > 1) {
 			cmdRename(sender, args[1]);
 			return;
-		}
+		}*/
 		
 		if(cmd.equals("list")) {
 			cmdList(sender);
@@ -273,13 +273,13 @@ public class CommandClowder extends CommandBase {
 		
 		if(p == 1) {
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-help {page}" + TITLE + " - The thing you just used"));
-			sender.addChatMessage(new ChatComponentText(COMMAND + "-create <name>" + TITLE + " - Creates a faction"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-disband <name>" + TITLE + " - Disbands a faction, name parameter for confirmation"));
+			//sender.addChatMessage(new ChatComponentText(COMMAND + "-create <name>" + TITLE + " - Creates a faction"));
+			//sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-disband <name>" + TITLE + " - Disbands a faction, name parameter for confirmation"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_ADMIN + "-owner <player>" + TITLE + " - Transfers faction ownership"));
 			sender.addChatMessage(new ChatComponentText(COMMAND + "-comrades" + TITLE + " - Shows all members of your faction"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-color <hexadecimal>" + TITLE + " - Sets the faction's color"));
 			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-motd <MotD>" + TITLE + " - Sets the faction's MotD"));
-			sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-rename <name>" + TITLE + " - Renames your faction"));
+			//sender.addChatMessage(new ChatComponentText(COMMAND_LEADER + "-rename <name>" + TITLE + " - Renames your faction"));
 			sender.addChatMessage(new ChatComponentText(INFO + "/clowder help 2"));
 		}
 
