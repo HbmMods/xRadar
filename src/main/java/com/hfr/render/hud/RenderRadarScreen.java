@@ -29,6 +29,13 @@ public class RenderRadarScreen {
 	private static final ResourceLocation blipMissileDown = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipMissileDown.png");
 	private static final ResourceLocation blipAB = new ResourceLocation(RefStrings.MODID + ":textures/hud/blipAB.png");
 	
+	
+	//for hiding coords
+	public static boolean showCoords = true;
+	
+	//for friendly target on radar
+	private static final ResourceLocation blipHappy = new ResourceLocation(RefStrings.MODID + ":textures/hud/smily.png");
+	
 	private static final ResourceLocation north = new ResourceLocation(RefStrings.MODID + ":textures/hud/north.png");
 	private static final ResourceLocation south = new ResourceLocation(RefStrings.MODID + ":textures/hud/south.png");
 	private static final ResourceLocation east = new ResourceLocation(RefStrings.MODID + ":textures/hud/east.png");
@@ -118,6 +125,7 @@ public class RenderRadarScreen {
 			case 6: minecraft.getTextureManager().bindTexture(blipMissileUp); break;
 			case 7: minecraft.getTextureManager().bindTexture(blipMissileDown); break;
 			case 8: minecraft.getTextureManager().bindTexture(blipAB); break;
+			case 9: minecraft.getTextureManager().bindTexture(blipHappy); break;
 			}
 
 			tessellator.startDrawingQuads();
@@ -128,7 +136,7 @@ public class RenderRadarScreen {
 	        tessellator.draw();
 		}
 
-        float fontScale = 2F / scale;
+        float fontScale = 1.5F / scale;
         
 		GL11.glScalef(1 / fontScale, 1 / fontScale, 1 / fontScale);
 		for(Blip blip : blips) {
@@ -144,9 +152,17 @@ public class RenderRadarScreen {
 			x = (float)vec.xCoord;
 			z = (float)vec.zCoord;
 
-			if(blip.type != 3) {
+			
+			//what coord type to show allah bookmark
+			if(blip.type != 3 && showCoords && blip.type != 4) {
 				minecraft.fontRenderer.drawString("" + Math.round(blip.y), (int) (cX * fontScale + (int)(x * clamp * fontScale) - 6), (int) (cY * fontScale + (int)(z * clamp * fontScale) + 4), 0xBBFFBB);
-			} else {
+			} 
+			else if(blip.type == 9 || !showCoords || blip.type == 4)
+			{
+				//dont render coords for missiles or if coords turned off
+			}
+			else 
+			{
 				
 				minecraft.fontRenderer.drawString("" + Math.round(blip.posX), (int) (cX * fontScale + (int)(x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(z * clamp * fontScale) + 4), 0xFFBBBB);
 				minecraft.fontRenderer.drawString("" + Math.round(blip.posZ), (int) (cX * fontScale + (int)(x * clamp * fontScale) - 12), (int) (cY * fontScale + (int)(z * clamp * fontScale) + 12), 0xFFBBBB);

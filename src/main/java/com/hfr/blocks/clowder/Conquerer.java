@@ -3,6 +3,7 @@ package com.hfr.blocks.clowder;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.CoordPair;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.Zone;
 import com.hfr.tileentity.clowder.TileEntityConquerer;
@@ -74,16 +75,55 @@ public class Conquerer extends BlockContainer {
 			Clowder clowder = Clowder.getClowderFromPlayer((EntityPlayer)player);
 			flag.owner = clowder;
 			
-			if(clowder != null && flag.checkBorder(x, z) && flag.canSeeSky() && noProximity(world, x, y, z)) {
-				flag.owner.addPrestigeReq(0.2F, world);
+			
+			//prerequisite to placing a flag very important allah bookmark
+			if(clowder != null && flag.checkBorder(x, z) && flag.canSeeSky() && noProximity(world, x, y, z, clowder)) //weeder change for faction specific flag range
+			{
+				
+				//labjac punjab limits
+				CoordPair loc = ClowderTerritory.getCoordPair(x, z);
+				Ownership owner = ClowderTerritory.getOwnerFromCoords(loc);
+				
+				//exception so no capping from offline master if you were targetting a vassal
+				if (owner.owner != null && clowder.vassalTarget && clowder.enemy == owner.owner && !clowder.enemy.isRaidable())
+				{
+					flag.owner = null;
+					((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "If targetting a vassal, the master's land is safe when the master is offline!"));	
+				}
+				//exception so no capping from bitches but reminder you can bomb them
+				else if (owner.owner != null && clowder.vassalTarget && clowder.enemy == owner.owner.suzerain && owner.owner.bitch)
+				{
+					flag.owner = null;
+					((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You cannot capture from another man's bitch, but you can use raiding weapons against their land!"));	
+				}
+				//exception so bitches can only cap from master in a revolt
+				else if (clowder.bitch && owner.owner != clowder.suzerain)
+				{
+					flag.owner = null;
+					((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Bitches can only capture land during revolts from their master!"));	
+				}
+				else
+				//exception so no capping during revolts, but griefing should still be allowed - wait nvm retconned allow conquest during revolts
+				//if (owner.owner != null && clowder.enemy != clowder.suzerain && owner.owner!= clowder.suzerain && owner.owner.suzerain != clowder)
+				//if you are at war with terrain owner, or you are victim and in attacker terrain, success!!! PRAISE ALLAH - also added vassal exceptions     Also doesnt need to be "raidable" >:)
+				if (   (owner.owner != null && clowder.enemy == owner.owner && clowder.getWartime() > 0)  ||   (owner.owner != null && owner.owner.enemy == clowder && owner.owner.getWartime() > 0) || (owner.owner.suzerain != null && clowder.enemy == owner.owner.suzerain && clowder.getWartime() > 0) || (owner.owner.suzerain != null && owner.owner.suzerain.enemy == clowder && owner.owner.suzerain.getWartime() > 0))
+				{
+				//flag.owner.addPrestigeReq(0.2F, world);   holding provinces will be prestige req determiner
 				flag.markDirty();
-			} else {
+				}
+				else
+				{
+					flag.owner = null;
+					((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You are not at war with this faction! Use /c fabricate *name*"));				
+				}
+			}
+			else {
 				flag.owner = null;
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "You won't be able to raise this flag. This may be due to:"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-You not being in any faction"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag not having sky access"));
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag not being in a foreign border chunk"));
-				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The enemy faction or your faction not being raidable"));
+				//((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The enemy faction or your faction not being raidable"));   >:)
 				((EntityPlayer)player).addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "-The flag being too close to another conquest flag"));
 			}
 		}
@@ -91,7 +131,7 @@ public class Conquerer extends BlockContainer {
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 	
-	public boolean noProximity(World world, int x, int y, int z) {
+	public boolean noProximity(World world, int x, int y, int z, Clowder clowder) {//weeder change for faction specific
 		
 		int range = 4;
 		
@@ -101,8 +141,8 @@ public class Conquerer extends BlockContainer {
 					
 					if(ix == x && iy == y && iz == z)
 						continue;
-					
-					if(world.getBlock(ix, iy, iz) == ModBlocks.clowder_conquerer) {
+					//weeder change for faction specific
+					if(world.getBlock(ix, iy, iz) == ModBlocks.clowder_conquerer && world.getTileEntity(ix, iy, iz) instanceof TileEntityConquerer && ((TileEntityConquerer)world.getTileEntity(ix, iy, iz)).owner == clowder) {
 						return false;
 					}
 				}
@@ -117,7 +157,7 @@ public class Conquerer extends BlockContainer {
     {
 		TileEntityConquerer flag = (TileEntityConquerer)world.getTileEntity(x, y, z);
 		if(flag != null && flag.owner != null) {
-			flag.owner.addPrestigeReq(-0.2F, world);
+			//flag.owner.addPrestigeReq(-0.2F, world);  holding provinces will be prestige req determiner
 		}
 		
 		super.breakBlock(world, x, y, z, b, i);

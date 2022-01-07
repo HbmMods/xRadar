@@ -13,6 +13,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class ModBlocks {
 	
@@ -212,7 +213,7 @@ public class ModBlocks {
 		hard_mesh = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("hard_mesh").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":hard_mesh");
 		concrete_hazard = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_hazard").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_hazard");
 		concrete_rocks = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete).setBlockName("concrete_rocks").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":concrete_rocks");
-		barricade = new BlockSandbags(Material.rock).setStepSound(soundTypeConcrete).setBlockName("barricade").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":sandbags");
+		barricade = new BlockSandbags(Material.rock).setStepSound(soundTypeConcrete).setBlockName("barricade").setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":sandbags");
 
 		soil_moon = new BlockGeneric(Material.sand).setStepSound(Block.soundTypeGravel).setBlockName("soil_moon").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_moon");
 		soil_mud = new BlockMud(Material.ground).setStepSound(soundTypeMud).setBlockName("soil_mud").setHardness(1.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tab).setBlockTextureName(RefStrings.MODID + ":soil_mud");
@@ -322,8 +323,6 @@ public class ModBlocks {
 		diesel = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("diesel").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
 		kerosene = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("kerosene").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
 		petroleum = new BlockSteam(Material.cloth).setStepSound(Block.soundTypeStone).setBlockName("petroleum").setHardness(0.0F).setResistance(0.0F).setCreativeTab(null);
-		
-		Blocks.emerald_block.setResistance(6000000.0F).setBlockUnbreakable();
 	}
 
 	private static void registerBlock() {
@@ -338,88 +337,34 @@ public class ModBlocks {
 		GameRegistry.registerBlock(concrete_rocks, ItemBlockLore.class, concrete_rocks.getUnlocalizedName());
 		GameRegistry.registerBlock(barricade, ItemBlockLore.class, barricade.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(teleporter, teleporter.getUnlocalizedName());
-		
 		GameRegistry.registerBlock(soil_moon, soil_moon.getUnlocalizedName());
-		GameRegistry.registerBlock(soil_mud, soil_mud.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(rice, rice.getUnlocalizedName());
 		GameRegistry.registerBlock(rope, rope.getUnlocalizedName());
 
-		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_boron, ore_boron.getUnlocalizedName());
-		
 		GameRegistry.registerBlock(temp, temp.getUnlocalizedName());
 		GameRegistry.registerBlock(uni_foundation, ItemBlockLore.class, uni_foundation.getUnlocalizedName());
 		GameRegistry.registerBlock(asphalt, ItemBlockLore.class, asphalt.getUnlocalizedName());
 
-		GameRegistry.registerBlock(ore_oil, ore_oil.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_oil_empty, ore_oil_empty.getUnlocalizedName());
-		GameRegistry.registerBlock(oil_pipe, oil_pipe.getUnlocalizedName());
-
-		GameRegistry.registerBlock(seal_controller, seal_controller.getUnlocalizedName());
-		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
-		GameRegistry.registerBlock(seal_hatch, seal_hatch.getUnlocalizedName());
-		
-		GameRegistry.registerBlock(vault_door, ItemBlockUnstackable.class, vault_door.getUnlocalizedName());
-		GameRegistry.registerBlock(vault_door_dummy, vault_door_dummy.getUnlocalizedName());
-		GameRegistry.registerBlock(blast_door, ItemBlockUnstackable.class, blast_door.getUnlocalizedName());
-		GameRegistry.registerBlock(blast_door_dummy, blast_door_dummy.getUnlocalizedName());
-		
-		GameRegistry.registerBlock(hydro_wall, hydro_wall.getUnlocalizedName());
-		GameRegistry.registerBlock(hydro_turbine, hydro_turbine.getUnlocalizedName());
-		GameRegistry.registerBlock(hydro_core, hydro_core.getUnlocalizedName());
-
-		GameRegistry.registerBlock(machine_net, ItemBlockLore.class, machine_net.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_uni, ItemBlockLore.class, machine_uni.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_factory, ItemBlockLore.class, machine_factory.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_uni, ItemBlockLore.class, machine_uni.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_factory, ItemBlockLore.class, machine_factory.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_tradeport, ItemBlockLore.class, machine_tradeport.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_temple, ItemBlockLore.class, machine_temple.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_temple, ItemBlockLore.class, machine_temple.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_grainmill, ItemBlockLore.class, machine_grainmill.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_blastfurnace, ItemBlockLore.class, machine_blastfurnace.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_coalmine, ItemBlockLore.class, machine_coalmine.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_coalgen, ItemBlockLore.class, machine_coalgen.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_battery, ItemBlockLore.class, machine_battery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_windmill, ItemBlockLore.class, machine_windmill.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_waterwheel, ItemBlockLore.class, machine_waterwheel.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_diesel, ItemBlockLore.class, machine_diesel.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_rift, ItemBlockLore.class, machine_rift.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_blastfurnace, ItemBlockLore.class, machine_blastfurnace.getUnlocalizedName());
 
 		GameRegistry.registerBlock(machine_sawmill, ItemBlockLore.class, machine_sawmill.getUnlocalizedName());
-		/*GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class, machine_alloy.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_crusher, ItemBlockLore.class, machine_crusher.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class, machine_distillery.getUnlocalizedName());*/
-		GameRegistry.registerBlock(machine_efurnace, ItemBlockLore.class, machine_efurnace.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_foundry, machine_foundry.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class, machine_alloy.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_crusher, ItemBlockLore.class, machine_crusher.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class, machine_distillery.getUnlocalizedName());
+//		GameRegistry.registerBlock(machine_foundry, machine_foundry.getUnlocalizedName());
 		
-		GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
-		GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
-		GameRegistry.registerBlock(barbed_wire, barbed_wire.getUnlocalizedName());
-		
-		GameRegistry.registerBlock(machine_radar, ItemBlockUnstackable.class, machine_radar.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_forcefield, ItemBlockUnstackable.class, machine_forcefield.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_emp, ItemBlockUnstackable.class, machine_emp.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_derrick, ItemBlockUnstackable.class, machine_derrick.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_refinery, ItemBlockUnstackable.class, machine_refinery.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_tank, ItemTankBlock.class, machine_tank.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_market, ItemBlockUnstackable.class, machine_market.getUnlocalizedName());
-		GameRegistry.registerBlock(builder, ItemBlockUnstackable.class, builder.getUnlocalizedName());
 		GameRegistry.registerBlock(box, ItemBlockLore.class, box.getUnlocalizedName());
 
-		GameRegistry.registerBlock(rbmk_element, rbmk_element.getUnlocalizedName());
-		GameRegistry.registerBlock(rbmk_rods, rbmk_rods.getUnlocalizedName());
-
-		GameRegistry.registerBlock(block_graphite, block_graphite.getUnlocalizedName());
-		GameRegistry.registerBlock(block_boron, block_boron.getUnlocalizedName());
-		
 		GameRegistry.registerBlock(display, display.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_boron, ore_boron.getUnlocalizedName());
+		OreDictionary.registerOre("oreBoron", ModBlocks.ore_boron);
 		
-		GameRegistry.registerBlock(oil_duct, oil_duct.getUnlocalizedName());
-		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
-
-		GameRegistry.registerBlock(launch_pad, ItemBlockUnstackable.class, launch_pad.getUnlocalizedName());
 		GameRegistry.registerBlock(railgun_plasma, ItemBlockUnstackable.class, railgun_plasma.getUnlocalizedName());
 		GameRegistry.registerBlock(cannon_naval, ItemBlockUnstackable.class, cannon_naval.getUnlocalizedName());
 		
@@ -438,14 +383,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(med_tent, ItemBlockLore.class, med_tent.getUnlocalizedName());
 		GameRegistry.registerBlock(tp_tent, ItemBlockLore.class, tp_tent.getUnlocalizedName());
 		GameRegistry.registerBlock(statue, ItemBlockLore.class, statue.getUnlocalizedName());
-
+		GameRegistry.registerBlock(machine_radar, ItemBlockLore.class, machine_radar.getUnlocalizedName());
 		GameRegistry.registerBlock(debug, ItemBlockUnstackable.class, debug.getUnlocalizedName());
 		GameRegistry.registerBlock(steam, steam.getUnlocalizedName());
-		GameRegistry.registerBlock(oil, oil.getUnlocalizedName());
-		GameRegistry.registerBlock(gas, gas.getUnlocalizedName());
-		GameRegistry.registerBlock(petroil, petroil.getUnlocalizedName());
-		GameRegistry.registerBlock(diesel, diesel.getUnlocalizedName());
-		GameRegistry.registerBlock(kerosene, kerosene.getUnlocalizedName());
-		GameRegistry.registerBlock(petroleum, petroleum.getUnlocalizedName());
 	}
 }

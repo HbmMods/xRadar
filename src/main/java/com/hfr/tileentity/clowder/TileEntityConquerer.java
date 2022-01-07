@@ -4,6 +4,8 @@ import static net.minecraftforge.common.util.ForgeDirection.UP;
 
 import java.util.List;
 
+import org.dynmap.forge.DynmapPlugin;
+
 import com.hfr.clowder.Clowder;
 import com.hfr.clowder.ClowderFlag;
 import com.hfr.clowder.ClowderTerritory;
@@ -11,6 +13,7 @@ import com.hfr.clowder.ClowderTerritory.CoordPair;
 import com.hfr.clowder.ClowderTerritory.Ownership;
 import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
 import com.hfr.clowder.ClowderTerritory.Zone;
+import com.hfr.clowder.events.RegionOwnershipChangedEvent;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.machine.TileEntityMachineBase;
 
@@ -20,13 +23,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityConquerer extends TileEntityMachineBase implements ITerritoryProvider {
-	
+	//hungary bookmark: there is a new weeder thing i didnt put here because reference to non existant part of economy mod
 	public Clowder owner;
 	public float height = 0.0F;
 	public static final float speed = 1.0F / (20F * 40F);
 	public String name = "";
+	
+//	public float poopoopeepee = 0;
 	
 	@SideOnly(Side.CLIENT)
 	public ClowderFlag flag;
@@ -68,22 +74,36 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 							yCoord + 4,
 							zCoord + 0.5 + range));
 			
+			int maxEntities = entities.size();
+			
+			
 			boolean canRaise = false;
+			
 			
 			for(EntityPlayer player : entities) {
 				
 				Clowder clow = Clowder.getClowderFromPlayer(player);
 				
+				
+				
 				if(clow != null) {
-					
+					//checks if members of the conqueror fac are nearby - allah note
 					if(clow == owner) {
+						
+						//poopoopeepee++;
 						canRaise = true;
 					}
 				}
 			}
 			
-			double prev = height;
+		//	if(poopoopeepee>1)
+		//	System.out.println("poopoopeepee");
 			
+		//	if(poopoopeepee > maxEntities)
+		//		poopoopeepee=0;
+			
+			double prev = height;
+			//this is code for flag raising and falling if non capping, speed is raise speed - allah bookmark
 			if((!canRaise && height < 1)) {
 				height -= speed;
 			} else if(height < 1) {
@@ -97,7 +117,7 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 				height = 1;
 			
 			if(height >= 1 && prev < 1) {
-				
+				//this is code of conquer being enabled when flag reaches max height allah bookmark
 				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagCapture", 100.0F, 1.0F);
 				conquer();
 			}
@@ -134,17 +154,38 @@ public class TileEntityConquerer extends TileEntityMachineBase implements ITerri
 		CoordPair loc = ClowderTerritory.getCoordPair(xCoord, zCoord);
 		TerritoryMeta meta = ClowderTerritory.getMetaFromCoords(loc);
 		
-		if(meta != null && meta.owner.zone == Zone.FACTION && meta.owner.owner != this.owner/* && meta.owner.owner.isRaidable()*/) {
+		//if war is declared and you are capturing enemy territory OR you are the victim and conquering the attackers. new caveat: attacker can take land from victim vassals, and victim vassals can take it back
+		boolean warDeclared = ( (this.owner.getWartime() > 0 && (this.owner.enemy == meta.owner.owner) ) || ( (meta.owner.owner.enemy == this.owner) && meta.owner.owner.getWartime() > 0)  || (this.owner.getWartime() > 0 && (this.owner.enemy == meta.owner.owner.suzerain) ) || ((meta.owner.owner.enemy == this.owner.suzerain) && meta.owner.owner.getWartime() > 0));
+		
+		/* && meta.owner.owner.isRaidable()*/
+		if(meta != null && meta.owner.zone == Zone.FACTION && meta.owner.owner != this.owner && warDeclared ) {		
 
 			CoordPair loc2 = ClowderTerritory.getCoordPair(meta.flagX, meta.flagZ);
 			
 			TileEntity te = worldObj.getTileEntity(meta.flagX, meta.flagY, meta.flagZ);
+			if(te instanceof TileEntityFlagBig)
+				name = ((TileEntityFlagBig)te).provinceName;
+			
+			//new notification for victim, bob forgot to include this. i stole it from traditional flag cap system
+			meta.owner.owner.notifyCapture(worldObj,meta.flagX, meta.flagZ, "chunks");
+			
+			//attacker gets +1 war minute for a successful chunk capture allah bookmark  actually add limitations! set it to 15 or something max extension. also doesnt work if they are offline - also no bonus point shit during revolts
+			//if(this.owner != null && this.owner.bonusPoints < MainRegistry.bonusPointLimit && this.owner.enemy != null && this.owner.enemy.isRaidable() && this.owner.enemy != this.owner.suzerain){
+			if(this.owner != null && this.owner.bonusPoints < MainRegistry.bonusPointLimit && this.owner.enemy != null  && this.owner.enemy != this.owner.suzerain && this.owner.retreatBan <= 0){  //actually fuck raidable - actually yes raidable - actually replace with retreatban
+			this.owner.addWarTime(1, this.worldObj);
+			this.owner.bonusPoints += 1;
+			//System.out.println("bonus point added" + this.owner.bonusPoints);
+			}
 			
 			if(loc.equals(loc2)) {
 				if(te instanceof TileEntityFlagBig) {
+					Ownership oldOwner = meta.owner;
 					((TileEntityFlagBig)te).owner = this.owner;
+					
 					((TileEntityFlagBig)te).generateClaim();
 					te.markDirty();
+					
+					MinecraftForge.EVENT_BUS.post(new RegionOwnershipChangedEvent(oldOwner,meta.owner,((TileEntityFlagBig)te).provinceName));
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 					
 				} else if(te instanceof TileEntityFlag) {

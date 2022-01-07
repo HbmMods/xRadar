@@ -3,6 +3,12 @@ package com.hfr.blocks.clowder;
 import java.util.Random;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.ClowderTerritory;
+import com.hfr.clowder.ClowderTerritory.CoordPair;
+import com.hfr.clowder.ClowderTerritory.Ownership;
+import com.hfr.clowder.ClowderTerritory.TerritoryMeta;
+import com.hfr.clowder.ClowderTerritory.Zone;
+import com.hfr.data.ClowderData;
 import com.hfr.items.ModItems;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.clowder.TileEntityFlagBig;
@@ -80,7 +86,7 @@ public class FlagBig extends BlockContainer {
 		if(world.isRemote) {
 			return true;
 			
-		} else if(!player.isSneaking()) {
+		}else if(!player.isSneaking()) {
 			
 			ItemStack held = player.getHeldItem();
 			

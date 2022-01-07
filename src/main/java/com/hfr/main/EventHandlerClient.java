@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.clowder.Clowder;
 import com.hfr.command.CommandClowderChat;
 import com.hfr.handler.SLBMHandler;
 import com.hfr.items.ModItems;
@@ -98,6 +99,17 @@ public class EventHandlerClient {
 					}
 					
 					lock = true;
+				
+				//hide coords				
+				} else if(Keyboard.isKeyDown(ClientProxy.hideCoord.getKeyCode()) ) {
+					
+					if(!lock) {
+						RenderRadarScreen.showCoords = !RenderRadarScreen.showCoords;
+						Minecraft.getMinecraft().thePlayer.playSound("hfr:item.toggle", 0.25F, 1.25F);
+					}
+					
+					lock = true;
+					
 					
 				//flans radar scale +
 				} else if(Keyboard.isKeyDown(ClientProxy.incScale.getKeyCode()) && RenderRadarScreen.scale < 3) {
@@ -306,19 +318,32 @@ public class EventHandlerClient {
 	public void preRenderEvent(RenderLivingEvent.Pre event) {
 
 		if(event.entity instanceof EntityPlayer) {
-			
+			//allahu bookmark note important - this is the part where player name changes based on clowder
 			String clowder = lookup.get(event.entity.getUniqueID().toString());
 			String own = lookup.get(Minecraft.getMinecraft().thePlayer.getUniqueID().toString());
 			
+			//doesnt work this way
+			//Clowder enemy = Clowder.getClowderFromName(clowder);
+			//Clowder mines =  Clowder.getClowderFromName(own);
+			
 			if(clowder != null && !clowder.equals("###")) {
+								
+				  String trueName = clowder.split("_")[0];  //cuts off the list of allies
 				
 				if(own == null || own.equals("###")) {
-					clowder = EnumChatFormatting.YELLOW + clowder;
+					clowder = EnumChatFormatting.YELLOW + trueName;
 				} else if(own.equals(clowder)) {
-					clowder = EnumChatFormatting.GREEN + clowder;
-				} else {
-					clowder = EnumChatFormatting.RED + clowder;
+					clowder = EnumChatFormatting.GREEN + trueName;
 				}
+					else if(own.contains(trueName)) { //for allies
+						clowder = EnumChatFormatting.BLUE + trueName;
+				} else {
+					clowder = EnumChatFormatting.RED + trueName;
+				}
+				
+				//if(mines != null && enemy != null && mines.allies.get(enemy) != null)
+				//	clowder = EnumChatFormatting.BLUE + clowder;
+				
 				
 				renderTag((EntityPlayer)event.entity, event.x, event.y, event.z, event.renderer, clowder.replaceAll("_", " "));
 			}
@@ -519,7 +544,9 @@ public class EventHandlerClient {
 			
 			System.out.println(raw);
 			
-			if(raw.startsWith("§") && (raw.endsWith("Citizen ]") || raw.endsWith("Officer ]") || raw.endsWith("Leader ]"))) {
+			//if(raw.startsWith("§") && (raw.endsWith("Citizen ]") || raw.endsWith("Officer ]") || raw.endsWith("Leader ]"))) {
+			//maybe this will fix the rankt ags from appearing in mute
+			if( (raw.endsWith("Citizen ]") || raw.endsWith("Officer ]") || raw.endsWith("Leader ]"))) {
 				event.setCanceled(true);
 				return;
 			}

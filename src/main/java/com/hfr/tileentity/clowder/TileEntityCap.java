@@ -59,33 +59,9 @@ public class TileEntityCap extends TileEntityMachineBase implements ITerritoryPr
 				
 				Clowder clow = Clowder.getClowderFromPlayer(player);
 				
-				if(clow != null && player.inventory.hasItem(ModItems.mace)) {
-					capturer = clow;
-					break;
-				}
 			}
 			
-			if(capturer != null && capturer != owner && canSeeSky() && (owner == null || owner.isRaidable())) {
-				
-				if(progress == 0) {
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagCapture", 100.0F, 1.0F);
-					
-					if(owner != null) {
-						owner.notifyCapture(worldObj, xCoord, zCoord, "control points");
-					}
-				}
-				
-				progress++;
-				
-				if(progress >= maxProgress) {
-					owner = capturer;
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hfr:block.flagHoist", 3.0F, 1.0F);
-					generateClaim();
-				}
-				
-			} else {
-				progress = 0;
-			}
+			progress = 0;
 			
 			if(progress == 0 && owner != null) {
 				

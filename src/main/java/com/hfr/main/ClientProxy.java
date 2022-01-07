@@ -67,6 +67,7 @@ public class ClientProxy extends ServerProxy
 	public static KeyBinding toggleZoom = new KeyBinding("Toggle Radar Zoom", 33, "xRadar");
 	public static KeyBinding incScale = new KeyBinding("Increase Radar Scale", 78, "xRadar");
 	public static KeyBinding decScale = new KeyBinding("Decrease Radar Scale", 74, "xRadar");
+	public static KeyBinding hideCoord = new KeyBinding("Hides radar target coords", 144, "xRadar");	
 	public static KeyBinding slbm = new KeyBinding("Access SLBM Menu", 0, "xRadar");
 	public static KeyBinding filter = new KeyBinding("Toggle chat filter", 62, "xRadar");
 	public static KeyBinding markers = new KeyBinding("Toggle resource markers", 0, "xRadar");
@@ -92,6 +93,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.registerKeyBinding(toggleZoom);
 		ClientRegistry.registerKeyBinding(incScale);
 		ClientRegistry.registerKeyBinding(decScale);
+		ClientRegistry.registerKeyBinding(hideCoord);
 		ClientRegistry.registerKeyBinding(slbm);
 		ClientRegistry.registerKeyBinding(filter);
 		ClientRegistry.registerKeyBinding(markers);
@@ -194,6 +196,7 @@ public class ClientProxy extends ServerProxy
 		case 3: return slbm.isPressed();
 		case 4: return filter.isPressed();
 		case 5: return markers.isPressed();
+		case 6: return hideCoord.isPressed();
 		}
 		
 		return false;

@@ -175,7 +175,7 @@ public class ModItems {
 	public static Item wrench;
 	public static Item province_point;
 	public static Item flour;
-	public static Item ingot_steel;
+	public static Item ingot_tap_steel;
 	public static Item crate;
 
 	public static Item hammer;
@@ -383,7 +383,7 @@ public class ModItems {
 		wrench = new ItemLore().setUnlocalizedName("hfr_wrench").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":wrench");
 		province_point = new ItemLore().setUnlocalizedName("province_point").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":prestige");
 		flour = new ItemLore().setUnlocalizedName("flour").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":flour");
-		ingot_steel = new ItemLore().setUnlocalizedName("ingot_steel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_steel");
+		ingot_tap_steel = new ItemLore().setUnlocalizedName("ingot_steel").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":ingot_steel");
 		crate = new ItemLore().setUnlocalizedName("crate").setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":crate");
 
 		hammer = new ItemHammer().setUnlocalizedName("hammer").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tab).setTextureName(RefStrings.MODID + ":hammer");
@@ -434,47 +434,14 @@ public class ModItems {
 	}
 	
 	private static void registerItem() {
-		GameRegistry.registerItem(hammer, hammer.getUnlocalizedName());
 		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
-		GameRegistry.registerItem(wand_iron, wand_iron.getUnlocalizedName());
-		GameRegistry.registerItem(wand_coal, wand_coal.getUnlocalizedName());
-		GameRegistry.registerItem(battery, battery.getUnlocalizedName());
-		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
-		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
-		GameRegistry.registerItem(gas_mask_grey, gas_mask_grey.getUnlocalizedName());
-		GameRegistry.registerItem(gas_mask_black, gas_mask_black.getUnlocalizedName());
-		GameRegistry.registerItem(graphene_vest, graphene_vest.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_banner, clowder_banner.getUnlocalizedName());
-		GameRegistry.registerItem(lead_boots, lead_boots.getUnlocalizedName());
 		
-		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
-		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
-		GameRegistry.registerItem(grenade_boxcar, grenade_boxcar.getUnlocalizedName());
 		GameRegistry.registerItem(hook, hook.getUnlocalizedName());
 		
-		GameRegistry.registerItem(hatter, hatter.getUnlocalizedName());
-		
-		GameRegistry.registerItem(cassette, cassette.getUnlocalizedName());
 		GameRegistry.registerItem(coil, coil.getUnlocalizedName());
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());
 		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
-		GameRegistry.registerItem(uranium, uranium.getUnlocalizedName());
-		GameRegistry.registerItem(uranium_fuel, uranium_fuel.getUnlocalizedName());
-		GameRegistry.registerItem(uranium_depleted, uranium_depleted.getUnlocalizedName());
-		GameRegistry.registerItem(plutonium, plutonium.getUnlocalizedName());
-		GameRegistry.registerItem(americium, americium.getUnlocalizedName());
-		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());
-		GameRegistry.registerItem(upgrade_health, upgrade_health.getUnlocalizedName());
-		GameRegistry.registerItem(upgrade_bedrock, upgrade_bedrock.getUnlocalizedName());
-
-		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
-		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_petroil, canister_petroil.getUnlocalizedName());
-		GameRegistry.registerItem(canister_diesel, canister_diesel.getUnlocalizedName());
-		GameRegistry.registerItem(canister_kerosene, canister_kerosene.getUnlocalizedName());
-		GameRegistry.registerItem(gas_empty, gas_empty.getUnlocalizedName());
-		GameRegistry.registerItem(gas_natural, gas_natural.getUnlocalizedName());
-		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
 
 		GameRegistry.registerItem(components_wood, components_wood.getUnlocalizedName());
 		GameRegistry.registerItem(components_scaffold, components_scaffold.getUnlocalizedName());
@@ -483,62 +450,54 @@ public class ModItems {
 		GameRegistry.registerItem(components_electronics, components_electronics.getUnlocalizedName());
 		GameRegistry.registerItem(components_plating, components_plating.getUnlocalizedName());
 
-		GameRegistry.registerItem(part_rifled_barrel, part_rifled_barrel.getUnlocalizedName());
-		GameRegistry.registerItem(part_smoothbore_barrel, part_smoothbore_barrel.getUnlocalizedName());
-		GameRegistry.registerItem(part_plate, part_plate.getUnlocalizedName());
-		GameRegistry.registerItem(part_gear, part_gear.getUnlocalizedName());
-		GameRegistry.registerItem(part_rod, part_rod.getUnlocalizedName());
-		GameRegistry.registerItem(part_frame, part_frame.getUnlocalizedName());
-		GameRegistry.registerItem(part_spring, part_spring.getUnlocalizedName());
-		GameRegistry.registerItem(part_grate, part_grate.getUnlocalizedName());
-		GameRegistry.registerItem(part_suspension, part_suspension.getUnlocalizedName());
-		GameRegistry.registerItem(part_plating_1, part_plating_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_plating_2, part_plating_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_plating_3, part_plating_3.getUnlocalizedName());
-		GameRegistry.registerItem(part_hull_1, part_hull_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_hull_2, part_hull_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_hull_3, part_hull_3.getUnlocalizedName());
-		GameRegistry.registerItem(part_mechanism_1, part_mechanism_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_mechanism_2, part_mechanism_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_mechanism_3, part_mechanism_3.getUnlocalizedName());
-		GameRegistry.registerItem(part_steel_wheel, part_steel_wheel.getUnlocalizedName());
-		GameRegistry.registerItem(part_wheel, part_wheel.getUnlocalizedName());
-		GameRegistry.registerItem(part_sawblade, part_sawblade.getUnlocalizedName());
-		GameRegistry.registerItem(part_track, part_track.getUnlocalizedName());
-		GameRegistry.registerItem(part_treads, part_treads.getUnlocalizedName());
+//		GameRegistry.registerItem(part_rifled_barrel, part_rifled_barrel.getUnlocalizedName());
+//		GameRegistry.registerItem(part_smoothbore_barrel, part_smoothbore_barrel.getUnlocalizedName());
+//		GameRegistry.registerItem(part_plate, part_plate.getUnlocalizedName());
+//		GameRegistry.registerItem(part_gear, part_gear.getUnlocalizedName());
+//		GameRegistry.registerItem(part_rod, part_rod.getUnlocalizedName());
+//		GameRegistry.registerItem(part_frame, part_frame.getUnlocalizedName());
+//		GameRegistry.registerItem(part_spring, part_spring.getUnlocalizedName());
+//		GameRegistry.registerItem(part_grate, part_grate.getUnlocalizedName());
+//		GameRegistry.registerItem(part_suspension, part_suspension.getUnlocalizedName());
+//		GameRegistry.registerItem(part_plating_1, part_plating_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_plating_2, part_plating_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_plating_3, part_plating_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_hull_1, part_hull_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_hull_2, part_hull_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_hull_3, part_hull_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_mechanism_1, part_mechanism_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_mechanism_2, part_mechanism_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_mechanism_3, part_mechanism_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_steel_wheel, part_steel_wheel.getUnlocalizedName());
+//		GameRegistry.registerItem(part_wheel, part_wheel.getUnlocalizedName());
+//		GameRegistry.registerItem(part_sawblade, part_sawblade.getUnlocalizedName());
+//		GameRegistry.registerItem(part_track, part_track.getUnlocalizedName());
+//		GameRegistry.registerItem(part_treads, part_treads.getUnlocalizedName());
 		GameRegistry.registerItem(part_rubber_drop, part_rubber_drop.getUnlocalizedName());
 		GameRegistry.registerItem(part_raw_rubber, part_raw_rubber.getUnlocalizedName());
 		GameRegistry.registerItem(part_rubber, part_rubber.getUnlocalizedName());
 		GameRegistry.registerItem(part_sawdust, part_sawdust.getUnlocalizedName());
-		GameRegistry.registerItem(part_cannon_1, part_cannon_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_cannon_2, part_cannon_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_cannon_3, part_cannon_3.getUnlocalizedName());
-		GameRegistry.registerItem(part_chassis_1, part_chassis_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_chassis_2, part_chassis_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_chassis_3, part_chassis_3.getUnlocalizedName());
-		GameRegistry.registerItem(part_engine_1, part_engine_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_engine_2, part_engine_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_engine_3, part_engine_3.getUnlocalizedName());
-		GameRegistry.registerItem(part_ship_1, part_ship_1.getUnlocalizedName());
-		GameRegistry.registerItem(part_ship_2, part_ship_2.getUnlocalizedName());
-		GameRegistry.registerItem(part_ship_3, part_ship_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_cannon_1, part_cannon_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_cannon_2, part_cannon_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_cannon_3, part_cannon_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_chassis_1, part_chassis_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_chassis_2, part_chassis_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_chassis_3, part_chassis_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_engine_1, part_engine_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_engine_2, part_engine_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_engine_3, part_engine_3.getUnlocalizedName());
+//		GameRegistry.registerItem(part_ship_1, part_ship_1.getUnlocalizedName());
+//		GameRegistry.registerItem(part_ship_2, part_ship_2.getUnlocalizedName());
+//		GameRegistry.registerItem(part_ship_3, part_ship_3.getUnlocalizedName());
+//
+//		GameRegistry.registerItem(kit_singleshot, kit_singleshot.getUnlocalizedName());
+//		GameRegistry.registerItem(kit_repeating, kit_repeating.getUnlocalizedName());
+//		GameRegistry.registerItem(kit_auto, kit_auto.getUnlocalizedName());
+//		GameRegistry.registerItem(kit_shotgun, kit_shotgun.getUnlocalizedName());
+//		GameRegistry.registerItem(kit_revolver, kit_revolver.getUnlocalizedName());
+//		GameRegistry.registerItem(kit_smg, kit_smg.getUnlocalizedName());
+//		GameRegistry.registerItem(kit_hmg, kit_hmg.getUnlocalizedName());
 
-		GameRegistry.registerItem(kit_singleshot, kit_singleshot.getUnlocalizedName());
-		GameRegistry.registerItem(kit_repeating, kit_repeating.getUnlocalizedName());
-		GameRegistry.registerItem(kit_auto, kit_auto.getUnlocalizedName());
-		GameRegistry.registerItem(kit_shotgun, kit_shotgun.getUnlocalizedName());
-		GameRegistry.registerItem(kit_revolver, kit_revolver.getUnlocalizedName());
-		GameRegistry.registerItem(kit_smg, kit_smg.getUnlocalizedName());
-		GameRegistry.registerItem(kit_hmg, kit_hmg.getUnlocalizedName());
-
-		GameRegistry.registerItem(ingot_boron, ingot_boron.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_graphite, ingot_graphite.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_graphene, ingot_graphene.getUnlocalizedName());
-
-		GameRegistry.registerItem(rice, rice.getUnlocalizedName());
-		GameRegistry.registerItem(rice_seeds, rice_seeds.getUnlocalizedName());
-		GameRegistry.registerItem(rice_sticky, rice_sticky.getUnlocalizedName());
-		GameRegistry.registerItem(rice_bag, rice_bag.getUnlocalizedName());
 		GameRegistry.registerItem(mutton_raw, mutton_raw.getUnlocalizedName());
 		GameRegistry.registerItem(mutton_cooked, mutton_cooked.getUnlocalizedName());
 		GameRegistry.registerItem(squid_raw, squid_raw.getUnlocalizedName());
@@ -562,7 +521,7 @@ public class ModItems {
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
 		GameRegistry.registerItem(province_point, province_point.getUnlocalizedName());
 		GameRegistry.registerItem(flour, flour.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_steel, ingot_steel.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_tap_steel, ingot_tap_steel.getUnlocalizedName());
 		GameRegistry.registerItem(crate, crate.getUnlocalizedName());
 
 		GameRegistry.registerItem(farmer, farmer.getUnlocalizedName());
@@ -570,31 +529,14 @@ public class ModItems {
 		GameRegistry.registerItem(miner_supplies, miner_supplies.getUnlocalizedName());
 		GameRegistry.registerItem(canary, canary.getUnlocalizedName());
 
-		GameRegistry.registerItem(mace, mace.getUnlocalizedName());
 		GameRegistry.registerItem(hatchet, hatchet.getUnlocalizedName());
 		GameRegistry.registerItem(clowder_map, clowder_map.getUnlocalizedName());
 		GameRegistry.registerItem(scanner, scanner.getUnlocalizedName());
 		GameRegistry.registerItem(repair_1, repair_1.getUnlocalizedName());
 		GameRegistry.registerItem(repair_2, repair_2.getUnlocalizedName());
 		GameRegistry.registerItem(repair_3, repair_3.getUnlocalizedName());
-		GameRegistry.registerItem(flaregun, flaregun.getUnlocalizedName());
-		GameRegistry.registerItem(flare, flare.getUnlocalizedName());
 		GameRegistry.registerItem(pakker, pakker.getUnlocalizedName());
 		GameRegistry.registerItem(pak_rocket, pak_rocket.getUnlocalizedName());
-
-		GameRegistry.registerItem(mult_stoneage, mult_stoneage.getUnlocalizedName());
-		GameRegistry.registerItem(mult_roman, mult_roman.getUnlocalizedName());
-		GameRegistry.registerItem(mult_steel, mult_steel.getUnlocalizedName());
-		GameRegistry.registerItem(mult_alloy, mult_alloy.getUnlocalizedName());
-		
-		GameRegistry.registerItem(battery_rc, battery_rc.getUnlocalizedName());
-		GameRegistry.registerItem(battery_rc_2, battery_rc_2.getUnlocalizedName());
-		
-		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
-		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
-		GameRegistry.registerItem(designator_manual, designator_manual.getUnlocalizedName());
-		GameRegistry.registerItem(detonator, detonator.getUnlocalizedName());
-		GameRegistry.registerItem(remote, remote.getUnlocalizedName());
 
 		GameRegistry.registerItem(missile_at_1, missile_at_1.getUnlocalizedName());
 		GameRegistry.registerItem(missile_he_1, missile_he_1.getUnlocalizedName());

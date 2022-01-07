@@ -217,7 +217,7 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase {
 		
 		for(int i = 3; i < 6; i++) {
 			
-			if((slots[i] == null || (slots[i] != null && slots[i].getItem() == ModItems.ingot_steel && slots[i].stackSize < slots[i].getMaxStackSize())))
+			if((slots[i] == null || (slots[i] != null && slots[i].getItem() == ModItems.ingot_tap_steel && slots[i].stackSize < slots[i].getMaxStackSize())))
 				return true;
 		}
 		
@@ -228,11 +228,11 @@ public class TileEntityMachineBlastFurnace extends TileEntityMachineBase {
 		
 		for(int i = 3; i < 6; i++) {
 			
-			if(slots[i] != null && slots[i].getItem() == ModItems.ingot_steel && slots[i].stackSize < slots[i].getMaxStackSize()) {
+			if(slots[i] != null && slots[i].getItem() == ModItems.ingot_tap_steel && slots[i].stackSize < slots[i].getMaxStackSize()) {
 				slots[i].stackSize++;
 				return;
 			} else if(slots[i] == null) {
-				slots[i] = new ItemStack(ModItems.ingot_steel);
+				slots[i] = new ItemStack(ModItems.ingot_tap_steel);
 				return;
 			}
 		}

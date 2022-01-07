@@ -2,6 +2,7 @@ package com.hfr.packet.effect;
 
 import java.util.Arrays;
 
+import com.flansmod.common.driveables.EntityDriveable;
 import com.hfr.main.MainRegistry;
 import com.hfr.rvi.RVICommon.Indicator;
 import com.hfr.rvi.RVICommon.RVIType;
@@ -33,7 +34,8 @@ public class RVIPacket implements IMessage {
 		indicators = new Indicator[buf.readInt()];
 		
 		for(int i = 0; i < indicators.length; i++) {
-			indicators[i] = new Indicator(buf.readDouble(), buf.readDouble(), buf.readDouble(), RVIType.values()[buf.readInt()]);
+			// before fuckery  indicators[i] = new Indicator(buf.readDouble(), buf.readDouble(), buf.readDouble(), RVIType.values()[buf.readInt()]);
+			indicators[i] = new Indicator(buf.readDouble(), buf.readDouble(), buf.readDouble(), RVIType.values()[buf.readInt()], null );
 		}
 	}
 

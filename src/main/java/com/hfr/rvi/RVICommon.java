@@ -1,7 +1,16 @@
 package com.hfr.rvi;
 
+import org.lwjgl.opengl.GL11;
+
+import com.flansmod.client.FlansModResourceHandler;
+import com.flansmod.client.model.ModelDriveable;
+import com.flansmod.common.driveables.DriveableType;
+import com.flansmod.common.driveables.EntityDriveable;
+import com.flansmod.common.driveables.mechas.MechaType;
 import com.hfr.lib.RefStrings;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 public class RVICommon {
@@ -27,9 +36,43 @@ public class RVICommon {
 			this.type = RVIType.GENERIC;
 		}
 		
-		public Indicator(double x, double y, double z, RVIType type) {
+		public Indicator(double x, double y, double z, RVIType type, EntityDriveable target) {
 			this(x, y, z);
 			this.type = type;
+			
+			if(target != null)
+			{
+			DriveableType targetType = target.getDriveableType();
+			ModelDriveable model = targetType.model;
+			
+			
+			if (model != null)
+			{
+			GL11.glPushMatrix();
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GL11.glEnable(GL11.GL_ALPHA_TEST);
+			GL11.glTranslatef(69 / 2 - 46, 69 /2 - 10, 100);
+			if(targetType instanceof MechaType)
+				GL11.glTranslatef(0, 15, 0);
+			GL11.glScalef(-50F * targetType.modelScale / targetType.cameraDistance, 50F * targetType.modelScale / targetType.cameraDistance, 50F * targetType.modelScale / targetType.cameraDistance);
+			GL11.glRotatef(180F, 0F, 0F, 1F);
+			GL11.glRotatef(30F, 1F, 0F, 0F);
+			//696 is where the spinner ticker used to be
+			GL11.glRotatef(696 / 5F, 0F, 1F, 0F);
+			FMLClientHandler.instance().getClient().renderEngine.bindTexture(FlansModResourceHandler.getTexture(targetType));
+			if( targetType.model != null )
+			{
+				targetType.model.render(targetType);
+			}
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GL11.glDisable(GL11.GL_ALPHA_TEST);
+			GL11.glPopMatrix();
+		}
+			}
+			
+			
+			
+			
 		}
 	}
 	
@@ -48,5 +91,8 @@ public class RVICommon {
 		private RVIType(ResourceLocation texture) {
 			this.texture = texture;
 		}
+		
+		
+			
 	}
 }

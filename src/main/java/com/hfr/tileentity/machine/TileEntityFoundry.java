@@ -56,7 +56,7 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 	public static List<Item> options = new ArrayList();
 	
 	static {
-		recipes.put(ModItems.ingot_steel.getUnlocalizedName(), 1F);
+		recipes.put(ModItems.ingot_tap_steel.getUnlocalizedName(), 1F);
 		recipes.put(ModItems.part_spring.getUnlocalizedName(), 0.5F);
 		recipes.put(ModItems.part_rod.getUnlocalizedName(), 0.5F);
 		recipes.put(ModItems.part_rifled_barrel.getUnlocalizedName(), 2F);
@@ -73,7 +73,7 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 		recipes.put(ModItems.part_sawblade.getUnlocalizedName(), 2.5F);
 		recipes.put(ModItems.part_track.getUnlocalizedName(), 2F);
 
-		options.add(ModItems.ingot_steel);
+		options.add(ModItems.ingot_tap_steel);
 		options.add(ModItems.part_spring);
 		options.add(ModItems.part_rod);
 		options.add(ModItems.part_rifled_barrel);

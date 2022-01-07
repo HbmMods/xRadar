@@ -84,6 +84,8 @@ public class MainRegistry
 	
 	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon();
 	
+	public static int bonusPointLimit = 20;
+	
 	public static int radarRange = 1000;
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
@@ -190,10 +192,15 @@ public class MainRegistry
 	public static boolean enableStocks = true;
 	public static boolean enableRadar = true;
 
-	public static int warpCost = 25;
+	public static int fabricateCost = 30;
+	public static int warpCost = 15;
+	public static int renameCost = 10;
 	public static int territoryDelay = 5;
 	public static int territoryAmount = 50;
 	public static int prestigeDelay = 60 * 60 * 20;
+	public static int disbandDelay = 24 * 60 * 60 * 20;
+	//minute for war declare
+	public static int warDelay = 60 * 20;
 	public static boolean disableChests = true;
 	public static int mold = 5 * 60 * 60 * 20;
 	public static boolean freeRaid = false;
@@ -247,44 +254,24 @@ public class MainRegistry
 		FluidHandler.init();
 		HFRPotion.init();
 
+		sub.put(regexify("tiananmen"), "nothing");
 		sub.put(regexify("sex mod"), "funnies");
 		sub.put(regexify("fuck"), "frick");
-		sub.put(regexify("nigga"), "african american");
-		sub.put(regexify("nigger"), "african american");
-		sub.put(regexify("faggot"), "homosexual");
-		sub.put(regexify("gay"), "homosexual");
-		sub.put(regexify("fag"), "cigarette");
-		sub.put(regexify("cunt"), "immanuel kant");
 		sub.put(regexify("penis"), "pee pee");
-		sub.put(regexify("cock"), "rooster");
-		sub.put(regexify("dick"), "richard nixon");
-		sub.put(regexify("shit"), "crap");
-		sub.put(regexify("bitch"), "dog");
-		sub.put(regexify("pussy"), "kitten");
-		sub.put(regexify("bastard"), "illegitimate child");
+		sub.put(regexify("hero"), "richard nixon");
 		sub.put(regexify("goddamn"), "goshdarn");
 		sub.put(regexify("damn"), "darn");
-		sub.put(regexify("asshole"), "poohole");
-		sub.put(regexify("jew"), "יהודי");
-		sub.put(regexify("kike"), "יהודי");
-		sub.put(regexify("kys"), "stop");
-		sub.put(regexify("kill yourself"), "reconsider your life choices");
-		sub.put(regexify("chink"), "eastern asian fellow");
+		sub.put(regexify("chink"), "master");
 		sub.put(regexify(" ass "), " butté ");
 		sub.put(regexify("cracker"), "caucasian");
-		sub.put(regexify("gook"), "vietnamese");
-		sub.put(regexify("cuck"), "lad");
-		sub.put(regexify("negro"), "melanine man");
-		sub.put(regexify("negroid"), "african-like");
-		sub.put(regexify("coon"), "overweight");
-		sub.put(regexify("penis"), "junk");
-		sub.put(regexify("twat"), "天安门广场大屠杀");
-		sub.put(regexify("idiot"), "傻子");
-		sub.put(regexify("whore"), "hussy");
-		sub.put(regexify("pornography"), "naughty pics");
-		sub.put(regexify("porn"), "cartoons");
-		sub.put(regexify("hentai"), "naughty cartoons");
+		sub.put(regexify("india"), "south pakistan");
+		sub.put(regexify("gook"), "master");
+		sub.put(regexify("hentai"), "art");
 		sub.put(regexify("wally"), "walter");
+		sub.put(regexify(" god "), " Allah ");
+		sub.put(regexify("god "), "Allah ");
+		sub.put(regexify(" god"), " Allah");
+		sub.put(regexify("yahweh"), "YHWH");
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		

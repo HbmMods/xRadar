@@ -9,6 +9,7 @@ import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.clowder.ITerritoryProvider;
 import com.hfr.tileentity.clowder.TileEntityConquerer;
 import com.hfr.tileentity.clowder.TileEntityFlag;
+import com.hfr.tileentity.clowder.TileEntityFlagBig;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +27,7 @@ public class ClowderTerritory {
 
 	public static final int SAFEZONE_COLOR = 0xFF8000;
 	public static final int WARZONE_COLOR = 0xFF0000;
-	public static final int WILDERNESS_COLOR = 0x008000;
+	public static final int WILDERNESS_COLOR = 0xFFFFFF;
 	
 	public static HashMap<Long, TerritoryMeta> territories = new HashMap();
 	
@@ -50,15 +51,48 @@ public class ClowderTerritory {
 	public static void setOwnerForInts(World world, int x, int z, Clowder owner, int fX, int fY, int fZ, String name) {
 		
 		long code = intsToCode(x, z);
+		TerritoryMeta old = territories.get(code);
 		
 		territories.remove(code);
 		
 		Ownership o = new Ownership(Zone.FACTION, owner);
 		TerritoryMeta metadata = new TerritoryMeta(o, fX, fY, fZ);
-		metadata.name = name;
+		TileEntity flag = world.getTileEntity(fX, fY, fZ);
+		if(flag != null) {
+			if(flag instanceof TileEntityFlagBig)
+				((TileEntityFlagBig)flag).provinceName = name;
+			else if(flag instanceof TileEntityConquerer)
+				((TileEntityConquerer)flag).name = name;
+		}
 		
 		territories.put(code, metadata);
 		ClowderData.getData(world).markDirty();
+	}
+	
+	public static void setOilProvinceForCoord(World world, CoordPair coords, Clowder owner, int fX, int fY, int fZ, String name, boolean oil) {
+		long code = intsToCode(coords.x, coords.z);
+		if(territories.containsKey(code))
+			setOilProvinceForCode(world, code, oil);
+	}
+	
+	public static void setOilProvinceForCode(World world, long code, boolean oil) {
+		TerritoryMeta meta = territories.get(code);
+		TileEntityFlagBig flag = (TileEntityFlagBig) world.getTileEntity(meta.flagX, meta.flagY, meta.flagZ);
+		if(flag != null)
+			flag.oilProvince = oil;
+		ClowderData.getData(world).markDirty();
+	}
+	
+	//sets the owner of a chunk back to wilderness and keeps the region name
+	public static void setWildernessForCoord(World world, CoordPair coords) {
+		setWildernessForInts(coords.x, coords.z);
+	}
+	
+	//sets the owner of a chunk back to wilderness and keeps the region name
+	public static void setWildernessForInts(int x, int z) {
+		long code = intsToCode(x, z);
+		
+		territories.get(code).owner = new Ownership(Zone.WILDERNESS);
 	}
 	
 	//sets the owner of a chunk to a special zone
@@ -71,8 +105,6 @@ public class ClowderTerritory {
 	public static void setZoneForInts(World world, int x, int z, Zone zone) {
 		
 		long code = intsToCode(x, z);
-		
-		territories.remove(code);
 		
 		//do not create wilderness k thx
 		if(zone != Zone.WILDERNESS) {
@@ -251,15 +283,12 @@ public class ClowderTerritory {
 				return WARZONE_COLOR;
 			case WILDERNESS:
 				return WILDERNESS_COLOR;
-			
 			}
-			
 			return 0x000000;
 		}
 	}
 	
 	public static enum Zone {
-		
 		//no building, no pvp
 		SAFEZONE,
 		//no building
@@ -274,7 +303,6 @@ public class ClowderTerritory {
 	//it's just two integers in a wrapper
 	//don't judge me vanilla minecraft does it too since 1.8 just with 3 integers
 	public static class CoordPair {
-		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -283,7 +311,7 @@ public class ClowderTerritory {
 			result = prime * result + z;
 			return result;
 		}
-
+		
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)
@@ -315,22 +343,22 @@ public class ClowderTerritory {
 		public int flagX;
 		public int flagY;
 		public int flagZ;
-		public String name;
 		
 		public TerritoryMeta(Ownership owner, int flagX, int flagY, int flagZ) {
 			this.owner = owner;
 			this.flagX = flagX;
 			this.flagY = flagY;
 			this.flagZ = flagZ;
-			this.name = "";
 		}
 		
-		public TerritoryMeta(Ownership owner, int flagX, int flagY, int flagZ, String name) {
+		public TerritoryMeta(Ownership owner, int flagX, int flagY, int flagZ, World world, String name) {
 			this.owner = owner;
 			this.flagX = flagX;
 			this.flagY = flagY;
 			this.flagZ = flagZ;
-			this.name = name;
+			TileEntityFlagBig flag = (TileEntityFlagBig) world.getTileEntity(flagX, flagY, flagZ);
+			if(flag != null)
+				flag.provinceName = name;
 		}
 		
 		public TerritoryMeta(Ownership owner) {
@@ -338,22 +366,19 @@ public class ClowderTerritory {
 		}
 		
 		public void writeToNBT(NBTTagCompound nbt, String code) {
-
 			owner.writeToNBT(nbt, code);
-			nbt.setInteger("terr_" + code + "_flagX", flagX);
-			nbt.setInteger("terr_" + code + "_flagY", flagY);
-			nbt.setInteger("terr_" + code + "_flagZ", flagZ);
-			nbt.setString("name_" + code, name);
+			nbt.setInteger(code + "X",flagX);
+			nbt.setInteger(code + "Y",flagY);
+			nbt.setInteger(code + "Z",flagZ);
 		}
 		
 		public static TerritoryMeta readFromNBT(NBTTagCompound nbt, String code) {
 			
 			TerritoryMeta meta = new TerritoryMeta(
 					Ownership.readFromNBT(nbt, code),
-					nbt.getInteger("terr_" + code + "_flagX"),
-					nbt.getInteger("terr_" + code + "_flagY"),
-					nbt.getInteger("terr_" + code + "_flagZ"),
-					nbt.getString("name_" + code)
+					nbt.getInteger(code + "X"),
+					nbt.getInteger(code + "Y"),
+					nbt.getInteger(code + "Z")
 			);
 			
 			return meta;
@@ -394,7 +419,6 @@ public class ClowderTerritory {
 					ITerritoryProvider flag = (ITerritoryProvider)te;
 					
 					int r = flag.getRadius();
-					this.name = flag.getClaimName();
 					
 					double dist = Math.sqrt(Math.pow(origin.x - claim.x, 2) + Math.pow(origin.z - claim.z, 2));
 					
@@ -470,9 +494,9 @@ public class ClowderTerritory {
 			
 			long code = nbt.getLong("code_" + i);
 			TerritoryMeta meta = TerritoryMeta.readFromNBT(nbt, "meta_" + i);
-			
-			if(meta != null && meta.owner.zone != Zone.WILDERNESS)
+			if(meta != null) {
 				territories.put(code, meta);
+			}
 		}
 	}
 	
@@ -484,12 +508,9 @@ public class ClowderTerritory {
 		for(long code : territories.keySet()) {
 			
 			TerritoryMeta meta = territories.get(code);
-			
-			//do not save wilderness
-			if(meta.owner.zone != Zone.WILDERNESS) {
-				nbt.setLong("code_" + index, code);
-				meta.writeToNBT(nbt, "meta_" + index);
-			}
+			//we only have regions as wilderness the rest will be warzone
+			nbt.setLong("code_" + index, code);
+			meta.writeToNBT(nbt, "meta_" + index);
 			
 			index++;
 		}

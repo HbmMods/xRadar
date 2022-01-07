@@ -1,6 +1,7 @@
 package com.hfr.main;
 
 import com.hfr.blocks.ModBlocks;
+import com.hfr.items.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -13,7 +14,9 @@ public class CreativeTabHFR extends CreativeTabs {
 
 	@Override
 	public Item getTabIconItem() {
-		return Item.getItemFromBlock(ModBlocks.machine_radar);
+		if(Item.getItemFromBlock(ModBlocks.machine_radar) != null)
+			return Item.getItemFromBlock(ModBlocks.machine_radar);
+		else return ModItems.sexlol;
 	}
 
 }

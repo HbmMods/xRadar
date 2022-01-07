@@ -34,6 +34,16 @@ public class ClowderFlagPacket implements IMessage {
 		if(title == null)
 			title = " ";
 	}
+	
+	public ClowderFlagPacket(String name, String title) {
+		this.flag = -1;
+		this.color = ClowderTerritory.WILDERNESS_COLOR;
+		this.name = name;
+		this.title = title;
+		
+		if(title == null)
+			title = " ";
+	}
 
 	public ClowderFlagPacket(ClowderFlag flag, int color, String name, String title) {
 		this.flag = flag.ordinal();
@@ -91,7 +101,7 @@ public class ClowderFlagPacket implements IMessage {
 			} else {
 				MainRegistry.proxy.updateFlag(null, m.flag == -3 ? ClowderFlag.WARZONE : m.flag == -2 ? ClowderFlag.SAFEZONE : ClowderFlag.WILDERNESS, m.color, m.name, m.title);
 			}
-			
+			//code for displaying flag and making the doot noise - allah note
 			Minecraft.getMinecraft().thePlayer.playSound("hfr:item.doot", 0.5F, 1.0F);
 			
 			return null;

@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hfr.rvi.RVICommon;
 import com.hfr.rvi.RVICommon.Indicator;
+import com.hfr.rvi.RVICommon.RVIType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -21,10 +23,7 @@ public class RenderRVIOverlay {
 		
 		GL11.glPushMatrix();
 		Minecraft minecraft = Minecraft.getMinecraft();
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glDisable(2929);
-        GL11.glDepthMask(false);
-        //GL11.glDisable(GL11.GL_FOG);
+
 		
 		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), minecraft.displayWidth, minecraft.displayHeight);
 		int width = res.getScaledWidth();
@@ -39,6 +38,13 @@ public class RenderRVIOverlay {
 		for(Indicator ind : indicators) {
 			
 			GL11.glPushMatrix();
+			
+			if(ind.type == RVIType.FRIEND || ind.type == RVIType.ENEMY)
+			{ //see sprite through walls if digital radar
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glDisable(2929);
+				GL11.glDepthMask(false);
+			}
 			
 			minecraft.getTextureManager().bindTexture(ind.type.texture);
 			Vec3 vec = Vec3.createVectorHelper(x - ind.x, y - ind.y, z - ind.z);
@@ -78,14 +84,26 @@ public class RenderRVIOverlay {
 			GL11.glRotated(pitch, 1, 0, 0);
 			
 			renderScaled(0, 0, 0, -5 * (1 - (1 / dist * 0.5)));
+			
+			//bigger sprite if its a ship
+			if(ind.type == RVIType.SHIP)
+			renderScaled(0, 0, 0, -9 * (1 - (1 / dist * 0.5)));
 
 			GL11.glPopMatrix();
+			
+			
+			if(ind.type == RVIType.FRIEND || ind.type == RVIType.ENEMY)
+			{
+				//allow digital radar sprites to be seen through walls
+		        GL11.glDepthMask(true);
+		        GL11.glEnable(2929);
+				GL11.glEnable(GL11.GL_CULL_FACE);
+			}
 		}
 
 		//GL11.glEnable(GL11.GL_FOG);
-        GL11.glDepthMask(true);
-        GL11.glEnable(2929);
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		
+		
 
 		GL11.glPopMatrix();
 	}

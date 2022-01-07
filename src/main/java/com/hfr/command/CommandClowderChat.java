@@ -50,6 +50,10 @@ public class CommandClowderChat extends CommandBase {
 				player.getEntityData().setInteger(CHAT_KEY, 1);
 				sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to faction!"));
 				return;
+			} else if(args[0].equals("alliance") || args[0].equals("a")) {
+				player.getEntityData().setInteger(CHAT_KEY, 2);
+				sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to alliance!"));
+				return;
 			} else if(args[0].equals("mute") || args[0].equals("m")) {
 				player.getEntityData().setInteger(MUTE_KEY, 1);
 				PacketDispatcher.wrapper.sendTo(new PlayerDataPacket(MUTE_KEY, 1), (EntityPlayerMP) player);
@@ -61,7 +65,7 @@ public class CommandClowderChat extends CommandBase {
 				return;
 			} else {
 				sender.addChatMessage(new ChatComponentText(CRITICAL + "Invalid arguments!"));
-				sender.addChatMessage(new ChatComponentText(CRITICAL + "Try: 'public', 'faction' or none"));
+				sender.addChatMessage(new ChatComponentText(CRITICAL + "Try: 'public', 'faction', 'alliance' or none"));
 				return;
 			}
 		}
@@ -75,6 +79,12 @@ public class CommandClowderChat extends CommandBase {
 		}
 		
 		if(mode == 1) {
+			player.getEntityData().setInteger(CHAT_KEY, 2);
+			sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to alliance!"));
+			return;
+		}
+		
+		if(mode == 2) {
 			player.getEntityData().setInteger(CHAT_KEY, 0);
 			sender.addChatMessage(new ChatComponentText(INFO + "Chat mode set to public!"));
 			return;

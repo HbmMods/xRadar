@@ -69,7 +69,7 @@ public class TileEntityFlag extends TileEntityMachineBase implements ITerritoryP
 				return;
 			}*/
 			
-			/// CAPTURE START ///
+			/// CAPTURE START /// //outdated way before conquest flags
 
 			float prev = height;
 			Clowder prevC = owner;

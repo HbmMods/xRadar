@@ -1,9 +1,18 @@
 package com.hfr.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.flansmod.client.model.ModelDriveable;
+import com.flansmod.common.driveables.DriveablePart;
+import com.flansmod.common.driveables.EntityDriveable;
+import com.flansmod.common.driveables.EntityPlane;
+import com.flansmod.common.driveables.EntityVehicle;
+import com.flansmod.common.driveables.EnumDriveablePart;
+import com.flansmod.common.driveables.EnumPlaneMode;
+import com.flansmod.common.guns.EntityBullet;
 import com.hfr.ai.*;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
@@ -110,6 +119,7 @@ public class CommonEventHandler {
 				List<Blip> blips = new ArrayList();
 
 				if (sufficient) {
+					
 					List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY,
 							player.posZ, range);
 
@@ -133,7 +143,14 @@ public class CommonEventHandler {
 
 							// only detect if visible on radar or the radar is
 							// on a ground vehicle
-							if (ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false)) {
+							//if (ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false))  original version only checks if stealth plane. no active/passive radar distinction
+							
+							//new boolean LABJAC ALLAH BOOKMARK : now enemy blips appear normally if active radar OR blips appear if enemy active radar and you passive radar
+								if (  (ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false) && ReflectionEngine.hasValue(vehicle, Boolean.class, "activeRadar", false)) //normal case, you have active radar
+										||  ( ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false) && !ReflectionEngine.hasValue(vehicle, Boolean.class, "activeRadar", false) //you have passive radar
+												&& ReflectionEngine.hasValue(bogey, Boolean.class, "activeRadar", false) )  ) //bogey has active radar
+								{
+
 
 								// Vec3 vec =
 								// Vec3.createVectorHelper(entity.posX -
@@ -153,6 +170,13 @@ public class CommonEventHandler {
 									type = 1;
 								if ("EntityVehicle".equals(bogey.getClass().getSimpleName()))
 									type = 3;
+								//detecting friendly
+								Clowder bogeyClowder = Clowder.getClowderFromPlayer(entity);
+								if (bogeyClowder == Clowder.getClowderFromPlayer(player) && bogeyClowder != null)
+								{
+									//smiley face radar blip
+								type = 9;
+								}
 
 								blips.add(new Blip((float) -vec.xCoord, (float) vec.yCoord, (float) -vec.zCoord,
 										(float) entBogey.posX, (float) entBogey.posZ, type));
@@ -160,6 +184,37 @@ public class CommonEventHandler {
 							}
 						}
 					}
+					
+					
+					
+					
+					//for flan missiles
+					List<Entity> foxes = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, AxisAlignedBB.getBoundingBox(player.posX - 200, player.posY - 200, player.posZ - 200, player.posX + 200, player.posY + 200, player.posZ + 200));
+
+					for (Entity stuff : foxes) {
+						
+						//excluding non bullets
+						if (stuff instanceof EntityBullet == false)
+							continue;
+						
+						EntityBullet missile = (EntityBullet)stuff;
+						
+						// ignore all non tracking bullets
+						if (!missile.entityMissileRadarVisible)
+							continue;
+
+								//alsways show up as the danger x on radar
+								int type = 4;
+								
+								Vec3 veco = Vec3.createVectorHelper(missile.posX - player.posX, missile.posY,
+										missile.posZ - player.posZ);
+
+								blips.add(new Blip((float) -veco.xCoord, (float) veco.yCoord, (float) -veco.zCoord,
+										(float) missile.posX, (float) missile.posZ, type));
+					}
+				
+					
+					
 				}
 
 				// directed traffic to avoid spammy broadcast
@@ -225,16 +280,24 @@ public class CommonEventHandler {
 				
 				EntityPlayer pl = (EntityPlayer) player.worldObj.playerEntities.get((int)age);
 				Clowder clow = Clowder.getClowderFromPlayer(pl);
+
 				
 				String name = "###";
 				
 				if(clow != null)
+				{
 					name = clow.name;
+					for (Clowder A : clow.allies.keySet())
+						name = clow.name + "_" + A.name; //secretly loads entire list of allies into your fucking ID
+				}
+				
+
 				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "clowderNotif");
 				data.setString("player", pl.getUniqueID().toString());
 				data.setString("clowder", name);
+
 				
 				PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, 0, 0, 0), (EntityPlayerMP) player);
 			}
@@ -294,6 +357,60 @@ public class CommonEventHandler {
 		return false;
 	}
 	
+public boolean isShip(EntityPlayer player) {
+		
+		Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+
+		if(vehicle != null ) {
+			
+			boolean isShip = ReflectionEngine.hasValue(vehicle, Boolean.class, "epicShip", false);
+			
+			if(vehicle instanceof EntityVehicle)
+			{
+			EntityVehicle shippu = (EntityVehicle)vehicle;
+			isShip = shippu.epicShip;
+			}
+			return isShip;
+		}
+		
+		return false;
+	}
+
+public boolean isHeli(EntityPlayer player) {
+	
+	Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+
+	if(vehicle != null  ) {
+		
+		boolean isHeli = ReflectionEngine.hasValue(vehicle, Boolean.class, "isHeli", false);
+		
+		if(vehicle instanceof EntityPlane)
+		{
+		EntityPlane helo = (EntityPlane)vehicle;
+		isHeli = (helo.mode == EnumPlaneMode.HELI);
+		}
+		return isHeli;
+	}
+	return false;
+}
+
+public boolean airborne(EntityPlayer player) {
+	
+	Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+
+	if(vehicle != null  ) {
+		
+		if(vehicle instanceof EntityPlane)
+			return true;
+		
+	}
+	
+return false;
+}
+	
+	
+
+	
 	@SubscribeEvent
 	public void handleRVITick(TickEvent.PlayerTickEvent event) {
 		
@@ -307,6 +424,9 @@ public class CommonEventHandler {
 			int buffer = 200;	//the minimum distance where vehicles are visible
 			int delay = 4;		//the time in ticks between scans
 			boolean digital = hasDigiOverlay(player);
+			boolean ship = isShip(player);
+			boolean heli = isHeli(player);
+			boolean airRecon = airborne(player);
 
 			if(player.ticksExisted % delay != 0)
 				return;
@@ -329,7 +449,16 @@ public class CommonEventHandler {
 					if(bogey == null)
 						continue;
 					
+					
 					Entity entBogey = (Entity)bogey;
+					
+					//read flan entity for model usage later
+					EntityDriveable target = null;
+					
+					EntityPlane targetPlane = null;
+					
+					//flan model
+					//ModelDriveable model = null;
 					
 					Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY - player.posY, entBogey.posZ - player.posZ);
 					double dist = vec.lengthVector();
@@ -340,13 +469,55 @@ public class CommonEventHandler {
 					if(!digital && buffer > dist)
 						continue;
 					
-					RVIType type = RVIType.VEHICLE;
+					if(entBogey instanceof EntityVehicle)
+						target = (EntityVehicle)entBogey;
+					
+					
+					RVIType type = null;
+					
+					//by default there is no sprite. tanks can only be seen if riding an aircraft for air recon meta
+					if(airRecon)
+					type = RVIType.VEHICLE;
+					
+					
+					if(target instanceof EntityVehicle)
+					{
+					if (target.epicShip)
+						type = RVIType.SHIP;
+					
+					//so mgs and at guns wont have sprites
+					if((target).getDriveableType().maxThrottle<0.5f && !((target.getDriveableData().parts.get(EnumDriveablePart.frontLeftWheel).maxHealth>0 || target.getDriveableData().parts.get(EnumDriveablePart.engine).maxHealth>0 || target.getDriveableData().parts.get(EnumDriveablePart.leftTrack).maxHealth>0)) ) 
+						type = null;
+					}
 					
 					if(!digital) {
 						if("EntityPlane".equals(bogey.getClass().getSimpleName()))
+						{
+							
 							type = RVIType.PLANE;
+							//recognize the flan entity
+							targetPlane = (EntityPlane)entBogey;
+							//System.out.println("it recognized the entity plane");
+							
+							
+							if(targetPlane instanceof EntityPlane)
+							{
+							if (targetPlane.mode == EnumPlaneMode.HELI)
+							{
+							//	System.out.println("it recognized the heli");
+								type = RVIType.HELI;
+							}
+							}
+							
+							
+							//if (target.getDriveableType().model != null)
+							//	model = target.getDriveableType().model;
+						}
+						
+						/* no seeing tiny tripod MG as a giant sherman sillhoute through mountains  later reenable for ships allah bookmark
 						if("EntityVehicle".equals(bogey.getClass().getSimpleName()))
 							type = RVIType.VEHICLE;
+							*/
 					} else {
 						
 						if(Clowder.areFriends(player, entity)) {
@@ -356,7 +527,10 @@ public class CommonEventHandler {
 						}
 					}
 					
-					indicators.add(new Indicator(entBogey.posX, entBogey.posY + 2, entBogey.posZ, type));
+					//if its an mg dont send indicator
+					if(type != null)
+					indicators.add(new Indicator(entBogey.posX, entBogey.posY + 2, entBogey.posZ, type, target ));
+				//	System.out.println("final rvitype" + type);
 				}
 			}
 			
@@ -431,6 +605,10 @@ public class CommonEventHandler {
 		
 		return list;
 	}
+	
+	
+	
+	
 
 	int timer = 0;
 	
@@ -657,34 +835,4 @@ public class CommonEventHandler {
 		}
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void oreDropEvent(BreakEvent event) {
-		
-		if(event.isCanceled())
-			return;
-		
-		World world = event.world;
-		
-		if(world.isRemote)
-			return;
-		
-		if(event.block != Blocks.stone)
-			return;
-
-		if(world.rand.nextDouble() < MainRegistry.coalChance)
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));
-		if(world.rand.nextDouble() < MainRegistry.ironChance)
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
-		if(world.rand.nextDouble() < MainRegistry.goldChance)
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.gold_ore)));
-		
-		/*ResourceData data = ResourceData.getData(world);
-		
-		if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z, data.iron))
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
-		
-		if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z, data.coal))
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));*/
-		
-	}
 }
