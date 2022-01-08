@@ -11,6 +11,7 @@ import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.command.CommandClowder;
 import com.hfr.data.ClowderData;
+import com.hfr.data.MarketData.Offer;
 import com.hfr.main.MainRegistry;
 import com.hfr.tileentity.prop.TileEntityProp;
 
@@ -45,6 +46,10 @@ public class Clowder {
 	public int homeY;
 	public int homeZ;
 	public HashMap<String, int[]> warps = new HashMap();
+	
+	//tracks how many times the clowder has bought from this market option
+	//non-persistent so it won't save when the server stops
+	public HashMap<Offer, Integer> offerHistory = new HashMap();
 
 	//for limited only x bonus minutes from capping chunks
 	//Limit is found in the MainRegistry class
@@ -1799,6 +1804,10 @@ clowder.pussy(world);
 		if (notif != null) {
 			notif.addChatMessage(message);
 		}
+	}
+	
+	public void restockMarkets() {
+		this.offerHistory.clear();
 	}
 
 	/// GLOBAL METHODS ///

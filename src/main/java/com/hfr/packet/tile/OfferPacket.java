@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.hfr.blocks.machine.MachineMarket;
 import com.hfr.data.MarketData;
+import com.hfr.data.MarketData.Offer;
 import com.hfr.inventory.gui.GUIMachineMarket;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
@@ -78,7 +79,7 @@ public class OfferPacket implements IMessage {
 				data.offers.clear();
 				data.readMarketFromPacket(nbt);
 				MachineMarket.name = m.name;
-				List<ItemStack[]> offers = data.offers.get(m.name);
+				List<Offer> offers = data.offers.get(m.name);
 				
 				if(offers == null)
 					offers = new ArrayList();

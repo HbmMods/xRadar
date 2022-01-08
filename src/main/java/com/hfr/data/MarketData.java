@@ -13,7 +13,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class MarketData extends WorldSavedData {
 	
-	public HashMap<String, List<ItemStack[]>> offers = new HashMap();
+	public HashMap<String, List<Offer>> offers = new HashMap();
 
 	public MarketData() {
 		super("hfr_market");
@@ -77,12 +77,14 @@ public class MarketData extends WorldSavedData {
 			}
 		}
 		
-		List<ItemStack[]> offers = this.offers.get(name);
+		int capacity = nbt.getInteger("items" + name + index);
+		
+		List<Offer> offers = this.offers.get(name);
 		
 		if(offers == null)
 			offers = new ArrayList();
 		
-		offers.add(slots);
+		offers.add(new Offer(slots, capacity));
 		this.offers.put(name, offers);
 	}
 
@@ -98,7 +100,7 @@ public class MarketData extends WorldSavedData {
 		
 		int index = 0;
 		
-		for(Entry<String, List<ItemStack[]>> entry : offers.entrySet()) {
+		for(Entry<String, List<Offer>> entry : offers.entrySet()) {
 			
 			nbt.setString("market_" + index, entry.getKey());
 			nbt.setInteger("offercount_" + index, entry.getValue().size());
@@ -111,7 +113,7 @@ public class MarketData extends WorldSavedData {
 
 	public void writeMarketFromName(NBTTagCompound nbt, String name) {
 		
-		List<ItemStack[]> market = this.offers.get(name);
+		List<Offer> market = this.offers.get(name);
 		
 		if(market == null)
 			return;
@@ -122,23 +124,40 @@ public class MarketData extends WorldSavedData {
 		writeOffers(nbt, name, market);
 	}
 	
-	public void writeOffers(NBTTagCompound nbt, String name, List<ItemStack[]> offers) {
+	public void writeOffers(NBTTagCompound nbt, String name, List<Offer> offers) {
 		
 		for(int index = 0; index < offers.size(); index++) {
 			
 			NBTTagList list = new NBTTagList();
-			ItemStack[] offer = offers.get(index);
+			Offer offer = offers.get(index);
+			ItemStack[] items = offer.offer;
 
-			for (int i = 0; i < offer.length; i++) {
-				if (offer[i] != null) {
+			for (int i = 0; i < items.length; i++) {
+				if (items[i] != null) {
 					NBTTagCompound nbt1 = new NBTTagCompound();
 					nbt1.setByte("slot" + index, (byte) i);
-					offer[i].writeToNBT(nbt1);
+					items[i].writeToNBT(nbt1);
 					list.appendTag(nbt1);
 				}
 			}
 			
 			nbt.setTag("items" + name + index, list);
+			nbt.setInteger("count" + name + index, offer.capacity);
+		}
+	}
+	
+	public static class Offer {
+		public ItemStack[] offer;
+		public int capacity;
+		
+		public Offer(ItemStack[] offer) {
+			this.offer = offer;
+			this.capacity = 0;
+		}
+		
+		public Offer(ItemStack[] offer, int capacity) {
+			this.offer = offer;
+			this.capacity = capacity;
 		}
 	}
 }

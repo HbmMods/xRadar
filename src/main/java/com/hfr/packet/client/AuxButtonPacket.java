@@ -3,6 +3,7 @@ package com.hfr.packet.client;
 import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.MarketData;
+import com.hfr.data.MarketData.Offer;
 import com.hfr.data.StockData;
 import com.hfr.main.MainRegistry;
 import com.hfr.packet.PacketDispatcher;
@@ -286,21 +287,48 @@ public class AuxButtonPacket implements IMessage {
 						return null;
 					}
 					
-					ItemStack[] offer = data.offers.get(market.name).get(m.value);
+					Offer offer = data.offers.get(market.name).get(m.value);
 					
 					if(offer != null) {
 						
-						ItemStack item = offer[0];
+						Clowder c = Clowder.getClowderFromPlayer(p);
+						
+						if(offer.capacity != 0 && c == null) {
+							p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "This offer is only vailable to factions."));
+							return null;
+						}
+						
+						if(offer.capacity > 0) {
+							Integer his = c.offerHistory.get(offer);
+							int i = 0;
+							
+							if(his != null)
+								i = his;
+							
+							i++;
+							
+							c.offerHistory.put(offer, (Integer) i);
+							
+							if(i > offer.capacity) {
+								p.worldObj.playSoundAtEntity(p, "hfr:block.buttonNo", 1.0F, 1.0F);
+								p.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "This item is currently out of stock! Come back tomorrow."));
+								return null;
+							}
+						}
+						
+						ItemStack[] items = offer.offer;
+						
+						ItemStack item = items[0];
 						
 						boolean flag = true;
 						
 						for(int i = 1; i < 4; i++) {
 							
-							if(offer[i] != null) {
+							if(items[i] != null) {
 								
-								int count = countItems(p, offer[i].getItem(), offer[i].getItemDamage());
+								int count = countItems(p, items[i].getItem(), items[i].getItemDamage());
 								
-								if(count < offer[i].stackSize)
+								if(count < items[i].stackSize)
 									flag = false;
 							}
 						}
@@ -311,9 +339,9 @@ public class AuxButtonPacket implements IMessage {
 							
 							for(int i = 1; i < 4; i++) {
 								
-								if(offer[i] != null) {
+								if(items[i] != null) {
 									
-									removeItems(p, offer[i].getItem(), offer[i].getItemDamage(), offer[i].stackSize);
+									removeItems(p, items[i].getItem(), items[i].getItemDamage(), items[i].stackSize);
 								}
 							}
 							

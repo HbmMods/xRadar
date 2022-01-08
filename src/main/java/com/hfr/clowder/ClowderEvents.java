@@ -1,7 +1,11 @@
 package com.hfr.clowder;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -1057,6 +1061,10 @@ public class ClowderEvents {
 	
 	//for initialization
 	int startup = 0;
+	
+	//for restocking markets
+	int lastHour = 0;
+	
 	/**
 	 * Handles world ticks for clowders, mainly the claim decay automaton.
 	 * @param event
@@ -1082,6 +1090,15 @@ public class ClowderEvents {
 			Clowder.initializeDiplomacy(world);
 		}
 		
+		//reset all market histories at 0:00 EST
+		int currentHour = Calendar.getInstance(TimeZone.getTimeZone("EST")).get(Calendar.HOUR_OF_DAY);
+		if(currentHour == 0 && lastHour == 23) {
+			for(Clowder clowder : Clowder.clowders) {
+				clowder.restockMarkets();
+			}
+		}
+		
+		lastHour = currentHour;
 		
 		//this is an hour timer! "prestigeDelay" is set to 1 hour in ticks by default! - allah notes
 	

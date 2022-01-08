@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hfr.data.MarketData;
+import com.hfr.data.MarketData.Offer;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -53,6 +54,7 @@ public class CommandXShop extends CommandBase {
 			if(args[0].equals("help") || args[0].equals("man")) {
 
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[add]: first item in hotbar is sold item, next three items are the currency"));
+				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[add]: optionally, add a number as the parameter to determine the daily stock"));
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "[delete]: deletes the offer at the given index"));
 			}
 			
@@ -86,14 +88,36 @@ public class CommandXShop extends CommandBase {
 					}
 				}
 				
+				//if 2 and 3 match, squeeze them together
+				if(offer[3] != null && offer[2].getItem() == offer[3].getItem() && offer[2].getItemDamage() == offer[3].getItemDamage()) {
+					offer[2].stackSize += offer[3].stackSize;
+					offer[3] = null;
+				}
+				
+				//if 1 and 2 matchm squeeze them together
+				if(offer[2] != null && offer[1].getItem() == offer[2].getItem() && offer[1].getItemDamage() == offer[2].getItemDamage()) {
+					offer[1].stackSize += offer[2].stackSize;
+					offer[2] = offer[3];
+					offer[3] = null;
+				}
+				
 				MarketData data = MarketData.getData(player.worldObj);
 				
-				List<ItemStack[]> offers = data.offers.get(args[1]);
+				List<Offer> offers = data.offers.get(args[1]);
 				
 				if(offers == null)
 					offers = new ArrayList();
 				
-				offers.add(offer);
+				int capacity = 0;
+				
+				if(args.length > 2) {
+					capacity = this.parseInt(sender, args[2]);
+					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Offer capacity is set to " + capacity + "!"));
+				} else {
+					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Offer capacity is set to infinite!"));
+				}
+				
+				offers.add(new Offer(offer, capacity));
 				data.offers.put(args[1], offers);
 				data.markDirty();
 				sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Offer has been added to shop " + args[1] + " with index " + (offers.size() - 1) + "!"));
@@ -109,7 +133,7 @@ public class CommandXShop extends CommandBase {
 				MarketData data = MarketData.getData(player.worldObj);
 				int offer = this.parseInt(sender, args[1]);
 				
-				List<ItemStack[]> offers = data.offers.get(args[2]);
+				List<Offer> offers = data.offers.get(args[2]);
 				
 				if(offers == null) {
 					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Shop " + args[2] + " has no offers!"));

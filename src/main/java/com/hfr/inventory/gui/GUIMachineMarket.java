@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hfr.blocks.machine.MachineMarket;
 import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
+import com.hfr.data.MarketData.Offer;
 import com.hfr.lib.RefStrings;
 import com.hfr.packet.PacketDispatcher;
 import com.hfr.packet.client.AuxButtonPacket;
@@ -29,7 +30,7 @@ public class GUIMachineMarket extends GuiScreen {
     protected int guiTop;
     protected int xSize = 176;
     protected int ySize = 194;
-    public static List<ItemStack[]> offers = new ArrayList();
+    public static List<Offer> offers = new ArrayList();
     int page;
     TileEntityMarket market;
     
@@ -88,7 +89,7 @@ public class GUIMachineMarket extends GuiScreen {
     	
     	if(i < offers.size()) {
     		
-    		ItemStack[] offer = offers.get(i);
+    		ItemStack[] offer = offers.get(i).offer;
     		
     		return offer;
     	}
