@@ -502,47 +502,6 @@ public class CommonEventHandler {
 		if(event.world.isRemote)
 			return;
 		
-		/*if(event.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)event.entity;
-			
-			String[] schems = new String[MainRegistry.schems.size()];
-			
-			for(int i = 0; i < schems.length; i++) {
-				schems[i] = MainRegistry.schems.get(i).name + "_" + MainRegistry.schems.get(i).value;
-			}
-			
-			PacketDispatcher.wrapper.sendTo(new SchemOfferPacket(schems), (EntityPlayerMP) player);
-			
-			ResourceData res = ResourceData.getData(event.world);
-			NBTTagCompound areaData = new NBTTagCompound();
-			int areaCount = 0;
-			
-			for(int[] pos : res.coal) {
-
-				areaData.setInteger("minX" + areaCount, pos[0]);
-				areaData.setInteger("minZ" + areaCount, pos[1]);
-				areaData.setInteger("maxX" + areaCount, pos[2]);
-				areaData.setInteger("maxZ" + areaCount, pos[3]);
-				areaData.setInteger("color" + areaCount, 0x0f0f0f);
-				areaCount++;
-			}
-			
-			for(int[] pos : res.iron) {
-
-				areaData.setInteger("minX" + areaCount, pos[0]);
-				areaData.setInteger("minZ" + areaCount, pos[1]);
-				areaData.setInteger("maxX" + areaCount, pos[2]);
-				areaData.setInteger("maxZ" + areaCount, pos[3]);
-				areaData.setInteger("color" + areaCount, 0xC5AE71);
-				areaCount++;
-			}
-			
-			areaData.setInteger("count", areaCount);
-			areaData.setString("type", "resources");
-			
-			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(areaData, 0, 0, 0), (EntityPlayerMP) player);
-		}*/
-		
 		int chance = ControlEntry.getEntry(event.entity);
 		
 		if(chance > 0 && event.entity.worldObj.rand.nextInt(100) > chance) {
@@ -558,15 +517,9 @@ public class CommonEventHandler {
 			//enables block-breaking behavior for zomberts
 			if(MainRegistry.zombAI)
 				zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
-			//zomb.tasks.addTask(2, new EntityAIAttackOnCollide(zomb, EntityPlayer.class, 1.0D, false));
 			//duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
 			zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
 			zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class, MainRegistry.mlpf, 1D, 20));
-			//zomb.targetTasks.addTask(2, new EntityAIHFTargeter(zomb, EntityPlayer.class, 0, false));
-			
-	        /*Multimap multimap = HashMultimap.create();
-			multimap.put(SharedMonsterAttributes.followRange.getAttributeUnlocalizedName(), new AttributeModifier(zomb.field_110179_h, "Range modifier", 0, 0));
-			zomb.getAttributeMap().applyAttributeModifiers(multimap);*/
 		}
 		
 		if(event.entity instanceof EntityCreeper) {

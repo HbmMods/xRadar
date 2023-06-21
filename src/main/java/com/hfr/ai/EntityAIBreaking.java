@@ -1,6 +1,6 @@
 package com.hfr.ai;
 
-import com.hfr.main.MainRegistry.GriefEntry;
+import com.hfr.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
@@ -43,7 +43,7 @@ public class EntityAIBreaking extends EntityAIBase {
 			
 			Block block = entityDigger.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 			
-			if(GriefEntry.getEntry(block) != -1) {
+			if(!MainRegistry.zombBlacklist.contains(block)) {
 				markedLoc = new int[]{mop.blockX, mop.blockY, mop.blockZ};
 				return true;
 			}
@@ -94,14 +94,9 @@ public class EntityAIBreaking extends EntityAIBase {
 		Block block = entityDigger.worldObj.getBlock(markedLoc[0], markedLoc[1], markedLoc[2]);
 		digTick++;
 		
-		int health = GriefEntry.getEntry(block);
+		int health = (int) (block.getBlockHardness(entityDigger.worldObj, markedLoc[0], markedLoc[1], markedLoc[2]));
 		
-		if(health <= 0) {
-			markedLoc = null;
-			return;
-		}
-		
-		float str = (digTick * 0.05F) / (float)health;
+		float str = (digTick * 0.05F) / (float) health / 30F;
 		
 		if(str >= 1F)
 		{
@@ -158,24 +153,22 @@ public class EntityAIBreaking extends EntityAIBase {
 		
     	MovingObjectPosition mop = RayCastBlocks(entityLiving.worldObj, rayX, rayY, rayZ, f2, f1, dist, false);
     	
-    	if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK)
-    	{
-    		Block block = entityLiving.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-    		
-    		if(GriefEntry.getEntry(block) > 0)
-    		{
-    			scanTick = 0;
-    			return mop;
-    		} else
-    		{
-    			scanTick = (scanTick + 1)%passMax;
-    			return null;
-    		}
-    	} else
-    	{
-			scanTick = (scanTick + 1)%passMax;
+		if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
+			Block block = entityLiving.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			
+			float health = block.getBlockHardness(entityDigger.worldObj, mop.blockX, mop.blockY, mop.blockZ) / 30F;
+
+			if(health > 0) {
+				scanTick = 0;
+				return mop;
+			} else {
+				scanTick = (scanTick + 1) % passMax;
+				return null;
+			}
+		} else {
+			scanTick = (scanTick + 1) % passMax;
 			return null;
-    	}
+		}
     }
     
     public static MovingObjectPosition RayCastBlocks(World world, double x, double y, double z, float yaw, float pitch, double dist, boolean liquids)
