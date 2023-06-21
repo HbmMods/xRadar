@@ -68,6 +68,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
@@ -432,6 +433,24 @@ public class CommonEventHandler {
 		return list;
 	}
 
+	@SubscribeEvent
+	public void onEntityTick(LivingUpdateEvent event) {
+		
+		Entity e = event.entityLiving;
+		if(e.worldObj.isRemote) return;
+		
+		if(e instanceof EntityZombie || e instanceof EntityCreeper) {
+			EntityMob mob = (EntityMob) e;
+
+			if (mob.getEntityToAttack() == null)
+				mob.setTarget(mob.worldObj.getClosestVulnerablePlayerToEntity(mob, MainRegistry.mlpf));
+
+			if (mob.getEntityToAttack() != null) {
+				mob.setPathToEntity(EntityAI_MLPF.getPathEntityToEntityPartial(mob.worldObj, mob, mob.getEntityToAttack(), 16, true, true, false, true));
+			}
+		}
+	}
+
 	int timer = 0;
 	
 	//handles the anti-mob wand
@@ -519,7 +538,7 @@ public class CommonEventHandler {
 				zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
 			//duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
 			zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
-			zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class, MainRegistry.mlpf, 1D, 20));
+			//zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class, MainRegistry.mlpf, 1D, 20));
 		}
 		
 		if(event.entity instanceof EntityCreeper) {
@@ -528,7 +547,7 @@ public class CommonEventHandler {
 			if(MainRegistry.creepAI)
 				pensi.tasks.addTask(1, new EntityAIAllah(pensi));
 			pensi.targetTasks.addTask(2, new EntityAINearestAttackableTarget(pensi, EntityPlayer.class, 0, false));
-			pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D, 15));
+			//pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D, 15));
 			//pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D));
 			//pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityPlayer.class, 0, false));
 			//pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityVillager.class, 0, false));

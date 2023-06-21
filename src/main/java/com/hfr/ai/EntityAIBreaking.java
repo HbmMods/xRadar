@@ -96,7 +96,7 @@ public class EntityAIBreaking extends EntityAIBase {
 		
 		int health = (int) (block.getBlockHardness(entityDigger.worldObj, markedLoc[0], markedLoc[1], markedLoc[2]));
 		
-		float str = (digTick * 0.05F) / (float) health / 30F;
+		float str = (digTick * 0.05F) / (float) health / 30F * (float) MainRegistry.zombMiningMult;
 		
 		if(str >= 1F)
 		{

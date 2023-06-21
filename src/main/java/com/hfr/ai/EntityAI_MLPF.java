@@ -94,7 +94,7 @@ public class EntityAI_MLPF extends EntityAIBase {
 			
 		}
 		
-		if(!solid) for(int i = y + 10; i > y; i--) {
+		if(!solid) for(int i = y; i < y + 10; i++) {
 			if(!world.getBlock(x, i, z).getMaterial().blocksMovement() && world.getBlock(x, i - 1, z).isNormalCube()) {
 				solid = true;
 				y = i;
