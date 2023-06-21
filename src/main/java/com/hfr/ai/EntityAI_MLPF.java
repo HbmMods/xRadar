@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 public class EntityAI_MLPF extends EntityAIBase {
 
 	private Class targetClass;
-    private EntityLivingBase target;
 	private EntityCreature mover;
 	private int range;
 	private int distance;
@@ -48,7 +47,7 @@ public class EntityAI_MLPF extends EntityAIBase {
 			mover.setTarget(mover.worldObj.getClosestVulnerablePlayerToEntity(mover, range));
 
 		if (mover.getEntityToAttack() != null)
-			getPathEntityToEntityPartial(mover.worldObj, mover, target, distance, true, true, false, true);
+			getPathEntityToEntityPartial(mover.worldObj, mover, mover.getEntityToAttack(), distance, true, true, false, true);
 	}
 	
 	@Override
@@ -57,9 +56,7 @@ public class EntityAI_MLPF extends EntityAIBase {
 	}
 	
 	@Override
-	public void resetTask() {
-		target = null;
-	}
+	public void resetTask() { }
 
 	public static PathEntity getPathEntityToEntityPartial(World world, Entity fromEntity, Entity toEntity, float maxDist, boolean allowDoors, boolean allowBlocked, boolean allowWater, boolean canDrown) {
 		world.theProfiler.startSection("pathfind");
