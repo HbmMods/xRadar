@@ -439,14 +439,23 @@ public class CommonEventHandler {
 		Entity e = event.entityLiving;
 		if(e.worldObj.isRemote) return;
 		
-		if(e instanceof EntityZombie || e instanceof EntityCreeper) {
+		if(e instanceof EntityZombie || e instanceof EntityCreeper || e instanceof EntitySkeleton) {
 			EntityMob mob = (EntityMob) e;
 
 			if (mob.getEntityToAttack() == null)
 				mob.setTarget(mob.worldObj.getClosestVulnerablePlayerToEntity(mob, MainRegistry.mlpf));
 
-			if (mob.getEntityToAttack() != null) {
+			if (mob.getEntityToAttack() != null && !mob.hasPath()) {
 				mob.setPathToEntity(EntityAI_MLPF.getPathEntityToEntityPartial(mob.worldObj, mob, mob.getEntityToAttack(), 16, true, true, false, true));
+				
+				if(mob.isCollidedVertically && mob.ticksExisted % 50 == 0 && mob.getDistanceToEntity(mob.getEntityToAttack()) > 10)  {
+					Vec3 vec = Vec3.createVectorHelper(mob.getEntityToAttack().posX - mob.posX, 0, mob.getEntityToAttack().posZ - mob.posZ);
+					vec = vec.normalize();
+					mob.motionX += vec.xCoord * 2;
+					mob.motionY += 0.5;
+					mob.motionZ += vec.zCoord * 2;
+					mob.faceEntity(mob.getEntityToAttack(), 90F, 90F);
+				}
 			}
 		}
 	}
@@ -593,6 +602,8 @@ public class CommonEventHandler {
 		DamageSource dmg = event.source;
 		
 		List<String> pot = ImmunityEntry.getEntry(e);
+		
+		if(event.entity instanceof EntityMob && dmg == DamageSource.fall) event.setCanceled(true);
 		
 		if(!pot.isEmpty()) {
 			

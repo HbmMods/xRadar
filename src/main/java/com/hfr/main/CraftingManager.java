@@ -8,6 +8,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class CraftingManager {
@@ -20,6 +21,8 @@ public class CraftingManager {
 
 	public static void AddCraftingRec()
 	{
+		OreDictionary.registerOre("ingotSteel", ModItems.ingot_steel);
+		
 		for(int i = 1; i < TrackType.values().length; i++) {
 			int next = i + 1;
 			
@@ -53,17 +56,17 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_waterwheel, 1), new Object[] { "BSB", "SMS", "BSB", 'B', ModItems.components_wood, 'S', Items.stick, 'M', ModItems.components_mechanical });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_diesel, 1), new Object[] { "MPM", "MSM", "CFC", 'M', ModItems.components_mechanical, 'P', Blocks.piston, 'S', ModBlocks.machine_coalgen, 'C', ModItems.components_electronics, 'F', ModItems.components_steel });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_foundry, 1), new Object[] { "MBM", "SFS", "SDS", 'M', ModItems.components_mechanical, 'B', Items.bucket, 'S', ModItems.components_steel, 'F', Blocks.furnace, 'D', new ItemStack(Blocks.stone_slab, 1, 0) });
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_sawmill, 1), new Object[] { "MSM", "BFB", "WWW", 'M', ModItems.components_mechanical, 'S', ModItems.ingot_steel, 'B', ModItems.part_sawblade, 'F', ModItems.components_scaffold, 'W', ModItems.components_wood });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.machine_sawmill, 1), new Object[] { "MSM", "BFB", "WWW", 'M', ModItems.components_mechanical, 'S', "ingotSteel", 'B', ModItems.part_sawblade, 'F', ModItems.components_scaffold, 'W', ModItems.components_wood }));
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.machine_efurnace, 1), new Object[] { "CGC", "PFP", "RRR", 'C', ModItems.components_electronics, 'G', ModItems.part_grate, 'P', ModItems.part_plating_1, 'F', Blocks.furnace, 'R', ModItems.part_rod });
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_wood), new Object[] { "WSW", "WSW", "WSW", 'W', "logWood", 'S', Items.stick }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_scaffold), new Object[] { "IBI", "ISI", "IBI", 'I', "ingotIron", 'B', Blocks.iron_bars, 'S', Blocks.stone }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_steel), new Object[] { "IBI", "ISI", "IBI", 'I', ModItems.ingot_steel, 'B', "ingotIron", 'S', ModItems.components_scaffold }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_steel), new Object[] { "IBI", "ISI", "IBI", 'I', "ingotSteel", 'B', "ingotIron", 'S', ModItems.components_scaffold }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_mechanical), new Object[] { "FIF", "IGI", "FIF", 'I', "ingotIron", 'F', Items.flint, 'G', "ingotGold" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_electronics), new Object[] { "BRD", "RGR", "DRB", 'R', "dustRedstone", 'G', "ingotGold", 'B', Blocks.stone_button, 'D', Items.repeater }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.components_plating), new Object[] { "GSG", "SBS", "GSG", 'G', Items.gold_nugget, 'S', ModItems.ingot_steel, 'B', ModItems.ingot_boron });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.components_plating), new Object[] { "GSG", "SBS", "GSG", 'G', Items.gold_nugget, 'S', "ingotSteel", 'B', ModItems.ingot_boron }));
 		
-		GameRegistry.addRecipe(new ItemStack(ModItems.can, 24), new Object[] { "S S", " S ", 'S', ModItems.ingot_steel });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.can, 24), new Object[] { "S S", " S ", 'S', "ingotSteel" }));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.canned_spam, 1), new Object[] { Items.fish, ModItems.can });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.canned_jizz, 1), new Object[] { Items.slime_ball, ModItems.can });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.miner_supplies, 4), new Object[] { Items.iron_helmet, Items.iron_pickaxe, Items.gunpowder, Items.bread });

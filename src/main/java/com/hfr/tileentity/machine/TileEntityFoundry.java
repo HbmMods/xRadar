@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityFoundry extends TileEntityMachineBase {
 
@@ -114,7 +115,7 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 			/// FIRE OVEN END ///
 			
 			/// SMELT DOWN STEEL START ///
-			float steelContent = slots[0] != null ? getSteel(slots[0].getItem()) : 0.0F;
+			float steelContent = slots[0] != null ? getSteel(slots[0]) : 0.0F;
 			
 			if(heat > 0 && steelContent > 0 && steel + steelContent <= maxSteel) {
 				smeltTimer++;
@@ -210,12 +211,19 @@ public class TileEntityFoundry extends TileEntityMachineBase {
 		return false;
 	}
 	
-	private float getSteel(Item item) {
+	private float getSteel(ItemStack stack) {
 		
-		if(item == null)
+		if(stack == null)
 			return 0.0F;
 		
-		Float steel = recipes.get(item.getUnlocalizedName());
+		int[] ids = OreDictionary.getOreIDs(stack);
+		if(ids != null) for(int id : ids) {
+			if("ingotSteel".equals(OreDictionary.getOreName(id))) {
+				return 1.0F;
+			}
+		}
+		
+		Float steel = recipes.get(stack.getItem().getUnlocalizedName());
 		
 		if(steel == null)
 			return 0.0F;
