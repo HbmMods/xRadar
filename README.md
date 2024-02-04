@@ -1,3 +1,4 @@
 # No Information?
 ## Yup
-[Великий человек!](https://www.youtube.com/@hkocmc641)
+[Великий человек!](https://www.youtube.com/@hkocmc641) 
+И точка!
