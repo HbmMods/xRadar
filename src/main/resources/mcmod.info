@@ -1,16 +1,16 @@
 [
 {
   "modid": "hfr",
-  "name": "xRadar",
-  "description": "A simple mod for all your radar needs, now with forcefields!",
+  "name": "TaF Mod",
+  "description": "Mod that adds a system of factions and trade.",
   "version": "1.5.x",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
-  "authorList": ["HBM"],
+  "authorList": ["HbMinecraft (creator), Vitya2127"],
   "credits": "CrusaderFire for testing this hot garbage",
   "logoFile": "assets/hfr/textures/logo.png",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": [hbm]
 }
 ]
