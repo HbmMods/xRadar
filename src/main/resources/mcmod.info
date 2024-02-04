@@ -11,6 +11,8 @@
   "credits": "CrusaderFire for testing this hot garbage",
   "logoFile": "assets/hfr/textures/logo.png",
   "screenshots": [],
-  "dependencies": [hbm]
+  "dependencies": [
+  "hbm"
+  ]
 }
 ]
