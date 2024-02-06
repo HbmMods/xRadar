@@ -19,10 +19,10 @@ import net.minecraft.util.ResourceLocation;
 public class RenderChest extends TileEntitySpecialRenderer
 {
 	public static final ResourceLocation tex = new ResourceLocation(RefStrings.MODID, "textures/models/chest.png");
-	
+
     private ModelChest field_147510_h = new ModelChest();
     private boolean field_147509_j;
-    private static final String __OBFID = "CL_00000965";
+
 
     public RenderChest()
     {
