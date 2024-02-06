@@ -22,26 +22,33 @@ import com.hfr.blocks.machine.BlockTurbine;
 import com.hfr.blocks.machine.Box;
 import com.hfr.blocks.machine.MachineAlloy;
 import com.hfr.blocks.machine.MachineBattery;
+import com.hfr.blocks.machine.MachineBlastFurnace;
 import com.hfr.blocks.machine.MachineBuilder;
 import com.hfr.blocks.machine.MachineCoalGen;
 import com.hfr.blocks.machine.MachineCoalMine;
 import com.hfr.blocks.machine.MachineCrusher;
 import com.hfr.blocks.machine.MachineDerrick;
+import com.hfr.blocks.machine.MachineDieselGen;
 import com.hfr.blocks.machine.MachineDistillery;
+import com.hfr.blocks.machine.MachineEFurnace;
 import com.hfr.blocks.machine.MachineEMP;
 import com.hfr.blocks.machine.MachineFactory;
 import com.hfr.blocks.machine.MachineForceField;
+import com.hfr.blocks.machine.MachineFoundry;
 import com.hfr.blocks.machine.MachineGrainmill;
 import com.hfr.blocks.machine.MachineMarket;
 import com.hfr.blocks.machine.MachineNet;
 import com.hfr.blocks.machine.MachineRadar;
 import com.hfr.blocks.machine.MachineRefinery;
 import com.hfr.blocks.machine.MachineRift;
+import com.hfr.blocks.machine.MachineSawmill;
 import com.hfr.blocks.machine.MachineSiren;
 import com.hfr.blocks.machine.MachineTank;
 import com.hfr.blocks.machine.MachineTemple;
 import com.hfr.blocks.machine.MachineTradeport;
 import com.hfr.blocks.machine.MachineTurbine;
+import com.hfr.blocks.machine.MachineUni;
+import com.hfr.blocks.machine.MachineWaterwheel;
 import com.hfr.blocks.machine.MachineWindmill;
 import com.hfr.blocks.machine.RBMKElement;
 import com.hfr.blocks.machine.RBMKRods;
@@ -142,6 +149,8 @@ public class ModBlocks {
     public static final int guiID_rods = 13;
     public static Block builder;
     public static final int guiID_builder = 14;
+    public static Block machine_uni;
+    public static final int guiID_uni = 15;
     public static Block machine_emp;
     public static final int guiID_emp = 16;
     public static Block clowder_flag;
@@ -152,6 +161,8 @@ public class ModBlocks {
     public static final int guiID_flag_big = 19;
     public static Block machine_grainmill;
     public static final int guiID_grainmill = 20;
+    public static Block machine_blastfurnace;
+    public static final int guiID_blastfurnace = 21;
     public static Block box;
     public static final int guiID_box = 22;
     public static Block machine_coalmine;
@@ -165,6 +176,8 @@ public class ModBlocks {
     public static Block machine_battery;
     public static final int guiID_battery = 26;
     public static Block machine_windmill;
+    public static Block machine_waterwheel;
+    public static Block machine_diesel;
     public static final int guiID_diesel = 27;
     public static Block machine_rift;
     public static final int guiID_rift = 28;
@@ -178,10 +191,16 @@ public class ModBlocks {
 
     public static Block machine_alloy;
     public static final int guiID_alloy = 31;
+    public static Block machine_sawmill;
+    public static final int guiID_sawmill = 32;
     public static Block machine_crusher;
     public static final int guiID_crusher = 33;
+    public static Block machine_efurnace;
+    public static final int guiID_efurnace = 34;
     public static Block machine_distillery;
     public static final int guiID_distillery = 35;
+    public static Block machine_foundry;
+    public static final int guiID_foundry = 37;
 
     public static Block barricade;
 
@@ -569,12 +588,24 @@ public class ModBlocks {
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_net");
+        machine_uni = new MachineUni(Material.rock).setStepSound(Block.soundTypeStone)
+            .setBlockName("machine_uni")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_uni");
         machine_grainmill = new MachineGrainmill(Material.wood).setStepSound(Block.soundTypeWood)
             .setBlockName("machine_grainmill")
             .setHardness(5.0F)
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_grainmill");
+        machine_blastfurnace = new MachineBlastFurnace(Material.rock).setStepSound(soundTypeConcrete)
+            .setBlockName("machine_blastfurnace")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_blastfurnace");
         machine_coalmine = new MachineCoalMine(Material.rock).setStepSound(soundTypeMetal)
             .setBlockName("machine_coalmine")
             .setHardness(5.0F)
@@ -610,6 +641,18 @@ public class ModBlocks {
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_windmill");
+        machine_waterwheel = new MachineWaterwheel(Material.wood).setStepSound(Block.soundTypeWood)
+            .setBlockName("machine_waterwheel")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_waterwheel");
+        machine_diesel = new MachineDieselGen(Material.iron).setStepSound(soundTypeMetal)
+            .setBlockName("machine_diesel")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_diesel");
         machine_rift = new MachineRift(Material.iron).setStepSound(soundTypeMetal)
             .setBlockName("machine_rift")
             .setHardness(5.0F)
@@ -634,18 +677,37 @@ public class ModBlocks {
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_alloy");
+        machine_sawmill = new MachineSawmill(Material.iron).setStepSound(soundTypeConcrete)
+            .setBlockName("machine_sawmill")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_sawmill");
         machine_crusher = new MachineCrusher(Material.iron).setStepSound(soundTypeConcrete)
             .setBlockName("machine_crusher")
             .setHardness(5.0F)
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_crusher");
+        machine_efurnace = new MachineEFurnace(Material.iron).setStepSound(soundTypeConcrete)
+            .setBlockName("machine_efurnace")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_efurnace");
         machine_distillery = new MachineDistillery(Material.iron).setStepSound(soundTypeConcrete)
             .setBlockName("machine_distillery")
             .setHardness(5.0F)
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_distillery");
+        machine_foundry = new MachineFoundry(Material.iron).setStepSound(soundTypeConcrete)
+            .setBlockName("machine_foundry")
+            .setHardness(5.0F)
+            .setResistance(0.0F)
+            .setCreativeTab(MainRegistry.tab)
+            .setBlockTextureName(RefStrings.MODID + ":machine_foundry");
+
         railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal)
             .setBlockName("railgun_plasma")
             .setHardness(5.0F)
@@ -832,17 +894,24 @@ public class ModBlocks {
         GameRegistry.registerBlock(hydro_core, hydro_core.getUnlocalizedName());
 
         GameRegistry.registerBlock(machine_net, ItemBlockLore.class, machine_net.getUnlocalizedName());
+        GameRegistry.registerBlock(machine_uni, ItemBlockLore.class, machine_uni.getUnlocalizedName());
         GameRegistry.registerBlock(machine_factory, ItemBlockLore.class, machine_factory.getUnlocalizedName());
         // GameRegistry.registerBlock(machine_tradeport, ItemBlockLore.class,
         // machine_tradeport.getUnlocalizedName());
         GameRegistry.registerBlock(machine_temple, ItemBlockLore.class, machine_temple.getUnlocalizedName());
         GameRegistry.registerBlock(machine_grainmill, ItemBlockLore.class, machine_grainmill.getUnlocalizedName());
+        GameRegistry
+            .registerBlock(machine_blastfurnace, ItemBlockLore.class, machine_blastfurnace.getUnlocalizedName());
         GameRegistry.registerBlock(machine_coalmine, ItemBlockLore.class, machine_coalmine.getUnlocalizedName());
         GameRegistry.registerBlock(machine_coalgen, ItemBlockLore.class, machine_coalgen.getUnlocalizedName());
         GameRegistry.registerBlock(machine_battery, ItemBlockLore.class, machine_battery.getUnlocalizedName());
         GameRegistry.registerBlock(machine_windmill, ItemBlockLore.class, machine_windmill.getUnlocalizedName());
+        GameRegistry.registerBlock(machine_waterwheel, ItemBlockLore.class, machine_waterwheel.getUnlocalizedName());
+        GameRegistry.registerBlock(machine_diesel, ItemBlockLore.class, machine_diesel.getUnlocalizedName());
         GameRegistry.registerBlock(machine_rift, ItemBlockLore.class, machine_rift.getUnlocalizedName());
         GameRegistry.registerBlock(machine_turbine, ItemBlockLore.class, machine_turbine.getUnlocalizedName());
+
+        GameRegistry.registerBlock(machine_sawmill, ItemBlockLore.class, machine_sawmill.getUnlocalizedName());
         /*
          * GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class,
          * machine_alloy.getUnlocalizedName());
@@ -851,6 +920,8 @@ public class ModBlocks {
          * GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class,
          * machine_distillery.getUnlocalizedName());
          */
+        GameRegistry.registerBlock(machine_efurnace, ItemBlockLore.class, machine_efurnace.getUnlocalizedName());
+        GameRegistry.registerBlock(machine_foundry, machine_foundry.getUnlocalizedName());
 
         GameRegistry.registerBlock(vent_chlorine_seal, vent_chlorine_seal.getUnlocalizedName());
         GameRegistry.registerBlock(chlorine_gas, chlorine_gas.getUnlocalizedName());
