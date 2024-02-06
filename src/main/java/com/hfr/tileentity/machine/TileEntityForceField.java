@@ -303,14 +303,14 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		 * MainRegistry.logger.info(e.toString());
 		 * MainRegistry.logger.info(e.getClass().toString());
 		 */
-		
+
 		if(e instanceof EntityRailgunBlast)
 			return 1000000;
-		
+
 		if(e instanceof EntityMissileBaseSimple) {
-			
+
 			((EntityMissileBaseSimple)e).onForceImpact();
-			
+
 			if(((EntityMissileBaseSimple)e).getIsBreaching())
 				return 1000000;
 			else
@@ -392,15 +392,15 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		outside.clear();
 		inside.clear();
 
-		List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null,
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null,
 				AxisAlignedBB.getBoundingBox(xCoord + 0.5 - (rad + 25), yCoord + 0.5 - (rad + 25),
 						zCoord + 0.5 - (rad + 25), xCoord + 0.5 + (rad + 25), yCoord + 0.5 + (rad + 25),
 						zCoord + 0.5 + (rad + 25)));
 
-		for (Object o : list) {
+		for (Entity o : list) {
 
 			//deflects all entities        except players                  and ABMs
-			if (o instanceof Entity && !(o instanceof EntityPlayer) && !(o instanceof EntityMissileAntiBallistic)) {
+			if ((o instanceof EntityPlayer) && !(o instanceof EntityMissileAntiBallistic)) {
 				Entity entity = (Entity) o;
 
 				double dist = Math.sqrt(Math.pow(xCoord + 0.5 - entity.posX, 2)
