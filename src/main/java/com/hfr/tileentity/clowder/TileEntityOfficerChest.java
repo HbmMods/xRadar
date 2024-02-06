@@ -24,31 +24,31 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class TileEntityOfficerChest extends TileEntity implements IInventory {
-	
+
     private ItemStack[] chestContents = new ItemStack[36];
-    
+
     public float lidAngle;
     public float prevLidAngle;
     public int numPlayersUsing;
     private int ticksSinceSync;
     private int cachedChestType;
     private String customName;
-    private static final String __OBFID = "CL_00000346";
+
 
     public TileEntityOfficerChest() {
-    	
+
     }
-    
+
     public int getSizeInventory()
     {
         return 27;
     }
-    
+
     public ItemStack getStackInSlot(int p_70301_1_)
     {
         return this.chestContents[p_70301_1_];
     }
-    
+
     public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_)
     {
         if (this.chestContents[p_70298_1_] != null)
@@ -80,7 +80,7 @@ public class TileEntityOfficerChest extends TileEntity implements IInventory {
             return null;
         }
     }
-    
+
     public ItemStack getStackInSlotOnClosing(int p_70304_1_)
     {
         if (this.chestContents[p_70304_1_] != null)
@@ -94,7 +94,7 @@ public class TileEntityOfficerChest extends TileEntity implements IInventory {
             return null;
         }
     }
-    
+
     public void setInventorySlotContents(int p_70299_1_, ItemStack p_70299_2_)
     {
         this.chestContents[p_70299_1_] = p_70299_2_;
@@ -106,12 +106,12 @@ public class TileEntityOfficerChest extends TileEntity implements IInventory {
 
         this.markDirty();
     }
-    
+
     public String getInventoryName()
     {
         return this.hasCustomInventoryName() ? this.customName : "container.chest";
     }
-    
+
     public boolean hasCustomInventoryName()
     {
         return this.customName != null && this.customName.length() > 0;
@@ -168,27 +168,27 @@ public class TileEntityOfficerChest extends TileEntity implements IInventory {
             p_145841_1_.setString("CustomName", this.customName);
         }
     }
-    
+
     public int getInventoryStackLimit()
     {
         return 64;
     }
-    
+
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-    	
+
     	Clowder c = Clowder.getClowderFromPlayer(player);
-    	
+
     	if(c == null) {
     		player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are not in any faction!"));
     		return false;
     	}
-    	
+
     	if(c.getPermLevel(player.getDisplayName()) < 2) {
     		player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You lack permission to open this chest!"));
     		return false;
     	}
-    	
+
         return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
     }
 
