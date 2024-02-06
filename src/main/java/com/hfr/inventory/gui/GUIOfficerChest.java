@@ -15,7 +15,7 @@ public class GUIOfficerChest extends GuiContainer
     private IInventory lowerChestInventory;
     /** window height is calculated with these values; the more rows, the heigher */
     private int inventoryRows;
-    private static final String __OBFID = "CL_00000749";
+
 
     public GUIOfficerChest(IInventory p_i1083_1_, IInventory p_i1083_2_)
     {
