@@ -29,31 +29,115 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.hfr.blocks.*;
+import com.hfr.blocks.ModBlocks;
 import com.hfr.blocks.machine.MachineMarket.TileEntityMarket;
-import com.hfr.clowder.*;
-import com.hfr.command.*;
-import com.hfr.data.*;
+import com.hfr.clowder.ClowderEvents;
+import com.hfr.clowder.ClowderFlag;
+import com.hfr.command.CommandClowder;
+import com.hfr.command.CommandClowderAdmin;
+import com.hfr.command.CommandClowderChat;
+import com.hfr.command.CommandXDebug;
+import com.hfr.command.CommandXMarket;
+import com.hfr.command.CommandXPlayer;
+import com.hfr.command.CommandXShop;
+import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
 import com.hfr.dim.WorldGeneratorMoon;
 import com.hfr.dim.WorldProviderMoon;
-import com.hfr.entity.*;
-import com.hfr.entity.grenade.*;
-import com.hfr.entity.logic.*;
-import com.hfr.entity.missile.*;
-import com.hfr.entity.projectile.*;
-import com.hfr.handler.*;
-import com.hfr.items.*;
-import com.hfr.lib.*;
-import com.hfr.packet.*;
+import com.hfr.entity.EntityFarmer;
+import com.hfr.entity.EntityNukeCloudSmall;
+import com.hfr.entity.IChunkLoader;
+import com.hfr.entity.grenade.EntityGrenadeBoxcar;
+import com.hfr.entity.grenade.EntityGrenadeGas;
+import com.hfr.entity.grenade.EntityGrenadeNuclear;
+import com.hfr.entity.grenade.EntityHook;
+import com.hfr.entity.logic.EntityBlast;
+import com.hfr.entity.logic.EntityEMP;
+import com.hfr.entity.missile.EntityMissileAT;
+import com.hfr.entity.missile.EntityMissileAntiBallistic;
+import com.hfr.entity.missile.EntityMissileBurst;
+import com.hfr.entity.missile.EntityMissileCruise1;
+import com.hfr.entity.missile.EntityMissileDecoy;
+import com.hfr.entity.missile.EntityMissileDevon1;
+import com.hfr.entity.missile.EntityMissileDevon2;
+import com.hfr.entity.missile.EntityMissileDevon3;
+import com.hfr.entity.missile.EntityMissileEMPStrong;
+import com.hfr.entity.missile.EntityMissileGeneric;
+import com.hfr.entity.missile.EntityMissileIncendiary;
+import com.hfr.entity.missile.EntityMissileIncendiaryStrong;
+import com.hfr.entity.missile.EntityMissileInferno;
+import com.hfr.entity.missile.EntityMissileMartin;
+import com.hfr.entity.missile.EntityMissileNuclear;
+import com.hfr.entity.missile.EntityMissilePegasus;
+import com.hfr.entity.missile.EntityMissileShell;
+import com.hfr.entity.missile.EntityMissileSpear;
+import com.hfr.entity.missile.EntityMissileStrong;
+import com.hfr.entity.projectile.EntityFlare;
+import com.hfr.entity.projectile.EntityPak;
+import com.hfr.entity.projectile.EntityRailgunBlast;
+import com.hfr.entity.projectile.EntityShell;
+import com.hfr.handler.BobbyBreaker;
+import com.hfr.handler.FluidHandler;
+import com.hfr.handler.GUIHandler;
+import com.hfr.items.ModItems;
+import com.hfr.lib.RefStrings;
+import com.hfr.packet.PacketDispatcher;
 import com.hfr.potion.HFRPotion;
-import com.hfr.schematic.*;
-import com.hfr.tileentity.*;
-import com.hfr.tileentity.clowder.*;
-import com.hfr.tileentity.machine.*;
-import com.hfr.tileentity.prop.*;
-import com.hfr.tileentity.weapon.*;
-import com.hfr.util.*;
+import com.hfr.schematic.Schematic;
+import com.hfr.schematic.SchematicLoader;
+import com.hfr.tileentity.TileEntityDebug;
+import com.hfr.tileentity.clowder.TileEntityCap;
+import com.hfr.tileentity.clowder.TileEntityConquerer;
+import com.hfr.tileentity.clowder.TileEntityFlag;
+import com.hfr.tileentity.clowder.TileEntityFlagBig;
+import com.hfr.tileentity.clowder.TileEntityOfficerChest;
+import com.hfr.tileentity.machine.TileEntityBattery;
+import com.hfr.tileentity.machine.TileEntityBlastDoor;
+import com.hfr.tileentity.machine.TileEntityBox;
+import com.hfr.tileentity.machine.TileEntityChlorineSeal;
+import com.hfr.tileentity.machine.TileEntityCoalGen;
+import com.hfr.tileentity.machine.TileEntityComboProxy;
+import com.hfr.tileentity.machine.TileEntityDieselGen;
+import com.hfr.tileentity.machine.TileEntityDisplay;
+import com.hfr.tileentity.machine.TileEntityDuct;
+import com.hfr.tileentity.machine.TileEntityDummy;
+import com.hfr.tileentity.machine.TileEntityFluidProxy;
+import com.hfr.tileentity.machine.TileEntityForceField;
+import com.hfr.tileentity.machine.TileEntityFoundry;
+import com.hfr.tileentity.machine.TileEntityHatch;
+import com.hfr.tileentity.machine.TileEntityHydro;
+import com.hfr.tileentity.machine.TileEntityMachineBlastFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineCoalMine;
+import com.hfr.tileentity.machine.TileEntityMachineDerrick;
+import com.hfr.tileentity.machine.TileEntityMachineEFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineEMP;
+import com.hfr.tileentity.machine.TileEntityMachineFactory;
+import com.hfr.tileentity.machine.TileEntityMachineGrainmill;
+import com.hfr.tileentity.machine.TileEntityMachineMarket;
+import com.hfr.tileentity.machine.TileEntityMachineNet;
+import com.hfr.tileentity.machine.TileEntityMachineRadar;
+import com.hfr.tileentity.machine.TileEntityMachineRefinery;
+import com.hfr.tileentity.machine.TileEntityMachineSawmill;
+import com.hfr.tileentity.machine.TileEntityMachineSiren;
+import com.hfr.tileentity.machine.TileEntityMachineTemple;
+import com.hfr.tileentity.machine.TileEntityMachineTurbine;
+import com.hfr.tileentity.machine.TileEntityMachineUni;
+import com.hfr.tileentity.machine.TileEntityMachineWindmill;
+import com.hfr.tileentity.machine.TileEntityProxy;
+import com.hfr.tileentity.machine.TileEntityRBMKElement;
+import com.hfr.tileentity.machine.TileEntityRift;
+import com.hfr.tileentity.machine.TileEntityTank;
+import com.hfr.tileentity.machine.TileEntityTeleporter;
+import com.hfr.tileentity.machine.TileEntityVaultDoor;
+import com.hfr.tileentity.machine.TileEntityWaterWheel;
+import com.hfr.tileentity.prop.TileEntityBerlin;
+import com.hfr.tileentity.prop.TileEntityProp;
+import com.hfr.tileentity.prop.TileEntityStatue;
+import com.hfr.tileentity.weapon.TileEntityLaunchPad;
+import com.hfr.tileentity.weapon.TileEntityNaval;
+import com.hfr.tileentity.weapon.TileEntityRailgun;
+import com.hfr.util.RegistryUtil;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -475,7 +559,8 @@ public class MainRegistry {
 
     @EventHandler
     public static void PostLoad(FMLPostInitializationEvent event) {
-        // in postload, long after all blocks have been registered, the buffered config is being evaluated and
+        // in postload, long after all blocks have been registered, the buffered config
+        // is being evaluated and
         // processed.
         processBuffer();
 
@@ -1000,7 +1085,8 @@ public class MainRegistry {
         Property zombgrief = config
             .get("ZOMBIE", "griefableBlacklist", new String[] { "dirt", "grass", "planks", "cobblestone" });
         zombgrief.comment = "What blocks can't be griefed by zomberts (syntax: [shortname])";
-        // rather than being processed instantly (and by doing so, missing out half the blocks), the config data is
+        // rather than being processed instantly (and by doing so, missing out half the
+        // blocks), the config data is
         // being loaded into a string-based buffer
         twilightBuffer = zombgrief.getStringList();
         /////////////////////////////////////////////////////////////////////////
@@ -1408,14 +1494,17 @@ public class MainRegistry {
                     } catch (Exception ex) {}
                 }
 
-                // if there is no block found, it'll retry with the proper domain format (modid:name)
-                // first _ is replaced with : (intended for modded blocks with the inclusion of the modid)
+                // if there is no block found, it'll retry with the proper domain format
+                // (modid:name)
+                // first _ is replaced with : (intended for modded blocks with the inclusion of
+                // the modid)
                 if (b == null)
                     // b = Block.getBlockFromName(name.replaceFirst("_", ":"));
                     b = RegistryUtil.getBlockByNameNoCaseOrPoint(name);
 
                 // if there is still no block found, it'll retry with the tile. prefix
-                // in addition to the replacement of the _, it'll search for 'tile' and add a period to create 'tile.'
+                // in addition to the replacement of the _, it'll search for 'tile' and add a
+                // period to create 'tile.'
                 // (intended for HFR blocks)
                 if (b == null) {
                     String nname = name.replaceFirst("tile", "tile.");

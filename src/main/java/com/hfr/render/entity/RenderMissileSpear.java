@@ -6,7 +6,10 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hfr.entity.missile.*;
+import com.hfr.entity.missile.EntityMissileCruise1;
+import com.hfr.entity.missile.EntityMissileDevon1;
+import com.hfr.entity.missile.EntityMissileDevon2;
+import com.hfr.entity.missile.EntityMissileDevon3;
 import com.hfr.main.ResourceManager;
 
 public class RenderMissileSpear extends Render {

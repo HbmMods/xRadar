@@ -4,12 +4,70 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 
-import com.hfr.blocks.clowder.*;
-import com.hfr.blocks.door.*;
-import com.hfr.blocks.machine.*;
-import com.hfr.blocks.props.*;
-import com.hfr.blocks.weapon.*;
-import com.hfr.items.*;
+import com.hfr.blocks.clowder.Cap;
+import com.hfr.blocks.clowder.Conquerer;
+import com.hfr.blocks.clowder.Flag;
+import com.hfr.blocks.clowder.FlagBig;
+import com.hfr.blocks.clowder.OfficerChest;
+import com.hfr.blocks.door.BlastDoor;
+import com.hfr.blocks.door.BlockHatch;
+import com.hfr.blocks.door.BlockSeal;
+import com.hfr.blocks.door.DummyBlockBlast;
+import com.hfr.blocks.door.DummyBlockVault;
+import com.hfr.blocks.door.VaultDoor;
+import com.hfr.blocks.machine.BlockDisplay;
+import com.hfr.blocks.machine.BlockDuct;
+import com.hfr.blocks.machine.BlockHydroCore;
+import com.hfr.blocks.machine.BlockTurbine;
+import com.hfr.blocks.machine.Box;
+import com.hfr.blocks.machine.MachineAlloy;
+import com.hfr.blocks.machine.MachineBattery;
+import com.hfr.blocks.machine.MachineBlastFurnace;
+import com.hfr.blocks.machine.MachineBuilder;
+import com.hfr.blocks.machine.MachineCoalGen;
+import com.hfr.blocks.machine.MachineCoalMine;
+import com.hfr.blocks.machine.MachineCrusher;
+import com.hfr.blocks.machine.MachineDerrick;
+import com.hfr.blocks.machine.MachineDieselGen;
+import com.hfr.blocks.machine.MachineDistillery;
+import com.hfr.blocks.machine.MachineEFurnace;
+import com.hfr.blocks.machine.MachineEMP;
+import com.hfr.blocks.machine.MachineFactory;
+import com.hfr.blocks.machine.MachineForceField;
+import com.hfr.blocks.machine.MachineFoundry;
+import com.hfr.blocks.machine.MachineGrainmill;
+import com.hfr.blocks.machine.MachineMarket;
+import com.hfr.blocks.machine.MachineNet;
+import com.hfr.blocks.machine.MachineRadar;
+import com.hfr.blocks.machine.MachineRefinery;
+import com.hfr.blocks.machine.MachineRift;
+import com.hfr.blocks.machine.MachineSawmill;
+import com.hfr.blocks.machine.MachineSiren;
+import com.hfr.blocks.machine.MachineTank;
+import com.hfr.blocks.machine.MachineTemple;
+import com.hfr.blocks.machine.MachineTradeport;
+import com.hfr.blocks.machine.MachineTurbine;
+import com.hfr.blocks.machine.MachineUni;
+import com.hfr.blocks.machine.MachineWaterwheel;
+import com.hfr.blocks.machine.MachineWindmill;
+import com.hfr.blocks.machine.RBMKElement;
+import com.hfr.blocks.machine.RBMKRods;
+import com.hfr.blocks.props.BlockSandbags;
+import com.hfr.blocks.props.PropBerlin;
+import com.hfr.blocks.props.PropHesco;
+import com.hfr.blocks.props.PropPalisade;
+import com.hfr.blocks.props.PropStatue;
+import com.hfr.blocks.props.PropTent;
+import com.hfr.blocks.props.PropWall;
+import com.hfr.blocks.weapon.BlockClorine;
+import com.hfr.blocks.weapon.BlockClorineSeal;
+import com.hfr.blocks.weapon.CannonNaval;
+import com.hfr.blocks.weapon.LaunchPad;
+import com.hfr.blocks.weapon.RailgunPlasma;
+import com.hfr.items.ItemBlockConqueror;
+import com.hfr.items.ItemBlockLore;
+import com.hfr.items.ItemBlockUnstackable;
+import com.hfr.items.ItemTankBlock;
 import com.hfr.lib.RefStrings;
 import com.hfr.main.MainRegistry;
 
@@ -838,7 +896,8 @@ public class ModBlocks {
         GameRegistry.registerBlock(machine_net, ItemBlockLore.class, machine_net.getUnlocalizedName());
         GameRegistry.registerBlock(machine_uni, ItemBlockLore.class, machine_uni.getUnlocalizedName());
         GameRegistry.registerBlock(machine_factory, ItemBlockLore.class, machine_factory.getUnlocalizedName());
-        // GameRegistry.registerBlock(machine_tradeport, ItemBlockLore.class, machine_tradeport.getUnlocalizedName());
+        // GameRegistry.registerBlock(machine_tradeport, ItemBlockLore.class,
+        // machine_tradeport.getUnlocalizedName());
         GameRegistry.registerBlock(machine_temple, ItemBlockLore.class, machine_temple.getUnlocalizedName());
         GameRegistry.registerBlock(machine_grainmill, ItemBlockLore.class, machine_grainmill.getUnlocalizedName());
         GameRegistry
@@ -854,9 +913,12 @@ public class ModBlocks {
 
         GameRegistry.registerBlock(machine_sawmill, ItemBlockLore.class, machine_sawmill.getUnlocalizedName());
         /*
-         * GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class, machine_alloy.getUnlocalizedName());
-         * GameRegistry.registerBlock(machine_crusher, ItemBlockLore.class, machine_crusher.getUnlocalizedName());
-         * GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class, machine_distillery.getUnlocalizedName());
+         * GameRegistry.registerBlock(machine_alloy, ItemBlockLore.class,
+         * machine_alloy.getUnlocalizedName());
+         * GameRegistry.registerBlock(machine_crusher, ItemBlockLore.class,
+         * machine_crusher.getUnlocalizedName());
+         * GameRegistry.registerBlock(machine_distillery, ItemBlockLore.class,
+         * machine_distillery.getUnlocalizedName());
          */
         GameRegistry.registerBlock(machine_efurnace, ItemBlockLore.class, machine_efurnace.getUnlocalizedName());
         GameRegistry.registerBlock(machine_foundry, machine_foundry.getUnlocalizedName());
