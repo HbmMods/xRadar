@@ -6,12 +6,11 @@ import net.minecraft.item.ItemStack;
 
 public class LockedSlot extends Slot {
 
-	public LockedSlot(IInventory inv, int index, int x, int y) {
-		super(inv, index, x, y);
-	}
-	
-    public boolean isItemValid(ItemStack stack)
-    {
+    public LockedSlot(IInventory inv, int index, int x, int y) {
+        super(inv, index, x, y);
+    }
+
+    public boolean isItemValid(ItemStack stack) {
         return false;
     }
 

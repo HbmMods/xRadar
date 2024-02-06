@@ -9,41 +9,39 @@ import io.netty.buffer.ByteBuf;
 
 public class SLBMOfferPacket implements IMessage {
 
-	int type;
-	int warhead;
+    int type;
+    int warhead;
 
-	public SLBMOfferPacket()
-	{
-		
-	}
+    public SLBMOfferPacket() {
 
-	public SLBMOfferPacket(int type, int warhead)
-	{
-		this.type = type;
-		this.warhead = warhead;
-	}
+    }
 
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		type = buf.readInt();
-		warhead = buf.readInt();
-	}
+    public SLBMOfferPacket(int type, int warhead) {
+        this.type = type;
+        this.warhead = warhead;
+    }
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeInt(type);
-		buf.writeInt(warhead);
-	}
+    @Override
+    public void fromBytes(ByteBuf buf) {
+        type = buf.readInt();
+        warhead = buf.readInt();
+    }
 
-	public static class Handler implements IMessageHandler<SLBMOfferPacket, IMessage> {
-		
-		@Override
-		public IMessage onMessage(SLBMOfferPacket m, MessageContext ctx) {
-			
-    		SLBMHandler.flight = m.type;
-    		SLBMHandler.warhead = m.warhead;
-			
-			return null;
-		}
-	}
+    @Override
+    public void toBytes(ByteBuf buf) {
+        buf.writeInt(type);
+        buf.writeInt(warhead);
+    }
+
+    public static class Handler implements IMessageHandler<SLBMOfferPacket, IMessage> {
+
+        @Override
+        public IMessage onMessage(SLBMOfferPacket m, MessageContext ctx) {
+
+            SLBMHandler.flight = m.type;
+            SLBMHandler.warhead = m.warhead;
+
+            return null;
+        }
+    }
 }

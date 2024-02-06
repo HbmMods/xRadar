@@ -9,14 +9,14 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemMeat extends ItemFood {
 
-	public ItemMeat() {
-		super(20, true);
-	}
-	
-	@Override
+    public ItemMeat() {
+        super(20, true);
+    }
+
+    @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		
-		list.add(EnumChatFormatting.ITALIC + "[Japan wants to know your location]");
-	}
+
+        list.add(EnumChatFormatting.ITALIC + "[Japan wants to know your location]");
+    }
 
 }

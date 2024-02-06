@@ -8,16 +8,16 @@ import net.minecraft.item.ItemStack;
 
 public class ItemModFood extends ItemFood {
 
-	public ItemModFood(int p_i45340_1_) {
-		super(p_i45340_1_, false);
-	}
+    public ItemModFood(int p_i45340_1_) {
+        super(p_i45340_1_, false);
+    }
 
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+    @Override
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if(this == ModItems.canned_jizz) {
-			list.add("Extra goopy!");
-		}
-	}
+        if (this == ModItems.canned_jizz) {
+            list.add("Extra goopy!");
+        }
+    }
 
 }

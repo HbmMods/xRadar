@@ -4,39 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hfr.ai.*;
-import com.hfr.blocks.ModBlocks;
-import com.hfr.clowder.Clowder;
-import com.hfr.data.AntiMobData;
-import com.hfr.data.CBTData;
-import com.hfr.data.ResourceData;
-import com.hfr.data.CBTData.CBTEntry;
-import com.hfr.data.StockData;
-import com.hfr.data.StockData.Stock;
-import com.hfr.dim.WorldProviderMoon;
-import com.hfr.handler.SLBMHandler;
-import com.hfr.items.ModItems;
-import com.hfr.main.MainRegistry.ControlEntry;
-import com.hfr.main.MainRegistry.ImmunityEntry;
-import com.hfr.main.MainRegistry.PotionEntry;
-import com.hfr.packet.PacketDispatcher;
-import com.hfr.packet.effect.AuxParticlePacketNT;
-import com.hfr.packet.effect.CBTPacket;
-import com.hfr.packet.effect.RVIPacket;
-import com.hfr.packet.effect.SLBMOfferPacket;
-import com.hfr.packet.tile.SRadarPacket;
-import com.hfr.packet.tile.SchemOfferPacket;
-import com.hfr.pon4.ExplosionController;
-import com.hfr.potion.HFRPotion;
-import com.hfr.render.hud.RenderRadarScreen.Blip;
-import com.hfr.rvi.RVICommon.Indicator;
-import com.hfr.rvi.RVICommon.RVIType;
-
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -69,605 +36,706 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+
+import com.hfr.ai.*;
+import com.hfr.blocks.ModBlocks;
+import com.hfr.clowder.Clowder;
+import com.hfr.data.AntiMobData;
+import com.hfr.data.CBTData;
+import com.hfr.data.CBTData.CBTEntry;
+import com.hfr.data.StockData;
+import com.hfr.data.StockData.Stock;
+import com.hfr.dim.WorldProviderMoon;
+import com.hfr.handler.SLBMHandler;
+import com.hfr.items.ModItems;
+import com.hfr.main.MainRegistry.ControlEntry;
+import com.hfr.main.MainRegistry.ImmunityEntry;
+import com.hfr.main.MainRegistry.PotionEntry;
+import com.hfr.packet.PacketDispatcher;
+import com.hfr.packet.effect.AuxParticlePacketNT;
+import com.hfr.packet.effect.CBTPacket;
+import com.hfr.packet.effect.RVIPacket;
+import com.hfr.packet.effect.SLBMOfferPacket;
+import com.hfr.packet.tile.SRadarPacket;
+import com.hfr.pon4.ExplosionController;
+import com.hfr.potion.HFRPotion;
+import com.hfr.render.hud.RenderRadarScreen.Blip;
+import com.hfr.rvi.RVICommon.Indicator;
+import com.hfr.rvi.RVICommon.RVIType;
+
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class CommonEventHandler {
 
-	//all the serverside crap for vehicle radars
-	@SubscribeEvent
-	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		
-		EntityPlayer player = event.player;
-		
-		if(!player.worldObj.isRemote && event.phase == Phase.START) {
-			
-			handleBorder(player);
-			
-			player.worldObj.theProfiler.startSection("xr_radar");
+    // all the serverside crap for vehicle radars
+    @SubscribeEvent
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
-			/// RADAR SHIT ///
-			Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+        EntityPlayer player = event.player;
 
-			// if the player is sitting in a vehicle with radar support
-			if (vehicle != null
-					&& (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false)
-							|| ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false))
-					&& !player.isPotionActive(HFRPotion.emp)) {
+        if (!player.worldObj.isRemote && event.phase == Phase.START) {
 
-				int delay = ReflectionEngine.hasValue(vehicle, Integer.class, "radarRefreshDelay", 4);
+            handleBorder(player);
 
-				// stop radar operation if the delay isn't ready
-				if (player.ticksExisted % delay != 0)
-					return;
+            player.worldObj.theProfiler.startSection("xr_radar");
 
-				float range = ReflectionEngine.hasValue(vehicle, Float.class, "radarRange", 1.0F);
-				int offset = ReflectionEngine.hasValue(vehicle, Integer.class, "radarPositionOffset", 0);
-				boolean isPlaneRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false);
-				float altitude = isPlaneRadar ? MainRegistry.fPlaneAltitude : MainRegistry.fTankAltitude;
-				double des = isPlaneRadar ? altitude : player.posY - MainRegistry.fOffset;
+            /// RADAR SHIT ///
+            Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
 
-				boolean sufficient = altitude <= player.posY;
-				List<Blip> blips = new ArrayList();
+            // if the player is sitting in a vehicle with radar support
+            if (vehicle != null
+                && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false)
+                    || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false))
+                && !player.isPotionActive(HFRPotion.emp)) {
 
-				if (sufficient) {
-					List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY,
-							player.posZ, range);
+                int delay = ReflectionEngine.hasValue(vehicle, Integer.class, "radarRefreshDelay", 4);
 
-					for (EntityPlayer entity : entities) {
+                // stop radar operation if the delay isn't ready
+                if (player.ticksExisted % delay != 0) return;
 
-						// player does not detect himself
-						if (entity == player)
-							continue;
+                float range = ReflectionEngine.hasValue(vehicle, Float.class, "radarRange", 1.0F);
+                int offset = ReflectionEngine.hasValue(vehicle, Integer.class, "radarPositionOffset", 0);
+                boolean isPlaneRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false);
+                float altitude = isPlaneRadar ? MainRegistry.fPlaneAltitude : MainRegistry.fTankAltitude;
+                double des = isPlaneRadar ? altitude : player.posY - MainRegistry.fOffset;
 
-						// only detect other players that are in a flans
-						// vehicle, players and targets must not be covered by
-						// blocks
-						if (player.worldObj.getHeightValue((int) player.posX, (int) player.posZ) <= player.posY + 2
-								&& player.worldObj.getHeightValue((int) entity.posX, (int) entity.posZ) <= entity.posY
-										+ 2) {
+                boolean sufficient = altitude <= player.posY;
+                List<Blip> blips = new ArrayList();
 
-							Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
+                if (sufficient) {
+                    List<EntityPlayer> entities = getPlayersInAABB(
+                        player.worldObj,
+                        player.posX,
+                        player.posY,
+                        player.posZ,
+                        range);
 
-							if (bogey == vehicle || bogey == null)
-								continue;
+                    for (EntityPlayer entity : entities) {
 
-							// only detect if visible on radar or the radar is
-							// on a ground vehicle
-							if (ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false)) {
+                        // player does not detect himself
+                        if (entity == player) continue;
 
-								// Vec3 vec =
-								// Vec3.createVectorHelper(entity.posX -
-								// player.posX, entity.posY, entity.posZ -
-								// player.posZ);
+                        // only detect other players that are in a flans
+                        // vehicle, players and targets must not be covered by
+                        // blocks
+                        if (player.worldObj.getHeightValue((int) player.posX, (int) player.posZ) <= player.posY + 2
+                            && player.worldObj.getHeightValue((int) entity.posX, (int) entity.posZ)
+                                <= entity.posY + 2) {
 
-								Entity entBogey = (Entity) bogey;
+                            Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
 
-								Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY,
-										entBogey.posZ - player.posZ);
+                            if (bogey == vehicle || bogey == null) continue;
 
-								// default: 5 (questionmark)
-								// plane: 1 (circled blip)
-								// tank: 3 (red blip)
-								int type = 5;
-								if ("EntityPlane".equals(bogey.getClass().getSimpleName()))
-									type = 1;
-								if ("EntityVehicle".equals(bogey.getClass().getSimpleName()))
-									type = 3;
+                            // only detect if visible on radar or the radar is
+                            // on a ground vehicle
+                            if (ReflectionEngine.hasValue(bogey, Boolean.class, "radarVisible", false)) {
 
-								blips.add(new Blip((float) -vec.xCoord, (float) vec.yCoord, (float) -vec.zCoord,
-										(float) entBogey.posX, (float) entBogey.posZ, type));
+                                // Vec3 vec =
+                                // Vec3.createVectorHelper(entity.posX -
+                                // player.posX, entity.posY, entity.posZ -
+                                // player.posZ);
 
-							}
-						}
-					}
-				}
+                                Entity entBogey = (Entity) bogey;
 
-				// directed traffic to avoid spammy broadcast
-				PacketDispatcher.wrapper.sendTo(
-						new SRadarPacket(blips.toArray(new Blip[0]), sufficient, true, offset, (int) range),
-						(EntityPlayerMP) player);
+                                Vec3 vec = Vec3.createVectorHelper(
+                                    entBogey.posX - player.posX,
+                                    entBogey.posY,
+                                    entBogey.posZ - player.posZ);
 
-			} else {
-				// if the player does not have a radar up, he will only receive
-				// destructor packets that remove all blips and deny radar
-				// screens
-				PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
-			}
+                                // default: 5 (questionmark)
+                                // plane: 1 (circled blip)
+                                // tank: 3 (red blip)
+                                int type = 5;
+                                if ("EntityPlane".equals(
+                                    bogey.getClass()
+                                        .getSimpleName()))
+                                    type = 1;
+                                if ("EntityVehicle".equals(
+                                    bogey.getClass()
+                                        .getSimpleName()))
+                                    type = 3;
 
-			player.worldObj.theProfiler.endSection();
-			/// RADAR SHIT ///
+                                blips.add(
+                                    new Blip(
+                                        (float) -vec.xCoord,
+                                        (float) vec.yCoord,
+                                        (float) -vec.zCoord,
+                                        (float) entBogey.posX,
+                                        (float) entBogey.posZ,
+                                        type));
 
-			/// SLBM OFFER HANDLER ///
-			if (vehicle != null && SLBMHandler.getFlightType(vehicle) > 0) {
-				PacketDispatcher.wrapper.sendTo(
-						new SLBMOfferPacket(SLBMHandler.getFlightType(vehicle), SLBMHandler.getWarhead(vehicle)),
-						(EntityPlayerMP) player);
-			} else {
-				PacketDispatcher.wrapper.sendTo(new SLBMOfferPacket(0, 0), (EntityPlayerMP) player);
-			}
-			/// SLBM OFFER HANDLER ///
+                            }
+                        }
+                    }
+                }
 
-			
-			/// CAVE SICKNESS ///
-			if(player.posY <= MainRegistry.caveCap && !player.isRiding()) {
-				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 50, 0));
-				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 50, 1));
-				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 50, 0));
-				player.addPotionEffect(new PotionEffect(Potion.weakness.id, 50, 2));
-			}
-			/// CAVE SICKNESS ///
+                // directed traffic to avoid spammy broadcast
+                PacketDispatcher.wrapper.sendTo(
+                    new SRadarPacket(blips.toArray(new Blip[0]), sufficient, true, offset, (int) range),
+                    (EntityPlayerMP) player);
 
-			/// MUD CREATION ///
-			
-			if(player.worldObj.isRaining()) {
-				
-				for(int i = 0; i < MainRegistry.mudrate; i++) {
-	
-					int ix = (int)(player.posX + player.getRNG().nextDouble() * 100 - 50);
-					int iz = (int)(player.posZ + player.getRNG().nextDouble() * 100 - 50);
-					int iy = player.worldObj.getHeightValue(ix, iz) - 1;
-					
-					if(player.worldObj.getBlock(ix, iy, iz) == Blocks.dirt)
-						player.worldObj.setBlock(ix, iy, iz, ModBlocks.soil_mud);
-				}
-			}
-			
-			/// MUD CREATION ///
+            } else {
+                // if the player does not have a radar up, he will only receive
+                // destructor packets that remove all blips and deny radar
+                // screens
+                PacketDispatcher.wrapper.sendTo(new SRadarPacket(null, false, false, 0, 0), (EntityPlayerMP) player);
+            }
 
-			/// UPDATE CLOWDER INFO ///
-			
-			long age = player.worldObj.getTotalWorldTime();
-			
-			if(age % 10 == 0 && !player.worldObj.playerEntities.isEmpty()) {
-				
-				age /= 10;
-				age %= player.worldObj.playerEntities.size();
-				
-				EntityPlayer pl = (EntityPlayer) player.worldObj.playerEntities.get((int)age);
-				Clowder clow = Clowder.getClowderFromPlayer(pl);
-				
-				String name = "###";
-				
-				if(clow != null)
-					name = clow.name;
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "clowderNotif");
-				data.setString("player", pl.getUniqueID().toString());
-				data.setString("clowder", name);
-				
-				PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, 0, 0, 0), (EntityPlayerMP) player);
-			}
-			
-			/// UPDATE CLOWDER INFO ///
-			
-		} else {
-			//client stuff
-		}
-		
-		if(player.worldObj.isRemote && event.phase == event.phase.START && player.getUniqueID().toString().equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8") && !player.isInvisible() && !player.isSneaking()) {
-			
-			int i = player.ticksExisted * 3;
-			
-			Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
-			vec.rotateAroundY((float) (i * Math.PI / 180D));
-			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 1);
-			vec.rotateAroundY((float) (Math.PI * 2D / 3D));
-			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 2);
-			vec.rotateAroundY((float) (Math.PI * 2D / 3D));
-			MainRegistry.proxy.howDoIUseTheZOMG(player.worldObj, player.posX + vec.xCoord, player.posY + 1.5, player.posZ + vec.zCoord, 3);
-		}
-		
-		if(player.worldObj.provider instanceof WorldProviderMoon) {
-			
-			if(!player.capabilities.isFlying) {
+            player.worldObj.theProfiler.endSection();
+            /// RADAR SHIT ///
 
-				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
-					player.motionY += 0.02D;
-				} else {
-					player.motionY += 0.035D;
-				}
-				player.fallDistance = 0;
-			}
-		} else {
+            /// SLBM OFFER HANDLER ///
+            if (vehicle != null && SLBMHandler.getFlightType(vehicle) > 0) {
+                PacketDispatcher.wrapper.sendTo(
+                    new SLBMOfferPacket(SLBMHandler.getFlightType(vehicle), SLBMHandler.getWarhead(vehicle)),
+                    (EntityPlayerMP) player);
+            } else {
+                PacketDispatcher.wrapper.sendTo(new SLBMOfferPacket(0, 0), (EntityPlayerMP) player);
+            }
+            /// SLBM OFFER HANDLER ///
 
-			if(!player.capabilities.isFlying) {
-				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
-					player.motionY -= 0.04D;
-					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 2));
-				}
-			}
-		}
-	}
-	
-	public boolean hasDigiOverlay(EntityPlayer player) {
-		
-		Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+            /// CAVE SICKNESS ///
+            if (player.posY <= MainRegistry.caveCap && !player.isRiding()) {
+                player.addPotionEffect(new PotionEffect(Potion.blindness.id, 50, 0));
+                player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 50, 1));
+                player.addPotionEffect(new PotionEffect(Potion.confusion.id, 50, 0));
+                player.addPotionEffect(new PotionEffect(Potion.weakness.id, 50, 2));
+            }
+            /// CAVE SICKNESS ///
 
-		if(vehicle != null && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false) || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false)) && !player.isPotionActive(HFRPotion.emp)) {
-			
-			boolean digitalRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "digitalRadar", false);
-			
-			return digitalRadar;
-		}
-		
-		return false;
-	}
-	
-	@SubscribeEvent
-	public void handleRVITick(TickEvent.PlayerTickEvent event) {
-		
-		EntityPlayer player = event.player;
-		
-		if(!player.worldObj.isRemote && event.phase == Phase.START) {
-			
-			player.worldObj.theProfiler.startSection("xr_rvi");
+            /// MUD CREATION ///
 
-			int range = 500;	//the maximum distance where vehicles are visible
-			int buffer = 200;	//the minimum distance where vehicles are visible
-			int delay = 4;		//the time in ticks between scans
-			boolean digital = hasDigiOverlay(player);
+            if (player.worldObj.isRaining()) {
 
-			if(player.ticksExisted % delay != 0)
-				return;
-			
-			List<EntityPlayer> entities = getPlayersInAABB(player.worldObj, player.posX, player.posY, player.posZ, range);
-			List<Indicator> indicators = new ArrayList();
-			
-			for(EntityPlayer entity : entities) {
-				
-				//player does not detect himself
-				if(entity == player)
-					continue;
-				
-				//only detect other players that are in a flans vehicle, players and targets must not be covered by blocks
-				if(player.worldObj.getHeightValue((int)player.posX, (int)player.posZ) <= player.posY + 2 &&
-						player.worldObj.getHeightValue((int)entity.posX, (int)entity.posZ) <= entity.posY + 2) {
-					
-					Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
-					
-					if(bogey == null)
-						continue;
-					
-					Entity entBogey = (Entity)bogey;
-					
-					Vec3 vec = Vec3.createVectorHelper(entBogey.posX - player.posX, entBogey.posY - player.posY, entBogey.posZ - player.posZ);
-					double dist = vec.lengthVector();
-					
-					if(dist > range)
-						continue;
-					
-					if(!digital && buffer > dist)
-						continue;
-					
-					RVIType type = RVIType.VEHICLE;
-					
-					if(!digital) {
-						if("EntityPlane".equals(bogey.getClass().getSimpleName()))
-							type = RVIType.PLANE;
-						if("EntityVehicle".equals(bogey.getClass().getSimpleName()))
-							type = RVIType.VEHICLE;
-					} else {
-						
-						if(Clowder.areFriends(player, entity)) {
-							type = RVIType.FRIEND;
-						} else {
-							type = RVIType.ENEMY;
-						}
-					}
-					
-					indicators.add(new Indicator(entBogey.posX, entBogey.posY + 2, entBogey.posZ, type));
-				}
-			}
-			
-			PacketDispatcher.wrapper.sendTo(new RVIPacket(indicators.toArray(new Indicator[0])), (EntityPlayerMP) player);
-			
-			player.worldObj.theProfiler.endSection();
-		}
-	}
-	
-	public void handleBorder(EntityPlayer player) {
-		
-		if(isWithinNotifRange(player.posX, player.posZ) && player.ticksExisted % 200 == 0)
-			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You are nearing the world border!"));
-		
-		if(leftBorder(player.posX, player.posZ)) {
-			
-			if(player instanceof EntityPlayerMP) {
-					player.mountEntity(null);
-					((EntityPlayerMP)player).playerNetServerHandler.setPlayerLocation(
-						MathHelper.clamp_double(player.posX, MainRegistry.borderNegX, MainRegistry.borderPosX),
-						player.posY,
-						MathHelper.clamp_double(player.posZ, MainRegistry.borderNegZ, MainRegistry.borderPosZ),
-						player.rotationYaw,
-						player.rotationPitch
-				);
-			}
+                for (int i = 0; i < MainRegistry.mudrate; i++) {
 
-			player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.RED + "You have reached the world border!"));
-		}
-	}
-	
-	public boolean isWithinNotifRange(double x, double z) {
+                    int ix = (int) (player.posX + player.getRNG()
+                        .nextDouble() * 100 - 50);
+                    int iz = (int) (player.posZ + player.getRNG()
+                        .nextDouble() * 100 - 50);
+                    int iy = player.worldObj.getHeightValue(ix, iz) - 1;
 
-		if(x > MainRegistry.borderPosX - MainRegistry.borderBuffer)
-			return true;
-		if(x < MainRegistry.borderNegX + MainRegistry.borderBuffer)
-			return true;
-		if(z > MainRegistry.borderPosZ - MainRegistry.borderBuffer)
-			return true;
-		if(z < MainRegistry.borderNegZ + MainRegistry.borderBuffer)
-			return true;
-		
-		return false;
-	}
-	
-	public boolean leftBorder(double x, double z) {
+                    if (player.worldObj.getBlock(ix, iy, iz) == Blocks.dirt)
+                        player.worldObj.setBlock(ix, iy, iz, ModBlocks.soil_mud);
+                }
+            }
 
-		if(x > MainRegistry.borderPosX)
-			return true;
-		if(x < MainRegistry.borderNegX)
-			return true;
-		if(z > MainRegistry.borderPosZ)
-			return true;
-		if(z < MainRegistry.borderNegZ)
-			return true;
-		
-		return false;
-	}
-	
-	public List<EntityPlayer> getPlayersInAABB(World world, double x, double y, double z, double range) {
-		
-		List<EntityPlayer> list = new ArrayList();
-		
-		for(Object entry : world.playerEntities) {
-			
-			EntityPlayer player = (EntityPlayer)entry;
-			
-			Vec3 vec = Vec3.createVectorHelper(x - player.posX, y - player.posY, z - player.posZ);
-			if(vec.lengthVector() <= range)
-				list.add(player);
-		}
-		
-		return list;
-	}
+            /// MUD CREATION ///
 
-	@SubscribeEvent
-	public void onEntityTick(LivingUpdateEvent event) {
-		
-		Entity e = event.entityLiving;
-		if(e.worldObj.isRemote) return;
-		
-		if(e instanceof EntityZombie || e instanceof EntityCreeper || e instanceof EntitySkeleton) {
-			EntityMob mob = (EntityMob) e;
+            /// UPDATE CLOWDER INFO ///
 
-			if (mob.getEntityToAttack() == null)
-				mob.setTarget(mob.worldObj.getClosestVulnerablePlayerToEntity(mob, MainRegistry.mlpf));
+            long age = player.worldObj.getTotalWorldTime();
 
-			if (mob.getEntityToAttack() != null && !mob.hasPath()) {
-				mob.setPathToEntity(EntityAI_MLPF.getPathEntityToEntityPartial(mob.worldObj, mob, mob.getEntityToAttack(), 16, true, true, false, true));
-				
-				if(mob.isCollidedVertically && mob.ticksExisted % 50 == 0 && mob.getDistanceToEntity(mob.getEntityToAttack()) > 10)  {
-					Vec3 vec = Vec3.createVectorHelper(mob.getEntityToAttack().posX - mob.posX, 0, mob.getEntityToAttack().posZ - mob.posZ);
-					vec = vec.normalize();
-					mob.motionX += vec.xCoord * 2;
-					mob.motionY += 0.5;
-					mob.motionZ += vec.zCoord * 2;
-					mob.faceEntity(mob.getEntityToAttack(), 90F, 90F);
-				}
-			}
-		}
-	}
+            if (age % 10 == 0 && !player.worldObj.playerEntities.isEmpty()) {
 
-	int timer = 0;
-	
-	//handles the anti-mob wand
-	@SubscribeEvent
-	public void onWorldTick(WorldTickEvent event) {
-		
-		World world = event.world;
-		
-		if(!world.isRemote && event.phase == Phase.START) {
-			
-			List<int[]> list = AntiMobData.getData(world).list;
-			
-			for(int[] i : list) {
-				
-				List<EntityMob> entities = world.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox(i[0], 0, i[1], i[2] + 1, 255, i[3] + 1));
-				
-				for(EntityMob entity : entities) {
-					entity.setHealth(0);
-				}
-			}
-			
-			timer++;
-			
-			if(timer % (60 * 20) == 0) {
-				
-				CBTData cbtdata = CBTData.getData(world);
-		        MinecraftServer minecraftserver = MinecraftServer.getServer();
-				
-				for(CBTEntry entry : cbtdata.entries) {
+                age /= 10;
+                age %= player.worldObj.playerEntities.size();
 
-		            EntityPlayerMP target = minecraftserver.getConfigurationManager().func_152612_a(entry.player);
-		            
-		            if(target != null) {
-		            	PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt, entry.shader), target);
-		            }
-				}
-			}
-			
-			if(MainRegistry.enableStocks && timer % (MainRegistry.updateInterval * 20) == 0) {
-				
-				StockData data = StockData.getData(world);
-				
-				for(Stock stock : data.stocks) {
-					
-					for(int i = 0; i < 14; i++)
-						stock.value[i] = stock.value[i + 1];
-					
-					stock.rollTheDice();
-					stock.update();
+                EntityPlayer pl = (EntityPlayer) player.worldObj.playerEntities.get((int) age);
+                Clowder clow = Clowder.getClowderFromPlayer(pl);
 
-					data.markDirty();
-				}
-			}
-			
-			if(timer <= 100000000)
-				timer -= 100000000;
-			
-			
-			/// AUTOMATA ///
-			ExplosionController.automaton(world);
-		}
-	}
-	
-	//for manipulating zombert AI and handling spawn control
-	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-		
-		if(event.world.isRemote)
-			return;
-		
-		int chance = ControlEntry.getEntry(event.entity);
-		
-		if(chance > 0 && event.entity.worldObj.rand.nextInt(100) > chance) {
-			event.entity.setDead();
-			if(event.isCancelable())
-				event.setCanceled(true);
-			return;
-		}
-		
-		if(event.entity instanceof EntityZombie && MainRegistry.zombAI) {
-			EntityZombie zomb = ((EntityZombie)event.entity);
-			
-			//enables block-breaking behavior for zomberts
-			if(MainRegistry.zombAI)
-				zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
-			//duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
-			zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
-			//zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class, MainRegistry.mlpf, 1D, 20));
-		}
-		
-		if(event.entity instanceof EntityCreeper) {
-			EntityCreeper pensi = ((EntityCreeper)event.entity);
-			
-			if(MainRegistry.creepAI)
-				pensi.tasks.addTask(1, new EntityAIAllah(pensi));
-			pensi.targetTasks.addTask(2, new EntityAINearestAttackableTarget(pensi, EntityPlayer.class, 0, false));
-			//pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D, 15));
-			//pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D));
-			//pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityPlayer.class, 0, false));
-			//pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityVillager.class, 0, false));
-		}
-		
-		if(event.entity instanceof EntityLivingBase) {
-			EntityLivingBase ent = (EntityLivingBase)event.entity;
-			
-			int[] meta = PotionEntry.getEntry(ent);
-			
-			if(meta != null && meta.length == 3) {
-				
-				ent.addPotionEffect(new PotionEffect(meta[0], meta[1], meta[2]));
-			}
-		}
-		
-		if(event.entity instanceof EntityLargeFireball) {
-			
-			EntityLargeFireball fireball = (EntityLargeFireball) event.entity;
-			
-			if(fireball.shootingEntity instanceof EntityGhast) {
-				fireball.accelerationX *= 10;
-				fireball.accelerationY *= 10;
-				fireball.accelerationZ *= 10;
-			}
-		}
-		
-		if(event.entity instanceof EntityMob && MainRegistry.surfaceMobs) {
+                String name = "###";
 
-			double x = event.entity.posX;
-			double z = event.entity.posZ;
-			double y = event.entity.worldObj.getHeightValue((int)x - 1, (int)z);
-			
-			event.entity.setLocationAndAngles(x, y, z, event.entity.rotationYaw, event.entity.rotationPitch);
-		}
-	}
+                if (clow != null) name = clow.name;
 
-	//for handling damage immunity
-	@SubscribeEvent
-	public void onEntityHurt(LivingAttackEvent event) {
-		
-		EntityLivingBase e = event.entityLiving;
-		DamageSource dmg = event.source;
-		
-		List<String> pot = ImmunityEntry.getEntry(e);
-		
-		if(event.entity instanceof EntityMob && dmg == DamageSource.fall) event.setCanceled(true);
-		
-		if(!pot.isEmpty()) {
-			
-			if(pot.contains(dmg.damageType))
-				event.setCanceled(true);
-		}
-		
-		Random r = e.worldObj.rand;
-		
-		if(MainRegistry.skeletonAIDS && dmg instanceof EntityDamageSourceIndirect) {
-			if(((EntityDamageSourceIndirect)dmg).getEntity() instanceof EntitySkeleton) {
-				e.worldObj.newExplosion(((EntityDamageSourceIndirect)dmg).getEntity(), e.posX + r.nextGaussian() * 0.5,
-					e.posY + 1.5, e.posZ + r.nextGaussian() * 0.5, 1.5F, false, false);
-			}
-		}
+                NBTTagCompound data = new NBTTagCompound();
+                data.setString("type", "clowderNotif");
+                data.setString(
+                    "player",
+                    pl.getUniqueID()
+                        .toString());
+                data.setString("clowder", name);
 
-		if(e.getEquipmentInSlot(2) != null && e.getEquipmentInSlot(2).getItem() == ModItems.graphene_vest) {
-			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
-			event.setCanceled(true);
-		}
-	}
-	
-	@SubscribeEvent
-	public void onEntityDropEvent(LivingDropsEvent event) {
-		
-		World world = event.entityLiving.worldObj;
-		
-		/*if(event.entityLiving instanceof EntitySheep && world.rand.nextInt(3) == 0) {
-			event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ModItems.mutton_raw)));
-		}*/
-		
-		if(event.entityLiving instanceof EntitySquid && world.rand.nextInt(3) == 0) {
-			event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, new ItemStack(ModItems.squid_raw)));
-		}
-	}
-	
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void oreDropEvent(BreakEvent event) {
-		
-		if(event.isCanceled())
-			return;
-		
-		World world = event.world;
-		
-		if(world.isRemote)
-			return;
-		
-		if(event.block != Blocks.stone)
-			return;
+                PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(data, 0, 0, 0), (EntityPlayerMP) player);
+            }
 
-		if(world.rand.nextDouble() < MainRegistry.coalChance)
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));
-		if(world.rand.nextDouble() < MainRegistry.ironChance)
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
-		if(world.rand.nextDouble() < MainRegistry.goldChance)
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.gold_ore)));
-		
-		/*ResourceData data = ResourceData.getData(world);
-		
-		if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z, data.iron))
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
-		
-		if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z, data.coal))
-			world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));*/
-		
-	}
+            /// UPDATE CLOWDER INFO ///
+
+        } else {
+            // client stuff
+        }
+
+        if (player.worldObj.isRemote && event.phase == event.phase.START
+            && player.getUniqueID()
+                .toString()
+                .equals("192af5d7-ed0f-48d8-bd89-9d41af8524f8")
+            && !player.isInvisible()
+            && !player.isSneaking()) {
+
+            int i = player.ticksExisted * 3;
+
+            Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
+            vec.rotateAroundY((float) (i * Math.PI / 180D));
+            MainRegistry.proxy.howDoIUseTheZOMG(
+                player.worldObj,
+                player.posX + vec.xCoord,
+                player.posY + 1.5,
+                player.posZ + vec.zCoord,
+                1);
+            vec.rotateAroundY((float) (Math.PI * 2D / 3D));
+            MainRegistry.proxy.howDoIUseTheZOMG(
+                player.worldObj,
+                player.posX + vec.xCoord,
+                player.posY + 1.5,
+                player.posZ + vec.zCoord,
+                2);
+            vec.rotateAroundY((float) (Math.PI * 2D / 3D));
+            MainRegistry.proxy.howDoIUseTheZOMG(
+                player.worldObj,
+                player.posX + vec.xCoord,
+                player.posY + 1.5,
+                player.posZ + vec.zCoord,
+                3);
+        }
+
+        if (player.worldObj.provider instanceof WorldProviderMoon) {
+
+            if (!player.capabilities.isFlying) {
+
+                if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0)
+                    .getItem() == ModItems.lead_boots) {
+                    player.motionY += 0.02D;
+                } else {
+                    player.motionY += 0.035D;
+                }
+                player.fallDistance = 0;
+            }
+        } else {
+
+            if (!player.capabilities.isFlying) {
+                if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0)
+                    .getItem() == ModItems.lead_boots) {
+                    player.motionY -= 0.04D;
+                    player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 2));
+                }
+            }
+        }
+    }
+
+    public boolean hasDigiOverlay(EntityPlayer player) {
+
+        Object vehicle = ReflectionEngine.getVehicleFromSeat(player.ridingEntity);
+
+        if (vehicle != null
+            && (ReflectionEngine.hasValue(vehicle, Boolean.class, "hasRadar", false)
+                || ReflectionEngine.hasValue(vehicle, Boolean.class, "hasPlaneRadar", false))
+            && !player.isPotionActive(HFRPotion.emp)) {
+
+            boolean digitalRadar = ReflectionEngine.hasValue(vehicle, Boolean.class, "digitalRadar", false);
+
+            return digitalRadar;
+        }
+
+        return false;
+    }
+
+    @SubscribeEvent
+    public void handleRVITick(TickEvent.PlayerTickEvent event) {
+
+        EntityPlayer player = event.player;
+
+        if (!player.worldObj.isRemote && event.phase == Phase.START) {
+
+            player.worldObj.theProfiler.startSection("xr_rvi");
+
+            int range = 500; // the maximum distance where vehicles are visible
+            int buffer = 200; // the minimum distance where vehicles are visible
+            int delay = 4; // the time in ticks between scans
+            boolean digital = hasDigiOverlay(player);
+
+            if (player.ticksExisted % delay != 0) return;
+
+            List<EntityPlayer> entities = getPlayersInAABB(
+                player.worldObj,
+                player.posX,
+                player.posY,
+                player.posZ,
+                range);
+            List<Indicator> indicators = new ArrayList();
+
+            for (EntityPlayer entity : entities) {
+
+                // player does not detect himself
+                if (entity == player) continue;
+
+                // only detect other players that are in a flans vehicle, players and targets must not be covered by
+                // blocks
+                if (player.worldObj.getHeightValue((int) player.posX, (int) player.posZ) <= player.posY + 2
+                    && player.worldObj.getHeightValue((int) entity.posX, (int) entity.posZ) <= entity.posY + 2) {
+
+                    Object bogey = ReflectionEngine.getVehicleFromSeat(entity.ridingEntity);
+
+                    if (bogey == null) continue;
+
+                    Entity entBogey = (Entity) bogey;
+
+                    Vec3 vec = Vec3.createVectorHelper(
+                        entBogey.posX - player.posX,
+                        entBogey.posY - player.posY,
+                        entBogey.posZ - player.posZ);
+                    double dist = vec.lengthVector();
+
+                    if (dist > range) continue;
+
+                    if (!digital && buffer > dist) continue;
+
+                    RVIType type = RVIType.VEHICLE;
+
+                    if (!digital) {
+                        if ("EntityPlane".equals(
+                            bogey.getClass()
+                                .getSimpleName()))
+                            type = RVIType.PLANE;
+                        if ("EntityVehicle".equals(
+                            bogey.getClass()
+                                .getSimpleName()))
+                            type = RVIType.VEHICLE;
+                    } else {
+
+                        if (Clowder.areFriends(player, entity)) {
+                            type = RVIType.FRIEND;
+                        } else {
+                            type = RVIType.ENEMY;
+                        }
+                    }
+
+                    indicators.add(new Indicator(entBogey.posX, entBogey.posY + 2, entBogey.posZ, type));
+                }
+            }
+
+            PacketDispatcher.wrapper
+                .sendTo(new RVIPacket(indicators.toArray(new Indicator[0])), (EntityPlayerMP) player);
+
+            player.worldObj.theProfiler.endSection();
+        }
+    }
+
+    public void handleBorder(EntityPlayer player) {
+
+        if (isWithinNotifRange(player.posX, player.posZ) && player.ticksExisted % 200 == 0)
+            player.addChatComponentMessage(
+                new ChatComponentText(EnumChatFormatting.RED + "You are nearing the world border!"));
+
+        if (leftBorder(player.posX, player.posZ)) {
+
+            if (player instanceof EntityPlayerMP) {
+                player.mountEntity(null);
+                ((EntityPlayerMP) player).playerNetServerHandler.setPlayerLocation(
+                    MathHelper.clamp_double(player.posX, MainRegistry.borderNegX, MainRegistry.borderPosX),
+                    player.posY,
+                    MathHelper.clamp_double(player.posZ, MainRegistry.borderNegZ, MainRegistry.borderPosZ),
+                    player.rotationYaw,
+                    player.rotationPitch);
+            }
+
+            player.addChatComponentMessage(
+                new ChatComponentText(EnumChatFormatting.RED + "You have reached the world border!"));
+        }
+    }
+
+    public boolean isWithinNotifRange(double x, double z) {
+
+        if (x > MainRegistry.borderPosX - MainRegistry.borderBuffer) return true;
+        if (x < MainRegistry.borderNegX + MainRegistry.borderBuffer) return true;
+        if (z > MainRegistry.borderPosZ - MainRegistry.borderBuffer) return true;
+        if (z < MainRegistry.borderNegZ + MainRegistry.borderBuffer) return true;
+
+        return false;
+    }
+
+    public boolean leftBorder(double x, double z) {
+
+        if (x > MainRegistry.borderPosX) return true;
+        if (x < MainRegistry.borderNegX) return true;
+        if (z > MainRegistry.borderPosZ) return true;
+        if (z < MainRegistry.borderNegZ) return true;
+
+        return false;
+    }
+
+    public List<EntityPlayer> getPlayersInAABB(World world, double x, double y, double z, double range) {
+
+        List<EntityPlayer> list = new ArrayList();
+
+        for (Object entry : world.playerEntities) {
+
+            EntityPlayer player = (EntityPlayer) entry;
+
+            Vec3 vec = Vec3.createVectorHelper(x - player.posX, y - player.posY, z - player.posZ);
+            if (vec.lengthVector() <= range) list.add(player);
+        }
+
+        return list;
+    }
+
+    @SubscribeEvent
+    public void onEntityTick(LivingUpdateEvent event) {
+
+        Entity e = event.entityLiving;
+        if (e.worldObj.isRemote) return;
+
+        if (e instanceof EntityZombie || e instanceof EntityCreeper || e instanceof EntitySkeleton) {
+            EntityMob mob = (EntityMob) e;
+
+            if (mob.getEntityToAttack() == null)
+                mob.setTarget(mob.worldObj.getClosestVulnerablePlayerToEntity(mob, MainRegistry.mlpf));
+
+            if (mob.getEntityToAttack() != null && !mob.hasPath()) {
+                mob.setPathToEntity(
+                    EntityAI_MLPF.getPathEntityToEntityPartial(
+                        mob.worldObj,
+                        mob,
+                        mob.getEntityToAttack(),
+                        16,
+                        true,
+                        true,
+                        false,
+                        true));
+
+                if (mob.isCollidedVertically && mob.ticksExisted % 50 == 0
+                    && mob.getDistanceToEntity(mob.getEntityToAttack()) > 10) {
+                    Vec3 vec = Vec3.createVectorHelper(
+                        mob.getEntityToAttack().posX - mob.posX,
+                        0,
+                        mob.getEntityToAttack().posZ - mob.posZ);
+                    vec = vec.normalize();
+                    mob.motionX += vec.xCoord * 2;
+                    mob.motionY += 0.5;
+                    mob.motionZ += vec.zCoord * 2;
+                    mob.faceEntity(mob.getEntityToAttack(), 90F, 90F);
+                }
+            }
+        }
+    }
+
+    int timer = 0;
+
+    // handles the anti-mob wand
+    @SubscribeEvent
+    public void onWorldTick(WorldTickEvent event) {
+
+        World world = event.world;
+
+        if (!world.isRemote && event.phase == Phase.START) {
+
+            List<int[]> list = AntiMobData.getData(world).list;
+
+            for (int[] i : list) {
+
+                List<EntityMob> entities = world.getEntitiesWithinAABB(
+                    EntityMob.class,
+                    AxisAlignedBB.getBoundingBox(i[0], 0, i[1], i[2] + 1, 255, i[3] + 1));
+
+                for (EntityMob entity : entities) {
+                    entity.setHealth(0);
+                }
+            }
+
+            timer++;
+
+            if (timer % (60 * 20) == 0) {
+
+                CBTData cbtdata = CBTData.getData(world);
+                MinecraftServer minecraftserver = MinecraftServer.getServer();
+
+                for (CBTEntry entry : cbtdata.entries) {
+
+                    EntityPlayerMP target = minecraftserver.getConfigurationManager()
+                        .func_152612_a(entry.player);
+
+                    if (target != null) {
+                        PacketDispatcher.wrapper.sendTo(new CBTPacket(entry.fps, entry.tilt, entry.shader), target);
+                    }
+                }
+            }
+
+            if (MainRegistry.enableStocks && timer % (MainRegistry.updateInterval * 20) == 0) {
+
+                StockData data = StockData.getData(world);
+
+                for (Stock stock : data.stocks) {
+
+                    for (int i = 0; i < 14; i++) stock.value[i] = stock.value[i + 1];
+
+                    stock.rollTheDice();
+                    stock.update();
+
+                    data.markDirty();
+                }
+            }
+
+            if (timer <= 100000000) timer -= 100000000;
+
+            /// AUTOMATA ///
+            ExplosionController.automaton(world);
+        }
+    }
+
+    // for manipulating zombert AI and handling spawn control
+    @SubscribeEvent
+    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+
+        if (event.world.isRemote) return;
+
+        int chance = ControlEntry.getEntry(event.entity);
+
+        if (chance > 0 && event.entity.worldObj.rand.nextInt(100) > chance) {
+            event.entity.setDead();
+            if (event.isCancelable()) event.setCanceled(true);
+            return;
+        }
+
+        if (event.entity instanceof EntityZombie && MainRegistry.zombAI) {
+            EntityZombie zomb = ((EntityZombie) event.entity);
+
+            // enables block-breaking behavior for zomberts
+            if (MainRegistry.zombAI) zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
+            // duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
+            zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
+            // zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class, MainRegistry.mlpf, 1D, 20));
+        }
+
+        if (event.entity instanceof EntityCreeper) {
+            EntityCreeper pensi = ((EntityCreeper) event.entity);
+
+            if (MainRegistry.creepAI) pensi.tasks.addTask(1, new EntityAIAllah(pensi));
+            pensi.targetTasks.addTask(2, new EntityAINearestAttackableTarget(pensi, EntityPlayer.class, 0, false));
+            // pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D, 15));
+            // pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D));
+            // pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityPlayer.class, 0, false));
+            // pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityVillager.class, 0, false));
+        }
+
+        if (event.entity instanceof EntityLivingBase) {
+            EntityLivingBase ent = (EntityLivingBase) event.entity;
+
+            int[] meta = PotionEntry.getEntry(ent);
+
+            if (meta != null && meta.length == 3) {
+
+                ent.addPotionEffect(new PotionEffect(meta[0], meta[1], meta[2]));
+            }
+        }
+
+        if (event.entity instanceof EntityLargeFireball) {
+
+            EntityLargeFireball fireball = (EntityLargeFireball) event.entity;
+
+            if (fireball.shootingEntity instanceof EntityGhast) {
+                fireball.accelerationX *= 10;
+                fireball.accelerationY *= 10;
+                fireball.accelerationZ *= 10;
+            }
+        }
+
+        if (event.entity instanceof EntityMob && MainRegistry.surfaceMobs) {
+
+            double x = event.entity.posX;
+            double z = event.entity.posZ;
+            double y = event.entity.worldObj.getHeightValue((int) x - 1, (int) z);
+
+            event.entity.setLocationAndAngles(x, y, z, event.entity.rotationYaw, event.entity.rotationPitch);
+        }
+    }
+
+    // for handling damage immunity
+    @SubscribeEvent
+    public void onEntityHurt(LivingAttackEvent event) {
+
+        EntityLivingBase e = event.entityLiving;
+        DamageSource dmg = event.source;
+
+        List<String> pot = ImmunityEntry.getEntry(e);
+
+        if (event.entity instanceof EntityMob && dmg == DamageSource.fall) event.setCanceled(true);
+
+        if (!pot.isEmpty()) {
+
+            if (pot.contains(dmg.damageType)) event.setCanceled(true);
+        }
+
+        Random r = e.worldObj.rand;
+
+        if (MainRegistry.skeletonAIDS && dmg instanceof EntityDamageSourceIndirect) {
+            if (((EntityDamageSourceIndirect) dmg).getEntity() instanceof EntitySkeleton) {
+                e.worldObj.newExplosion(
+                    ((EntityDamageSourceIndirect) dmg).getEntity(),
+                    e.posX + r.nextGaussian() * 0.5,
+                    e.posY + 1.5,
+                    e.posZ + r.nextGaussian() * 0.5,
+                    1.5F,
+                    false,
+                    false);
+            }
+        }
+
+        if (e.getEquipmentInSlot(2) != null && e.getEquipmentInSlot(2)
+            .getItem() == ModItems.graphene_vest) {
+            e.worldObj.playSoundAtEntity(
+                e,
+                "random.break",
+                5F,
+                1.0F + e.getRNG()
+                    .nextFloat() * 0.5F);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityDropEvent(LivingDropsEvent event) {
+
+        World world = event.entityLiving.worldObj;
+
+        /*
+         * if(event.entityLiving instanceof EntitySheep && world.rand.nextInt(3) == 0) {
+         * event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY,
+         * event.entityLiving.posZ, new ItemStack(ModItems.mutton_raw)));
+         * }
+         */
+
+        if (event.entityLiving instanceof EntitySquid && world.rand.nextInt(3) == 0) {
+            event.drops.add(
+                new EntityItem(
+                    world,
+                    event.entityLiving.posX,
+                    event.entityLiving.posY,
+                    event.entityLiving.posZ,
+                    new ItemStack(ModItems.squid_raw)));
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public void oreDropEvent(BreakEvent event) {
+
+        if (event.isCanceled()) return;
+
+        World world = event.world;
+
+        if (world.isRemote) return;
+
+        if (event.block != Blocks.stone) return;
+
+        if (world.rand.nextDouble() < MainRegistry.coalChance) world.spawnEntityInWorld(
+            new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Items.coal)));
+        if (world.rand.nextDouble() < MainRegistry.ironChance) world.spawnEntityInWorld(
+            new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.iron_ore)));
+        if (world.rand.nextDouble() < MainRegistry.goldChance) world.spawnEntityInWorld(
+            new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new ItemStack(Blocks.gold_ore)));
+
+        /*
+         * ResourceData data = ResourceData.getData(world);
+         * if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z, data.iron))
+         * world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new
+         * ItemStack(Blocks.iron_ore)));
+         * if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z, data.coal))
+         * world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new
+         * ItemStack(Items.coal)));
+         */
+
+    }
 }

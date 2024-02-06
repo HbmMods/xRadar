@@ -10,34 +10,34 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 
 public class VRadarDestructorPacket implements IMessage {
-	
-	boolean sufficient;
 
-	public VRadarDestructorPacket() { }
+    boolean sufficient;
 
-	public VRadarDestructorPacket(boolean sufficient) {
-		this.sufficient = sufficient;
-	}
+    public VRadarDestructorPacket() {}
 
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		sufficient = buf.readBoolean();
-	}
+    public VRadarDestructorPacket(boolean sufficient) {
+        this.sufficient = sufficient;
+    }
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeBoolean(sufficient);
-	}
+    @Override
+    public void fromBytes(ByteBuf buf) {
+        sufficient = buf.readBoolean();
+    }
 
-	public static class Handler implements IMessageHandler<VRadarDestructorPacket, IMessage> {
+    @Override
+    public void toBytes(ByteBuf buf) {
+        buf.writeBoolean(sufficient);
+    }
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IMessage onMessage(VRadarDestructorPacket m, MessageContext ctx) {
-			
-			MainRegistry.proxy.clearBlips(m.sufficient, true, 0, 250);
-			
-			return null;
-		}
-	}
+    public static class Handler implements IMessageHandler<VRadarDestructorPacket, IMessage> {
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public IMessage onMessage(VRadarDestructorPacket m, MessageContext ctx) {
+
+            MainRegistry.proxy.clearBlips(m.sufficient, true, 0, 250);
+
+            return null;
+        }
+    }
 }

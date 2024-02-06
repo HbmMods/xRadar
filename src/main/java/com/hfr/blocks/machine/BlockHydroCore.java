@@ -2,14 +2,6 @@ package com.hfr.blocks.machine;
 
 import java.util.Random;
 
-import com.hfr.blocks.ModBlocks;
-import com.hfr.lib.RefStrings;
-import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.machine.TileEntityHydro;
-
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -21,82 +13,92 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
+import com.hfr.blocks.ModBlocks;
+import com.hfr.lib.RefStrings;
+import com.hfr.main.MainRegistry;
+import com.hfr.tileentity.machine.TileEntityHydro;
+
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class BlockHydroCore extends BlockTurbine {
 
-	public BlockHydroCore(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		this.isBlockContainer = true;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":hydro_port");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":hydro_wall");
-	}
+    public BlockHydroCore(Material p_i45394_1_) {
+        super(p_i45394_1_);
+        this.isBlockContainer = true;
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityHydro();
-	}
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hydro, world, x, y, z);
-			return true;
-		} else {
-			return true;
-		}
-	}
-	
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister iconRegister) {
+        this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":hydro_port");
+        this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":hydro_wall");
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+        return new TileEntityHydro();
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX,
+        float hitY, float hitZ) {
+        if (world.isRemote) {
+            return true;
+        } else if (!player.isSneaking()) {
+            FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hydro, world, x, y, z);
+            return true;
+        } else {
+            return true;
+        }
+    }
+
     private final Random field_149933_a = new Random();
-	private static boolean keepInventory;
-	
-	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
-    {
-        if (!keepInventory)
-        {
-        	ISidedInventory tileentityfurnace = (ISidedInventory)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+    private static boolean keepInventory;
 
-            if (tileentityfurnace != null)
-            {
-                for (int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1)
-                {
+    @Override
+    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_,
+        int p_149749_6_) {
+        if (!keepInventory) {
+            ISidedInventory tileentityfurnace = (ISidedInventory) p_149749_1_
+                .getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+
+            if (tileentityfurnace != null) {
+                for (int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
                     ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
 
-                    if (itemstack != null)
-                    {
+                    if (itemstack != null) {
                         float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
                         float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
                         float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
 
-                        while (itemstack.stackSize > 0)
-                        {
+                        while (itemstack.stackSize > 0) {
                             int j1 = this.field_149933_a.nextInt(21) + 10;
 
-                            if (j1 > itemstack.stackSize)
-                            {
+                            if (j1 > itemstack.stackSize) {
                                 j1 = itemstack.stackSize;
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(
+                                p_149749_1_,
+                                p_149749_2_ + f,
+                                p_149749_3_ + f1,
+                                p_149749_4_ + f2,
+                                new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
-                            if (itemstack.hasTagCompound())
-                            {
-                                entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                            if (itemstack.hasTagCompound()) {
+                                entityitem.getEntityItem()
+                                    .setTagCompound(
+                                        (NBTTagCompound) itemstack.getTagCompound()
+                                            .copy());
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
-                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
-                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionX = (float) this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float) this.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float) this.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
