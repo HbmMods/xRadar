@@ -6,34 +6,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
-import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
+import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
+import cpw.mods.fml.common.registry.GameData;
+
 public class SchematicLoader {
-	
-	private static final FMLControlledNamespacedRegistry<Block> BLOCK_REGISTRY = GameData.getBlockRegistry();
-	
-	public static Schematic readFromFile(File file) {
-		
-		NBTTagCompound nbt;
-		
-		try {
-			nbt = CompressedStreamTools.readCompressed(new FileInputStream(file));
-			Schematic schem = readFromNBT(nbt);
-			schem.name = file.getName().replace(".schematic", "").split("_")[0];
-			return schem;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	public static Schematic readFromNBT(NBTTagCompound tagCompound) {
+
+    private static final FMLControlledNamespacedRegistry<Block> BLOCK_REGISTRY = GameData.getBlockRegistry();
+
+    public static Schematic readFromFile(File file) {
+
+        NBTTagCompound nbt;
+
+        try {
+            nbt = CompressedStreamTools.readCompressed(new FileInputStream(file));
+            Schematic schem = readFromNBT(nbt);
+            schem.name = file.getName()
+                .replace(".schematic", "")
+                .split("_")[0];
+            return schem;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static Schematic readFromNBT(NBTTagCompound tagCompound) {
 
         byte localBlocks[] = tagCompound.getByteArray("Blocks");
         byte localMetadata[] = tagCompound.getByteArray("Data");
@@ -59,9 +62,9 @@ public class SchematicLoader {
         short height = tagCompound.getShort("Height");
 
         Short id = null;
-        
+
         Map<Short, Short> oldToNew = new HashMap<Short, Short>();
-        
+
         if (tagCompound.hasKey("SchematicaMapping")) {
             NBTTagCompound mapping = tagCompound.getCompoundTag("SchematicaMapping");
             Set<String> names = mapping.func_150296_c();
@@ -87,18 +90,19 @@ public class SchematicLoader {
             }
         }
 
-        /*NBTTagList tileEntitiesList = tagCompound.getTagList(Names.NBT.TILE_ENTITIES, Constants.NBT.TAG_COMPOUND);
-
-        for (int i = 0; i < tileEntitiesList.tagCount(); i++) {
-            try {
-                TileEntity tileEntity = NBTHelper.readTileEntityFromCompound(tileEntitiesList.getCompoundTagAt(i));
-                if (tileEntity != null) {
-                    schematic.setTileEntity(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, tileEntity);
-                }
-            } catch (Exception e) {
-                Reference.logger.error("TileEntity failed to load properly!", e);
-            }
-        }*/
+        /*
+         * NBTTagList tileEntitiesList = tagCompound.getTagList(Names.NBT.TILE_ENTITIES, Constants.NBT.TAG_COMPOUND);
+         * for (int i = 0; i < tileEntitiesList.tagCount(); i++) {
+         * try {
+         * TileEntity tileEntity = NBTHelper.readTileEntityFromCompound(tileEntitiesList.getCompoundTagAt(i));
+         * if (tileEntity != null) {
+         * schematic.setTileEntity(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, tileEntity);
+         * }
+         * } catch (Exception e) {
+         * Reference.logger.error("TileEntity failed to load properly!", e);
+         * }
+         * }
+         */
 
         return schematic;
     }

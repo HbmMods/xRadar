@@ -1,11 +1,5 @@
 package com.hfr.render.tileentity;
 
-import org.lwjgl.opengl.GL11;
-
-import com.hfr.clowder.ClowderFlag;
-import com.hfr.main.ResourceManager;
-import com.hfr.tileentity.clowder.TileEntityConquerer;
-
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,130 +9,138 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import org.lwjgl.opengl.GL11;
+
+import com.hfr.clowder.ClowderFlag;
+import com.hfr.main.ResourceManager;
+import com.hfr.tileentity.clowder.TileEntityConquerer;
+
 public class RenderConquerer extends TileEntitySpecialRenderer {
 
-	@Override
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
-		
+    @Override
+    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
-		
-		switch(te.getBlockMetadata())
-		{
-		case 2:
-			GL11.glRotatef(90, 0F, 1F, 0F); break;
-		case 4:
-			GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 3:
-			GL11.glRotatef(270, 0F, 1F, 0F); break;
-		case 5:
-			GL11.glRotatef(0, 0F, 1F, 0F); break;
-		}
-        
-        TileEntityConquerer flagpole = (TileEntityConquerer)te;
-		
+
+        switch (te.getBlockMetadata()) {
+            case 2:
+                GL11.glRotatef(90, 0F, 1F, 0F);
+                break;
+            case 4:
+                GL11.glRotatef(180, 0F, 1F, 0F);
+                break;
+            case 3:
+                GL11.glRotatef(270, 0F, 1F, 0F);
+                break;
+            case 5:
+                GL11.glRotatef(0, 0F, 1F, 0F);
+                break;
+        }
+
+        TileEntityConquerer flagpole = (TileEntityConquerer) te;
+
         bindTexture(ResourceManager.flag_conq_tex);
-        
+
         GL11.glShadeModel(GL11.GL_SMOOTH);
         ResourceManager.flag.renderOnly("Pole");
         GL11.glShadeModel(GL11.GL_FLAT);
 
         GL11.glDisable(GL11.GL_CULL_FACE);
-        
+
         ClowderFlag flag = flagpole.flag;
         int color = flagpole.color;
-        
-        if(flag == ClowderFlag.NONE || flag == null) {
-        	flag = ClowderFlag.TRICOLOR;
+
+        if (flag == ClowderFlag.NONE || flag == null) {
+            flag = ClowderFlag.TRICOLOR;
         }
 
-	    int r = ((color & 0xFF0000) >> 16) / 2;
-	    int g = ((color & 0xFF00) >> 8) / 2;
-	    int b = (color & 0xFF) / 2;
+        int r = ((color & 0xFF0000) >> 16) / 2;
+        int g = ((color & 0xFF00) >> 8) / 2;
+        int b = (color & 0xFF) / 2;
 
-	    GL11.glPushMatrix();
+        GL11.glPushMatrix();
         GL11.glTranslatef(0, -4F, 0);
         GL11.glTranslatef(0, flagpole.height * 4, 0);
 
         GL11.glEnable(GL11.GL_BLEND);
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
-        
+
         bindTexture(flag.getFlag());
-        GL11.glColor3b((byte)r, (byte)g, (byte)b);
+        GL11.glColor3b((byte) r, (byte) g, (byte) b);
         ResourceManager.flag.renderOnly("Flag");
 
-	    bindTexture(flag.getFlagOverlay());
-	    GL11.glColor3b((byte)127, (byte)127, (byte)127);
-	    ResourceManager.flag.renderOnly("Flag");
-	    GL11.glPopMatrix();
-	    
-	    if(flagpole.height < 1) {
-	    	
-	        GL11.glPushMatrix();
-		    GL11.glDisable(GL11.GL_TEXTURE_2D);
-	        GL11.glShadeModel(GL11.GL_SMOOTH);
-	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-	        GL11.glDepthMask(false);
-			RenderHelper.disableStandardItemLighting();
-		    Tessellator tess = Tessellator.instance;
-		    
-	        GL11.glTranslatef(0, 5F, 0);
-	        GL11.glRotated(System.currentTimeMillis() / 10 % 360, 0, 1, 0);
-		    
-	        double length = 2.5;
-	        double height = 0.75;
-	        
-		    for(int i = 0; i < 2; i++) {
-			    tess.startDrawing(GL11.GL_TRIANGLES);
-			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
-			    tess.addVertex(0, 0, 0);
-			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.0F);
-			    tess.addVertex(length, height, 0);
-			    tess.addVertex(length, -height, 0);
-			    tess.draw();
+        bindTexture(flag.getFlagOverlay());
+        GL11.glColor3b((byte) 127, (byte) 127, (byte) 127);
+        ResourceManager.flag.renderOnly("Flag");
+        GL11.glPopMatrix();
 
-			    tess.startDrawing(GL11.GL_TRIANGLES);
-			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
-			    tess.addVertex(0, 0, 0);
-			    tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.0F);
-			    tess.addVertex(-length, height, 0);
-			    tess.addVertex(-length, -height, 0);
-			    tess.draw();
-		    }
-		    GL11.glEnable(GL11.GL_TEXTURE_2D);
-	        GL11.glShadeModel(GL11.GL_FLAT);
-	        GL11.glDepthMask(true);
-		    GL11.glPopMatrix();
-	    }
-	    
+        if (flagpole.height < 1) {
+
+            GL11.glPushMatrix();
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glShadeModel(GL11.GL_SMOOTH);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            GL11.glDepthMask(false);
+            RenderHelper.disableStandardItemLighting();
+            Tessellator tess = Tessellator.instance;
+
+            GL11.glTranslatef(0, 5F, 0);
+            GL11.glRotated(System.currentTimeMillis() / 10 % 360, 0, 1, 0);
+
+            double length = 2.5;
+            double height = 0.75;
+
+            for (int i = 0; i < 2; i++) {
+                tess.startDrawing(GL11.GL_TRIANGLES);
+                tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
+                tess.addVertex(0, 0, 0);
+                tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.0F);
+                tess.addVertex(length, height, 0);
+                tess.addVertex(length, -height, 0);
+                tess.draw();
+
+                tess.startDrawing(GL11.GL_TRIANGLES);
+                tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 1.0F);
+                tess.addVertex(0, 0, 0);
+                tess.setColorRGBA_F(1.0F, 0.0F, 0.0F, 0.0F);
+                tess.addVertex(-length, height, 0);
+                tess.addVertex(-length, -height, 0);
+                tess.draw();
+            }
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glShadeModel(GL11.GL_FLAT);
+            GL11.glDepthMask(true);
+            GL11.glPopMatrix();
+        }
+
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glDisable(GL11.GL_BLEND);
 
-		RenderHelper.enableStandardItemLighting();
+        RenderHelper.enableStandardItemLighting();
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();
 
-	    if(flagpole.height < 1) {
-	        GL11.glDisable(GL11.GL_FOG);
-	        renderFlare(te.getWorldObj(), x, y + 5, z, interp);
-	        GL11.glEnable(GL11.GL_FOG);
-	    }
+        if (flagpole.height < 1) {
+            GL11.glDisable(GL11.GL_FOG);
+            renderFlare(te.getWorldObj(), x, y + 5, z, interp);
+            GL11.glEnable(GL11.GL_FOG);
+        }
 
-	}
-	
+    }
+
     private static final ResourceLocation field_147523_b = new ResourceLocation("textures/entity/beacon_beam.png");
-	
-	private void renderFlare(World world, double x, double y, double z, float interp) {
-		
+
+    private void renderFlare(World world, double x, double y, double z, float interp) {
+
         float f1 = 1F;
         GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 
-        if (f1 > 0.0F)
-        {
+        if (f1 > 0.0F) {
             Tessellator tessellator = Tessellator.instance;
             this.bindTexture(field_147523_b);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
@@ -148,16 +150,16 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glDepthMask(true);
             OpenGlHelper.glBlendFunc(770, 1, 1, 0);
-            
-            float f2 = (float)world.getTotalWorldTime() + interp;
-            float f3 = -f2 * 0.2F - (float)MathHelper.floor_float(-f2 * 0.1F);
+
+            float f2 = (float) world.getTotalWorldTime() + interp;
+            float f3 = -f2 * 0.2F - (float) MathHelper.floor_float(-f2 * 0.1F);
             byte b0 = 1;
-            double d3 = (double)f2 * 0.025D * (1.0D - (double)(b0 & 1) * 2.5D);
-            
+            double d3 = (double) f2 * 0.025D * (1.0D - (double) (b0 & 1) * 2.5D);
+
             tessellator.startDrawingQuads();
             tessellator.setColorRGBA(255, 63, 63, 32);
-            
-            double d5 = (double)b0 * 0.05D;
+
+            double d5 = (double) b0 * 0.05D;
             double d7 = 0.5D + Math.cos(d3 + 2.356194490192345D) * d5;
             double d9 = 0.5D + Math.sin(d3 + 2.356194490192345D) * d5;
             double d11 = 0.5D + Math.cos(d3 + (Math.PI / 4D)) * d5;
@@ -166,12 +168,12 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
             double d17 = 0.5D + Math.sin(d3 + 3.9269908169872414D) * d5;
             double d19 = 0.5D + Math.cos(d3 + 5.497787143782138D) * d5;
             double d21 = 0.5D + Math.sin(d3 + 5.497787143782138D) * d5;
-            double d23 = (double)(256.0F * f1);
+            double d23 = (double) (256.0F * f1);
             double d25 = 0.0D;
             double d27 = 1.0D;
-            double d28 = (double)(-1.0F + f3);
-            double d29 = (double)(256.0F * f1) * (0.5D / d5) + d28;
-            
+            double d28 = (double) (-1.0F + f3);
+            double d29 = (double) (256.0F * f1) * (0.5D / d5) + d28;
+
             tessellator.addVertexWithUV(x + d7, y + d23, z + d9, d27, d29);
             tessellator.addVertexWithUV(x + d7, y, z + d9, d27, d28);
             tessellator.addVertexWithUV(x + d11, y, z + d13, d25, d28);
@@ -188,21 +190,21 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
             tessellator.addVertexWithUV(x + d15, y, z + d17, d27, d28);
             tessellator.addVertexWithUV(x + d7, y, z + d9, d25, d28);
             tessellator.addVertexWithUV(x + d7, y + d23, z + d9, d25, d29);
-            
+
             tessellator.draw();
-            
+
             GL11.glEnable(GL11.GL_BLEND);
             OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             GL11.glDepthMask(false);
-            
+
             tessellator.startDrawingQuads();
             tessellator.setColorRGBA(255, 63, 63, 64);
-            
+
             double pixel = 0.0625D;
-            
+
             int inner = 7;
             int outer = 16 - inner;
-            
+
             double d30 = pixel * inner;
             double d4 = pixel * inner;
             double d6 = pixel * outer;
@@ -211,12 +213,12 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
             double d12 = pixel * outer;
             double d14 = pixel * outer;
             double d16 = pixel * outer;
-            double d18 = (double)(256.0F * f1);
+            double d18 = (double) (256.0F * f1);
             double d20 = 0.0D;
             double d22 = 1.0D;
-            double d24 = (double)(-1.0F + f3);
-            double d26 = (double)(256.0F * f1) + d24;
-            
+            double d24 = (double) (-1.0F + f3);
+            double d26 = (double) (256.0F * f1) + d24;
+
             tessellator.addVertexWithUV(x + d30, y + d18, z + d4, d22, d26);
             tessellator.addVertexWithUV(x + d30, y, z + d4, d22, d24);
             tessellator.addVertexWithUV(x + d6, y, z + d8, d20, d24);
@@ -233,12 +235,12 @@ public class RenderConquerer extends TileEntitySpecialRenderer {
             tessellator.addVertexWithUV(x + d10, y, z + d12, d22, d24);
             tessellator.addVertexWithUV(x + d30, y, z + d4, d20, d24);
             tessellator.addVertexWithUV(x + d30, y + d18, z + d4, d20, d26);
-            
+
             tessellator.draw();
-            
+
             GL11.glEnable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glDepthMask(true);
         }
-	}
+    }
 }

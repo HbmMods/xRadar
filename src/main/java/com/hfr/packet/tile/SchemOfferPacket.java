@@ -13,54 +13,51 @@ import io.netty.buffer.ByteBuf;
 
 public class SchemOfferPacket implements IMessage {
 
-	String[] offers;
+    String[] offers;
 
-	public SchemOfferPacket() {
+    public SchemOfferPacket() {
 
-	}
+    }
 
-	public SchemOfferPacket(String[] offers) {
-		this.offers = offers;
-	}
+    public SchemOfferPacket(String[] offers) {
+        this.offers = offers;
+    }
 
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		int count = buf.readInt();
-		offers = new String[count];
-		
-		for(int i = 0; i < count; i++)
-			offers[i] = ByteBufUtils.readUTF8String(buf);
-	}
+    @Override
+    public void fromBytes(ByteBuf buf) {
+        int count = buf.readInt();
+        offers = new String[count];
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeInt(offers.length);
-		
-		for(int i = 0; i < offers.length; i++)
-			ByteBufUtils.writeUTF8String(buf, offers[i]);
-	}
+        for (int i = 0; i < count; i++) offers[i] = ByteBufUtils.readUTF8String(buf);
+    }
 
-	public static class Handler implements IMessageHandler<SchemOfferPacket, IMessage> {
+    @Override
+    public void toBytes(ByteBuf buf) {
+        buf.writeInt(offers.length);
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IMessage onMessage(SchemOfferPacket m, MessageContext ctx) {
+        for (int i = 0; i < offers.length; i++) ByteBufUtils.writeUTF8String(buf, offers[i]);
+    }
 
-			try {
+    public static class Handler implements IMessageHandler<SchemOfferPacket, IMessage> {
 
-				TileEntityMachineBuilder.offers.clear();
-				
-				for(String s : m.offers) {
-					
-					String name = s.split("_")[0];
-					int value = Integer.parseInt(s.split("_")[1]);
-					
-					TileEntityMachineBuilder.offers.add(new SchemOffer(name, value));
-				}
-				
-			} catch (Exception x) {
-			}
-			return null;
-		}
-	}
+        @Override
+        @SideOnly(Side.CLIENT)
+        public IMessage onMessage(SchemOfferPacket m, MessageContext ctx) {
+
+            try {
+
+                TileEntityMachineBuilder.offers.clear();
+
+                for (String s : m.offers) {
+
+                    String name = s.split("_")[0];
+                    int value = Integer.parseInt(s.split("_")[1]);
+
+                    TileEntityMachineBuilder.offers.add(new SchemOffer(name, value));
+                }
+
+            } catch (Exception x) {}
+            return null;
+        }
+    }
 }
