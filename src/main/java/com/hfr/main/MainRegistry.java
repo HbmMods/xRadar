@@ -74,7 +74,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
     modid = RefStrings.MODID,
     name = RefStrings.NAME,
     version = RefStrings.VERSION,
-    guiFactory = RefStrings.GUI_FACTORY)
+    guiFactory = RefStrings.GUI_FACTORY,
+    dependencies = "required-after:hbm")
 public class MainRegistry {
 
     @Instance(RefStrings.MODID)
