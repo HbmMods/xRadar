@@ -5,8 +5,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
 import com.hfr.main.MainRegistry;
-import com.hfr.tileentity.machine.*;
-import com.hfr.tileentity.weapon.*;
+import com.hfr.tileentity.machine.TileEntityMachineBase;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineDerrick;
+import com.hfr.tileentity.machine.TileEntityMachineNet;
+import com.hfr.tileentity.machine.TileEntityMachineRefinery;
+import com.hfr.tileentity.machine.TileEntityTank;
+import com.hfr.tileentity.weapon.TileEntityNaval;
+import com.hfr.tileentity.weapon.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

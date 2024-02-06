@@ -9,7 +9,9 @@ import org.lwjgl.opengl.GL11;
 import com.hfr.blocks.BlockDummyable;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.main.ResourceManager;
-import com.hfr.render.tmt.*;
+import com.hfr.render.tmt.ModelHescoBlock;
+import com.hfr.render.tmt.ModelMedTent;
+import com.hfr.render.tmt.ModelTpTent;
 
 public class RenderProp extends TileEntitySpecialRenderer {
 

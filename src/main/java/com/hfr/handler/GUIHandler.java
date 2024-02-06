@@ -76,9 +76,40 @@ import com.hfr.inventory.gui.GUITemple;
 import com.hfr.inventory.gui.GUITurbine;
 import com.hfr.inventory.gui.GuiFlagBig;
 import com.hfr.items.ModItems;
-import com.hfr.tileentity.clowder.*;
-import com.hfr.tileentity.machine.*;
-import com.hfr.tileentity.weapon.*;
+import com.hfr.tileentity.clowder.TileEntityFlag;
+import com.hfr.tileentity.clowder.TileEntityFlagBig;
+import com.hfr.tileentity.clowder.TileEntityOfficerChest;
+import com.hfr.tileentity.machine.TileEntityBattery;
+import com.hfr.tileentity.machine.TileEntityBox;
+import com.hfr.tileentity.machine.TileEntityCoalGen;
+import com.hfr.tileentity.machine.TileEntityDieselGen;
+import com.hfr.tileentity.machine.TileEntityForceField;
+import com.hfr.tileentity.machine.TileEntityFoundry;
+import com.hfr.tileentity.machine.TileEntityHydro;
+import com.hfr.tileentity.machine.TileEntityMachineAlloy;
+import com.hfr.tileentity.machine.TileEntityMachineBlastFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineBuilder;
+import com.hfr.tileentity.machine.TileEntityMachineCoalMine;
+import com.hfr.tileentity.machine.TileEntityMachineCrusher;
+import com.hfr.tileentity.machine.TileEntityMachineDerrick;
+import com.hfr.tileentity.machine.TileEntityMachineDistillery;
+import com.hfr.tileentity.machine.TileEntityMachineEFurnace;
+import com.hfr.tileentity.machine.TileEntityMachineEMP;
+import com.hfr.tileentity.machine.TileEntityMachineFactory;
+import com.hfr.tileentity.machine.TileEntityMachineGrainmill;
+import com.hfr.tileentity.machine.TileEntityMachineNet;
+import com.hfr.tileentity.machine.TileEntityMachineRadar;
+import com.hfr.tileentity.machine.TileEntityMachineRefinery;
+import com.hfr.tileentity.machine.TileEntityMachineSawmill;
+import com.hfr.tileentity.machine.TileEntityMachineSiren;
+import com.hfr.tileentity.machine.TileEntityMachineTemple;
+import com.hfr.tileentity.machine.TileEntityMachineTurbine;
+import com.hfr.tileentity.machine.TileEntityMachineUni;
+import com.hfr.tileentity.machine.TileEntityRBMKElement;
+import com.hfr.tileentity.machine.TileEntityTank;
+import com.hfr.tileentity.weapon.TileEntityLaunchPad;
+import com.hfr.tileentity.weapon.TileEntityNaval;
+import com.hfr.tileentity.weapon.TileEntityRailgun;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -557,7 +588,8 @@ public class GUIHandler implements IGuiHandler {
                  * {
                  * if(entity instanceof TileEntityMachineDistillery)
                  * {
-                 * return new GUIDistillery(player.inventory, (TileEntityMachineDistillery) entity);
+                 * return new GUIDistillery(player.inventory, (TileEntityMachineDistillery)
+                 * entity);
                  * }
                  * return null;
                  * }

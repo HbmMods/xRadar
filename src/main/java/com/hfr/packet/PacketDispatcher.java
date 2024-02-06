@@ -1,9 +1,42 @@
 package com.hfr.packet;
 
 import com.hfr.lib.RefStrings;
-import com.hfr.packet.client.*;
-import com.hfr.packet.effect.*;
-import com.hfr.packet.tile.*;
+import com.hfr.packet.client.AuxButtonPacket;
+import com.hfr.packet.client.ItemDesignatorPacket;
+import com.hfr.packet.client.ReseatRequestPacket;
+import com.hfr.packet.client.SLBMCommandPacket;
+import com.hfr.packet.effect.AuxParticlePacketNT;
+import com.hfr.packet.effect.CBTPacket;
+import com.hfr.packet.effect.ClowderBorderPacket;
+import com.hfr.packet.effect.ClowderFlagPacket;
+import com.hfr.packet.effect.CumPacket;
+import com.hfr.packet.effect.ExplosionSoundPacket;
+import com.hfr.packet.effect.ParticleBurstPacket;
+import com.hfr.packet.effect.ParticleControlPacket;
+import com.hfr.packet.effect.PlayerDataPacket;
+import com.hfr.packet.effect.RVIPacket;
+import com.hfr.packet.effect.SLBMOfferPacket;
+import com.hfr.packet.effect.VRadarDestructorPacket;
+import com.hfr.packet.effect.VRadarPacket;
+import com.hfr.packet.tile.AuxElectricityPacket;
+import com.hfr.packet.tile.AuxGaugePacket;
+import com.hfr.packet.tile.BuilderPacket;
+import com.hfr.packet.tile.OfferPacket;
+import com.hfr.packet.tile.RailgunCallbackPacket;
+import com.hfr.packet.tile.RailgunFirePacket;
+import com.hfr.packet.tile.RailgunRotationPacket;
+import com.hfr.packet.tile.SRadarPacket;
+import com.hfr.packet.tile.SchemOfferPacket;
+import com.hfr.packet.tile.SchematicPreviewPacket;
+import com.hfr.packet.tile.StockDisplayPacket;
+import com.hfr.packet.tile.StockPacket;
+import com.hfr.packet.tile.TEFFPacket;
+import com.hfr.packet.tile.TEMissilePacket;
+import com.hfr.packet.tile.TERadarDestructorPacket;
+import com.hfr.packet.tile.TERadarPacket;
+import com.hfr.packet.tile.TESRadarPacket;
+import com.hfr.packet.tile.TESirenPacket;
+import com.hfr.packet.tile.TEVaultPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -29,7 +62,8 @@ public class PacketDispatcher {
         wrapper.registerMessage(ItemDesignatorPacket.Handler.class, ItemDesignatorPacket.class, i++, Side.SERVER);
         wrapper.registerMessage(VRadarPacket.Handler.class, VRadarPacket.class, i++, Side.CLIENT);
         wrapper.registerMessage(VRadarDestructorPacket.Handler.class, VRadarDestructorPacket.class, i++, Side.CLIENT);
-        // first successful serialized packet, eliminates race conditions between sender and destructor
+        // first successful serialized packet, eliminates race conditions between sender
+        // and destructor
         wrapper.registerMessage(SRadarPacket.Handler.class, SRadarPacket.class, i++, Side.CLIENT);
         wrapper.registerMessage(AuxGaugePacket.Handler.class, AuxGaugePacket.class, i++, Side.CLIENT);
         wrapper.registerMessage(TESRadarPacket.Handler.class, TESRadarPacket.class, i++, Side.CLIENT);

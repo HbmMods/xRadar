@@ -38,7 +38,9 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
-import com.hfr.ai.*;
+import com.hfr.ai.EntityAIAllah;
+import com.hfr.ai.EntityAIBreaking;
+import com.hfr.ai.EntityAI_MLPF;
 import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.AntiMobData;
@@ -363,7 +365,8 @@ public class CommonEventHandler {
                 // player does not detect himself
                 if (entity == player) continue;
 
-                // only detect other players that are in a flans vehicle, players and targets must not be covered by
+                // only detect other players that are in a flans vehicle, players and targets
+                // must not be covered by
                 // blocks
                 if (player.worldObj.getHeightValue((int) player.posX, (int) player.posZ) <= player.posY + 2
                     && player.worldObj.getHeightValue((int) entity.posX, (int) entity.posZ) <= entity.posY + 2) {
@@ -595,9 +598,11 @@ public class CommonEventHandler {
 
             // enables block-breaking behavior for zomberts
             if (MainRegistry.zombAI) zomb.tasks.addTask(1, new EntityAIBreaking(zomb));
-            // duplicate of player targeting behavior, but ignoring line of sight restrictions (xray!)
+            // duplicate of player targeting behavior, but ignoring line of sight
+            // restrictions (xray!)
             zomb.targetTasks.addTask(2, new EntityAINearestAttackableTarget(zomb, EntityPlayer.class, 0, false));
-            // zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class, MainRegistry.mlpf, 1D, 20));
+            // zomb.targetTasks.addTask(3, new EntityAI_MLPF(zomb, EntityPlayer.class,
+            // MainRegistry.mlpf, 1D, 20));
         }
 
         if (event.entity instanceof EntityCreeper) {
@@ -605,10 +610,14 @@ public class CommonEventHandler {
 
             if (MainRegistry.creepAI) pensi.tasks.addTask(1, new EntityAIAllah(pensi));
             pensi.targetTasks.addTask(2, new EntityAINearestAttackableTarget(pensi, EntityPlayer.class, 0, false));
-            // pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D, 15));
-            // pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class, MainRegistry.mlpf, 1D));
-            // pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityPlayer.class, 0, false));
-            // pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi, EntityVillager.class, 0, false));
+            // pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class,
+            // MainRegistry.mlpf, 1D, 15));
+            // pensi.targetTasks.addTask(3, new EntityAI_MLPF(pensi, EntityPlayer.class,
+            // MainRegistry.mlpf, 1D));
+            // pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi,
+            // EntityPlayer.class, 0, false));
+            // pensi.targetTasks.addTask(2, new EntityAIHFTargeter(pensi,
+            // EntityVillager.class, 0, false));
         }
 
         if (event.entity instanceof EntityLivingBase) {
@@ -693,7 +702,8 @@ public class CommonEventHandler {
 
         /*
          * if(event.entityLiving instanceof EntitySheep && world.rand.nextInt(3) == 0) {
-         * event.drops.add(new EntityItem(world, event.entityLiving.posX, event.entityLiving.posY,
+         * event.drops.add(new EntityItem(world, event.entityLiving.posX,
+         * event.entityLiving.posY,
          * event.entityLiving.posZ, new ItemStack(ModItems.mutton_raw)));
          * }
          */
@@ -729,11 +739,15 @@ public class CommonEventHandler {
 
         /*
          * ResourceData data = ResourceData.getData(world);
-         * if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z, data.iron))
-         * world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new
+         * if(world.rand.nextFloat() < 0.05F && data.isInArea(event.x, event.z,
+         * data.iron))
+         * world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5,
+         * event.z + 0.5, new
          * ItemStack(Blocks.iron_ore)));
-         * if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z, data.coal))
-         * world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5, event.z + 0.5, new
+         * if(world.rand.nextFloat() < 0.1F && data.isInArea(event.x, event.z,
+         * data.coal))
+         * world.spawnEntityInWorld(new EntityItem(world, event.x + 0.5, event.y + 0.5,
+         * event.z + 0.5, new
          * ItemStack(Items.coal)));
          */
 
