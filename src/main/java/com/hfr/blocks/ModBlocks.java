@@ -22,36 +22,26 @@ import com.hfr.blocks.machine.BlockTurbine;
 import com.hfr.blocks.machine.Box;
 import com.hfr.blocks.machine.MachineAlloy;
 import com.hfr.blocks.machine.MachineBattery;
-import com.hfr.blocks.machine.MachineBlastFurnace;
 import com.hfr.blocks.machine.MachineBuilder;
 import com.hfr.blocks.machine.MachineCoalGen;
 import com.hfr.blocks.machine.MachineCoalMine;
 import com.hfr.blocks.machine.MachineCrusher;
 import com.hfr.blocks.machine.MachineDerrick;
-import com.hfr.blocks.machine.MachineDieselGen;
 import com.hfr.blocks.machine.MachineDistillery;
-import com.hfr.blocks.machine.MachineEFurnace;
 import com.hfr.blocks.machine.MachineEMP;
 import com.hfr.blocks.machine.MachineFactory;
-import com.hfr.blocks.machine.MachineForceField;
-import com.hfr.blocks.machine.MachineFoundry;
 import com.hfr.blocks.machine.MachineGrainmill;
 import com.hfr.blocks.machine.MachineMarket;
 import com.hfr.blocks.machine.MachineNet;
 import com.hfr.blocks.machine.MachineRadar;
 import com.hfr.blocks.machine.MachineRefinery;
 import com.hfr.blocks.machine.MachineRift;
-import com.hfr.blocks.machine.MachineSawmill;
-import com.hfr.blocks.machine.MachineSiren;
 import com.hfr.blocks.machine.MachineTank;
 import com.hfr.blocks.machine.MachineTemple;
 import com.hfr.blocks.machine.MachineTradeport;
-import com.hfr.blocks.machine.MachineTurbine;
 import com.hfr.blocks.machine.MachineUni;
 import com.hfr.blocks.machine.MachineWaterwheel;
 import com.hfr.blocks.machine.MachineWindmill;
-import com.hfr.blocks.machine.RBMKElement;
-import com.hfr.blocks.machine.RBMKRods;
 import com.hfr.blocks.props.BlockSandbags;
 import com.hfr.blocks.props.PropBerlin;
 import com.hfr.blocks.props.PropHesco;
@@ -435,12 +425,12 @@ public class ModBlocks {
             .setResistance(10.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_radar");
-        machine_siren = new MachineSiren(Material.iron).setStepSound(soundTypeMetal)
-            .setBlockName("machine_siren")
-            .setHardness(5.0F)
-            .setResistance(10.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_siren");
+        // machine_siren = new MachineSiren(Material.iron).setStepSound(soundTypeMetal)
+        // .setBlockName("machine_siren")
+        // .setHardness(5.0F)
+        // .setResistance(10.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_siren");
         machine_emp = new MachineEMP(Material.iron).setStepSound(soundTypeMetal)
             .setBlockName("machine_emp")
             .setHardness(5.0F)
@@ -453,13 +443,14 @@ public class ModBlocks {
             .setResistance(10.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":launch_pad");
-        machine_forcefield = new MachineForceField(Material.iron).setStepSound(soundTypeMetal)
-            .setBlockName("machine_forcefield")
-            .setLightLevel(1.0F)
-            .setHardness(5.0F)
-            .setResistance(100.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_forcefield");
+        // machine_forcefield = new
+        // MachineForceField(Material.iron).setStepSound(soundTypeMetal)
+        // .setBlockName("machine_forcefield")
+        // .setLightLevel(1.0F)
+        // .setHardness(5.0F)
+        // .setResistance(100.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_forcefield");
         machine_derrick = new MachineDerrick(Material.iron).setStepSound(soundTypeMetal)
             .setBlockName("machine_derrick")
             .setHardness(5.0F)
@@ -503,18 +494,18 @@ public class ModBlocks {
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":teleporter");
 
-        rbmk_element = new RBMKElement(Material.iron).setStepSound(soundTypeMetal)
-            .setBlockName("rbmk_element")
-            .setHardness(5.0F)
-            .setResistance(10.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":rbmk_element");
-        rbmk_rods = new RBMKRods(Material.iron).setStepSound(soundTypeMetal)
-            .setBlockName("rbmk_rods")
-            .setHardness(5.0F)
-            .setResistance(10.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":rbmk_rods");
+        // rbmk_element = new RBMKElement(Material.iron).setStepSound(soundTypeMetal)
+        // .setBlockName("rbmk_element")
+        // .setHardness(5.0F)
+        // .setResistance(10.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":rbmk_element");
+        // rbmk_rods = new RBMKRods(Material.iron).setStepSound(soundTypeMetal)
+        // .setBlockName("rbmk_rods")
+        // .setHardness(5.0F)
+        // .setResistance(10.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":rbmk_rods");
 
         block_graphite = new BlockGeneric(Material.rock).setStepSound(soundTypeConcrete)
             .setBlockName("block_graphite")
@@ -600,12 +591,13 @@ public class ModBlocks {
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_grainmill");
-        machine_blastfurnace = new MachineBlastFurnace(Material.rock).setStepSound(soundTypeConcrete)
-            .setBlockName("machine_blastfurnace")
-            .setHardness(5.0F)
-            .setResistance(0.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_blastfurnace");
+        // machine_blastfurnace = new
+        // MachineBlastFurnace(Material.rock).setStepSound(soundTypeConcrete)
+        // .setBlockName("machine_blastfurnace")
+        // .setHardness(5.0F)
+        // .setResistance(0.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_blastfurnace");
         machine_coalmine = new MachineCoalMine(Material.rock).setStepSound(soundTypeMetal)
             .setBlockName("machine_coalmine")
             .setHardness(5.0F)
@@ -647,24 +639,26 @@ public class ModBlocks {
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_waterwheel");
-        machine_diesel = new MachineDieselGen(Material.iron).setStepSound(soundTypeMetal)
-            .setBlockName("machine_diesel")
-            .setHardness(5.0F)
-            .setResistance(0.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_diesel");
+        // machine_diesel = new
+        // MachineDieselGen(Material.iron).setStepSound(soundTypeMetal)
+        // .setBlockName("machine_diesel")
+        // .setHardness(5.0F)
+        // .setResistance(0.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_diesel");
         machine_rift = new MachineRift(Material.iron).setStepSound(soundTypeMetal)
             .setBlockName("machine_rift")
             .setHardness(5.0F)
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_rift");
-        machine_turbine = new MachineTurbine(Material.iron).setStepSound(soundTypeMetal)
-            .setBlockName("machine_turbine")
-            .setHardness(5.0F)
-            .setResistance(0.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_turbine");
+        // machine_turbine = new
+        // MachineTurbine(Material.iron).setStepSound(soundTypeMetal)
+        // .setBlockName("machine_turbine")
+        // .setHardness(5.0F)
+        // .setResistance(0.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_turbine");
         machine_temple = new MachineTemple(Material.iron).setStepSound(soundTypeConcrete)
             .setBlockName("machine_temple")
             .setHardness(5.0F)
@@ -677,36 +671,39 @@ public class ModBlocks {
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_alloy");
-        machine_sawmill = new MachineSawmill(Material.iron).setStepSound(soundTypeConcrete)
-            .setBlockName("machine_sawmill")
-            .setHardness(5.0F)
-            .setResistance(0.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_sawmill");
+        // machine_sawmill = new
+        // MachineSawmill(Material.iron).setStepSound(soundTypeConcrete)
+        // .setBlockName("machine_sawmill")
+        // .setHardness(5.0F)
+        // .setResistance(0.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_sawmill");
         machine_crusher = new MachineCrusher(Material.iron).setStepSound(soundTypeConcrete)
             .setBlockName("machine_crusher")
             .setHardness(5.0F)
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_crusher");
-        machine_efurnace = new MachineEFurnace(Material.iron).setStepSound(soundTypeConcrete)
-            .setBlockName("machine_efurnace")
-            .setHardness(5.0F)
-            .setResistance(0.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_efurnace");
+        // machine_efurnace = new
+        // MachineEFurnace(Material.iron).setStepSound(soundTypeConcrete)
+        // .setBlockName("machine_efurnace")
+        // .setHardness(5.0F)
+        // .setResistance(0.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_efurnace");
         machine_distillery = new MachineDistillery(Material.iron).setStepSound(soundTypeConcrete)
             .setBlockName("machine_distillery")
             .setHardness(5.0F)
             .setResistance(0.0F)
             .setCreativeTab(MainRegistry.tab)
             .setBlockTextureName(RefStrings.MODID + ":machine_distillery");
-        machine_foundry = new MachineFoundry(Material.iron).setStepSound(soundTypeConcrete)
-            .setBlockName("machine_foundry")
-            .setHardness(5.0F)
-            .setResistance(0.0F)
-            .setCreativeTab(MainRegistry.tab)
-            .setBlockTextureName(RefStrings.MODID + ":machine_foundry");
+        // machine_foundry = new
+        // MachineFoundry(Material.iron).setStepSound(soundTypeConcrete)
+        // .setBlockName("machine_foundry")
+        // .setHardness(5.0F)
+        // .setResistance(0.0F)
+        // .setCreativeTab(MainRegistry.tab)
+        // .setBlockTextureName(RefStrings.MODID + ":machine_foundry");
 
         railgun_plasma = new RailgunPlasma(Material.iron).setStepSound(soundTypeMetal)
             .setBlockName("railgun_plasma")
