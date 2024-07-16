@@ -9,7 +9,6 @@ import com.hfr.blocks.ModBlocks;
 import com.hfr.clowder.Clowder;
 import com.hfr.data.AntiMobData;
 import com.hfr.data.CBTData;
-import com.hfr.data.ResourceData;
 import com.hfr.data.CBTData.CBTEntry;
 import com.hfr.data.StockData;
 import com.hfr.data.StockData.Stock;
@@ -25,7 +24,6 @@ import com.hfr.packet.effect.CBTPacket;
 import com.hfr.packet.effect.RVIPacket;
 import com.hfr.packet.effect.SLBMOfferPacket;
 import com.hfr.packet.tile.SRadarPacket;
-import com.hfr.packet.tile.SchemOfferPacket;
 import com.hfr.pon4.ExplosionController;
 import com.hfr.potion.HFRPotion;
 import com.hfr.render.hud.RenderRadarScreen.Blip;
@@ -68,8 +66,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class CommonEventHandler {
@@ -583,14 +581,20 @@ public class CommonEventHandler {
 				fireball.accelerationZ *= 10;
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
 		
 		if(event.entity instanceof EntityMob && MainRegistry.surfaceMobs) {
 
 			double x = event.entity.posX;
 			double z = event.entity.posZ;
-			double y = event.entity.worldObj.getHeightValue((int)x - 1, (int)z);
+			double y = event.entity.worldObj.getHeightValue((int) Math.floor(x), (int) Math.floor(z));
 			
-			event.entity.setLocationAndAngles(x, y, z, event.entity.rotationYaw, event.entity.rotationPitch);
+			if(event.entity.posY < y - 1) {
+				event.setCanceled(true);
+			}
 		}
 	}
 

@@ -998,7 +998,7 @@ public class MainRegistry
 
         zombAI = createConfigBool(config, "ENTITYCONTROL", "zombAI", "Enables advanced zombert AI", true);
         creepAI = createConfigBool(config, "ENTITYCONTROL", "creepAI", "Enables advanced creeper AI", true);
-        surfaceMobs = createConfigBool(config, "ENTITYCONTROL", "surfaceMobs", "Forces hostiles to spawn on the surface", true);
+        surfaceMobs = createConfigBool(config, "ENTITYCONTROL", "surfaceMobs", "Prevents mobs from spawning underground", true);
         zombMiningMult = createConfigDouble(config, "ENTITYCONTROL", "zombMiningMult", "Multiplier for mining shit", 1.0);
 
         border = createConfigBool(config, "WORLDBORDER", "enableBorder", "Toggles the world border", true);
